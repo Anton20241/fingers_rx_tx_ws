@@ -1,0 +1,12 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/anton20241/rtc_work/rx_tx_ws/src/fingers/src/umba_crc_table.c
+fingers/umba_crc_table.h
+/home/anton20241/rtc_work/rx_tx_ws/src/fingers/src/fingers/umba_crc_table.h
+

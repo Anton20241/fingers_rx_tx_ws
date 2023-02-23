@@ -1,0 +1,8 @@
+prefix=/home/anton20241/rtc_work/rx_tx_ws/src/fingers/build/devel
+
+Name: fingers
+Description: Description of fingers
+Version: 0.0.0
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: 

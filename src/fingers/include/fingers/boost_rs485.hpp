@@ -213,7 +213,7 @@ namespace boost_rs485
             async_port.set_option(boost::asio::serial_port_base::parity(serial_port_base::parity::none));
             async_port.set_option(boost::asio::serial_port_base::flow_control(serial_port_base::flow_control::none));
 
-            //boost::thread td(boost::bind(&boost::asio::io_service::run, &s_ioService));
+            boost::thread td(boost::bind(&boost::asio::io_service::run, &s_ioService));
             //td.join();
             getData();
         }
@@ -283,7 +283,7 @@ namespace boost_rs485
             sync_port.set_option(boost::asio::serial_port_base::flow_control(serial_port_base::flow_control::none));
 
             boost::thread td(boost::bind(&boost::asio::io_service::run, &sync_ioService));
-            td.join();
+            //td.join();
         }
     
         bool sendData(const uint8_t* ptrData, uint32_t len)

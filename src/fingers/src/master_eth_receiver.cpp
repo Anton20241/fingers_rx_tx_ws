@@ -54,6 +54,7 @@ private:
   uint32_t send_count_udp = 0;
   bool getMsgFromTopic = false;
   bool getMsgFromUDP = false;
+  uint8_t keepalive[4] = {0};
   std::mutex lock;
 
   void topic_handle_receive(const std_msgs::ByteMultiArray::ConstPtr& recvdMsg) {
@@ -77,13 +78,15 @@ private:
       //   return;
       // }
       memset(dataToTopic, 0, sizeof(dataToTopic));
+      memset(keepalive, 0, sizeof(keepalive));
       recvd_count_udp++;
-      std::cout << "RECVD FROM UDP bytes_transferred = " << bytes_transferred << std::endl;
+      std::cout << "\n\nRECVD FROM UDP bytes_transferred = " << bytes_transferred << std::endl;
       std::cout << "recvd_count_udp = " << recvd_count_udp << std::endl;
       for (int i = 0; i < bytes_transferred; i++){
         printf("[%u]", dataFromUDP[i]);
       }
       memcpy(dataToTopic, dataFromUDP + 3, sizeof(dataToTopic));
+      memcpy(keepalive, dataFromUDP + 36, sizeof(keepalive));
       read_msg_udp();
     } else {
       std::cerr << error.what();
@@ -124,19 +127,19 @@ private:
     dataToUDP[41] = 0x00; //пустышка
     dataToUDP[42] = 0x00; //пустышка
     dataToUDP[43] = 0x00; //пустышка
-    dataToUDP[44] = 0x00; //пустышка
-    dataToUDP[45] = 0x00; //пустышка
-    dataToUDP[46] = 0x00; //пустышка
-    dataToUDP[47] = 0x00; //пустышка
+    dataToUDP[44] = keepalive[0]; //keepalive
+    dataToUDP[45] = keepalive[1]; //keepalive
+    dataToUDP[46] = keepalive[2]; //keepalive
+    dataToUDP[47] = keepalive[3]; //keepalive
     dataToUDP[48] = umba_crc8_table(dataToUDP, sizeof(dataToUDP) - sizeof(uint8_t));
     boost::system::error_code error;
-    auto sent = socket_.send_to(boost::asio::buffer(dataFromTopic), sender_endpoint_, 0, error);
+    auto sent = socket_.send_to(boost::asio::buffer(dataToUDP), sender_endpoint_, 0, error);
     if (!error && sent > 0){
       send_count_udp++;
       std::cout << "SEND TO UDP sent = " << sent << std::endl;
       std::cout << "send_count_udp = " << send_count_udp << std::endl;
       for (int i = 0; i < sent; i++){
-        printf("[%u]", dataFromTopic[i]);
+        printf("[%u]", dataToUDP[i]);
       }
     } else {
       std::cerr << error.what();

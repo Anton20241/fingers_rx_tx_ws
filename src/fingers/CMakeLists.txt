@@ -150,7 +150,6 @@ include_directories(
 
 SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -pthread")
 set(MASTER_ETH_RECV src/master_eth_receiver.cpp
-            src/boost_rs485.cpp
             src/protocol.cpp
             src/tabl_reg.cpp
             src/umba_crc_table.c
@@ -162,7 +161,6 @@ set(MASTER_ETH_RECV src/master_eth_receiver.cpp
             include/fingers/umba_crc_table.h)
 
 set(MASTER_TOPIC_RECV src/master_topic_receiver.cpp
-                src/boost_rs485.cpp
                 src/protocol.cpp
                 src/tabl_reg.cpp
                 src/umba_crc_table.c

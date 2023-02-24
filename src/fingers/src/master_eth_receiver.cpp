@@ -43,8 +43,8 @@ private:
 	udp::endpoint sender_endpoint_;
 	uint8_t dataFromUDP[41] = {0};
 	uint8_t dataToUDP[49] = {0};
-  uint8_t dataToTopic[30] = {0};
-  uint8_t dataFromTopic[30] = {0};
+  uint8_t dataToTopic[31] = {0};
+  uint8_t dataFromTopic[31] = {0};
   ros::NodeHandle node;
   ros::Publisher toFingersPub;
   ros::Subscriber fromFingersSub;

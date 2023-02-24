@@ -21,6 +21,7 @@ public:
 
     void nodeFromTopicProcess(){
         if (getMsgFromTopic){
+            update_brush_holder();
             toEachFinger();
             sendMsgToTopic();
             getMsgFromTopic = false;
@@ -29,8 +30,8 @@ public:
 
 private:
     protocol_master::ProtocolMaster& m_protocol;
-    uint8_t dataFromTopic[30] = {0};
-    uint8_t dataToTopic[30] = {0};
+    uint8_t dataFromTopic[31] = {0};
+    uint8_t dataToTopic[31] = {0};
     uint8_t dataToFinger[5] = {0};
     uint8_t dataFromFinger[5] = {0};
     ros::NodeHandle node;
@@ -42,6 +43,19 @@ private:
     uint32_t send_count_topic = 0;
     bool getMsgFromTopic = false;
     std::vector<uint8_t> fingersAddrs = {0x11, 0x12, 0x13, 0x14, 0x15, 0x16};
+    uint8_t brush_holder_addr = 0x31;
+    uint8_t to_brush_holder_status = 0;
+    uint8_t from_brush_holder_status = 0;
+
+    void update_brush_holder(){
+        if (to_brush_holder_status == dataFromTopic[30]) return;
+        to_brush_holder_status = dataFromTopic[30];
+        std::cout << "update brush holder = ";
+        printf("%u", to_brush_holder_status);
+        m_protocol.sendCmdReadWrite(brush_holder_addr, &to_brush_holder_status, sizeof(uint8_t), 
+                                                &from_brush_holder_status, sizeof(uint8_t));
+        memcpy(dataToTopic + 30, &from_brush_holder_status, sizeof(uint8_t));
+    }
 
     void topic_handle_receive(const std_msgs::ByteMultiArray::ConstPtr& recvdMsg) {
         getMsgFromTopic = true;

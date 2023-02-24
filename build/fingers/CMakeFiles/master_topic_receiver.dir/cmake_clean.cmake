@@ -1,7 +1,6 @@
 file(REMOVE_RECURSE
-  "/home/anton20241/rtc_work/rx_tx_ws/devel/lib/fingers/master_topic_receiver"
-  "/home/anton20241/rtc_work/rx_tx_ws/devel/lib/fingers/master_topic_receiver.pdb"
-  "CMakeFiles/master_topic_receiver.dir/src/boost_rs485.cpp.o"
+  "/home/anton20241/rtc_work/fingers_rx_tx_ws/devel/lib/fingers/master_topic_receiver"
+  "/home/anton20241/rtc_work/fingers_rx_tx_ws/devel/lib/fingers/master_topic_receiver.pdb"
   "CMakeFiles/master_topic_receiver.dir/src/master_topic_receiver.cpp.o"
   "CMakeFiles/master_topic_receiver.dir/src/protocol.cpp.o"
   "CMakeFiles/master_topic_receiver.dir/src/tabl_reg.cpp.o"

@@ -43,10 +43,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/anton20241/rtc_work/rx_tx_ws/src
+CMAKE_SOURCE_DIR = /home/anton20241/rtc_work/fingers_rx_tx_ws/src
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/anton20241/rtc_work/rx_tx_ws/build
+CMAKE_BINARY_DIR = /home/anton20241/rtc_work/fingers_rx_tx_ws/build
 
 # Utility rule file for roscpp_generate_messages_cpp.
 
@@ -63,10 +63,10 @@ fingers/CMakeFiles/roscpp_generate_messages_cpp.dir/build: roscpp_generate_messa
 .PHONY : fingers/CMakeFiles/roscpp_generate_messages_cpp.dir/build
 
 fingers/CMakeFiles/roscpp_generate_messages_cpp.dir/clean:
-	cd /home/anton20241/rtc_work/rx_tx_ws/build/fingers && $(CMAKE_COMMAND) -P CMakeFiles/roscpp_generate_messages_cpp.dir/cmake_clean.cmake
+	cd /home/anton20241/rtc_work/fingers_rx_tx_ws/build/fingers && $(CMAKE_COMMAND) -P CMakeFiles/roscpp_generate_messages_cpp.dir/cmake_clean.cmake
 .PHONY : fingers/CMakeFiles/roscpp_generate_messages_cpp.dir/clean
 
 fingers/CMakeFiles/roscpp_generate_messages_cpp.dir/depend:
-	cd /home/anton20241/rtc_work/rx_tx_ws/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/anton20241/rtc_work/rx_tx_ws/src /home/anton20241/rtc_work/rx_tx_ws/src/fingers /home/anton20241/rtc_work/rx_tx_ws/build /home/anton20241/rtc_work/rx_tx_ws/build/fingers /home/anton20241/rtc_work/rx_tx_ws/build/fingers/CMakeFiles/roscpp_generate_messages_cpp.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/anton20241/rtc_work/fingers_rx_tx_ws/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/anton20241/rtc_work/fingers_rx_tx_ws/src /home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers /home/anton20241/rtc_work/fingers_rx_tx_ws/build /home/anton20241/rtc_work/fingers_rx_tx_ws/build/fingers /home/anton20241/rtc_work/fingers_rx_tx_ws/build/fingers/CMakeFiles/roscpp_generate_messages_cpp.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : fingers/CMakeFiles/roscpp_generate_messages_cpp.dir/depend
 

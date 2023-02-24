@@ -48,6 +48,12 @@ stdbool.h
 stdint.h
 -
 
+/home/anton20241/rtc_work/rx_tx_ws/src/fingers/src/boost_rs485.cpp
+cstring
+-
+boost_rs485.hpp
+/home/anton20241/rtc_work/rx_tx_ws/src/fingers/src/boost_rs485.hpp
+
 /home/anton20241/rtc_work/rx_tx_ws/src/fingers/src/master_topic_receiver.cpp
 iostream
 -

@@ -57,7 +57,7 @@ private:
     }
 
 	void toEachFinger(){
-		for (int i = 0; i < sizeof(fingersAddrs); i++){
+		for (int i = 0; i < fingersAddrs.size(); i++){
 			memset(dataToFinger, 0, sizeof(dataToFinger));
             memset(dataToTopic, 0, sizeof(dataToTopic));
 			memcpy(dataToFinger, dataFromTopic + i * sizeof(dataToFinger), sizeof(dataToFinger));
@@ -80,7 +80,7 @@ private:
         std::cout << "\nSEND MSG TO TOPIC = ";
         for (int i = 0; i < sizeof(dataToTopic); i++){
             sendMsgFromFingersTopic.data.push_back(dataToTopic[i]);
-            printf("[%u]", sendMsgFromFingersTopic.data[i]);
+            printf("[%u]", dataToTopic[i]);
         }
         fromFingersPub.publish(sendMsgFromFingersTopic);
         std::cout << endl;

@@ -25,7 +25,6 @@ set(CMAKE_C_TARGET_INCLUDE_PATH
   )
 set(CMAKE_DEPENDS_CHECK_CXX
   "/home/anton20241/rtc_work/rx_tx_ws/src/fingers/src/boost_rs485.cpp" "/home/anton20241/rtc_work/rx_tx_ws/src/fingers/build/CMakeFiles/master_eth_receiver.dir/src/boost_rs485.cpp.o"
-  "/home/anton20241/rtc_work/rx_tx_ws/src/fingers/src/boost_rs485_ClientServer.cpp" "/home/anton20241/rtc_work/rx_tx_ws/src/fingers/build/CMakeFiles/master_eth_receiver.dir/src/boost_rs485_ClientServer.cpp.o"
   "/home/anton20241/rtc_work/rx_tx_ws/src/fingers/src/master_eth_receiver.cpp" "/home/anton20241/rtc_work/rx_tx_ws/src/fingers/build/CMakeFiles/master_eth_receiver.dir/src/master_eth_receiver.cpp.o"
   "/home/anton20241/rtc_work/rx_tx_ws/src/fingers/src/protocol.cpp" "/home/anton20241/rtc_work/rx_tx_ws/src/fingers/build/CMakeFiles/master_eth_receiver.dir/src/protocol.cpp.o"
   "/home/anton20241/rtc_work/rx_tx_ws/src/fingers/src/tabl_reg.cpp" "/home/anton20241/rtc_work/rx_tx_ws/src/fingers/build/CMakeFiles/master_eth_receiver.dir/src/tabl_reg.cpp.o"

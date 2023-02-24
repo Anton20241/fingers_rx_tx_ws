@@ -311,33 +311,30 @@ namespace protocol_master
         buff[0] = addressTo;
         buff[1] = len + dataSize;
         buff[2] = 0x2;
-        uint8_t m_len = 3;
-        for (; m_len < dataSize; m_len++){
-            buff[m_len] = data[m_len - 3];
-        }
-        buff[m_len] = umba_crc8_table(buff, buff[1] - 1);
+        memcpy(buff + 3, data, dataSize);
+        buff[len + dataSize - sizeof(uint8_t)] = umba_crc8_table(buff, len + dataSize - sizeof(uint8_t));
         /* Отправляем CmdWrite */
-        assert(m_transport.sendData(buff, len));
+        assert(m_transport.sendData(buff, buff[1]));
         return true;
     }
 
-    bool ProtocolMaster::sendCmdReadWrite(uint8_t addressTo, const uint8_t* data, uint32_t dataSize){
+    bool ProtocolMaster::sendCmdReadWrite(uint8_t addressTo, const uint8_t* toFinger, uint32_t toFingerSize, 
+                                        uint8_t* fromFinger, uint32_t fromFingerSize){
         std::memset(buff, 0, sizeof(buff));
         std::memset(recvdBuff, 0, sizeof(recvdBuff));
         buff[0] = addressTo;
-        buff[1] = len + dataSize;
+        buff[1] = len + toFingerSize;
         buff[2] = 0x3;
-        uint8_t m_len = 3;
-        for (; m_len < dataSize; m_len++){
-            buff[m_len] = data[m_len - 3];
-        }
-        buff[m_len] = umba_crc8_table(buff, buff[1] - 1);
+        memcpy(buff + 3, toFinger, toFingerSize);
+        buff[len + toFingerSize - sizeof(uint8_t)] = umba_crc8_table(buff, len + toFingerSize - sizeof(uint8_t));
         /* Отправляем CmdReadWrite */
-        assert(m_transport.sendData(buff, m_len));
+        assert(m_transport.sendData(buff, buff[1]));
         /* Ждем DATA */
         std::this_thread::sleep_for(std::chrono::microseconds(1000));
         if (!m_transport.getData(recvdBuff, &len)) return false;
-        if (buff[0] != recvdBuff[0]) return false;
+        if (buff[0] != getAddr(recvdBuff)) return false;
+        fromFingerSize = getLen(recvdBuff);
+        memcpy(fromFinger, recvdBuff, fromFingerSize);
         return true;
     }
 

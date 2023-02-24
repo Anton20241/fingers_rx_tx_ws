@@ -151,12 +151,10 @@ include_directories(
 SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -pthread")
 set(MASTER_ETH_RECV src/master_eth_receiver.cpp
             src/boost_rs485.cpp
-            src/boost_rs485_ClientServer.cpp
             src/protocol.cpp
             src/tabl_reg.cpp
             src/umba_crc_table.c
             include/fingers/boost_rs485.hpp
-            include/fingers/boost_rs485_ClientServer.hpp
             include/fingers/i_transport.hpp
             include/fingers/protocol.hpp
             include/fingers/tabl_reg.hpp
@@ -165,12 +163,10 @@ set(MASTER_ETH_RECV src/master_eth_receiver.cpp
 
 set(MASTER_TOPIC_RECV src/master_topic_receiver.cpp
                 src/boost_rs485.cpp
-                src/boost_rs485_ClientServer.cpp
                 src/protocol.cpp
                 src/tabl_reg.cpp
                 src/umba_crc_table.c
                 include/fingers/boost_rs485.hpp
-                include/fingers/boost_rs485_ClientServer.hpp
                 include/fingers/i_transport.hpp
                 include/fingers/protocol.hpp
                 include/fingers/tabl_reg.hpp

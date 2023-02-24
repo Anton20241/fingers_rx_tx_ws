@@ -6,3 +6,11 @@
 
 #IncludeRegexTransform: 
 
+../include/fingers/umba_crc_table.h
+stdint.h
+-
+
+/home/anton20241/rtc_work/rx_tx_ws/src/fingers/src/umba_crc_table.c
+umba_crc_table.h
+/home/anton20241/rtc_work/rx_tx_ws/src/fingers/src/umba_crc_table.h
+

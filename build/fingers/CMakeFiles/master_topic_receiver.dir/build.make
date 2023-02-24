@@ -83,22 +83,9 @@ fingers/CMakeFiles/master_topic_receiver.dir/src/boost_rs485.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/master_topic_receiver.dir/src/boost_rs485.cpp.s"
 	cd /home/anton20241/rtc_work/rx_tx_ws/build/fingers && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/anton20241/rtc_work/rx_tx_ws/src/fingers/src/boost_rs485.cpp -o CMakeFiles/master_topic_receiver.dir/src/boost_rs485.cpp.s
 
-fingers/CMakeFiles/master_topic_receiver.dir/src/boost_rs485_ClientServer.cpp.o: fingers/CMakeFiles/master_topic_receiver.dir/flags.make
-fingers/CMakeFiles/master_topic_receiver.dir/src/boost_rs485_ClientServer.cpp.o: /home/anton20241/rtc_work/rx_tx_ws/src/fingers/src/boost_rs485_ClientServer.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/anton20241/rtc_work/rx_tx_ws/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object fingers/CMakeFiles/master_topic_receiver.dir/src/boost_rs485_ClientServer.cpp.o"
-	cd /home/anton20241/rtc_work/rx_tx_ws/build/fingers && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/master_topic_receiver.dir/src/boost_rs485_ClientServer.cpp.o -c /home/anton20241/rtc_work/rx_tx_ws/src/fingers/src/boost_rs485_ClientServer.cpp
-
-fingers/CMakeFiles/master_topic_receiver.dir/src/boost_rs485_ClientServer.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/master_topic_receiver.dir/src/boost_rs485_ClientServer.cpp.i"
-	cd /home/anton20241/rtc_work/rx_tx_ws/build/fingers && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/anton20241/rtc_work/rx_tx_ws/src/fingers/src/boost_rs485_ClientServer.cpp > CMakeFiles/master_topic_receiver.dir/src/boost_rs485_ClientServer.cpp.i
-
-fingers/CMakeFiles/master_topic_receiver.dir/src/boost_rs485_ClientServer.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/master_topic_receiver.dir/src/boost_rs485_ClientServer.cpp.s"
-	cd /home/anton20241/rtc_work/rx_tx_ws/build/fingers && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/anton20241/rtc_work/rx_tx_ws/src/fingers/src/boost_rs485_ClientServer.cpp -o CMakeFiles/master_topic_receiver.dir/src/boost_rs485_ClientServer.cpp.s
-
 fingers/CMakeFiles/master_topic_receiver.dir/src/protocol.cpp.o: fingers/CMakeFiles/master_topic_receiver.dir/flags.make
 fingers/CMakeFiles/master_topic_receiver.dir/src/protocol.cpp.o: /home/anton20241/rtc_work/rx_tx_ws/src/fingers/src/protocol.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/anton20241/rtc_work/rx_tx_ws/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object fingers/CMakeFiles/master_topic_receiver.dir/src/protocol.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/anton20241/rtc_work/rx_tx_ws/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object fingers/CMakeFiles/master_topic_receiver.dir/src/protocol.cpp.o"
 	cd /home/anton20241/rtc_work/rx_tx_ws/build/fingers && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/master_topic_receiver.dir/src/protocol.cpp.o -c /home/anton20241/rtc_work/rx_tx_ws/src/fingers/src/protocol.cpp
 
 fingers/CMakeFiles/master_topic_receiver.dir/src/protocol.cpp.i: cmake_force
@@ -111,7 +98,7 @@ fingers/CMakeFiles/master_topic_receiver.dir/src/protocol.cpp.s: cmake_force
 
 fingers/CMakeFiles/master_topic_receiver.dir/src/tabl_reg.cpp.o: fingers/CMakeFiles/master_topic_receiver.dir/flags.make
 fingers/CMakeFiles/master_topic_receiver.dir/src/tabl_reg.cpp.o: /home/anton20241/rtc_work/rx_tx_ws/src/fingers/src/tabl_reg.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/anton20241/rtc_work/rx_tx_ws/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object fingers/CMakeFiles/master_topic_receiver.dir/src/tabl_reg.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/anton20241/rtc_work/rx_tx_ws/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object fingers/CMakeFiles/master_topic_receiver.dir/src/tabl_reg.cpp.o"
 	cd /home/anton20241/rtc_work/rx_tx_ws/build/fingers && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/master_topic_receiver.dir/src/tabl_reg.cpp.o -c /home/anton20241/rtc_work/rx_tx_ws/src/fingers/src/tabl_reg.cpp
 
 fingers/CMakeFiles/master_topic_receiver.dir/src/tabl_reg.cpp.i: cmake_force
@@ -124,7 +111,7 @@ fingers/CMakeFiles/master_topic_receiver.dir/src/tabl_reg.cpp.s: cmake_force
 
 fingers/CMakeFiles/master_topic_receiver.dir/src/umba_crc_table.c.o: fingers/CMakeFiles/master_topic_receiver.dir/flags.make
 fingers/CMakeFiles/master_topic_receiver.dir/src/umba_crc_table.c.o: /home/anton20241/rtc_work/rx_tx_ws/src/fingers/src/umba_crc_table.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/anton20241/rtc_work/rx_tx_ws/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building C object fingers/CMakeFiles/master_topic_receiver.dir/src/umba_crc_table.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/anton20241/rtc_work/rx_tx_ws/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building C object fingers/CMakeFiles/master_topic_receiver.dir/src/umba_crc_table.c.o"
 	cd /home/anton20241/rtc_work/rx_tx_ws/build/fingers && /usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/master_topic_receiver.dir/src/umba_crc_table.c.o   -c /home/anton20241/rtc_work/rx_tx_ws/src/fingers/src/umba_crc_table.c
 
 fingers/CMakeFiles/master_topic_receiver.dir/src/umba_crc_table.c.i: cmake_force
@@ -139,7 +126,6 @@ fingers/CMakeFiles/master_topic_receiver.dir/src/umba_crc_table.c.s: cmake_force
 master_topic_receiver_OBJECTS = \
 "CMakeFiles/master_topic_receiver.dir/src/master_topic_receiver.cpp.o" \
 "CMakeFiles/master_topic_receiver.dir/src/boost_rs485.cpp.o" \
-"CMakeFiles/master_topic_receiver.dir/src/boost_rs485_ClientServer.cpp.o" \
 "CMakeFiles/master_topic_receiver.dir/src/protocol.cpp.o" \
 "CMakeFiles/master_topic_receiver.dir/src/tabl_reg.cpp.o" \
 "CMakeFiles/master_topic_receiver.dir/src/umba_crc_table.c.o"
@@ -149,7 +135,6 @@ master_topic_receiver_EXTERNAL_OBJECTS =
 
 /home/anton20241/rtc_work/rx_tx_ws/devel/lib/fingers/master_topic_receiver: fingers/CMakeFiles/master_topic_receiver.dir/src/master_topic_receiver.cpp.o
 /home/anton20241/rtc_work/rx_tx_ws/devel/lib/fingers/master_topic_receiver: fingers/CMakeFiles/master_topic_receiver.dir/src/boost_rs485.cpp.o
-/home/anton20241/rtc_work/rx_tx_ws/devel/lib/fingers/master_topic_receiver: fingers/CMakeFiles/master_topic_receiver.dir/src/boost_rs485_ClientServer.cpp.o
 /home/anton20241/rtc_work/rx_tx_ws/devel/lib/fingers/master_topic_receiver: fingers/CMakeFiles/master_topic_receiver.dir/src/protocol.cpp.o
 /home/anton20241/rtc_work/rx_tx_ws/devel/lib/fingers/master_topic_receiver: fingers/CMakeFiles/master_topic_receiver.dir/src/tabl_reg.cpp.o
 /home/anton20241/rtc_work/rx_tx_ws/devel/lib/fingers/master_topic_receiver: fingers/CMakeFiles/master_topic_receiver.dir/src/umba_crc_table.c.o
@@ -172,7 +157,7 @@ master_topic_receiver_EXTERNAL_OBJECTS =
 /home/anton20241/rtc_work/rx_tx_ws/devel/lib/fingers/master_topic_receiver: /usr/lib/x86_64-linux-gnu/libboost_thread.so.1.71.0
 /home/anton20241/rtc_work/rx_tx_ws/devel/lib/fingers/master_topic_receiver: /usr/lib/x86_64-linux-gnu/libconsole_bridge.so.0.4
 /home/anton20241/rtc_work/rx_tx_ws/devel/lib/fingers/master_topic_receiver: fingers/CMakeFiles/master_topic_receiver.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/anton20241/rtc_work/rx_tx_ws/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Linking CXX executable /home/anton20241/rtc_work/rx_tx_ws/devel/lib/fingers/master_topic_receiver"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/anton20241/rtc_work/rx_tx_ws/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Linking CXX executable /home/anton20241/rtc_work/rx_tx_ws/devel/lib/fingers/master_topic_receiver"
 	cd /home/anton20241/rtc_work/rx_tx_ws/build/fingers && $(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/master_topic_receiver.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

@@ -535,36 +535,6 @@ src/boost_rs485.cpp.s:
 	$(MAKE) -f CMakeFiles/master_topic_receiver.dir/build.make CMakeFiles/master_topic_receiver.dir/src/boost_rs485.cpp.s
 .PHONY : src/boost_rs485.cpp.s
 
-src/boost_rs485_ClientServer.o: src/boost_rs485_ClientServer.cpp.o
-
-.PHONY : src/boost_rs485_ClientServer.o
-
-# target to build an object file
-src/boost_rs485_ClientServer.cpp.o:
-	$(MAKE) -f CMakeFiles/master_eth_receiver.dir/build.make CMakeFiles/master_eth_receiver.dir/src/boost_rs485_ClientServer.cpp.o
-	$(MAKE) -f CMakeFiles/master_topic_receiver.dir/build.make CMakeFiles/master_topic_receiver.dir/src/boost_rs485_ClientServer.cpp.o
-.PHONY : src/boost_rs485_ClientServer.cpp.o
-
-src/boost_rs485_ClientServer.i: src/boost_rs485_ClientServer.cpp.i
-
-.PHONY : src/boost_rs485_ClientServer.i
-
-# target to preprocess a source file
-src/boost_rs485_ClientServer.cpp.i:
-	$(MAKE) -f CMakeFiles/master_eth_receiver.dir/build.make CMakeFiles/master_eth_receiver.dir/src/boost_rs485_ClientServer.cpp.i
-	$(MAKE) -f CMakeFiles/master_topic_receiver.dir/build.make CMakeFiles/master_topic_receiver.dir/src/boost_rs485_ClientServer.cpp.i
-.PHONY : src/boost_rs485_ClientServer.cpp.i
-
-src/boost_rs485_ClientServer.s: src/boost_rs485_ClientServer.cpp.s
-
-.PHONY : src/boost_rs485_ClientServer.s
-
-# target to generate assembly for a file
-src/boost_rs485_ClientServer.cpp.s:
-	$(MAKE) -f CMakeFiles/master_eth_receiver.dir/build.make CMakeFiles/master_eth_receiver.dir/src/boost_rs485_ClientServer.cpp.s
-	$(MAKE) -f CMakeFiles/master_topic_receiver.dir/build.make CMakeFiles/master_topic_receiver.dir/src/boost_rs485_ClientServer.cpp.s
-.PHONY : src/boost_rs485_ClientServer.cpp.s
-
 src/master_eth_receiver.o: src/master_eth_receiver.cpp.o
 
 .PHONY : src/master_eth_receiver.o
@@ -751,9 +721,6 @@ help:
 	@echo "... src/boost_rs485.o"
 	@echo "... src/boost_rs485.i"
 	@echo "... src/boost_rs485.s"
-	@echo "... src/boost_rs485_ClientServer.o"
-	@echo "... src/boost_rs485_ClientServer.i"
-	@echo "... src/boost_rs485_ClientServer.s"
 	@echo "... src/master_eth_receiver.o"
 	@echo "... src/master_eth_receiver.i"
 	@echo "... src/master_eth_receiver.s"

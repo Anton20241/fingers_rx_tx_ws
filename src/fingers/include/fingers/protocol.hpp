@@ -113,7 +113,8 @@ namespace protocol_master
             bool sendCmdNOP(uint8_t addressTo);
             bool sendCmdRead(uint8_t addressTo);
             bool sendCmdWrite(uint8_t addressTo, const uint8_t* data, uint32_t dataSize);
-            bool sendCmdReadWrite(uint8_t addressTo, const uint8_t* data, uint32_t dataSize);
+            bool sendCmdReadWrite(uint8_t addressTo, const uint8_t* toFinger, uint32_t toFingerSize, 
+                                        uint8_t* fromFinger, uint32_t fromFingerSize);
             bool sendSomeCmd(const uint8_t* data, uint32_t dataSize, uint8_t* bufToTopic, uint32_t bufToTopicSize);
 
         private:

@@ -11,11 +11,6 @@
 },
 {
   "directory": "/home/anton20241/rtc_work/rx_tx_ws/src/fingers/build",
-  "command": "/usr/bin/g++  -DROSCONSOLE_BACKEND_LOG4CXX -DROS_BUILD_SHARED_LIBS=1 -DROS_PACKAGE_NAME=\\\"fingers\\\" -I/opt/ros/noetic/include -I/opt/ros/noetic/share/xmlrpcpp/cmake/../../../include/xmlrpcpp -I/home/anton20241/rtc_work/rx_tx_ws/src/fingers/include/fingers -I/home/anton20241/rtc_work/rx_tx_ws/src/fingers/src   -std=c++11 -pthread -g   -o CMakeFiles/master_eth_receiver.dir/src/boost_rs485_ClientServer.cpp.o -c /home/anton20241/rtc_work/rx_tx_ws/src/fingers/src/boost_rs485_ClientServer.cpp",
-  "file": "/home/anton20241/rtc_work/rx_tx_ws/src/fingers/src/boost_rs485_ClientServer.cpp"
-},
-{
-  "directory": "/home/anton20241/rtc_work/rx_tx_ws/src/fingers/build",
   "command": "/usr/bin/g++  -DROSCONSOLE_BACKEND_LOG4CXX -DROS_BUILD_SHARED_LIBS=1 -DROS_PACKAGE_NAME=\\\"fingers\\\" -I/opt/ros/noetic/include -I/opt/ros/noetic/share/xmlrpcpp/cmake/../../../include/xmlrpcpp -I/home/anton20241/rtc_work/rx_tx_ws/src/fingers/include/fingers -I/home/anton20241/rtc_work/rx_tx_ws/src/fingers/src   -std=c++11 -pthread -g   -o CMakeFiles/master_eth_receiver.dir/src/protocol.cpp.o -c /home/anton20241/rtc_work/rx_tx_ws/src/fingers/src/protocol.cpp",
   "file": "/home/anton20241/rtc_work/rx_tx_ws/src/fingers/src/protocol.cpp"
 },
@@ -38,11 +33,6 @@
   "directory": "/home/anton20241/rtc_work/rx_tx_ws/src/fingers/build",
   "command": "/usr/bin/g++  -DROSCONSOLE_BACKEND_LOG4CXX -DROS_BUILD_SHARED_LIBS=1 -DROS_PACKAGE_NAME=\\\"fingers\\\" -I/opt/ros/noetic/include -I/opt/ros/noetic/share/xmlrpcpp/cmake/../../../include/xmlrpcpp -I/home/anton20241/rtc_work/rx_tx_ws/src/fingers/include/fingers -I/home/anton20241/rtc_work/rx_tx_ws/src/fingers/src   -std=c++11 -pthread -g   -o CMakeFiles/master_topic_receiver.dir/src/boost_rs485.cpp.o -c /home/anton20241/rtc_work/rx_tx_ws/src/fingers/src/boost_rs485.cpp",
   "file": "/home/anton20241/rtc_work/rx_tx_ws/src/fingers/src/boost_rs485.cpp"
-},
-{
-  "directory": "/home/anton20241/rtc_work/rx_tx_ws/src/fingers/build",
-  "command": "/usr/bin/g++  -DROSCONSOLE_BACKEND_LOG4CXX -DROS_BUILD_SHARED_LIBS=1 -DROS_PACKAGE_NAME=\\\"fingers\\\" -I/opt/ros/noetic/include -I/opt/ros/noetic/share/xmlrpcpp/cmake/../../../include/xmlrpcpp -I/home/anton20241/rtc_work/rx_tx_ws/src/fingers/include/fingers -I/home/anton20241/rtc_work/rx_tx_ws/src/fingers/src   -std=c++11 -pthread -g   -o CMakeFiles/master_topic_receiver.dir/src/boost_rs485_ClientServer.cpp.o -c /home/anton20241/rtc_work/rx_tx_ws/src/fingers/src/boost_rs485_ClientServer.cpp",
-  "file": "/home/anton20241/rtc_work/rx_tx_ws/src/fingers/src/boost_rs485_ClientServer.cpp"
 },
 {
   "directory": "/home/anton20241/rtc_work/rx_tx_ws/src/fingers/build",

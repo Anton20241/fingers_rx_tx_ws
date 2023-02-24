@@ -18,7 +18,7 @@
 #include <thread>
 #include <mutex>
 
-#define BOUDRATE 230400
+#define BOUDRATE 256000
 
 using namespace std;
 using namespace boost::asio;
@@ -315,7 +315,8 @@ namespace boost_rs485
         bool getData(uint8_t* ptrData, uint32_t* lenInOut)
         {
             boost::system::error_code error;
-            size_t recvdBytes = sync_port.read_some(boost::asio::buffer(ptrData, sizeof(ptrData)), error);
+            //size_t recvdBytes = sync_port.read_some(boost::asio::buffer(ptrData, sizeof(ptrData)), error);
+            boost::asio::read(sync_port, boost::asio::buffer(ptrData, sizeof(ptrData)), error);
             if(!error){
                 std::chrono::microseconds mcs = std::chrono::duration_cast< std::chrono::microseconds >
                     (std::chrono::system_clock::now().time_since_epoch());
@@ -330,7 +331,7 @@ namespace boost_rs485
                 ptrData[4], ptrData[5], ptrData[6], ptrData[7], 
                 ptrData[8], ptrData[9], ptrData[10], ptrData[11],
                 ptrData[12], ptrData[13], ptrData[14], ptrData[15], sync_recvdCount, sync_sendCount);
-                cout << "recvdBytes: "<< recvdBytes << endl;
+                //cout << "recvdBytes: "<< recvdBytes << endl;
                 return true;
             } else {
                 //std::cerr << error.what();

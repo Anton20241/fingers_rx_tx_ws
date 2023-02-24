@@ -89,7 +89,7 @@ private:
       memcpy(keepalive, dataFromUDP + 36, sizeof(keepalive));
       read_msg_udp();
     } else {
-      std::cerr << error.what();
+      //std::cerr << error.what();
     }
   }
 
@@ -142,7 +142,7 @@ private:
         printf("[%u]", dataToUDP[i]);
       }
     } else {
-      std::cerr << error.what();
+      //std::cerr << error.what();
     }
   }
 

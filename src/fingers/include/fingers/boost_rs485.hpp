@@ -18,7 +18,7 @@
 #include <thread>
 #include <mutex>
 
-#define BOUDRATE 256000
+#define BOUDRATE 230400
 
 using namespace std;
 using namespace boost::asio;

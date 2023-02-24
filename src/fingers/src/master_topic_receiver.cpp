@@ -107,7 +107,7 @@ int main(int argc, char** argv){
             ros::spinOnce();
         }
 	} catch (std::exception e){
-		std::cerr << "Exeption: " << e.what() << std::endl;
+		//std::cerr << "Exeption: " << e.what() << std::endl;
 	}
   return 0;
 };

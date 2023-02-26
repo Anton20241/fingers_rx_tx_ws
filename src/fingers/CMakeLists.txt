@@ -171,6 +171,17 @@ set(MASTER_TOPIC_RECV src/master_topic_receiver.cpp
                 include/fingers/tabl_reg_config.hpp
                 include/fingers/umba_crc_table.h)
 
+set(UART_NODE src/uart_node.cpp
+                src/protocol.cpp
+                src/tabl_reg.cpp
+                src/umba_crc_table.c
+                include/fingers/boost_rs485.hpp
+                include/fingers/i_transport.hpp
+                include/fingers/protocol.hpp
+                include/fingers/tabl_reg.hpp
+                include/fingers/tabl_reg_config.hpp
+                include/fingers/umba_crc_table.h)
+
 add_executable(master_eth_receiver ${MASTER_ETH_RECV})
 target_include_directories (master_eth_receiver PRIVATE include/fingers/ src/)
 target_link_libraries(master_eth_receiver ${catkin_LIBRARIES})
@@ -179,7 +190,9 @@ add_executable(master_topic_receiver ${MASTER_TOPIC_RECV})
 target_include_directories (master_topic_receiver PRIVATE include/fingers/ src/)
 target_link_libraries(master_topic_receiver ${catkin_LIBRARIES})
 
-
+add_executable(uart_node ${UART_NODE})
+target_include_directories (uart_node PRIVATE include/fingers/ src/)
+target_link_libraries(uart_node ${catkin_LIBRARIES})
 
 #############
 ## Install ##

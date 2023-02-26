@@ -280,18 +280,19 @@ namespace protocol_master
         /* Отправляем CmdNOP */
         assert(m_transport.sendData(buff, len));
         /* Ждем зеркало */
-        std::this_thread::sleep_for(std::chrono::microseconds(1000));
+        std::this_thread::sleep_for(std::chrono::microseconds(300));
         if (!m_transport.getData(recvdBuff, &len)) return false;
         if (buff[0] != getAddr(recvdBuff)) return false;
         if (buff[1] != getLen(recvdBuff)) return false;
         if (buff[2] != getCmd(recvdBuff)) return false;
-        if (buff[3] != getCrc8(recvdBuff, getLen(recvdBuff))) return false;
+        if (buff[3] != getCrc8(recvdBuff, getLen(recvdBuff) - sizeof(uint8_t))) return false;
         return true;
     }
 
-    bool ProtocolMaster::sendCmdRead(uint8_t addressTo){
+    bool ProtocolMaster::sendCmdRead(uint8_t addressTo, uint8_t* dataFrom, uint32_t dataFromSize){
         std::memset(buff, 0, sizeof(buff));
         std::memset(recvdBuff, 0, sizeof(recvdBuff));
+        std::memset(dataFrom, 0, dataFromSize);
         buff[0] = addressTo;
         buff[1] = packLenMin;
         buff[2] = 0x1;
@@ -299,66 +300,83 @@ namespace protocol_master
         /* Отправляем CmdRead */
         assert(m_transport.sendData(buff, len));
         /* Ждем DATA */
-        std::this_thread::sleep_for(std::chrono::microseconds(1000));
+        std::this_thread::sleep_for(std::chrono::microseconds(300));
         if (!m_transport.getData(recvdBuff, &len)) return false;
-        if (buff[0] != recvdBuff[0]) return false;
+        memcpy(dataFrom, recvdBuff, dataFromSize);
         return true;
     }
 
-    bool ProtocolMaster::sendCmdWrite(uint8_t addressTo, const uint8_t* data, uint32_t dataSize){
+    bool ProtocolMaster::sendCmdWrite(uint8_t addressTo, const uint8_t* dataTo, uint32_t dataToSize){
         std::memset(buff, 0, sizeof(buff));
         std::memset(recvdBuff, 0, sizeof(recvdBuff));
         buff[0] = addressTo;
-        buff[1] = len + dataSize;
+        buff[1] = len + dataToSize;
         buff[2] = 0x2;
-        memcpy(buff + 3, data, dataSize);
-        buff[len + dataSize - sizeof(uint8_t)] = umba_crc8_table(buff, len + dataSize - sizeof(uint8_t));
+        memcpy(buff + 3, dataTo, dataToSize);
+        buff[len + dataToSize - sizeof(uint8_t)] = umba_crc8_table(buff, len + dataToSize - sizeof(uint8_t));
         /* Отправляем CmdWrite */
         assert(m_transport.sendData(buff, buff[1]));
         return true;
     }
 
-    bool ProtocolMaster::sendCmdReadWrite(uint8_t addressTo, const uint8_t* toFinger, uint32_t toFingerSize, 
-                                        uint8_t* fromFinger, uint32_t fromFingerSize){
+    bool ProtocolMaster::sendCmdReadWrite(uint8_t addressTo, const uint8_t* dataTo, uint32_t dataToSize, 
+                                        uint8_t* dataFrom, uint32_t dataFromSize){
         std::memset(buff, 0, sizeof(buff));
         std::memset(recvdBuff, 0, sizeof(recvdBuff));
+        std::memset(dataFrom, 0, dataFromSize);
         buff[0] = addressTo;
-        buff[1] = len + toFingerSize;
+        buff[1] = len + dataToSize;
         buff[2] = 0x3;
-        memcpy(buff + 3, toFinger, toFingerSize);
-        buff[len + toFingerSize - sizeof(uint8_t)] = umba_crc8_table(buff, len + toFingerSize - sizeof(uint8_t));
+        memcpy(buff + 3, dataTo, dataToSize);
+        buff[len + dataToSize - sizeof(uint8_t)] = umba_crc8_table(buff, len + dataToSize - sizeof(uint8_t));
         /* Отправляем CmdReadWrite */
         assert(m_transport.sendData(buff, buff[1]));
         /* Ждем DATA */
-        std::this_thread::sleep_for(std::chrono::microseconds(1000));
+        std::this_thread::sleep_for(std::chrono::microseconds(300));
         if (!m_transport.getData(recvdBuff, &len)) return false;
-        if (buff[0] != getAddr(recvdBuff)) return false;
-        fromFingerSize = getLen(recvdBuff);
-        memcpy(fromFinger, recvdBuff, fromFingerSize);
+        memcpy(dataFrom, recvdBuff, dataFromSize);
         return true;
     }
 
-    bool ProtocolMaster::sendSomeCmd(const uint8_t* data, uint32_t dataSize, uint8_t* bufToTopic, uint32_t bufToTopicSize){
+    bool ProtocolMaster::sendCmdReadRead(uint8_t addressTo, const uint8_t* dataTo, uint32_t dataToSize, 
+                                        uint8_t* dataFrom, uint32_t dataFromSize){
         std::memset(buff, 0, sizeof(buff));
         std::memset(recvdBuff, 0, sizeof(recvdBuff));
-        memcpy(buff, data, dataSize);
-        buff[dataSize] = umba_crc8_table(buff, dataSize);
-        /* Отправляем SomeCmd */
-        assert(m_transport.sendData(buff, dataSize + sizeof(uint8_t)));
+        std::memset(dataFrom, 0, dataFromSize);
+        buff[0] = addressTo;
+        buff[1] = len + dataToSize;
+        buff[2] = 0x1;
+        memcpy(buff + 3, dataTo, dataToSize);
+        buff[len + dataToSize - sizeof(uint8_t)] = umba_crc8_table(buff, len + dataToSize - sizeof(uint8_t));
+        /* Отправляем CmdReadRead */
+        assert(m_transport.sendData(buff, buff[1]));
         /* Ждем DATA */
-        std::this_thread::sleep_for(std::chrono::microseconds(1000));
+        std::this_thread::sleep_for(std::chrono::microseconds(300));
+        if (!m_transport.getData(recvdBuff, &len)) return false;
+        memcpy(dataFrom, recvdBuff, dataFromSize);
+        return true;
+    }
+
+    bool ProtocolMaster::sendSomeCmd(const uint8_t* dataTo, uint32_t dataToSize, uint8_t* dataFrom, uint32_t dataFromSize){
+        std::memset(buff, 0, sizeof(buff));
+        std::memset(recvdBuff, 0, sizeof(recvdBuff));
+        std::memset(dataFrom, 0, dataFromSize);
+        memcpy(buff, dataTo, dataToSize);
+        buff[dataToSize - sizeof(uint8_t)] = umba_crc8_table(buff, dataToSize - sizeof(uint8_t));
+        /* Отправляем SomeCmd */
+        assert(m_transport.sendData(buff, dataToSize + sizeof(uint8_t)));
+        /* Ждем DATA */
+        std::this_thread::sleep_for(std::chrono::microseconds(300));
         if (getCmd(buff) == cmdWrite) return true;
         if (!m_transport.getData(recvdBuff, &len)) return false;
         if (getCmd(buff) == cmdNop){
             if (buff[0] != getAddr(recvdBuff)) return false;
             if (buff[1] != getLen(recvdBuff)) return false;
             if (buff[2] != getCmd(recvdBuff)) return false;
-            if (buff[3] != getCrc8(recvdBuff, getLen(recvdBuff))) return false;
+            if (buff[3] != getCrc8(recvdBuff, getLen(recvdBuff) - sizeof(uint8_t))) return false;
         }
-        else if (buff[0] != getAddr(recvdBuff)) return false;
-        bufToTopicSize = getLen(recvdBuff);
-        memcpy(bufToTopic, recvdBuff, bufToTopicSize);
-        
+        dataFromSize = getLen(recvdBuff);
+        memcpy(dataFrom, recvdBuff, dataFromSize);
         return true;
     }
 }

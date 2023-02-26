@@ -18,8 +18,6 @@
 #include <thread>
 #include <mutex>
 
-#define BOUDRATE 256000
-
 using namespace std;
 using namespace boost::asio;
 
@@ -51,7 +49,7 @@ namespace boost_rs485
 
         void read_handler(const boost::system::error_code& error,size_t bytes_transferred)
         {
-            if(!error){
+            if(!error && bytes_transferred > 0){
                 std::chrono::microseconds mcs = std::chrono::duration_cast< std::chrono::microseconds >
                     (std::chrono::system_clock::now().time_since_epoch());
                 std::cout << "\nread from rs microseconds = " << mcs.count();
@@ -67,19 +65,21 @@ namespace boost_rs485
                 m_recvdData[8], m_recvdData[9], m_recvdData[10], m_recvdData[11],
                 m_recvdData[12], m_recvdData[13], m_recvdData[14], m_recvdData[15], m_recvdCount, m_sendCount);
                 cout << "bytes_transferred: "<< bytes_transferred << endl;
+            } else {
+                std::cout << "\n[ERROR RESEIVED FROM RS485]\n";
             }
             getData();
         }
 
     public:
-        Boost_RS485_Master(string dev_Port):m_ioService(),m_port(m_ioService, dev_Port)
+        Boost_RS485_Master(string dev_Port, uint32_t baudrate):m_ioService(),m_port(m_ioService, dev_Port)
         {
             termios t;
             m_fd = m_port.native_handle();
             if (tcgetattr(m_fd, &t) < 0) { /* handle error */ }
-            if (cfsetspeed(&t, BOUDRATE) < 0) { /* handle error */ }
+            if (cfsetspeed(&t, baudrate) < 0) { /* handle error */ }
             if (tcsetattr(m_fd, TCSANOW, &t) < 0) { /* handle error */ }
-            //m_port.set_option(boost::asio::serial_port_base::baud_rate(BOUDRATE));
+            //m_port.set_option(boost::asio::serial_port_base::baud_rate(baudrate));
             m_port.set_option(boost::asio::serial_port_base::character_size(8));
             m_port.set_option(boost::asio::serial_port_base::stop_bits(serial_port_base::stop_bits::one));
             m_port.set_option(boost::asio::serial_port_base::parity(serial_port_base::parity::none));
@@ -98,7 +98,7 @@ namespace boost_rs485
             std::cout << "\nsend to rs microseconds = " << mcs.count();
             boost::system::error_code error;
             size_t sendBytes = m_port.write_some(boost::asio::buffer(ptrData, len), error);
-            if(!error){
+            if(!error && sendBytes > 0){
                 m_sendCount++;
                 std::cout << "\nport write returns: " + error.message();
                 printf("\n[I SEND]:\n"
@@ -182,7 +182,7 @@ namespace boost_rs485
 
         void read_handler(const boost::system::error_code& error,size_t bytes_transferred)
         {
-            if(!error){
+            if(!error && bytes_transferred > 0){
                 s_recvdCount++;
                 std::cout << "\nport read returns: " + error.message();
                 s_recvd = true;
@@ -200,14 +200,14 @@ namespace boost_rs485
         }
 
     public:
-        Boost_RS485_Slave_async(string dev_Port):s_ioService(),async_port(s_ioService, dev_Port)
+        Boost_RS485_Slave_async(string dev_Port, uint32_t baudrate):s_ioService(),async_port(s_ioService, dev_Port)
         {
             termios t;
             async_fd = async_port.native_handle();
             if (tcgetattr(async_fd, &t) < 0) { /* handle error */ }
-            if (cfsetspeed(&t, BOUDRATE) < 0) { /* handle error */ }
+            if (cfsetspeed(&t, baudrate) < 0) { /* handle error */ }
             if (tcsetattr(async_fd, TCSANOW, &t) < 0) { /* handle error */ }
-            //async_port.set_option(boost::asio::serial_port_base::baud_rate(BOUDRATE));
+            //async_port.set_option(boost::asio::serial_port_base::baud_rate(baudrate));
             async_port.set_option(boost::asio::serial_port_base::character_size(8));
             async_port.set_option(boost::asio::serial_port_base::stop_bits(serial_port_base::stop_bits::one));
             async_port.set_option(boost::asio::serial_port_base::parity(serial_port_base::parity::none));
@@ -222,7 +222,7 @@ namespace boost_rs485
         {
             boost::system::error_code error;
             size_t sendBytes = async_port.write_some(boost::asio::buffer(ptrData, len), error);
-            if(!error){
+            if(!error && sendBytes > 0){
                 s_sendCount++;
                 std::cout << "\nport write returns: " + error.message();
                 printf("\n[I SEND]:\n"
@@ -269,14 +269,14 @@ namespace boost_rs485
     class Boost_RS485_Slave_sync : public i_transport::ITransport
     {
     public:
-        Boost_RS485_Slave_sync(string dev_Port):sync_ioService(),sync_port(sync_ioService, dev_Port)
+        Boost_RS485_Slave_sync(string dev_Port, uint32_t baudrate):sync_ioService(),sync_port(sync_ioService, dev_Port)
         {
             termios t;
             sync_fd = sync_port.native_handle();
             if (tcgetattr(sync_fd, &t) < 0) { /* handle error */ }
-            if (cfsetspeed(&t, BOUDRATE) < 0) { /* handle error */ }
+            if (cfsetspeed(&t, baudrate) < 0) { /* handle error */ }
             if (tcsetattr(sync_fd, TCSANOW, &t) < 0) { /* handle error */ }
-            //sync_port.set_option(boost::asio::serial_port_base::baud_rate(BOUDRATE));
+            //sync_port.set_option(boost::asio::serial_port_base::baud_rate(baudrate));
             sync_port.set_option(boost::asio::serial_port_base::character_size(8));
             sync_port.set_option(boost::asio::serial_port_base::stop_bits(serial_port_base::stop_bits::one));
             sync_port.set_option(boost::asio::serial_port_base::parity(serial_port_base::parity::none));
@@ -290,7 +290,7 @@ namespace boost_rs485
         {
             boost::system::error_code error;
             size_t sendBytes = sync_port.write_some(boost::asio::buffer(ptrData, len), error);
-            if(!error){
+            if(!error && sendBytes > 0){
                 std::chrono::microseconds mcs = std::chrono::duration_cast< std::chrono::microseconds >
                     (std::chrono::system_clock::now().time_since_epoch());
                 std::cout << "\nsend to rs microseconds = " << mcs.count();
@@ -316,8 +316,8 @@ namespace boost_rs485
         {
             boost::system::error_code error;
             //size_t recvdBytes = sync_port.read_some(boost::asio::buffer(ptrData, sizeof(ptrData)), error);
-            boost::asio::read(sync_port, boost::asio::buffer(ptrData, sizeof(ptrData)), error);
-            if(!error){
+            size_t recvdBytes = boost::asio::read(sync_port, boost::asio::buffer(ptrData, sizeof(ptrData)), error);
+            if(!error && recvdBytes > 0){
                 std::chrono::microseconds mcs = std::chrono::duration_cast< std::chrono::microseconds >
                     (std::chrono::system_clock::now().time_since_epoch());
                 std::cout << "\nread from rs microseconds = " << mcs.count();

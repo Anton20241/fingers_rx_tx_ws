@@ -285,6 +285,19 @@ gtest/fast:
 .PHONY : gtest/fast
 
 #=============================================================================
+# Target rules for targets named uart_node
+
+# Build rule for target.
+uart_node: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 uart_node
+.PHONY : uart_node
+
+# fast build rule for target.
+uart_node/fast:
+	$(MAKE) -f fingers/CMakeFiles/uart_node.dir/build.make fingers/CMakeFiles/uart_node.dir/build
+.PHONY : uart_node/fast
+
+#=============================================================================
 # Target rules for targets named std_msgs_generate_messages_py
 
 # Build rule for target.
@@ -527,6 +540,7 @@ help:
 	@echo "... gmock"
 	@echo "... gtest_main"
 	@echo "... gtest"
+	@echo "... uart_node"
 	@echo "... std_msgs_generate_messages_py"
 	@echo "... std_msgs_generate_messages_nodejs"
 	@echo "... roscpp_generate_messages_cpp"

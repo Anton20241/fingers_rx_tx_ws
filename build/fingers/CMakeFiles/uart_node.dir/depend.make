@@ -75,7 +75,6 @@ fingers/CMakeFiles/uart_node.dir/src/uart_node.cpp.o: /opt/ros/noetic/include/ro
 fingers/CMakeFiles/uart_node.dir/src/uart_node.cpp.o: /opt/ros/noetic/include/ros/wall_timer.h
 fingers/CMakeFiles/uart_node.dir/src/uart_node.cpp.o: /opt/ros/noetic/include/ros/wall_timer_options.h
 fingers/CMakeFiles/uart_node.dir/src/uart_node.cpp.o: /opt/ros/noetic/include/rosconsole/macros_generated.h
-fingers/CMakeFiles/uart_node.dir/src/uart_node.cpp.o: /opt/ros/noetic/include/std_msgs/Byte.h
 fingers/CMakeFiles/uart_node.dir/src/uart_node.cpp.o: /opt/ros/noetic/include/std_msgs/ByteMultiArray.h
 fingers/CMakeFiles/uart_node.dir/src/uart_node.cpp.o: /opt/ros/noetic/include/std_msgs/MultiArrayDimension.h
 fingers/CMakeFiles/uart_node.dir/src/uart_node.cpp.o: /opt/ros/noetic/include/std_msgs/MultiArrayLayout.h

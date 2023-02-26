@@ -182,6 +182,28 @@ set(UART_NODE src/uart_node.cpp
                 include/fingers/tabl_reg_config.hpp
                 include/fingers/umba_crc_table.h)
 
+set(FINGER src/finger.cpp
+                src/protocol.cpp
+                src/tabl_reg.cpp
+                src/umba_crc_table.c
+                include/fingers/boost_rs485.hpp
+                include/fingers/i_transport.hpp
+                include/fingers/protocol.hpp
+                include/fingers/tabl_reg.hpp
+                include/fingers/tabl_reg_config.hpp
+                include/fingers/umba_crc_table.h)
+
+set(UDP_CLIENT src/udp_client.cpp
+                src/protocol.cpp
+                src/tabl_reg.cpp
+                src/umba_crc_table.c
+                include/fingers/boost_rs485.hpp
+                include/fingers/i_transport.hpp
+                include/fingers/protocol.hpp
+                include/fingers/tabl_reg.hpp
+                include/fingers/tabl_reg_config.hpp
+                include/fingers/umba_crc_table.h)
+
 add_executable(master_eth_receiver ${MASTER_ETH_RECV})
 target_include_directories (master_eth_receiver PRIVATE include/fingers/ src/)
 target_link_libraries(master_eth_receiver ${catkin_LIBRARIES})
@@ -193,6 +215,14 @@ target_link_libraries(master_topic_receiver ${catkin_LIBRARIES})
 add_executable(uart_node ${UART_NODE})
 target_include_directories (uart_node PRIVATE include/fingers/ src/)
 target_link_libraries(uart_node ${catkin_LIBRARIES})
+
+add_executable(finger ${FINGER})
+target_include_directories (finger PRIVATE include/fingers/ src/)
+target_link_libraries(finger ${catkin_LIBRARIES})
+
+add_executable(udp_client ${UDP_CLIENT})
+target_include_directories (udp_client PRIVATE include/fingers/ src/)
+target_link_libraries(udp_client ${catkin_LIBRARIES})
 
 #############
 ## Install ##

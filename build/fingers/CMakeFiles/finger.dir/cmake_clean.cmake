@@ -1,0 +1,13 @@
+file(REMOVE_RECURSE
+  "/home/anton20241/rtc_work/fingers_rx_tx_ws/devel/lib/fingers/finger"
+  "/home/anton20241/rtc_work/fingers_rx_tx_ws/devel/lib/fingers/finger.pdb"
+  "CMakeFiles/finger.dir/src/finger.cpp.o"
+  "CMakeFiles/finger.dir/src/protocol.cpp.o"
+  "CMakeFiles/finger.dir/src/tabl_reg.cpp.o"
+  "CMakeFiles/finger.dir/src/umba_crc_table.c.o"
+)
+
+# Per-language clean rules from dependency scanning.
+foreach(lang C CXX)
+  include(CMakeFiles/finger.dir/cmake_clean_${lang}.cmake OPTIONAL)
+endforeach()

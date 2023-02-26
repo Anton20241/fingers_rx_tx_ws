@@ -63,7 +63,6 @@ fingers/CMakeFiles/master_eth_receiver.dir/src/master_eth_receiver.cpp.o
  /opt/ros/noetic/include/ros/wall_timer.h
  /opt/ros/noetic/include/ros/wall_timer_options.h
  /opt/ros/noetic/include/rosconsole/macros_generated.h
- /opt/ros/noetic/include/std_msgs/Byte.h
  /opt/ros/noetic/include/std_msgs/ByteMultiArray.h
  /opt/ros/noetic/include/std_msgs/MultiArrayDimension.h
  /opt/ros/noetic/include/std_msgs/MultiArrayLayout.h

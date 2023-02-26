@@ -26,7 +26,7 @@ public:
             sendMsgToTopic();
             getMsgFromTopic = false;
         }
-        std::cout << "[WAIT MSG FROM TOPIC toFingersTopic]\n";
+        //std::cout << "[WAIT MSG FROM TOPIC toFingersTopic]\n";
     }
 
 private:

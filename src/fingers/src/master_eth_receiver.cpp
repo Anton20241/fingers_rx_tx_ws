@@ -2,7 +2,6 @@
 #include <ros/ros.h>
 #include <boost/asio.hpp>
 #include <std_msgs/ByteMultiArray.h>
-#include <std_msgs/Byte.h>
 #include "umba_crc_table.h"
 #include <mutex>
 
@@ -15,7 +14,7 @@ class UDPServer{
 public:
 	UDPServer(boost::asio::io_service& io_service): socket_(io_service, udp::endpoint(udp::v4(), PORT)){
     toFingersPub = node.advertise<std_msgs::ByteMultiArray>("toFingersTopic", 100);
-    toCamPub = node.advertise<std_msgs::Byte>("camera_topic", 100);
+    toCamPub = node.advertise<std_msgs::ByteMultiArray>("camera_topic", 100);
     fromFingersSub = node.subscribe<std_msgs::ByteMultiArray>("fromFingersTopic", 100, &UDPServer::from_finger_handle_receive, this);
     fromCamBatSub = node.subscribe<std_msgs::ByteMultiArray>("bat_cam_topic", 100, &UDPServer::from_cam_bat_handle_receive, this);
     boost::bind(&UDPServer::udp_handle_receive, this, boost::asio::placeholders::error, boost::asio::placeholders::bytes_transferred);
@@ -31,7 +30,7 @@ public:
   void nodeFromUDPProcess(){
     if (getMsgFromUDP){
       sendMsgToFingers();
-      sendMsgToCameras();
+      sendMsgToCamBat();
       sendMsgToUDP();
       getMsgFromUDP = false;
     }
@@ -40,8 +39,8 @@ public:
 private:
 	udp::socket socket_;
 	udp::endpoint sender_endpoint_;
-	uint8_t dataFromUDP[41] = {0};
-	uint8_t dataToUDP[68] = {0};
+	uint8_t dataFromUDP[42] = {0};
+	uint8_t dataToUDP[69] = {0};
   uint8_t dataToTopic[31] = {0};
   uint8_t dataFromTopic[56] = {0};
   ros::NodeHandle node;
@@ -65,6 +64,7 @@ private:
     uint8_t camera_from_bat_cam = 0;
     uint8_t bat_24V = 0;
     uint8_t bat_48V = 0;
+    uint8_t relay_state = 0;
     uint8_t keepalive[4] = {0};
   };
   
@@ -94,6 +94,7 @@ private:
     dataFingersFromNot.camera_from_bat_cam = 0;
     dataFingersFromNot.bat_24V = 0;
     dataFingersFromNot.bat_48V = 0;
+    dataFingersFromNot.relay_state = 0;
     std::cout << "RECVD FROM TOPIC bat_cam_topic recvdMsg->data.size() = " << recvdMsg->data.size() << std::endl;
     std::cout << "recvd_count_topic_cam_bat = " << recvd_count_topic_cam_bat << std::endl;
     for (int i = 0; i < recvdMsg->data.size(); i++){
@@ -105,6 +106,7 @@ private:
     dataFingersFromNot.bat_24V = recvdMsg->data[0];
     dataFingersFromNot.bat_48V = recvdMsg->data[1];
     dataFingersFromNot.camera_from_bat_cam = recvdMsg->data[2];
+    dataFingersFromNot.relay_state = recvdMsg->data[3];
   }
 
   void udp_handle_receive(const boost::system::error_code& error, size_t bytes_transferred) {
@@ -120,6 +122,7 @@ private:
       dataFingersFromNot.hand_mount = 0;
       dataFingersFromNot.hold_position = 0;
       dataFingersFromNot.camera_from_udp = 0;
+      dataFingersFromNot.relay_state = 0;
       recvd_count_udp++;
       std::cout << "\nRECVD FROM UDP bytes_transferred = " << bytes_transferred << std::endl;
       std::cout << "recvd_count_udp = " << recvd_count_udp << std::endl;
@@ -128,9 +131,12 @@ private:
       }
       std::cout << std::endl;
       memcpy(dataToTopic, dataFromUDP + 3, sizeof(dataToTopic));
-      memcpy(dataFingersFromNot.keepalive, dataFromUDP + 36, sizeof(dataFingersFromNot.keepalive));
-      dataFingersFromNot.hand_mount = dataFromUDP[33];
-      dataFingersFromNot.hold_position = dataFromUDP[34];
+      dataFingersFromNot.hand_mount = dataFromUDP       [sizeof(dataFromUDP) - 9 * sizeof(uint8_t)];
+      dataFingersFromNot.hold_position = dataFromUDP    [sizeof(dataFromUDP) - 8 * sizeof(uint8_t)];
+      dataFingersFromNot.camera_from_udp = dataFromUDP  [sizeof(dataFromUDP) - 7 * sizeof(uint8_t)];
+      dataFingersFromNot.relay_state = dataFromUDP      [sizeof(dataFromUDP) - 6 * sizeof(uint8_t)];
+      memcpy(dataFingersFromNot.keepalive, dataFromUDP + sizeof(dataFromUDP) - 5 * sizeof(uint8_t),
+          sizeof(dataFingersFromNot.keepalive));
       read_msg_udp();
     } else {
       //std::cerr << error.what();
@@ -157,34 +163,39 @@ private:
     std::cout << std::endl;
   }
 
-  void sendMsgToCameras(){
-    if (start_communication) start_communication = false;
-    else if (dataFingersFromNot.camera_from_udp == dataFromUDP[35]) return;
-    dataFingersFromNot.camera_from_udp = dataFromUDP[35];
+  void sendMsgToCamBat(){
     //отправка пакета в топик "camera_topic"
-    std_msgs::Byte sendMsgToCameraTopic;
-    sendMsgToCameraTopic.data = dataFingersFromNot.camera_from_udp;
+    std_msgs::ByteMultiArray sendMsgToCameraTopic;
+    sendMsgToCameraTopic.layout.dim.push_back(std_msgs::MultiArrayDimension());
+    sendMsgToCameraTopic.layout.dim[0].size = 1;
+    sendMsgToCameraTopic.layout.dim[0].stride = sizeof(dataToTopic);
+    sendMsgToCameraTopic.data.clear();
     std::cout << "SEND TO camera_topic: ";
-    printf("[%u]\n", dataFingersFromNot.camera_from_udp);
-    toCamPub.publish(sendMsgToCameraTopic);
+    printf("camera_from_udp = [%u]\n", dataFingersFromNot.camera_from_udp);
+    printf("relay_state = [%u]\n", dataFingersFromNot.relay_state);
+    sendMsgToCameraTopic.data.push_back(dataFingersFromNot.camera_from_udp);
+    sendMsgToCameraTopic.data.push_back(dataFingersFromNot.relay_state);
+    toFingersPub.publish(sendMsgToCameraTopic);
+    std::cout << std::endl;
   }
 
   void sendMsgToUDP(){
     //формируем пакет
-    dataToUDP[0] = 0xBB;                                                                          //header 1b
-    dataToUDP[1] = 0xAA;                                                                          //header 1b
-    dataToUDP[2] = sizeof(dataToUDP);                                                             //data length 1b
-    memcpy(dataToUDP + 3, dataFromTopic, sizeof(dataFromTopic) - sizeof(uint8_t));                //data from fingers 9*6b
-    dataToUDP[sizeof(dataToUDP) - 11 * sizeof(uint8_t)] = dataFingersFromNot.hand_mount;          //hand_mount 1b
-    dataToUDP[sizeof(dataToUDP) - 10 * sizeof(uint8_t)] = dataFingersFromNot.hold_position;        //hold_position 1b
-    dataToUDP[sizeof(dataToUDP) - 9 * sizeof(uint8_t)] = dataFingersFromNot.camera_from_bat_cam;  //camera_from_bat_cam 1b
-    dataToUDP[sizeof(dataToUDP) - 8 * sizeof(uint8_t)] = dataFingersFromNot.bat_24V;              //bat_24V 1b
-    dataToUDP[sizeof(dataToUDP) - 7 * sizeof(uint8_t)] = dataFingersFromNot.bat_48V;              //bat_48V 1b
-    dataToUDP[sizeof(dataToUDP) - 6 * sizeof(uint8_t)] = resvdFromAllDev;                         //allDevOk 1b
+    dataToUDP[0] = 0xBB;                                                                            //header 1b
+    dataToUDP[1] = 0xAA;                                                                            //header 1b
+    dataToUDP[2] = sizeof(dataToUDP);                                                               //data length 1b
+    memcpy(dataToUDP + 3, dataFromTopic, sizeof(dataFromTopic) - sizeof(uint8_t));                  //data from fingers 9*6b
+    dataToUDP[sizeof(dataToUDP) - 12 * sizeof(uint8_t)] = dataFingersFromNot.hand_mount;            //hand_mount 1b
+    dataToUDP[sizeof(dataToUDP) - 11 * sizeof(uint8_t)] = dataFingersFromNot.hold_position;         //hold_position 1b
+    dataToUDP[sizeof(dataToUDP) - 10 * sizeof(uint8_t)] = dataFingersFromNot.camera_from_bat_cam;   //camera_from_bat_cam 1b
+    dataToUDP[sizeof(dataToUDP) - 9 * sizeof(uint8_t)] = dataFingersFromNot.bat_24V;                //bat_24V 1b
+    dataToUDP[sizeof(dataToUDP) - 8 * sizeof(uint8_t)] = dataFingersFromNot.bat_48V;                //bat_48V 1b
+    dataToUDP[sizeof(dataToUDP) - 7 * sizeof(uint8_t)] = resvdFromAllDev;                           //allDevOk 1b
+    dataToUDP[sizeof(dataToUDP) - 6 * sizeof(uint8_t)] = dataFingersFromNot.relay_state;            //relay_state 1b
     memcpy(dataToUDP + sizeof(dataToUDP) - 5 * sizeof(uint8_t), dataFingersFromNot.keepalive, 
         sizeof(dataFingersFromNot.keepalive));                                                    //keepalive 4b
     dataToUDP[sizeof(dataToUDP) - sizeof(uint8_t)] = 
-        umba_crc8_table(dataToUDP, sizeof(dataToUDP) - sizeof(uint8_t));                          //crc8
+        umba_crc8_table(dataToUDP, sizeof(dataToUDP) - sizeof(uint8_t));                          //crc8 1b
 
     //отправляем пакет в UDP
     boost::system::error_code error;

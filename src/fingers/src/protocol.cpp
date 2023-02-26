@@ -275,7 +275,7 @@ namespace protocol_master
         std::memset(recvdBuff, 0, sizeof(recvdBuff));
         buff[0] = addressTo; //33; //addressTo;
         buff[1] = packLenMin; //4; //packLenMin;
-        buff[2] = 0x0;
+        buff[2] = 0x00;
         buff[3] = umba_crc8_table(buff, 3); //247; //umba_crc8_table(buff, 3);
         /* Отправляем CmdNOP */
         assert(m_transport.sendData(buff, len));
@@ -295,7 +295,7 @@ namespace protocol_master
         std::memset(dataFrom, 0, dataFromSize);
         buff[0] = addressTo;
         buff[1] = packLenMin;
-        buff[2] = 0x1;
+        buff[2] = 0x10;
         buff[3] = umba_crc8_table(buff, 3);
         /* Отправляем CmdRead */
         assert(m_transport.sendData(buff, len));
@@ -311,7 +311,7 @@ namespace protocol_master
         std::memset(recvdBuff, 0, sizeof(recvdBuff));
         buff[0] = addressTo;
         buff[1] = len + dataToSize;
-        buff[2] = 0x2;
+        buff[2] = 0x20;
         memcpy(buff + 3, dataTo, dataToSize);
         buff[len + dataToSize - sizeof(uint8_t)] = umba_crc8_table(buff, len + dataToSize - sizeof(uint8_t));
         /* Отправляем CmdWrite */
@@ -326,7 +326,7 @@ namespace protocol_master
         std::memset(dataFrom, 0, dataFromSize);
         buff[0] = addressTo;
         buff[1] = len + dataToSize;
-        buff[2] = 0x3;
+        buff[2] = 0x30;
         memcpy(buff + 3, dataTo, dataToSize);
         buff[len + dataToSize - sizeof(uint8_t)] = umba_crc8_table(buff, len + dataToSize - sizeof(uint8_t));
         /* Отправляем CmdReadWrite */
@@ -345,7 +345,7 @@ namespace protocol_master
         std::memset(dataFrom, 0, dataFromSize);
         buff[0] = addressTo;
         buff[1] = len + dataToSize;
-        buff[2] = 0x1;
+        buff[2] = 0x10;
         memcpy(buff + 3, dataTo, dataToSize);
         buff[len + dataToSize - sizeof(uint8_t)] = umba_crc8_table(buff, len + dataToSize - sizeof(uint8_t));
         /* Отправляем CmdReadRead */
@@ -375,7 +375,6 @@ namespace protocol_master
             if (buff[2] != getCmd(recvdBuff)) return false;
             if (buff[3] != getCrc8(recvdBuff, getLen(recvdBuff) - sizeof(uint8_t))) return false;
         }
-        dataFromSize = getLen(recvdBuff);
         memcpy(dataFrom, recvdBuff, dataFromSize);
         return true;
     }

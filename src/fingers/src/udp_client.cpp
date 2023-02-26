@@ -27,7 +27,7 @@ public:
     void sendMsg() {
         auto start = std::chrono::high_resolution_clock::now();
 
-        uint8_t msg[] =       {0xAA, 0xBB, 41,          //header
+        uint8_t msg[] =       {0xAA, 0xBB, 42,          //header
                                0x1, 0x2, 0x3, 0x4, 0x5, //data to fingers
                                0x1, 0x2, 0x3, 0x4, 0x5, //data to fingers
                                0x1, 0x2, 0x3, 0x4, 0x5, //data to fingers
@@ -46,7 +46,7 @@ public:
 
         uint8_t crc8 = umba_crc8_table(msg, sizeof(msg));
 
-        uint8_t msgToSend[] = {0xAA, 0xBB, 41,          //header
+        uint8_t msgToSend[] = {0xAA, 0xBB, 42,          //header
                                0x1, 0x2, 0x3, 0x4, 0x5, //data to fingers
                                0x1, 0x2, 0x3, 0x4, 0x5, //data to fingers
                                0x1, 0x2, 0x3, 0x4, 0x5, //data to fingers
@@ -64,7 +64,7 @@ public:
                                crc8                     //crc8
                                };
 
-        uint8_t msg2[] =      {0xAA, 0xBB, 41,          //header
+        uint8_t msg2[] =      {0xAA, 0xBB, 42,          //header
                                0x1, 0x2, 0x3, 0x4, 0x5, //data to fingers
                                0x1, 0x2, 0x3, 0x4, 0x5, //data to fingers
                                0x1, 0x2, 0x3, 0x4, 0x5, //data to fingers
@@ -83,7 +83,7 @@ public:
 
         uint8_t crc8_2 = umba_crc8_table(msg2, sizeof(msg2));
 
-        uint8_t msgToSend2[] = {0xAA, 0xBB, 41,         //header
+        uint8_t msgToSend2[] = {0xAA, 0xBB, 42,         //header
                                0x1, 0x2, 0x3, 0x4, 0x5, //data to fingers
                                0x1, 0x2, 0x3, 0x4, 0x5, //data to fingers
                                0x1, 0x2, 0x3, 0x4, 0x5, //data to fingers

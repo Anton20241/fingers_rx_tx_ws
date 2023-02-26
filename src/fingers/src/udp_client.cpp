@@ -37,6 +37,7 @@ public:
                                0x1,                     //hand_mount
                                0x1,                     //hold_position
                                0x1,                     //camera_from_bat_cam
+                               0x1,                     //relay_state
                                0x1,                     //keepalive
                                0x1,                     //keepalive
                                0x1,                     //keepalive
@@ -55,6 +56,7 @@ public:
                                0x1,                     //hand_mount
                                0x1,                     //hold_position
                                0x1,                     //camera_from_bat_cam
+                               0x1,                     //relay_state
                                0x1,                     //keepalive
                                0x1,                     //keepalive
                                0x1,                     //keepalive
@@ -70,8 +72,9 @@ public:
                                0x1, 0x2, 0x3, 0x4, 0x5, //data to fingers
                                0x1, 0x2, 0x3, 0x4, 0x5, //data to fingers
                                0x2,                     //hand_mount
-                               0x2,                     //hold_position
-                               0x2,                     //camera_from_bat_cam
+                               0x3,                     //hold_position
+                               0x4,                     //camera_from_bat_cam
+                               0x5,                     //relay_state
                                0x1,                     //keepalive
                                0x1,                     //keepalive
                                0x1,                     //keepalive
@@ -88,8 +91,9 @@ public:
                                0x1, 0x2, 0x3, 0x4, 0x5, //data to fingers
                                0x1, 0x2, 0x3, 0x4, 0x5, //data to fingers
                                0x2,                     //hand_mount
-                               0x2,                     //hold_position
-                               0x2,                     //camera_from_bat_cam
+                               0x3,                     //hold_position
+                               0x4,                     //camera_from_bat_cam
+                               0x5,                     //relay_state
                                0x1,                     //keepalive
                                0x1,                     //keepalive
                                0x1,                     //keepalive
@@ -112,7 +116,7 @@ public:
                 std::cout << "Sent Payload = " << sent << "\n";
                 std::cout << "send_count = " << send_count << "\n";
                 //printf("[crc8 = %u\n]", crc8);
-                std::this_thread::sleep_for(std::chrono::microseconds(9000));
+                std::this_thread::sleep_for(std::chrono::microseconds(10000));
             }
         } else {
             auto sent = socket_.send_to(boost::asio::buffer(msgToSend2), sender_endpoint_, 0, err);
@@ -126,7 +130,7 @@ public:
                 std::cout << "Sent Payload = " << sent << "\n";
                 std::cout << "send_count = " << send_count << "\n";
                 //printf("[crc8 = %u\n]", crc8);
-                std::this_thread::sleep_for(std::chrono::microseconds(9000));
+                std::this_thread::sleep_for(std::chrono::microseconds(10000));
             }
         }
 

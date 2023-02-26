@@ -72,22 +72,6 @@ chrono
 ctime
 -
 
-/home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/src/protocol.cpp
-protocol.hpp
-/home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/src/protocol.hpp
-umba_crc_table.h
-/home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/src/umba_crc_table.h
-assert.h
--
-iostream
--
-chrono
--
-thread
--
-cstring
--
-
 /opt/ros/noetic/include/ros/advertise_options.h
 ros/forwards.h
 /opt/ros/noetic/include/ros/ros/forwards.h

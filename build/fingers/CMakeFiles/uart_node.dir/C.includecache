@@ -6,3 +6,11 @@
 
 #IncludeRegexTransform: 
 
+/home/raspberrypi/rtc_work/fingers_rx_tx_ws/src/fingers/include/fingers/umba_crc_table.h
+stdint.h
+-
+
+/home/raspberrypi/rtc_work/fingers_rx_tx_ws/src/fingers/src/umba_crc_table.c
+umba_crc_table.h
+/home/raspberrypi/rtc_work/fingers_rx_tx_ws/src/fingers/src/umba_crc_table.h
+

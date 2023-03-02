@@ -103,6 +103,9 @@ private:
         if(m_protocol.sendCmdReadWrite(hand_mount_addr, 0x3, &dataToHandMount, sizeof(uint8_t), 
                                                 dataFromHandMount, &dataFromHandMountSize)){
             resvdFromAllDev |= fingers_OK[6]; //ответ пришел
+            std::cout << "\nOk\n";
+        } else {
+            std::cout << "\nFail\n";
         }
 
         #elif CODE_PART == COMPLETE_UDP_DATA
@@ -115,6 +118,9 @@ private:
         dataToHMount[4] = umba_crc8_table(dataToHMount, HMOUNT_DATA_SIZE - sizeof(uint8_t));
         if(m_protocol.sendSomeCmd(dataToHMount, sizeof(dataToHMount), dataFromHandMount, &dataFromHandMountSize)){
             resvdFromAllDev |= fingers_OK[6]; //ответ пришел
+            std::cout << "\nOk\n";
+        } else {
+            std::cout << "\nFail\n";
         }
 
         #else 
@@ -158,6 +164,9 @@ private:
 			if (m_protocol.sendCmdReadWrite(fingersAddrs[i], 0x3, dataToFinger, sizeof(dataToFinger), 
                                                     dataFromFinger, &dataFromFingerSize)) {
                 resvdFromAllDev |= fingers_OK[i]; //ответ пришел
+                std::cout << "\nOk\n";
+            } else {
+                std::cout << "\nFail\n";
             }
             //
 
@@ -166,6 +175,9 @@ private:
             //
 			if (m_protocol.sendSomeCmd(dataToFinger, sizeof(dataToFinger), dataFromFinger, &dataFromFingerSize)) {
                 resvdFromAllDev |= fingers_OK[i]; //ответ пришел
+                std::cout << "\nOk\n";
+            } else {
+                std::cout << "\nFail\n";
             }
             //
 

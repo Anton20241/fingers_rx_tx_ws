@@ -192,6 +192,17 @@ set(FINGER src/finger.cpp
                 include/fingers/tabl_reg.hpp
                 include/fingers/tabl_reg_config.hpp
                 include/fingers/umba_crc_table.h)
+                
+set(RS_MASTER src/rs_master.cpp
+                src/protocol.cpp
+                src/tabl_reg.cpp
+                src/umba_crc_table.c
+                include/fingers/boost_rs485.hpp
+                include/fingers/i_transport.hpp
+                include/fingers/protocol.hpp
+                include/fingers/tabl_reg.hpp
+                include/fingers/tabl_reg_config.hpp
+                include/fingers/umba_crc_table.h)
 
 set(UDP_CLIENT src/udp_client.cpp
                 src/protocol.cpp
@@ -219,6 +230,10 @@ target_link_libraries(uart_node ${catkin_LIBRARIES})
 add_executable(finger ${FINGER})
 target_include_directories (finger PRIVATE include/fingers/ src/)
 target_link_libraries(finger ${catkin_LIBRARIES})
+
+add_executable(rs_master ${RS_MASTER})
+target_include_directories (rs_master PRIVATE include/fingers/ src/)
+target_link_libraries(rs_master ${catkin_LIBRARIES})
 
 add_executable(udp_client ${UDP_CLIENT})
 target_include_directories (udp_client PRIVATE include/fingers/ src/)

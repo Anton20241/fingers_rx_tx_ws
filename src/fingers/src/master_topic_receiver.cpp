@@ -35,6 +35,7 @@ private:
     uint8_t dataToTopic[56] = {0};
     uint8_t dataToFinger[5] = {0};
     uint8_t dataFromFinger[9] = {0};
+    uint32_t dataFromFingerSize = sizeof(dataFromFinger);
     ros::NodeHandle node;
     ros::Publisher fromFingersPub;
     ros::Subscriber toFingersSub;
@@ -49,6 +50,7 @@ private:
     uint8_t from_hand_mount = 0;
     bool start_communication = true;
     uint8_t resvdFromAllDev = 0;
+    uint32_t size8t = 1;
 
     enum fingersOK{                  //ок, если ответ пришел
         bigFinger      =     1,      //большой палец
@@ -63,17 +65,11 @@ private:
     uint8_t fingers_OK[7] = {1, 2, 4, 8, 16, 32, 64}; ////ок, если ответ пришел
 
     void update_hand_mount(){
-        if (start_communication) start_communication = false;
-        else if (to_hand_mount == dataFromTopic[sizeof(dataFromTopic) - sizeof(uint8_t)]){
-            resvdFromAllDev |= fingers_OK[6]; //все ок
-            dataToTopic[sizeof(dataToTopic) - 2 * sizeof(uint8_t)] = from_hand_mount;
-            return;
-        }
         to_hand_mount = dataFromTopic[sizeof(dataFromTopic) - sizeof(uint8_t)];
         std::cout << "\nupdate brush holder = ";
         printf("%u", to_hand_mount);
-        if(m_protocol.sendCmdReadWrite(hand_mount_addr, &to_hand_mount, sizeof(uint8_t), 
-                                                &from_hand_mount, sizeof(uint8_t))){
+        if(m_protocol.sendCmdReadWrite(hand_mount_addr, 0x3, &to_hand_mount, sizeof(uint8_t), 
+                                                &from_hand_mount, &size8t)){
             resvdFromAllDev |= fingers_OK[6]; //ответ пришел
         }
         dataToTopic[sizeof(dataToTopic) - 2 * sizeof(uint8_t)] = from_hand_mount;
@@ -104,8 +100,8 @@ private:
             for (int i = 0; i < sizeof(dataToFinger); i++){
                 printf("[%u]", dataToFinger[i]);
             }
-			if (m_protocol.sendCmdReadWrite(fingersAddrs[i], dataToFinger, sizeof(dataToFinger), 
-                                                    dataFromFinger, sizeof(dataFromFinger))) {
+			if (m_protocol.sendCmdReadWrite(fingersAddrs[i], 0x3, dataToFinger, sizeof(dataToFinger), 
+                                                    dataFromFinger, &dataFromFingerSize)) {
                 resvdFromAllDev |= fingers_OK[i]; //ответ пришел
             }
 			memcpy(dataToTopic + i * sizeof(dataFromFinger), dataFromFinger, sizeof(dataFromFinger));

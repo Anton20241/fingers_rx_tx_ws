@@ -1,0 +1,4 @@
+<launch>
+	<node pkg="fingers" type="uart_node" name="uart_node" output="screen">
+	</node>
+</launch>

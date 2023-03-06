@@ -110,16 +110,24 @@ namespace protocol_master
             ~ProtocolMaster() {};
 
             bool sendCmdNOP(uint8_t addressTo);
-            bool sendCmdRead(uint8_t addressTo, uint8_t* dataFrom, uint32_t dataFromSize);
-            bool sendCmdReadRead(uint8_t addressTo, const uint8_t* dataTo, uint32_t dataToSize, 
-                                        uint8_t* dataFrom, uint32_t dataFromSize);
-            bool sendCmdWrite(uint8_t addressTo, const uint8_t* dataTo, uint32_t dataToSize);
-            bool sendCmdReadWrite(uint8_t addressTo, const uint8_t* dataTo, uint32_t dataToSize, 
-                                        uint8_t* dataFrom, uint32_t dataFromSize);
-            bool sendSomeCmd(const uint8_t* dataTo, uint32_t dataToSize, uint8_t* dataFrom, uint32_t dataFromSize);
+            bool sendCmdRead(uint8_t addressTo, uint8_t* dataFrom, uint32_t* dataFromSize);
+            bool sendCmdWrite(uint8_t addressTo, uint8_t cmd, const uint8_t* dataTo, uint32_t dataToSize);
+            bool sendCmdReadWrite(uint8_t addressTo, uint8_t cmd, const uint8_t* dataTo, uint32_t dataToSize, 
+                                        uint8_t* dataFrom, uint32_t* dataFromSize);
+            bool sendSomeCmd(const uint8_t* dataTo, uint32_t dataToSize, uint8_t* dataFrom, uint32_t* dataFromSize);
+
+            //UART
+            bool sendCmdReadUART(uint8_t addressTo, uint8_t* dataFrom, uint32_t* dataFromSize);
+            bool sendCmdReadWriteUART(uint8_t addressTo, uint8_t cmd, const uint8_t* dataTo, uint32_t dataToSize, 
+                                        uint8_t* dataFrom, uint32_t* dataFromSize);
 
         private:
             i_transport::ITransport&    m_transport;
+            void collectPkg(uint8_t* resvdData, uint32_t resvdBytes, uint8_t* dataUart, uint32_t& dataUartSize);
+            bool parserOk(uint8_t* dataUart, uint32_t& dataUartSize);
+            void updateDataUart(uint8_t* dataUart, uint32_t& dataUartSize);
 
     };
 }
+
+

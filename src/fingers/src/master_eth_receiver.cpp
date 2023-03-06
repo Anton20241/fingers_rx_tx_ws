@@ -90,23 +90,27 @@ private:
   }
 
   void from_cam_bat_handle_receive(const std_msgs::ByteMultiArray::ConstPtr& recvdMsg) {
+    if(recvdMsg->data.size() == 5){
+      //обновляем данные
+      dataFingersFromNot.bat_24V              = recvdMsg->data[0];
+      dataFingersFromNot.bat_48V              = recvdMsg->data[1];
+      dataFingersFromNot.camera_from_bat_cam  = recvdMsg->data[2];
+      dataFingersFromNot.relay_state          = recvdMsg->data[3];
+      resvdFromAllDev                        |= recvdMsg->data[4];
+    } else {
+      dataFingersFromNot.bat_24V              = recvdMsg->data[0];
+      resvdFromAllDev                        |= recvdMsg->data[2];
+    }
     recvd_count_topic_cam_bat++;
-    dataFingersFromNot.camera_from_bat_cam = 0;
-    dataFingersFromNot.bat_24V = 0;
-    dataFingersFromNot.bat_48V = 0;
-    dataFingersFromNot.relay_state = 0;
+    // dataFingersFromNot.camera_from_bat_cam = 0;
+    // dataFingersFromNot.bat_24V = 0;
+    // dataFingersFromNot.bat_48V = 0;
+    // dataFingersFromNot.relay_state = 0;
     std::cout << "RECVD FROM TOPIC bat_cam_topic recvdMsg->data.size() = " << recvdMsg->data.size() << std::endl;
     std::cout << "recvd_count_topic_cam_bat = " << recvd_count_topic_cam_bat << std::endl;
     for (int i = 0; i < recvdMsg->data.size(); i++){
         printf("[%u]", recvdMsg->data[i]);
     }
-    resvdFromAllDev |= recvdMsg->data[recvdMsg->data.size() - sizeof(uint8_t)];
-
-    //обновляем данные
-    dataFingersFromNot.bat_24V = recvdMsg->data[0];
-    dataFingersFromNot.bat_48V = recvdMsg->data[1];
-    dataFingersFromNot.camera_from_bat_cam = recvdMsg->data[2];
-    dataFingersFromNot.relay_state = recvdMsg->data[3];
   }
 
   void udp_handle_receive(const boost::system::error_code& error, size_t bytes_transferred) {
@@ -170,12 +174,12 @@ private:
     sendMsgToCameraTopic.layout.dim[0].size = 1;
     sendMsgToCameraTopic.layout.dim[0].stride = sizeof(dataToTopic);
     sendMsgToCameraTopic.data.clear();
-    std::cout << "SEND TO camera_topic: ";
+    std::cout << "SEND TO camera_topic:\n";
     printf("camera_from_udp = [%u]\n", dataFingersFromNot.camera_from_udp);
     printf("relay_state = [%u]\n", dataFingersFromNot.relay_state);
     sendMsgToCameraTopic.data.push_back(dataFingersFromNot.camera_from_udp);
     sendMsgToCameraTopic.data.push_back(dataFingersFromNot.relay_state);
-    toFingersPub.publish(sendMsgToCameraTopic);
+    toCamPub.publish(sendMsgToCameraTopic);
     std::cout << std::endl;
   }
 

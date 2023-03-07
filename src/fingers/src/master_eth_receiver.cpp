@@ -101,14 +101,10 @@ private:
       currentState.camera_from_bat_cam        = recvdMsg->data[2];
       currentState.relay_state                = recvdMsg->data[3];
       resvdFromAllDev                        |= recvdMsg->data[4];
-      printf("\n!!!!!!!!!!!!!!!!!!!!!!!!fromCamBatCount = %hu!!!!!!!!!!!!!!!!!!!!!!!!!\n", fromCamBatCount);
-      printf("\n!!!!!!!!!!!!!!!!!!!!!!!!resvdFromAllDev = %hu!!!!!!!!!!!!!!!!!!!!!!!!!\n", resvdFromAllDev);
     } else if (recvdMsg->data.size() == 3){
       currentState.cmdBatCamTopic             = recvdMsg->data[0];
       currentState.time_down                  = recvdMsg->data[1];
       resvdFromAllDev                        |= recvdMsg->data[2];
-      printf("\n!!!!!!!!!!!!!!!!!!!!!!!!fromCamBatCount = %hu!!!!!!!!!!!!!!!!!!!!!!!!!\n", fromCamBatCount);
-      printf("\n!!!!!!!!!!!!!!!!!!!!!!!!resvdFromAllDev = %hu!!!!!!!!!!!!!!!!!!!!!!!!!\n", resvdFromAllDev);
       currentState.shut_down = true;
       startShutDownProcess();
     } else return;

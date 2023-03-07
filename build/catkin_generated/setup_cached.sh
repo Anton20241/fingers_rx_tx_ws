@@ -7,4 +7,4 @@
 # new environment variables
 
 # modified environment variables
-export PWD='/home/anton20241/rtc_work/fingers_rx_tx_ws/build'
+export PWD='/home/raspberrypi/rtc_work/fingers_rx_tx_ws/build'

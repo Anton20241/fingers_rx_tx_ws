@@ -355,8 +355,8 @@ namespace protocol_master
 
             while (!m_transport.getData(recvdBuff, &recvdBuffSize)) {
                 
-                if (failCount > 20000){
-                    std::cout << "\nFAIL COUNT > 20000\n";
+                if (failCount > 50){
+                    std::cout << "\nFAIL COUNT > 50\n";
                     std::memset(dataFrom, 0, *dataFromSize);
                     *dataFromSize = 0;
                     return false;

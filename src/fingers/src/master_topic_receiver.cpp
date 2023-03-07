@@ -128,18 +128,25 @@ private:
 
 int main(int argc, char** argv){
 
-	if(argc != 3) {
-		std::cerr << "[program_name][devPort(1, 2...)][baudrate]" << std::endl;
-		return -1;
-	}
-    std::string devPort = argv[1];
-    std::string baudrate = argv[2];
+	// if(argc != 3) {
+	// 	std::cerr << "[program_name][devPort(1, 2...)][baudrate]" << std::endl;
+	// 	return -1;
+	// }
+    // std::string devPort = argv[1];
+    // std::string baudrate = argv[2];
+
+    std::string devPort = "";
+    std::string baudrate = "";
+
+    ros::param::param<std::string> ("~_devPortForFingers", devPort, "USB0");
+    ros::param::param<std::string> ("~_baudrateForFingers", baudrate, "256000");
+
 
     printf("(uint32_t)std::stoi(baudrate) = %u\n", (uint32_t)std::stoi(baudrate));
 	try{
 		std::cout << "master_topic_receiver is running!" << std::endl;
 		ros::init(argc, argv, "master_topic_receiver");
-		boost_rs485::Boost_RS485_Master boostRS485_transp("/dev/ttyUSB" + devPort, (uint32_t)std::stoi(baudrate));
+		boost_rs485::Boost_RS485_Master boostRS485_transp("/dev/tty" + devPort, (uint32_t)std::stoi(baudrate));
 		protocol_master::ProtocolMaster boostRS485_prot_master(boostRS485_transp);
 		Boost_RS485_Server raspbPi(boostRS485_prot_master);
         while(ros::ok()){

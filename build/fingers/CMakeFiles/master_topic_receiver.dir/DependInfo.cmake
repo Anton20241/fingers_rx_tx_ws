@@ -5,7 +5,7 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_C
-  "/home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/src/umba_crc_table.c" "/home/anton20241/rtc_work/fingers_rx_tx_ws/build/fingers/CMakeFiles/master_topic_receiver.dir/src/umba_crc_table.c.o"
+  "/home/raspberrypi/rtc_work/fingers_rx_tx_ws/src/fingers/src/umba_crc_table.c" "/home/raspberrypi/rtc_work/fingers_rx_tx_ws/build/fingers/CMakeFiles/master_topic_receiver.dir/src/umba_crc_table.c.o"
   )
 set(CMAKE_C_COMPILER_ID "GNU")
 
@@ -20,13 +20,13 @@ set(CMAKE_TARGET_DEFINITIONS_C
 set(CMAKE_C_TARGET_INCLUDE_PATH
   "/opt/ros/noetic/include"
   "/opt/ros/noetic/share/xmlrpcpp/cmake/../../../include/xmlrpcpp"
-  "/home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/include/fingers"
-  "/home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/src"
+  "/home/raspberrypi/rtc_work/fingers_rx_tx_ws/src/fingers/include/fingers"
+  "/home/raspberrypi/rtc_work/fingers_rx_tx_ws/src/fingers/src"
   )
 set(CMAKE_DEPENDS_CHECK_CXX
-  "/home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/src/master_topic_receiver.cpp" "/home/anton20241/rtc_work/fingers_rx_tx_ws/build/fingers/CMakeFiles/master_topic_receiver.dir/src/master_topic_receiver.cpp.o"
-  "/home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/src/protocol.cpp" "/home/anton20241/rtc_work/fingers_rx_tx_ws/build/fingers/CMakeFiles/master_topic_receiver.dir/src/protocol.cpp.o"
-  "/home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/src/tabl_reg.cpp" "/home/anton20241/rtc_work/fingers_rx_tx_ws/build/fingers/CMakeFiles/master_topic_receiver.dir/src/tabl_reg.cpp.o"
+  "/home/raspberrypi/rtc_work/fingers_rx_tx_ws/src/fingers/src/master_topic_receiver.cpp" "/home/raspberrypi/rtc_work/fingers_rx_tx_ws/build/fingers/CMakeFiles/master_topic_receiver.dir/src/master_topic_receiver.cpp.o"
+  "/home/raspberrypi/rtc_work/fingers_rx_tx_ws/src/fingers/src/protocol.cpp" "/home/raspberrypi/rtc_work/fingers_rx_tx_ws/build/fingers/CMakeFiles/master_topic_receiver.dir/src/protocol.cpp.o"
+  "/home/raspberrypi/rtc_work/fingers_rx_tx_ws/src/fingers/src/tabl_reg.cpp" "/home/raspberrypi/rtc_work/fingers_rx_tx_ws/build/fingers/CMakeFiles/master_topic_receiver.dir/src/tabl_reg.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 
@@ -41,8 +41,8 @@ set(CMAKE_TARGET_DEFINITIONS_CXX
 set(CMAKE_CXX_TARGET_INCLUDE_PATH
   "/opt/ros/noetic/include"
   "/opt/ros/noetic/share/xmlrpcpp/cmake/../../../include/xmlrpcpp"
-  "/home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/include/fingers"
-  "/home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/src"
+  "/home/raspberrypi/rtc_work/fingers_rx_tx_ws/src/fingers/include/fingers"
+  "/home/raspberrypi/rtc_work/fingers_rx_tx_ws/src/fingers/src"
   )
 
 # Targets to which this target links.

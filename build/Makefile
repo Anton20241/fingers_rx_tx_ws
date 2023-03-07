@@ -48,10 +48,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/anton20241/rtc_work/fingers_rx_tx_ws/src
+CMAKE_SOURCE_DIR = /home/raspberrypi/rtc_work/fingers_rx_tx_ws/src
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/anton20241/rtc_work/fingers_rx_tx_ws/build
+CMAKE_BINARY_DIR = /home/raspberrypi/rtc_work/fingers_rx_tx_ws/build
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -137,9 +137,9 @@ test/fast: test
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/anton20241/rtc_work/fingers_rx_tx_ws/build/CMakeFiles /home/anton20241/rtc_work/fingers_rx_tx_ws/build/CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/raspberrypi/rtc_work/fingers_rx_tx_ws/build/CMakeFiles /home/raspberrypi/rtc_work/fingers_rx_tx_ws/build/CMakeFiles/progress.marks
 	$(MAKE) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/anton20241/rtc_work/fingers_rx_tx_ws/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/raspberrypi/rtc_work/fingers_rx_tx_ws/build/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -296,6 +296,19 @@ udp_client: cmake_check_build_system
 udp_client/fast:
 	$(MAKE) -f fingers/CMakeFiles/udp_client.dir/build.make fingers/CMakeFiles/udp_client.dir/build
 .PHONY : udp_client/fast
+
+#=============================================================================
+# Target rules for targets named rs_master
+
+# Build rule for target.
+rs_master: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 rs_master
+.PHONY : rs_master
+
+# fast build rule for target.
+rs_master/fast:
+	$(MAKE) -f fingers/CMakeFiles/rs_master.dir/build.make fingers/CMakeFiles/rs_master.dir/build
+.PHONY : rs_master/fast
 
 #=============================================================================
 # Target rules for targets named uart_node
@@ -567,6 +580,7 @@ help:
 	@echo "... gtest_main"
 	@echo "... gtest"
 	@echo "... udp_client"
+	@echo "... rs_master"
 	@echo "... uart_node"
 	@echo "... std_msgs_generate_messages_py"
 	@echo "... std_msgs_generate_messages_nodejs"

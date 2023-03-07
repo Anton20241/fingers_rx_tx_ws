@@ -124,7 +124,7 @@ void cam_callback(const std_msgs::ByteMultiArray::ConstPtr& camStatus)
 int main(int argc, char** argv)
 {
     std::string devPort = "0";
-    std::string baudrate = "19200"; 
+    std::string baudrate = ""; 
         // if(argc == 3) {
         //      devPort = argv[1];
   //  baudrate = argv[2];
@@ -132,6 +132,8 @@ int main(int argc, char** argv)
         //      std::cerr << "[program_name][/dev/ttyS(0, 1...)][baudrate]" << std::endl;
         //      return -1;
         // }
+
+        ros::param::param<std::string> ("~_UART_baudrate", baudrate, "19200");
         try{
           std::cout << "\nUART Node is running!\n" << "Baud rate: " << baudrate << ", Port: /dev/ttyS" << devPort << '\n';
           ros::init(argc, argv, "uart_node");

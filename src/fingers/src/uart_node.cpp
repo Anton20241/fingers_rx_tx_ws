@@ -11,9 +11,6 @@
 #define CAM_TOPIC_NAME "camera_topic"
 #define BAT_CAM_TOPIC_NAME "bat_cam_topic"
 
-ros::Subscriber bat_cam_sub;
-ros::Publisher bat_cam_pub;
-
 class UART_Node
 {
 public:
@@ -40,27 +37,27 @@ public:
       std::cout << "\nTime since previos msg:" << cam_bat_time << '\n';
       tp_first = boost::chrono::system_clock::now();
       pub_board_data();
-    };
+    }
   }
 
 private:
-    protocol_master::ProtocolMaster& m_protocol;
-    ros::NodeHandle node;
-    ros::Subscriber bat_cam_sub;
-    ros::Publisher bat_cam_pub;
-    uint32_t recvd_count_topic = 0;
-    uint8_t from_board_data[8] = {0}; //<--from board
-    uint32_t from_board_dataSize = 0;
-    uint8_t to_bat_cam_topic[5] = {0}; //<--to_bat_cam_topic
-    boost::chrono::system_clock::time_point tp_first;// = boost::chrono::system_clock::now();
-    boost::chrono::system_clock::time_point tp_last;
-    boost::chrono::duration<double> cam_bat_time;
-    uint8_t resvdFromDev = 0;
-    std::mutex my_mytex;
+  protocol_master::ProtocolMaster& m_protocol;
+  ros::NodeHandle node;
+  ros::Subscriber bat_cam_sub;
+  ros::Publisher bat_cam_pub;
+  uint32_t recvd_count_topic = 0;
+  uint8_t from_board_data[8] = {0}; //<--from board
+  uint32_t from_board_dataSize = 0;
+  uint8_t to_bat_cam_topic[5] = {0}; //<--to_bat_cam_topic
+  boost::chrono::system_clock::time_point tp_first;// = boost::chrono::system_clock::now();
+  boost::chrono::system_clock::time_point tp_last;
+  boost::chrono::duration<double> cam_bat_time;
+  uint8_t resvdFromDev = 0;
+  std::mutex my_mytex;
 
-void pub_board_data() //create and pub ros message 
-{
-  uint8_t bytesToSendCount = 0;
+  void pub_board_data() //create and pub ros message 
+  {
+    uint8_t bytesToSendCount = 0;
     if (from_board_dataSize == 5){
       //пакет в топик "bat_cam_topic"
       to_bat_cam_topic[0] = from_board_data[2]; //CMD
@@ -77,7 +74,6 @@ void pub_board_data() //create and pub ros message
       to_bat_cam_topic[4] = resvdFromDev;       //all_ok
       bytesToSendCount = 5;
     } else {
-      std::cout << "\nNO PUB\n";
       return;
     }
     std_msgs::ByteMultiArray toBatCamTopicMsg;
@@ -89,8 +85,8 @@ void pub_board_data() //create and pub ros message
     std::cout << "SEND TO TOPIC bat_cam_topic: ";
     for (size_t i = 0; i < bytesToSendCount; i++)
     {
-        toBatCamTopicMsg.data.push_back(to_bat_cam_topic[i]);
-        printf("[%u]", to_bat_cam_topic[i]);
+      toBatCamTopicMsg.data.push_back(to_bat_cam_topic[i]);
+      printf("[%u]", to_bat_cam_topic[i]);
     }
     std::cout << std::endl;
     bat_cam_pub.publish(toBatCamTopicMsg);
@@ -98,32 +94,33 @@ void pub_board_data() //create and pub ros message
     std::memset(from_board_data, 0, from_board_dataSize);
     from_board_dataSize = 0;
     resvdFromDev = 0;
-}
-
-void cam_callback(const std_msgs::ByteMultiArray::ConstPtr& camStatus)
-{
-  recvd_count_topic++;
-  uint8_t cam_status = camStatus->data[0];
-  uint8_t relay_state = camStatus->data[1];
-
-  std::cout << "\nrecvd_count_topic = " << recvd_count_topic << std::endl;
-  std::cout << "CAMERA STATUS ";
-  printf("%u\n", cam_status);
-  std::cout << "RELAY STATUS ";
-  printf("%u\n", relay_state);
-  uint8_t toRelaySet[2] = {1, relay_state};
-  if (m_protocol.sendCmdWrite(0x01, 0x20, toRelaySet, sizeof(toRelaySet))){
-    resvdFromDev |= 128;
   }
-  if (m_protocol.sendCmdReadWriteUART(0x01, 0x10, &cam_status, sizeof(uint8_t), from_board_data, &from_board_dataSize)){
-    resvdFromDev &= 128;
+
+  void cam_callback(const std_msgs::ByteMultiArray::ConstPtr& camStatus)
+  {
+    recvd_count_topic++;
+    uint8_t cam_status = camStatus->data[0];
+    uint8_t relay_state = camStatus->data[1];
+
+    std::cout << "\nrecvd_count_topic = " << recvd_count_topic << std::endl;
+    std::cout << "CAMERA STATUS ";
+    printf("%u\n", cam_status);
+    std::cout << "RELAY STATUS ";
+    printf("%u\n", relay_state);
+    uint8_t toRelaySet[2] = {1, relay_state};
+    if (m_protocol.sendCmdWrite(0x01, 0x20, toRelaySet, sizeof(toRelaySet))){
+      resvdFromDev |= 128;
+    }
+    if (m_protocol.sendCmdReadWriteUART(0x01, 0x10, &cam_status, sizeof(uint8_t), from_board_data, &from_board_dataSize)){
+      resvdFromDev &= 128;
+    }
+    pub_board_data();
+    std::cout << endl;  
   }
-  pub_board_data();
-  std::cout << endl;  
-}
 };
 
-int main(int argc, char** argv){
+int main(int argc, char** argv)
+{
   std::string devPort = "0";
   std::string baudrate = "19200"; 
         // if(argc == 3) {
@@ -134,30 +131,19 @@ int main(int argc, char** argv){
         //      return -1;
         // }
 
-  //ros::param::param<std::string> ("~_UART_baudrate", baudrate, "19200");
+  ros::param::param<std::string> ("~_UART_baudrate", baudrate, "19200");
   try{
-    boost::asio::io_service io_service_;
     std::cout << "\nUART Node is running!\n" << "Baud rate: " << baudrate << ", Port: /dev/ttyS" << devPort << "\n";
     ros::init(argc, argv, "uart_node");
-    boost_rs485::Boost_RS485_Async boostRS485_transp(io_service_, "/dev/ttyS" + devPort, (uint32_t)std::stoi(baudrate));
+    boost_rs485::Boost_RS485_Async boostRS485_transp("/dev/ttyS" + devPort, (uint32_t)std::stoi(baudrate));
     protocol_master::ProtocolMaster boostRS485_prot_master(boostRS485_transp);
     UART_Node uartNode(boostRS485_prot_master);
-    while (ros::ok()){
+    while(ros::ok()){
       uartNode.UART_process();
       ros::spinOnce();
     }
-
   } catch (std::exception e){
-    std::cerr << "Exeption: " << e.what() << std::endl;
+      std::cerr << "Exeption: " << e.what() << std::endl;
   }
   return 0;
-
-
-
-
-
-
-
-
-
-}
+};

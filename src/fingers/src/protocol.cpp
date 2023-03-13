@@ -342,14 +342,9 @@ namespace protocol_master
             uint32_t recvdBuffSize = 0;
 
             while (!m_transport.getData(recvdBuff, &recvdBuffSize)) {
-                // std::cout << "recvdBuffSize = " << recvdBuffSize << std::endl;
-                // for (int i = 0; i < recvdBuffSize; i++){
-                //     printf("[%u]", recvdBuff[i]);
-                // }
-                // std::cout << std::endl;
-                
-                if (failCount > 20){
-                    // std::cout << "\nFAIL COUNT > 20\n";
+                                
+                if (failCount > 15){
+                    // std::cout << "\nFAIL COUNT > 15\n";
                     std::memset(dataFrom, 0, *dataFromSize);
                     *dataFromSize = 0;
                     return false;

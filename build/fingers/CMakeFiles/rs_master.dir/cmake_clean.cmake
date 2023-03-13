@@ -1,6 +1,6 @@
 file(REMOVE_RECURSE
-  "/home/anton20241/rtc_work/fingers_rx_tx_ws/devel/lib/fingers/rs_master"
-  "/home/anton20241/rtc_work/fingers_rx_tx_ws/devel/lib/fingers/rs_master.pdb"
+  "/home/raspberrypi/rtc_work/fingers_rx_tx_ws/devel/lib/fingers/rs_master"
+  "/home/raspberrypi/rtc_work/fingers_rx_tx_ws/devel/lib/fingers/rs_master.pdb"
   "CMakeFiles/rs_master.dir/src/protocol.cpp.o"
   "CMakeFiles/rs_master.dir/src/rs_master.cpp.o"
   "CMakeFiles/rs_master.dir/src/tabl_reg.cpp.o"

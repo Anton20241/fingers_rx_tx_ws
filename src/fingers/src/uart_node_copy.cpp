@@ -11,9 +11,6 @@
 #define CAM_TOPIC_NAME "camera_topic"
 #define BAT_CAM_TOPIC_NAME "bat_cam_topic"
 
-ros::Subscriber bat_cam_sub;
-ros::Publisher bat_cam_pub;
-
 class UART_Node
 {
 public:

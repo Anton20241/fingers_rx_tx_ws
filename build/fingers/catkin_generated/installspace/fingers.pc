@@ -1,4 +1,4 @@
-prefix=/home/anton20241/rtc_work/fingers_rx_tx_ws/install
+prefix=/home/raspberrypi/rtc_work/fingers_rx_tx_ws/install
 
 Name: fingers
 Description: Description of fingers

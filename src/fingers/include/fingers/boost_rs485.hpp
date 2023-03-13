@@ -28,7 +28,7 @@ namespace boost_rs485
     class Boost_RS485_Async : public i_transport::ITransport
     {
     private:
-        boost::asio::io_context    m_ioContext;
+        boost::asio::io_service    m_ioService;
         boost::asio::serial_port   m_port;
         int m_fd;
         uint8_t m_recvdData[proto_max_buff] = {0};
@@ -77,30 +77,22 @@ namespace boost_rs485
             getData();
         }
 
-    public:
-        Boost_RS485_Async(boost::asio::io_service& io_service_, string dev_Port, uint32_t baudrate)
-        :   m_port(io_service_)
+    public: 
+        Boost_RS485_Async(string dev_Port, uint32_t baudrate):m_ioService(),m_port(m_ioService, dev_Port)
         {
-            boost::system::error_code error;
-            m_port.open(dev_Port, error);
-            if(!error){
-                termios t;
-                m_fd = m_port.native_handle();
-                if (tcgetattr(m_fd, &t) < 0) { /* handle error */ }
-                if (cfsetspeed(&t, baudrate) < 0) { /* handle error */ }
-                if (tcsetattr(m_fd, TCSANOW, &t) < 0) { /* handle error */ }
-                //m_port.set_option(boost::asio::serial_port_base::baud_rate(baudrate));
-                m_port.set_option(boost::asio::serial_port_base::character_size(8));
-                m_port.set_option(boost::asio::serial_port_base::stop_bits(serial_port_base::stop_bits::one));
-                m_port.set_option(boost::asio::serial_port_base::parity(serial_port_base::parity::none));
-                m_port.set_option(boost::asio::serial_port_base::flow_control(serial_port_base::flow_control::none));
-            }
+            termios t;
+            m_fd = m_port.native_handle();
+            if (tcgetattr(m_fd, &t) < 0) { /* handle error */ }
+            if (cfsetspeed(&t, baudrate) < 0) { /* handle error */ }
+            if (tcsetattr(m_fd, TCSANOW, &t) < 0) { /* handle error */ }
+            //m_port.set_option(boost::asio::serial_port_base::baud_rate(baudrate));
+            m_port.set_option(boost::asio::serial_port_base::character_size(8));
+            m_port.set_option(boost::asio::serial_port_base::stop_bits(serial_port_base::stop_bits::one));
+            m_port.set_option(boost::asio::serial_port_base::parity(serial_port_base::parity::none));
+            m_port.set_option(boost::asio::serial_port_base::flow_control(serial_port_base::flow_control::none));
 
-            //boost::thread td(boost::bind(&boost::asio::io_service::run, &m_ioService));
-            //td.join();
-            
+            boost::thread td(boost::bind(&boost::asio::io_service::run, &m_ioService));
             getData();
-            io_service_.run();
 
         }
 

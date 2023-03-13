@@ -123,8 +123,7 @@ void cam_callback(const std_msgs::ByteMultiArray::ConstPtr& camStatus)
 }
 };
 
-int main(int argc, char** argv)
-{
+int main(int argc, char** argv){
   std::string devPort = "0";
   std::string baudrate = "19200"; 
         // if(argc == 3) {
@@ -137,17 +136,28 @@ int main(int argc, char** argv)
 
   //ros::param::param<std::string> ("~_UART_baudrate", baudrate, "19200");
   try{
+    boost::asio::io_service io_service_;
     std::cout << "\nUART Node is running!\n" << "Baud rate: " << baudrate << ", Port: /dev/ttyS" << devPort << "\n";
     ros::init(argc, argv, "uart_node");
-    boost_rs485::Boost_RS485_Async boostRS485_transp("/dev/ttyS" + devPort, (uint32_t)std::stoi(baudrate));
+    boost_rs485::Boost_RS485_Async boostRS485_transp(io_service_, "/dev/ttyS" + devPort, (uint32_t)std::stoi(baudrate));
     protocol_master::ProtocolMaster boostRS485_prot_master(boostRS485_transp);
     UART_Node uartNode(boostRS485_prot_master);
-    while(ros::ok()){
-        uartNode.UART_process();
-        ros::spinOnce();
+    while (ros::ok()){
+      uartNode.UART_process();
+      ros::spinOnce();
     }
+
   } catch (std::exception e){
-          std::cerr << "Exeption: " << e.what() << std::endl;
+    std::cerr << "Exeption: " << e.what() << std::endl;
   }
   return 0;
-};
+
+
+
+
+
+
+
+
+
+}

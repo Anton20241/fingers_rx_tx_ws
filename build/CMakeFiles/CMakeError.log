@@ -1,21 +1,21 @@
 Performing C SOURCE FILE Test CMAKE_HAVE_LIBC_PTHREAD failed with the following output:
-Change Dir: /home/raspberrypi/rtc_work/fingers_rx_tx_ws/build/CMakeFiles/CMakeTmp
+Change Dir: /home/anton20241/rtc_work/fingers_rx_tx_ws/build/CMakeFiles/CMakeTmp
 
-Run Build Command(s):/usr/bin/make cmTC_18179/fast && /usr/bin/make -f CMakeFiles/cmTC_18179.dir/build.make CMakeFiles/cmTC_18179.dir/build
-make[1]: Entering directory '/home/raspberrypi/rtc_work/fingers_rx_tx_ws/build/CMakeFiles/CMakeTmp'
-Building C object CMakeFiles/cmTC_18179.dir/src.c.o
-/usr/bin/cc   -DCMAKE_HAVE_LIBC_PTHREAD   -o CMakeFiles/cmTC_18179.dir/src.c.o   -c /home/raspberrypi/rtc_work/fingers_rx_tx_ws/build/CMakeFiles/CMakeTmp/src.c
-Linking C executable cmTC_18179
-/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_18179.dir/link.txt --verbose=1
-/usr/bin/cc  -DCMAKE_HAVE_LIBC_PTHREAD    -rdynamic CMakeFiles/cmTC_18179.dir/src.c.o  -o cmTC_18179 
-/usr/bin/ld: CMakeFiles/cmTC_18179.dir/src.c.o: in function `main':
-src.c:(.text+0x48): undefined reference to `pthread_create'
-/usr/bin/ld: src.c:(.text+0x50): undefined reference to `pthread_detach'
-/usr/bin/ld: src.c:(.text+0x5c): undefined reference to `pthread_join'
+Run Build Command(s):/usr/bin/make cmTC_b1561/fast && /usr/bin/make -f CMakeFiles/cmTC_b1561.dir/build.make CMakeFiles/cmTC_b1561.dir/build
+make[1]: Entering directory '/home/anton20241/rtc_work/fingers_rx_tx_ws/build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_b1561.dir/src.c.o
+/usr/bin/cc   -DCMAKE_HAVE_LIBC_PTHREAD   -o CMakeFiles/cmTC_b1561.dir/src.c.o   -c /home/anton20241/rtc_work/fingers_rx_tx_ws/build/CMakeFiles/CMakeTmp/src.c
+Linking C executable cmTC_b1561
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_b1561.dir/link.txt --verbose=1
+/usr/bin/cc  -DCMAKE_HAVE_LIBC_PTHREAD    -rdynamic CMakeFiles/cmTC_b1561.dir/src.c.o  -o cmTC_b1561 
+/usr/bin/ld: CMakeFiles/cmTC_b1561.dir/src.c.o: in function `main':
+src.c:(.text+0x46): undefined reference to `pthread_create'
+/usr/bin/ld: src.c:(.text+0x52): undefined reference to `pthread_detach'
+/usr/bin/ld: src.c:(.text+0x63): undefined reference to `pthread_join'
 collect2: error: ld returned 1 exit status
-make[1]: *** [CMakeFiles/cmTC_18179.dir/build.make:87: cmTC_18179] Error 1
-make[1]: Leaving directory '/home/raspberrypi/rtc_work/fingers_rx_tx_ws/build/CMakeFiles/CMakeTmp'
-make: *** [Makefile:121: cmTC_18179/fast] Error 2
+make[1]: *** [CMakeFiles/cmTC_b1561.dir/build.make:87: cmTC_b1561] Error 1
+make[1]: Leaving directory '/home/anton20241/rtc_work/fingers_rx_tx_ws/build/CMakeFiles/CMakeTmp'
+make: *** [Makefile:121: cmTC_b1561/fast] Error 2
 
 
 Source file was:
@@ -39,20 +39,20 @@ int main(void)
 }
 
 Determining if the function pthread_create exists in the pthreads failed with the following output:
-Change Dir: /home/raspberrypi/rtc_work/fingers_rx_tx_ws/build/CMakeFiles/CMakeTmp
+Change Dir: /home/anton20241/rtc_work/fingers_rx_tx_ws/build/CMakeFiles/CMakeTmp
 
-Run Build Command(s):/usr/bin/make cmTC_b24fd/fast && /usr/bin/make -f CMakeFiles/cmTC_b24fd.dir/build.make CMakeFiles/cmTC_b24fd.dir/build
-make[1]: Entering directory '/home/raspberrypi/rtc_work/fingers_rx_tx_ws/build/CMakeFiles/CMakeTmp'
-Building C object CMakeFiles/cmTC_b24fd.dir/CheckFunctionExists.c.o
-/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=pthread_create   -o CMakeFiles/cmTC_b24fd.dir/CheckFunctionExists.c.o   -c /usr/share/cmake-3.16/Modules/CheckFunctionExists.c
-Linking C executable cmTC_b24fd
-/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_b24fd.dir/link.txt --verbose=1
-/usr/bin/cc  -DCHECK_FUNCTION_EXISTS=pthread_create    -rdynamic CMakeFiles/cmTC_b24fd.dir/CheckFunctionExists.c.o  -o cmTC_b24fd  -lpthreads 
+Run Build Command(s):/usr/bin/make cmTC_f5fd0/fast && /usr/bin/make -f CMakeFiles/cmTC_f5fd0.dir/build.make CMakeFiles/cmTC_f5fd0.dir/build
+make[1]: Entering directory '/home/anton20241/rtc_work/fingers_rx_tx_ws/build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_f5fd0.dir/CheckFunctionExists.c.o
+/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=pthread_create   -o CMakeFiles/cmTC_f5fd0.dir/CheckFunctionExists.c.o   -c /usr/share/cmake-3.16/Modules/CheckFunctionExists.c
+Linking C executable cmTC_f5fd0
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_f5fd0.dir/link.txt --verbose=1
+/usr/bin/cc  -DCHECK_FUNCTION_EXISTS=pthread_create    -rdynamic CMakeFiles/cmTC_f5fd0.dir/CheckFunctionExists.c.o  -o cmTC_f5fd0  -lpthreads 
 /usr/bin/ld: cannot find -lpthreads
 collect2: error: ld returned 1 exit status
-make[1]: *** [CMakeFiles/cmTC_b24fd.dir/build.make:87: cmTC_b24fd] Error 1
-make[1]: Leaving directory '/home/raspberrypi/rtc_work/fingers_rx_tx_ws/build/CMakeFiles/CMakeTmp'
-make: *** [Makefile:121: cmTC_b24fd/fast] Error 2
+make[1]: *** [CMakeFiles/cmTC_f5fd0.dir/build.make:87: cmTC_f5fd0] Error 1
+make[1]: Leaving directory '/home/anton20241/rtc_work/fingers_rx_tx_ws/build/CMakeFiles/CMakeTmp'
+make: *** [Makefile:121: cmTC_f5fd0/fast] Error 2
 
 
 

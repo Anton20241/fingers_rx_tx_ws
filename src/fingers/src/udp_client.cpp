@@ -12,7 +12,7 @@ using boost::asio::ip::udp;
 using boost::asio::ip::address;
 
 #define PORT 1234
-#define IP "127.0.0.1"
+#define IP "192.168.43.212"
 
 class UDPClient
 {
@@ -116,7 +116,7 @@ public:
                 std::cout << "Sent Payload = " << sent << "\n";
                 std::cout << "send_count = " << send_count << "\n";
                 //printf("[crc8 = %u\n]", crc8);
-                std::this_thread::sleep_for(std::chrono::microseconds(10000));
+                std::this_thread::sleep_for(std::chrono::microseconds(1000000));
             }
         } else {
             auto sent = socket_.send_to(boost::asio::buffer(msgToSend2), sender_endpoint_, 0, err);
@@ -130,7 +130,7 @@ public:
                 std::cout << "Sent Payload = " << sent << "\n";
                 std::cout << "send_count = " << send_count << "\n";
                 //printf("[crc8 = %u\n]", crc8);
-                std::this_thread::sleep_for(std::chrono::microseconds(10000));
+                std::this_thread::sleep_for(std::chrono::microseconds(1000000));
             }
         }
 

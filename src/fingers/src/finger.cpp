@@ -53,7 +53,7 @@ int main(int argc, char** argv) {
 	try{
         std::cout << "finger is running!" << std::endl;
         ros::init(argc, argv, "finger");
-        boost_rs485::Boost_RS485_Slave_sync boostRS485_transp("/dev/ttyUSB" + devPort, (uint32_t)std::stoi(baudrate));
+        boost_rs485::Boost_RS485_Sync boostRS485_transp("/dev/ttyUSB" + devPort, (uint32_t)std::stoi(baudrate));
         tabl_reg::TablReg m_tabl(tabl_reg_cfg::tablRegConfig);
         protocol::Protocol boostRS485_prot(boostRS485_transp, m_tabl, (uint8_t)std::stoi(devAddr));
         Boost_RS485_Client client(boostRS485_prot, m_tabl);

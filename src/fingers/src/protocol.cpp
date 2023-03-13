@@ -313,33 +313,20 @@ namespace protocol_master
         std::memset(buff, 0, sizeof(buff));
         std::memset(recvdBuff, 0, sizeof(recvdBuff));
         uint32_t recvdBuffSize = 0;
-        /* check DATA */
-        if (!m_transport.getData(recvdBuff, &recvdBuffSize)) return false;
+        m_transport.getData(recvdBuff, &recvdBuffSize);
         collectPkg(recvdBuff, recvdBuffSize, dataFrom, *dataFromSize);
-        // std::cout << "\ndataFromSize = " << *dataFromSize << "\n";
-        // std::cout << "recvdBuffSize = " << recvdBuffSize << "\n";
-        // //std::cout << "I am here\n";
-        // for (size_t i = 0; i < *dataFromSize; i++){
-        //     printf("[%u]",dataFrom[i]);
-        // }
-        // std::cout << std::endl;
-
         if (!parserOk(dataFrom, *dataFromSize)){
             updateDataUart(dataFrom, *dataFromSize);
-            return false;
         } else {
-            // static uint32_t count = 0;
-            // count++;
-            // std::cout << "\nUART TRUE\n";
-            // std::cout << "count = " << count << "\n";
             return true;
-        } 
+        }
+        std::this_thread::sleep_for(std::chrono::microseconds(60));
+        return false;
     }
 
     bool ProtocolMaster::sendCmdReadWriteUART(uint8_t addressTo, uint8_t cmd, const uint8_t* dataTo, uint32_t dataToSize, 
                                         uint8_t* dataFrom, uint32_t* dataFromSize){
         std::memset(buff, 0, sizeof(buff));
-        uint32_t failCount = 0;
         buff[0] = addressTo;
         buff[1] = len + dataToSize;
         buff[2] = cmd;
@@ -347,21 +334,27 @@ namespace protocol_master
         buff[len + dataToSize - sizeof(uint8_t)] = umba_crc8_table(buff,len + dataToSize - sizeof(uint8_t));
         /* Отправляем CmdReadWrite */
         assert(m_transport.sendData(buff, buff[1]));
-        /* Ждем DATA */
+
+        uint32_t failCount = 0;
         while (true){
 
             std::memset(recvdBuff, 0, sizeof(recvdBuff));
             uint32_t recvdBuffSize = 0;
 
             while (!m_transport.getData(recvdBuff, &recvdBuffSize)) {
+                // std::cout << "recvdBuffSize = " << recvdBuffSize << std::endl;
+                // for (int i = 0; i < recvdBuffSize; i++){
+                //     printf("[%u]", recvdBuff[i]);
+                // }
+                // std::cout << std::endl;
                 
-                if (failCount > 75){
-                    std::cout << "\nFAIL COUNT > 50\n";
+                if (failCount > 20){
+                    // std::cout << "\nFAIL COUNT > 20\n";
                     std::memset(dataFrom, 0, *dataFromSize);
                     *dataFromSize = 0;
                     return false;
                 }
-                std::this_thread::sleep_for(std::chrono::microseconds(50));
+                std::this_thread::sleep_for(std::chrono::microseconds(60));
                 failCount++;
             }
             
@@ -369,11 +362,10 @@ namespace protocol_master
             collectPkg(recvdBuff, recvdBuffSize, dataFrom, *dataFromSize);
             if (!parserOk(dataFrom, *dataFromSize)){
                 updateDataUart(dataFrom, *dataFromSize);
-                std::this_thread::sleep_for(std::chrono::microseconds(50));
-                continue;
             } else {
                 return true;
-            } 
+            }
+            std::this_thread::sleep_for(std::chrono::microseconds(60)); 
         }
     }
 
@@ -391,8 +383,7 @@ namespace protocol_master
         if (dataUartSize == 8 && dataUart[1] != 8 || dataUartSize == 5 && dataUart[1] != 5)             return false;
         if (dataUartSize == 8 && dataUart[2] != 0 || dataUartSize == 5 && dataUart[2] != 0x70)          return false;
         uint8_t crc_8 = umba_crc8_table(dataUart, dataUartSize - sizeof(uint8_t));
-        if (dataUart[dataUartSize - sizeof(uint8_t)] != crc_8)                          
-                        return false;
+        if (dataUart[dataUartSize - sizeof(uint8_t)] != crc_8)                                          return false;
         return true;
     }
 
@@ -402,7 +393,7 @@ namespace protocol_master
         memset(dataUart, 0, dataUartSize);
         dataUartSize = 0;
     }
-
+    
     bool ProtocolMaster::sendCmdWrite(uint8_t addressTo, uint8_t cmd, const uint8_t* dataTo, uint32_t dataToSize){
         std::memset(buff, 0, sizeof(buff));
         std::memset(recvdBuff, 0, sizeof(recvdBuff));

@@ -77,7 +77,6 @@ void pub_board_data() //create and pub ros message
       to_bat_cam_topic[4] = resvdFromDev;       //all_ok
       bytesToSendCount = 5;
     } else {
-      std::cout << "\nNO PUB\n";
       return;
     }
     std_msgs::ByteMultiArray toBatCamTopicMsg;
@@ -106,17 +105,17 @@ void cam_callback(const std_msgs::ByteMultiArray::ConstPtr& camStatus)
   uint8_t cam_status = camStatus->data[0];
   uint8_t relay_state = camStatus->data[1];
 
-  std::cout << "\nrecvd_count_topic = " << recvd_count_topic << std::endl;
-  std::cout << "CAMERA STATUS ";
+  std::cout << "recvd_count_topic = " << recvd_count_topic << std::endl;
+  std::cout << "\nCAMERA STATUS ";
   printf("%u\n", cam_status);
-  std::cout << "RELAY STATUS ";
+  std::cout << "\nRELAY STATUS ";
   printf("%u\n", relay_state);
   uint8_t toRelaySet[2] = {1, relay_state};
   if (m_protocol.sendCmdWrite(0x01, 0x20, toRelaySet, sizeof(toRelaySet))){
     resvdFromDev |= 128;
   }
   if (m_protocol.sendCmdReadWriteUART(0x01, 0x10, &cam_status, sizeof(uint8_t), from_board_data, &from_board_dataSize)){
-    resvdFromDev &= 128;
+    resvdFromDev |= 128;
   }
   pub_board_data();
   std::cout << endl;  
@@ -137,9 +136,9 @@ int main(int argc, char** argv)
 
   //ros::param::param<std::string> ("~_UART_baudrate", baudrate, "19200");
   try{
-    std::cout << "\nUART Node is running!\n" << "Baud rate: " << baudrate << ", Port: /dev/ttyS" << devPort << "\n";
+    std::cout << "\nUART Node is running!\n" << "Baud rate: " << baudrate << ", Port: /dev/ttyS" << devPort << '\n';
     ros::init(argc, argv, "uart_node");
-    boost_rs485::Boost_RS485_Async boostRS485_transp("/dev/ttyS" + devPort, (uint32_t)std::stoi(baudrate));
+    boost_rs485::Boost_RS485_Sync boostRS485_transp("/dev/ttyS" + devPort, (uint32_t)std::stoi(baudrate));
     protocol_master::ProtocolMaster boostRS485_prot_master(boostRS485_transp);
     UART_Node uartNode(boostRS485_prot_master);
     while(ros::ok()){

@@ -29,7 +29,7 @@ public:
   
   void nodeFromUDPProcess(){
     if (getMsgFromUDP){
-      sendMsgToFingers(currentState.shut_down);
+      sendMsgToFingers();
       sendMsgToCamBat();
       sendMsgToUDP();
       getMsgFromUDP = false;
@@ -68,7 +68,6 @@ private:
     uint8_t keepalive[4] = {0};
     uint8_t cmdBatCamTopic = 0;
     uint8_t time_down = 0;
-    bool shut_down = false;
   };
   
   currentState_ currentState;
@@ -80,7 +79,7 @@ private:
     getMsgFromFingers = true;
     recvd_count_topic_fingers++;
     memset(dataFromTopic, 0, sizeof(dataFromTopic));
-    std::cout << "RECVD FROM TOPIC fromFingersTopic recvdMsg->data.size() = " << recvdMsg->data.size() << std::endl;
+    std::cout << "\nRECVD FROM TOPIC fromFingersTopic recvdMsg->data.size() = " << recvdMsg->data.size() << std::endl;
     std::cout << "recvd_count_topic_fingers = " << recvd_count_topic_fingers << std::endl;
     for (int i = 0; i < recvdMsg->data.size(); i++){
         dataFromTopic[i] = recvdMsg->data[i];
@@ -92,8 +91,7 @@ private:
   }
 
   void from_cam_bat_handle_receive(const std_msgs::ByteMultiArray::ConstPtr& recvdMsg) {
-    static uint32_t fromCamBatCount = 0;
-    fromCamBatCount++;
+
     if(recvdMsg->data.size() == 5){
       //обновляем данные
       currentState.bat_24V                    = recvdMsg->data[0];
@@ -105,15 +103,15 @@ private:
       currentState.cmdBatCamTopic             = recvdMsg->data[0];
       currentState.time_down                  = recvdMsg->data[1];
       resvdFromAllDev                        |= recvdMsg->data[2];
-      currentState.shut_down = true;
       startShutDownProcess();
     } else return;
     recvd_count_topic_cam_bat++;
     std::cout << "RECVD FROM TOPIC bat_cam_topic recvdMsg->data.size() = " << recvdMsg->data.size() << std::endl;
     std::cout << "recvd_count_topic_cam_bat = " << recvd_count_topic_cam_bat << std::endl;
     for (int i = 0; i < recvdMsg->data.size(); i++){
-        printf("[%hu]", recvdMsg->data[i]);
+      printf("[%hu]", recvdMsg->data[i]);
     }
+    std::cout << std::endl;
   }
 
   void startShutDownProcess(){
@@ -150,9 +148,9 @@ private:
     }
   }
 
-  void sendMsgToFingers(bool shut_down){
-    if (currentState.hold_position == 1 || shut_down){
-      printf("shut_down OR currentState.hold_position = %u. MSG NOT TO SEND TO FINGERS.\n", currentState.hold_position);
+  void sendMsgToFingers(){
+    if (currentState.hold_position == 1){
+      printf("currentState.hold_position = %u. MSG NOT TO SEND TO FINGERS.\n", currentState.hold_position);
       return;
     }
     //отправка пакета в топик "toFingersTopic"
@@ -192,24 +190,24 @@ private:
     dataToUDP[1] = 0xAA;                                                                            //header 1b
     dataToUDP[2] = sizeof(dataToUDP);                                                               //data length 1b
     memcpy(dataToUDP + 3, dataFromTopic, sizeof(dataFromTopic) - sizeof(uint8_t));                  //data from fingers 9*6b
-    dataToUDP[sizeof(dataToUDP) - 12 * sizeof(uint8_t)] = currentState.hand_mount;            //hand_mount 1b
-    dataToUDP[sizeof(dataToUDP) - 11 * sizeof(uint8_t)] = currentState.hold_position;         //hold_position 1b
-    dataToUDP[sizeof(dataToUDP) - 10 * sizeof(uint8_t)] = currentState.camera_from_bat_cam;   //camera_from_bat_cam 1b
-    dataToUDP[sizeof(dataToUDP) - 9 * sizeof(uint8_t)] = currentState.bat_24V;                //bat_24V 1b
-    dataToUDP[sizeof(dataToUDP) - 8 * sizeof(uint8_t)] = currentState.bat_48V;                //bat_48V 1b
-    dataToUDP[sizeof(dataToUDP) - 7 * sizeof(uint8_t)] = resvdFromAllDev;                           //allDevOk 1b
-    dataToUDP[sizeof(dataToUDP) - 6 * sizeof(uint8_t)] = currentState.relay_state;            //relay_state 1b
+    dataToUDP[sizeof(dataToUDP) - 12 * sizeof(uint8_t)] = currentState.hand_mount;                  //hand_mount 1b
+    dataToUDP[sizeof(dataToUDP) - 11 * sizeof(uint8_t)] = currentState.hold_position;               //hold_position 1b
+    dataToUDP[sizeof(dataToUDP) - 10 * sizeof(uint8_t)] = currentState.camera_from_bat_cam;         //camera_from_bat_cam 1b
+    dataToUDP[sizeof(dataToUDP) - 9  * sizeof(uint8_t)] = currentState.bat_24V;                     //bat_24V 1b
+    dataToUDP[sizeof(dataToUDP) - 8  * sizeof(uint8_t)] = currentState.bat_48V;                     //bat_48V 1b
+    dataToUDP[sizeof(dataToUDP) - 7  * sizeof(uint8_t)] = resvdFromAllDev;                          //allDevOk 1b
+    dataToUDP[sizeof(dataToUDP) - 6  * sizeof(uint8_t)] = currentState.relay_state;                 //relay_state 1b
     memcpy(dataToUDP + sizeof(dataToUDP) - 5 * sizeof(uint8_t), currentState.keepalive, 
-        sizeof(currentState.keepalive));                                                    //keepalive 4b
+        sizeof(currentState.keepalive));                                                            //keepalive 4b
     dataToUDP[sizeof(dataToUDP) - sizeof(uint8_t)] = 
-        umba_crc8_table(dataToUDP, sizeof(dataToUDP) - sizeof(uint8_t));                          //crc8 1b
+        umba_crc8_table(dataToUDP, sizeof(dataToUDP) - sizeof(uint8_t));                            //crc8 1b
 
     //отправляем пакет в UDP
     boost::system::error_code error;
     auto sent = socket_.send_to(boost::asio::buffer(dataToUDP), sender_endpoint_, 0, error);
     if (!error && sent > 0){
       send_count_udp++;
-      std::cout << "SEND TO UDP sent = " << sent << std::endl;
+      std::cout << "SEND TO UDP bytes_transferred = " << sent << std::endl;
       std::cout << "send_count_udp = " << send_count_udp << std::endl;
       for (int i = 0; i < sent; i++){
         printf("[%u]", dataToUDP[i]);
@@ -234,7 +232,7 @@ private:
 
 int main(int argc, char** argv){
   try{
-    std::cout << "master_eth_receiver is running!" << std::endl;
+    std::cout << "\nmaster_eth_receiver is running!" << std::endl;
 		ros::init(argc, argv, "master_eth_receiver");
 		boost::asio::io_service io_service;
 		UDPServer udpServer(io_service);

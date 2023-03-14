@@ -54,7 +54,6 @@ private:
   uint32_t recvd_count_topic_fingers = 0;
   uint32_t send_count_topic_camera = 0;
   uint32_t recvd_count_topic_cam_bat = 0;
-  bool start_communication = true;
   uint8_t resvdFromAllDev = 0;
   
   struct currentState_{
@@ -64,7 +63,8 @@ private:
     uint8_t camera_from_bat_cam = 0;
     uint8_t bat_24V = 0;
     uint8_t bat_48V = 0;
-    uint8_t relay_state = 0;
+    uint8_t relay_state_from_udp = 0;
+    uint8_t relay_state_from_bat_cam = 0;
     uint8_t keepalive[4] = {0};
     uint8_t cmdBatCamTopic = 0;
     uint8_t time_down = 0;
@@ -97,7 +97,7 @@ private:
       currentState.bat_24V                    = recvdMsg->data[0];
       currentState.bat_48V                    = recvdMsg->data[1];
       currentState.camera_from_bat_cam        = recvdMsg->data[2];
-      currentState.relay_state                = recvdMsg->data[3];
+      currentState.relay_state_from_bat_cam   = recvdMsg->data[3];
       resvdFromAllDev                        |= recvdMsg->data[4];
     } else if (recvdMsg->data.size() == 3){
       currentState.cmdBatCamTopic             = recvdMsg->data[0];
@@ -137,9 +137,9 @@ private:
       }
       std::cout << std::endl;
       memcpy(dataToTopic, dataFromUDP + 3, sizeof(dataToTopic)); //fingers + hand_mount
-      currentState.hold_position = dataFromUDP    [sizeof(dataFromUDP) - 8 * sizeof(uint8_t)];
-      currentState.camera_from_udp = dataFromUDP  [sizeof(dataFromUDP) - 7 * sizeof(uint8_t)];
-      currentState.relay_state = dataFromUDP      [sizeof(dataFromUDP) - 6 * sizeof(uint8_t)];
+      currentState.hold_position = dataFromUDP             [sizeof(dataFromUDP) - 8 * sizeof(uint8_t)];
+      currentState.camera_from_udp = dataFromUDP           [sizeof(dataFromUDP) - 7 * sizeof(uint8_t)];
+      currentState.relay_state_from_udp = dataFromUDP      [sizeof(dataFromUDP) - 6 * sizeof(uint8_t)];
       memcpy(currentState.keepalive, dataFromUDP + sizeof(dataFromUDP) - 5 * sizeof(uint8_t),
           sizeof(currentState.keepalive));
       read_msg_udp();
@@ -177,9 +177,9 @@ private:
     sendMsgToCameraTopic.data.clear();
     std::cout << "SEND TO camera_topic:\n";
     printf("camera_from_udp = [%u]\n", currentState.camera_from_udp);
-    printf("relay_state = [%u]\n", currentState.relay_state);
+    printf("relay_state = [%u]\n", currentState.relay_state_from_udp);
     sendMsgToCameraTopic.data.push_back(currentState.camera_from_udp);
-    sendMsgToCameraTopic.data.push_back(currentState.relay_state);
+    sendMsgToCameraTopic.data.push_back(currentState.relay_state_from_udp);
     toCamPub.publish(sendMsgToCameraTopic);
     std::cout << std::endl;
   }
@@ -196,7 +196,7 @@ private:
     dataToUDP[sizeof(dataToUDP) - 9  * sizeof(uint8_t)] = currentState.bat_24V;                     //bat_24V 1b
     dataToUDP[sizeof(dataToUDP) - 8  * sizeof(uint8_t)] = currentState.bat_48V;                     //bat_48V 1b
     dataToUDP[sizeof(dataToUDP) - 7  * sizeof(uint8_t)] = resvdFromAllDev;                          //allDevOk 1b
-    dataToUDP[sizeof(dataToUDP) - 6  * sizeof(uint8_t)] = currentState.relay_state;                 //relay_state 1b
+    dataToUDP[sizeof(dataToUDP) - 6  * sizeof(uint8_t)] = currentState.relay_state_from_bat_cam;    //relay_state 1b
     memcpy(dataToUDP + sizeof(dataToUDP) - 5 * sizeof(uint8_t), currentState.keepalive, 
         sizeof(currentState.keepalive));                                                            //keepalive 4b
     dataToUDP[sizeof(dataToUDP) - sizeof(uint8_t)] = 

@@ -109,7 +109,7 @@ private:
     std::cout << "RECVD FROM TOPIC bat_cam_topic recvdMsg->data.size() = " << recvdMsg->data.size() << std::endl;
     std::cout << "recvd_count_topic_cam_bat = " << recvd_count_topic_cam_bat << std::endl;
     for (int i = 0; i < recvdMsg->data.size(); i++){
-      printf("[%hu]", recvdMsg->data[i]);
+      printf("[%u]", (uint8_t)recvdMsg->data[i]);
     }
     std::cout << std::endl;
   }
@@ -121,7 +121,6 @@ private:
 
   void udp_handle_receive(const boost::system::error_code& error, size_t bytes_transferred) {
     getMsgFromUDP = true;
-    resvdFromAllDev = 0;
     if (!error && bytes_transferred > 0){
       if(!parserUDP(dataFromUDP)){
         std::cout << "UDP data not valid\n";
@@ -213,6 +212,7 @@ private:
         printf("[%u]", dataToUDP[i]);
       }
       std::cout << std::endl;
+      resvdFromAllDev = 0;
     } else {
       //std::cerr << error.what();
     }

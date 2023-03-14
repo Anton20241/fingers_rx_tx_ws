@@ -64,6 +64,12 @@ thread
 cstring
 -
 
+/home/raspberrypi/rtc_work/fingers_rx_tx_ws/src/fingers/src/tabl_reg.cpp
+cstring
+-
+tabl_reg.hpp
+/home/raspberrypi/rtc_work/fingers_rx_tx_ws/src/fingers/src/tabl_reg.hpp
+
 /home/raspberrypi/rtc_work/fingers_rx_tx_ws/src/fingers/src/uart_node.cpp
 iostream
 -

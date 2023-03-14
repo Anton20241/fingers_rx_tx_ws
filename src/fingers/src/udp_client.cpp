@@ -71,10 +71,10 @@ public:
                                0x1, 0x2, 0x3, 0x4, 0x5, //data to fingers 
                                0x1, 0x2, 0x3, 0x4, 0x5, //data to fingers
                                0x1, 0x2, 0x3, 0x4, 0x5, //data to fingers
-                               0x2,                     //hand_mount
-                               0x3,                     //hold_position
-                               0x4,                     //camera_from_bat_cam
-                               0x5,                     //relay_state
+                               0x6,                     //hand_mount
+                               0x7,                     //hold_position
+                               0x8,                     //camera_from_bat_cam
+                               0x9,                     //relay_state
                                0x1,                     //keepalive
                                0x1,                     //keepalive
                                0x1,                     //keepalive
@@ -90,10 +90,10 @@ public:
                                0x1, 0x2, 0x3, 0x4, 0x5, //data to fingers 
                                0x1, 0x2, 0x3, 0x4, 0x5, //data to fingers
                                0x1, 0x2, 0x3, 0x4, 0x5, //data to fingers
-                               0x2,                     //hand_mount
-                               0x3,                     //hold_position
-                               0x4,                     //camera_from_bat_cam
-                               0x5,                     //relay_state
+                               0x6,                     //hand_mount
+                               0x7,                     //hold_position
+                               0x8,                     //camera_from_bat_cam
+                               0x9,                     //relay_state
                                0x1,                     //keepalive
                                0x1,                     //keepalive
                                0x1,                     //keepalive

@@ -13,10 +13,10 @@ using boost::asio::ip::address;
 class UDPServer{
 public:
 	UDPServer(boost::asio::io_service& io_service): socket_(io_service, udp::endpoint(udp::v4(), PORT)){
-    toFingersPub = node.advertise<std_msgs::ByteMultiArray>("toFingersTopic", 100);
-    toCamPub = node.advertise<std_msgs::ByteMultiArray>("camera_topic", 100);
-    fromFingersSub = node.subscribe<std_msgs::ByteMultiArray>("fromFingersTopic", 100, &UDPServer::from_finger_handle_receive, this);
-    fromCamBatSub = node.subscribe<std_msgs::ByteMultiArray>("bat_cam_topic", 100, &UDPServer::from_cam_bat_handle_receive, this);
+    toFingersPub = node.advertise<std_msgs::ByteMultiArray>("toFingersTopic", 10);
+    toCamPub = node.advertise<std_msgs::ByteMultiArray>("camera_topic", 10);
+    fromFingersSub = node.subscribe<std_msgs::ByteMultiArray>("fromFingersTopic", 10, &UDPServer::from_finger_handle_receive, this);
+    fromCamBatSub = node.subscribe<std_msgs::ByteMultiArray>("bat_cam_topic", 10, &UDPServer::from_cam_bat_handle_receive, this);
     boost::bind(&UDPServer::udp_handle_receive, this, boost::asio::placeholders::error, boost::asio::placeholders::bytes_transferred);
     read_msg_udp();
   }

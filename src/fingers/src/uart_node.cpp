@@ -123,13 +123,6 @@ int main(int argc, char** argv)
 {
   std::string devPort = "0";
   std::string baudrate = "19200"; 
-        // if(argc == 3) {
-        //      devPort = argv[1];
-  //  baudrate = argv[2];
-        // } else {
-        //      std::cerr << "[program_name][/dev/ttyS(0, 1...)][baudrate]" << std::endl;
-        //      return -1;
-        // }
 
   ros::param::param<std::string> ("~_UART_baudrate", baudrate, "19200");
   try{

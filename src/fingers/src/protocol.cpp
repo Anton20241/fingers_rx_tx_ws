@@ -373,18 +373,19 @@ namespace protocol_master
     }
 
     bool ProtocolMaster::parserOk(uint8_t* dataUart, uint32_t& dataUartSize){
-        if (dataUartSize != 8 && dataUartSize != 5)                                                     return false;
-        if (dataUart[0] != 0)                                                                           return false;
-        if (dataUartSize == 8 && dataUart[1] != 8 || dataUartSize == 5 && dataUart[1] != 5)             return false;
-        if (dataUartSize == 8 && dataUart[2] != 0 || dataUartSize == 5 && dataUart[2] != 0x70)          return false;
+        if ((dataUartSize != 8) && (dataUartSize != 5))                                                     return false;
+        if (dataUart[0] != 0)                                                                               return false;
+        if ((dataUartSize == 8 && dataUart[1] != 8) || (dataUartSize == 5 && dataUart[1] != 5))             return false;
+        if ((dataUartSize == 8 && dataUart[2] != 0) || (dataUartSize == 5 && dataUart[2] != 0x70))          return false;
         uint8_t crc_8 = umba_crc8_table(dataUart, dataUartSize - sizeof(uint8_t));
-        if (dataUart[dataUartSize - sizeof(uint8_t)] != crc_8)                                          return false;
+        if (dataUart[dataUartSize - sizeof(uint8_t)] != crc_8)                                              return false;
         return true;
     }
 
     void ProtocolMaster::updateDataUart(uint8_t* dataUart, uint32_t& dataUartSize){
-        if (dataUartSize <= 2)                                                                          return;
-        if (dataUartSize < 8 && dataUart[1] == 8 || dataUartSize < 5 && dataUart[1] == 5)               return;
+        if ((dataUartSize <= 2) && (dataUart[0] == 0))                                                          return;
+        if ((dataUartSize < 8 && dataUart[1] == 8) || (dataUartSize < 5 && dataUart[1] == 5))                   return;
+        if ((dataUartSize < 8 && dataUart[2] == 0) || (dataUartSize < 5 && dataUart[2] == 0x70))                return;
         memset(dataUart, 0, dataUartSize);
         dataUartSize = 0;
     }

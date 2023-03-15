@@ -104,6 +104,8 @@ private:
       currentState.time_down                  = recvdMsg->data[1];
       resvdFromAllDev                        |= recvdMsg->data[2];
       startShutDownProcess();
+    } else if (recvdMsg->data.size() == 1){
+      resvdFromAllDev                        |= recvdMsg->data[0];
     } else return;
     recvd_count_topic_cam_bat++;
     std::cout << "RECVD FROM TOPIC bat_cam_topic recvdMsg->data.size() = " << recvdMsg->data.size() << std::endl;
@@ -116,7 +118,7 @@ private:
 
   void startShutDownProcess(){
     std::cout << "\n!!!!!!!!!!!!!!!!!!!!SHUT_DOWN!!!!!!!!!!!!!!!!!!!!\n";
-    system("shutdown -P now");
+    system("shutdown -h now");
   }
 
   void udp_handle_receive(const boost::system::error_code& error, size_t bytes_transferred) {

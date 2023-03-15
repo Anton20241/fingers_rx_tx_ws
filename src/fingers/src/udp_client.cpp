@@ -163,9 +163,11 @@ int main(int argc, char* argv[])
       ros::init(argc, argv, "udp_client");
       boost::asio::io_context io_context;
       UDPClient udpClient(io_context);
-      while(1){
+      uint32_t count = 0;
+      while(count < 100){
           udpClient.sendMsg();
           ros::spinOnce();
+          count++;
       }
     } catch (std::exception e){
 		  //std::cerr << "Exeption: " << e.what() << std::endl;

@@ -126,6 +126,7 @@ namespace protocol_master
             void collectPkg(uint8_t* resvdData, uint32_t resvdBytes, uint8_t* dataUart, uint32_t& dataUartSize);
             bool parserOk(uint8_t* dataUart, uint32_t& dataUartSize);
             void updateDataUart(uint8_t* dataUart, uint32_t& dataUartSize);
+            bool parser(uint8_t* ptrBuff, uint32_t len);
 
     };
 }

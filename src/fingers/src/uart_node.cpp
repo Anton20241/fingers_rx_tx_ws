@@ -22,21 +22,43 @@ public:
     };
 
   void UART_process(){
-    if(m_protocol.sendCmdReadUART(0x01, from_board_data, &from_board_dataSize))
-    {
-      static uint32_t count = 0;
-      count++;
-      resvdFromDev |= 128;
-      tp_last = boost::chrono::system_clock::now();
-      cam_bat_time = tp_last - tp_first;
-      std::cout << "\nReceived BOARD DATA:\n";
-      printf("count = [%u]\n",count);
-      for (size_t i = 0; i < from_board_dataSize; i++){
-        printf("[%u]",from_board_data[i]);
+    if (msg_sent){
+      std::this_thread::sleep_for(std::chrono::milliseconds(1));
+      uint32_t fail_count = 0;
+
+      if (m_protocol.sendCmdReadUART(0x01, from_board_data, &from_board_dataSize)){
+        msg_sent = false;
+        resvdFromDev |= 128;
+        pub_board_data();
+      } else {
+        fail_count++;
+        if (fail_count >= 5){
+          std::cout << "\nRECEIVE ERROR\n";
+          resvdFromDev = 0;
+          memset(from_board_data, 0, from_board_dataSize);
+          from_board_dataSize = 1;
+          from_board_data[0] = 0;
+          pub_board_data();
+        }
       }
-      std::cout << "\nTime since previos msg:" << cam_bat_time << '\n';
-      tp_first = boost::chrono::system_clock::now();
-      pub_board_data();
+      
+    } else {
+      uint32_t fail_count = 0;
+      if (m_protocol.sendCmdReadUART(0x01, from_board_data, &from_board_dataSize)){
+        resvdFromDev |= 128;
+        pub_board_data();
+      } else {
+        fail_count++;
+        if (fail_count >= 70000){
+          std::cout << "\nRECEIVE ERROR\n";
+          resvdFromDev = 0;
+          memset(from_board_data, 0, from_board_dataSize);
+          from_board_dataSize = 1;
+          from_board_data[0] = 0;
+          pub_board_data();
+        }
+      }
+      std::this_thread::sleep_for(std::chrono::milliseconds(1));
     }
   }
 
@@ -54,6 +76,10 @@ private:
   boost::chrono::duration<double> cam_bat_time;
   uint8_t resvdFromDev = 0;
   std::mutex my_mytex;
+  uint8_t cam_status;
+  uint8_t relay_state;
+
+  bool msg_sent = false;
 
   void pub_board_data() //create and pub ros message 
   {
@@ -73,6 +99,9 @@ private:
       to_bat_cam_topic[3] = from_board_data[6]; //relay_state
       to_bat_cam_topic[4] = resvdFromDev;       //all_ok
       bytesToSendCount = 5;
+    } else if(from_board_dataSize == 1) {
+      to_bat_cam_topic[0] = resvdFromDev;       //all_ok
+      bytesToSendCount = 1;
     } else {
       return;
     }
@@ -99,8 +128,8 @@ private:
   void cam_callback(const std_msgs::ByteMultiArray::ConstPtr& camStatus)
   {
     recvd_count_topic++;
-    uint8_t cam_status = camStatus->data[0];
-    uint8_t relay_state = camStatus->data[1];
+    cam_status = camStatus->data[0];
+    relay_state = camStatus->data[1];
 
     std::cout << "\nrecvd_count_topic = " << recvd_count_topic << std::endl;
     std::cout << "CAMERA STATUS ";
@@ -108,14 +137,9 @@ private:
     std::cout << "RELAY STATUS ";
     printf("%u\n", relay_state);
     uint8_t toRelaySet[2] = {1, relay_state};
-    if (m_protocol.sendCmdWrite(0x01, 0x20, toRelaySet, sizeof(toRelaySet))){
-      resvdFromDev |= 128;
-    }
-    if (m_protocol.sendCmdReadWriteUART(0x01, 0x10, &cam_status, sizeof(uint8_t), from_board_data, &from_board_dataSize)){
-      resvdFromDev &= 128;
-    }
-    pub_board_data();
-    std::cout << endl;  
+    m_protocol.sendCmdWrite(0x01, 0x20, toRelaySet, sizeof(toRelaySet));
+    m_protocol.sendCmdWrite(0x01, 0x10, &cam_status, sizeof(uint8_t));
+    msg_sent = true;
   }
 };
 

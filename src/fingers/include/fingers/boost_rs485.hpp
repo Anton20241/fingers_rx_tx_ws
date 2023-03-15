@@ -1,5 +1,4 @@
-
-/**
+/*
  *  @file       boost_rs485.hpp
  *  @brief
  */
@@ -38,6 +37,7 @@ namespace boost_rs485
         uint32_t m_recvdCount = 0;
         std::mutex channel__access;
         size_t recvd_bytes_RS = 0;
+        std::mutex my_mytex;
 
         // static std::size_t completion_condition( const boost::system::error_code& error, std::size_t bytes_transferred){
         //     if(error){
@@ -52,6 +52,7 @@ namespace boost_rs485
 
         void read_handler(const boost::system::error_code& error,size_t bytes_transferred)
         {
+            my_mytex.lock();
             if(!error && bytes_transferred > 0){
                 // std::chrono::microseconds mcs = std::chrono::duration_cast< std::chrono::microseconds >
                 //     (std::chrono::system_clock::now().time_since_epoch());
@@ -61,20 +62,18 @@ namespace boost_rs485
                 recvd_bytes_RS = bytes_transferred;
                 std::memset(m_copyRecvdData, 0, sizeof(m_copyRecvdData));
                 memcpy(m_copyRecvdData, m_recvdData, sizeof(m_copyRecvdData));
-                // std::cout << "\nport read returns: " + error.message();
-                // printf("\n[M RECEIVED]:\n"
-                // "[%u][%u][%u][%u\t][%u][%u][%u][%u][%u][%u][%u][%u][%u][%u][%u][%u]\n"
-                // "m_recvdCount = %u\n"
-                // "m_sendCount = %u\n",
-                // m_copyRecvdData[0], m_copyRecvdData[1], m_copyRecvdData[2], m_copyRecvdData[3],
-                // m_copyRecvdData[4], m_copyRecvdData[5], m_copyRecvdData[6], m_copyRecvdData[7], 
-                // m_copyRecvdData[8], m_copyRecvdData[9], m_copyRecvdData[10], m_copyRecvdData[11],
-                // m_copyRecvdData[12], m_copyRecvdData[13], m_copyRecvdData[14], m_copyRecvdData[15], m_recvdCount, m_sendCount);
-                // cout << "bytes_transferred: "<< bytes_transferred << endl;
+                printf("\n[M RECEIVED]:\n"
+                "[%u][%u][%u][%u\t][%u][%u][%u][%u]\n"
+                "m_recvdCount = %u\n"
+                "m_sendCount = %u\n",
+                m_copyRecvdData[0], m_copyRecvdData[1], m_copyRecvdData[2], m_copyRecvdData[3],
+                m_copyRecvdData[4], m_copyRecvdData[5], m_copyRecvdData[6], m_copyRecvdData[7], m_recvdCount, m_sendCount);
+                cout << "bytes_transferred: "<< bytes_transferred << endl;
             } else {
                 std::cout << "\n[ERROR RESEIVED FROM RS485]\n";
             }
             getData();
+            my_mytex.unlock();
         }
 
     public: 

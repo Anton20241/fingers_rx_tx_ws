@@ -40,6 +40,7 @@ private:
 	udp::socket socket_;
 	udp::endpoint sender_endpoint_;
 	uint8_t dataFromUDP[42] = {0};
+  uint32_t dataFromUDPSize = 42;
 	uint8_t dataToUDP[69] = {0};
   uint8_t dataToTopic[31] = {0};
   uint8_t dataFromTopic[56] = {0};
@@ -223,6 +224,14 @@ private:
   bool parserUDP(uint8_t* dataFromUDP){
     if (dataFromUDP[0] != 0xAA) return false;
     if (dataFromUDP[1] != 0xBB) return false;
+    /* Если длина пакета не валидная, ошибка */
+    if (getLen(dataFromUDP) != dataFromUDPSize) {
+      return false;
+    }
+    /* Если контрольная сумма не совпадает, приняли муссор, ошибка */
+    if (umba_crc8_table(dataFromUDP, dataFromUDPSize - sizeof(uint8_t)) != getCrc8(dataFromUDP, dataFromUDPSize)) {
+      return false;
+    }
     return true;
   }
 
@@ -230,6 +239,12 @@ private:
   {
     return ptrBuff[2];
   }
+
+  static inline uint8_t getCrc8(uint8_t* ptrBuff, uint32_t len)
+  {
+    return ptrBuff[len - sizeof(uint8_t)];
+  }
+
 };
 
 int main(int argc, char** argv){

@@ -23,41 +23,29 @@ public:
 
   void UART_process(){
     if (msg_sent){
+      bool getResponse = false;
       std::this_thread::sleep_for(std::chrono::milliseconds(1));
-      uint32_t fail_count = 0;
-
-      if (m_protocol.sendCmdReadUART(0x01, from_board_data, &from_board_dataSize)){
+      if (m_protocol.sendCmdReadUART(0x01, from_board_data, &from_board_dataSize, getResponse, msg_sent, cam_status)){
         msg_sent = false;
         resvdFromDev |= 128;
         pub_board_data();
       } else {
-        fail_count++;
-        if (fail_count >= 5){
-          std::cout << "\nRECEIVE ERROR\n";
-          resvdFromDev = 0;
-          memset(from_board_data, 0, from_board_dataSize);
-          from_board_dataSize = 1;
-          from_board_data[0] = 0;
-          pub_board_data();
-        }
+        getError();
       }
       
     } else {
-      uint32_t fail_count = 0;
-      if (m_protocol.sendCmdReadUART(0x01, from_board_data, &from_board_dataSize)){
+      static uint32_t fail_count = 0;
+      bool getResponse = false;
+      if (m_protocol.sendCmdReadUART(0x01, from_board_data, &from_board_dataSize, getResponse, msg_sent, cam_status)){
         resvdFromDev |= 128;
         pub_board_data();
       } else {
-        fail_count++;
-        if (fail_count >= 70000){
-          std::cout << "\nRECEIVE ERROR\n";
-          resvdFromDev = 0;
-          memset(from_board_data, 0, from_board_dataSize);
-          from_board_dataSize = 1;
-          from_board_data[0] = 0;
-          pub_board_data();
+        if (!getResponse || fail_count >= 70000){
+          fail_count = 0;
+          getError();
         }
       }
+      fail_count++;
       std::this_thread::sleep_for(std::chrono::milliseconds(1));
     }
   }
@@ -80,6 +68,15 @@ private:
   uint8_t relay_state;
 
   bool msg_sent = false;
+
+  void getError(){
+    std::cout << "\n[RECEIVE ERROR FROM UART]\n";
+    resvdFromDev = 0;
+    memset(from_board_data, 0, from_board_dataSize);
+    from_board_dataSize = 1;
+    from_board_data[0] = 0;
+    pub_board_data();
+  }
 
   void pub_board_data() //create and pub ros message 
   {
@@ -120,7 +117,7 @@ private:
     std::cout << std::endl;
     bat_cam_pub.publish(toBatCamTopicMsg);
     memset(to_bat_cam_topic, 0, sizeof(to_bat_cam_topic));
-    std::memset(from_board_data, 0, from_board_dataSize);
+    memset(from_board_data, 0, from_board_dataSize);
     from_board_dataSize = 0;
     resvdFromDev = 0;
   }

@@ -88,7 +88,7 @@ namespace protocol
 
             void process();
 
-        private: //был private
+        private: 
             i_transport::ITransport&    m_transport;
             tabl_reg::TablReg&          m_tabl;
             uint8_t                     m_addr;
@@ -117,13 +117,14 @@ namespace protocol_master
             bool sendSomeCmd(const uint8_t* dataTo, uint32_t dataToSize, uint8_t* dataFrom, uint32_t* dataFromSize);
 
             //UART
-            bool sendCmdReadUART(uint8_t addressTo, uint8_t* dataFrom, uint32_t* dataFromSize);
+            bool sendCmdReadUART(uint8_t addressTo, uint8_t* dataFrom, uint32_t* dataFromSize, 
+                                        bool& getResponse, bool wait_response, uint8_t cam_status);
             bool sendCmdReadWriteUART(uint8_t addressTo, uint8_t cmd, const uint8_t* dataTo, uint32_t dataToSize, 
                                         uint8_t* dataFrom, uint32_t* dataFromSize);
 
         private:
             i_transport::ITransport&    m_transport;
-            void collectPkg(uint8_t* resvdData, uint32_t resvdBytes, uint8_t* dataUart, uint32_t& dataUartSize);
+            void collectPkg(uint8_t* resvdData, uint32_t resvdBytes, uint8_t* dataUart, uint32_t& dataUartSize, bool pkgIsReady);
             bool parserOk(uint8_t* dataUart, uint32_t& dataUartSize);
             void updateDataUart(uint8_t* dataUart, uint32_t& dataUartSize);
             bool parser(uint8_t* ptrBuff, uint32_t len);

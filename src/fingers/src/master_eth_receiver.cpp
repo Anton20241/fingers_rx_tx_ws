@@ -5,7 +5,7 @@
 #include "umba_crc_table.h"
 #include <mutex>
 
-#define PORT 1234
+#define PORT 20002
 
 using boost::asio::ip::udp;
 using boost::asio::ip::address;
@@ -42,8 +42,8 @@ private:
 	uint8_t dataFromUDP[42] = {0};
   uint32_t dataFromUDPSize = 42;
 	uint8_t dataToUDP[69] = {0};
-  uint8_t dataToTopic[31] = {0};
-  uint8_t dataFromTopic[56] = {0};
+  uint8_t dataToFingersTopic[31] = {0};
+  uint8_t dataFromFingersTopic[56] = {0};
   ros::NodeHandle node;
   ros::Publisher toFingersPub;
   ros::Subscriber fromFingersSub;
@@ -66,6 +66,8 @@ private:
     uint8_t bat_48V = 0;
     uint8_t relay_state_from_udp = 0;
     uint8_t relay_state_from_bat_cam = 0;
+    uint8_t camera_from_udp_prev = 0;
+    uint8_t relay_state_from_udp_prev = 0;
     uint8_t keepalive[4] = {0};
     uint8_t cmdBatCamTopic = 0;
     uint8_t time_down = 0;
@@ -79,16 +81,16 @@ private:
   void from_finger_handle_receive(const std_msgs::ByteMultiArray::ConstPtr& recvdMsg) {
     getMsgFromFingers = true;
     recvd_count_topic_fingers++;
-    memset(dataFromTopic, 0, sizeof(dataFromTopic));
+    memset(dataFromFingersTopic, 0, sizeof(dataFromFingersTopic));
     std::cout << "\nRECVD FROM TOPIC fromFingersTopic recvdMsg->data.size() = " << recvdMsg->data.size() << std::endl;
     std::cout << "recvd_count_topic_fingers = " << recvd_count_topic_fingers << std::endl;
     for (int i = 0; i < recvdMsg->data.size(); i++){
-        dataFromTopic[i] = recvdMsg->data[i];
-        printf("[%u]", dataFromTopic[i]);
+        dataFromFingersTopic[i] = recvdMsg->data[i];
+        printf("[%u]", dataFromFingersTopic[i]);
     }
     std::cout << std::endl;
-    currentState.hand_mount = dataFromTopic[sizeof(dataFromTopic) - 2 * sizeof(uint8_t)];
-    resvdFromAllDev |= dataFromTopic[sizeof(dataFromTopic) - sizeof(uint8_t)]; //get answers from all fingers
+    currentState.hand_mount = dataFromFingersTopic[sizeof(dataFromFingersTopic) - 2 * sizeof(uint8_t)];
+    resvdFromAllDev |= dataFromFingersTopic[sizeof(dataFromFingersTopic) - sizeof(uint8_t)]; //get answers from all fingers
   }
 
   void from_cam_bat_handle_receive(const std_msgs::ByteMultiArray::ConstPtr& recvdMsg) {
@@ -129,7 +131,7 @@ private:
         std::cout << "UDP data not valid\n";
         return;
       }
-      memset(dataToTopic, 0, sizeof(dataToTopic));
+      memset(dataToFingersTopic, 0, sizeof(dataToFingersTopic));
       memset(currentState.keepalive, 0, sizeof(currentState.keepalive));
       recvd_count_udp++;
       std::cout << "\nRECVD FROM UDP bytes_transferred = " << bytes_transferred << std::endl;
@@ -138,7 +140,7 @@ private:
         printf("[%u]", dataFromUDP[i]);
       }
       std::cout << std::endl;
-      memcpy(dataToTopic, dataFromUDP + 3, sizeof(dataToTopic)); //fingers + hand_mount
+      memcpy(dataToFingersTopic, dataFromUDP + 3, sizeof(dataToFingersTopic)); //fingers + hand_mount
       currentState.hold_position = dataFromUDP             [sizeof(dataFromUDP) - 8 * sizeof(uint8_t)];
       currentState.camera_from_udp = dataFromUDP           [sizeof(dataFromUDP) - 7 * sizeof(uint8_t)];
       currentState.relay_state_from_udp = dataFromUDP      [sizeof(dataFromUDP) - 6 * sizeof(uint8_t)];
@@ -159,23 +161,27 @@ private:
     std_msgs::ByteMultiArray sendMsgToFingersTopic;
     sendMsgToFingersTopic.layout.dim.push_back(std_msgs::MultiArrayDimension());
     sendMsgToFingersTopic.layout.dim[0].size = 1;
-    sendMsgToFingersTopic.layout.dim[0].stride = sizeof(dataToTopic);
+    sendMsgToFingersTopic.layout.dim[0].stride = sizeof(dataToFingersTopic);
     sendMsgToFingersTopic.data.clear();
     std::cout << "SEND TO toFingersTopic: ";
-    for (int i = 0; i < sizeof(dataToTopic); i++){
-      printf("[%u]", dataToTopic[i]);
-      sendMsgToFingersTopic.data.push_back(dataToTopic[i]);
+    for (int i = 0; i < sizeof(dataToFingersTopic); i++){
+      printf("[%u]", dataToFingersTopic[i]);
+      sendMsgToFingersTopic.data.push_back(dataToFingersTopic[i]);
     }
     toFingersPub.publish(sendMsgToFingersTopic);
     std::cout << std::endl;
   }
 
   void sendMsgToCamBat(){
+    if (currentState.camera_from_udp == currentState.camera_from_udp_prev &&
+          currentState.relay_state_from_udp == currentState.relay_state_from_udp_prev) return;
+    currentState.camera_from_udp_prev = currentState.camera_from_udp;
+    currentState.relay_state_from_udp_prev = currentState.relay_state_from_udp;
     //отправка пакета в топик "camera_topic"
     std_msgs::ByteMultiArray sendMsgToCameraTopic;
     sendMsgToCameraTopic.layout.dim.push_back(std_msgs::MultiArrayDimension());
     sendMsgToCameraTopic.layout.dim[0].size = 1;
-    sendMsgToCameraTopic.layout.dim[0].stride = sizeof(dataToTopic);
+    sendMsgToCameraTopic.layout.dim[0].stride = sizeof(dataToFingersTopic);
     sendMsgToCameraTopic.data.clear();
     std::cout << "SEND TO camera_topic:\n";
     printf("camera_from_udp = [%u]\n", currentState.camera_from_udp);
@@ -191,7 +197,7 @@ private:
     dataToUDP[0] = 0xBB;                                                                            //header 1b
     dataToUDP[1] = 0xAA;                                                                            //header 1b
     dataToUDP[2] = sizeof(dataToUDP);                                                               //data length 1b
-    memcpy(dataToUDP + 3, dataFromTopic, sizeof(dataFromTopic) - sizeof(uint8_t));                  //data from fingers 9*6b
+    memcpy(dataToUDP + 3, dataFromFingersTopic, sizeof(dataFromFingersTopic) - sizeof(uint8_t));                  //data from fingers 9*6b
     dataToUDP[sizeof(dataToUDP) - 12 * sizeof(uint8_t)] = currentState.hand_mount;                  //hand_mount 1b
     dataToUDP[sizeof(dataToUDP) - 11 * sizeof(uint8_t)] = currentState.hold_position;               //hold_position 1b
     dataToUDP[sizeof(dataToUDP) - 10 * sizeof(uint8_t)] = currentState.camera_from_bat_cam;         //camera_from_bat_cam 1b
@@ -221,6 +227,16 @@ private:
     }
   }
 
+  static inline uint8_t getLen(uint8_t* ptrBuff)
+  {
+    return ptrBuff[2];
+  }
+
+  static inline uint8_t getCrc8(uint8_t* ptrBuff, uint32_t len)
+  {
+    return ptrBuff[len - sizeof(uint8_t)];
+  }
+
   bool parserUDP(uint8_t* dataFromUDP){
     if (dataFromUDP[0] != 0xAA) return false;
     if (dataFromUDP[1] != 0xBB) return false;
@@ -234,17 +250,6 @@ private:
     }
     return true;
   }
-
-  static inline uint8_t getLen(uint8_t* ptrBuff)
-  {
-    return ptrBuff[2];
-  }
-
-  static inline uint8_t getCrc8(uint8_t* ptrBuff, uint32_t len)
-  {
-    return ptrBuff[len - sizeof(uint8_t)];
-  }
-
 };
 
 int main(int argc, char** argv){

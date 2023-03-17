@@ -345,7 +345,7 @@ namespace protocol_master
         uint32_t not_bytes_received = 0;
 
         while (1){
-            bool pkgIsReady = false;
+            bool pkgIsReadyForParsing = false;
 
             //get bytes
             std::memset(recvdBuff, 0, sizeof(recvdBuff));
@@ -353,13 +353,13 @@ namespace protocol_master
             m_transport.getData(recvdBuff, &recvdBuffSize);
 
             if (!byteIsGetBefore && (recvdBuffSize == 0) && !wait_response){
-                getResponse = true;
+                getResponse = !wait_response;
                 return false;
 
             } else if ((!byteIsGetBefore && (recvdBuffSize == 0) && wait_response) ||
                             (byteIsGetBefore && (recvdBuffSize == 0))){
                 not_bytes_received++;
-                if (not_bytes_received > 8){
+                if (not_bytes_received > 6){
                     getResponse = false;
                     return false;
                 }
@@ -369,10 +369,10 @@ namespace protocol_master
             } else if (recvdBuffSize != 0){
                 not_bytes_received = 0;
                 byteIsGetBefore = true;
-                collectPkg(recvdBuff, recvdBuffSize, dataFrom, *dataFromSize, pkgIsReady);
+                collectPkg(recvdBuff, recvdBuffSize, dataFrom, *dataFromSize, pkgIsReadyForParsing);
             }
 
-            if (!pkgIsReady){
+            if (!pkgIsReadyForParsing){
                 std::this_thread::sleep_for(std::chrono::milliseconds(1));
                 continue;
             }
@@ -395,12 +395,12 @@ namespace protocol_master
     }
 
     void ProtocolMaster::collectPkg(uint8_t* resvdData, uint32_t resvdBytes, 
-            uint8_t* dataUart, uint32_t& dataUartSize, bool pkgIsReady){
+            uint8_t* dataUart, uint32_t& dataUartSize, bool pkgIsReadyForParsing){
 
         memcpy(dataUart + dataUartSize, resvdData, resvdBytes);
         dataUartSize += resvdBytes;
-        if (dataUartSize == 8) pkgIsReady = true;
-        if (dataUartSize == 5 && dataUart[1] == 5) pkgIsReady = true;
+        if (dataUartSize >= 8) pkgIsReadyForParsing = true;
+        if (dataUartSize >= 5 && dataUart[1] == 5) pkgIsReadyForParsing = true;
     }
 
     // bool ProtocolMaster::parserOk(uint8_t* dataUart, uint32_t& dataUartSize){

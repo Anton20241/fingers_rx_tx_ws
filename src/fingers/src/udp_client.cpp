@@ -11,8 +11,8 @@
 using boost::asio::ip::udp;
 using boost::asio::ip::address;
 
-#define PORT 1234
-#define IP "192.168.43.212"
+#define PORT 20002
+#define IP "192.168.43.211"
 
 class UDPClient
 {
@@ -25,8 +25,7 @@ public:
     }
 
     void sendMsg() {
-        auto start = std::chrono::high_resolution_clock::now();
-
+    
         uint8_t msg[] =       {0xAA, 0xBB, 42,          //header
                                0x1, 0x2, 0x3, 0x4, 0x5, //data to fingers
                                0x1, 0x2, 0x3, 0x4, 0x5, //data to fingers
@@ -101,43 +100,71 @@ public:
                                crc8_2                   //crc8_2
                                };
 
+        uint8_t msg3[] =      {0xAA, 0xBB, 42,          //header
+                               0x1, 0x2, 0x3, 0x4, 0x5, //data to fingers
+                               0x1, 0x2, 0x3, 0x4, 0x5, //data to fingers
+                               0x1, 0x2, 0x3, 0x4, 0x5, //data to fingers
+                               0x1, 0x2, 0x3, 0x4, 0x5, //data to fingers 
+                               0x1, 0x2, 0x3, 0x4, 0x5, //data to fingers
+                               0x1, 0x2, 0x3, 0x4, 0x5, //data to fingers
+                               0x6,                     //hand_mount
+                               0x7,                     //hold_position
+                               0x2,                     //camera_from_bat_cam
+                               0x9,                     //relay_state
+                               0x1,                     //keepalive
+                               0x1,                     //keepalive
+                               0x1,                     //keepalive
+                               0x1                      //keepalive
+                               };
+
+        uint8_t crc8_3 = umba_crc8_table(msg3, sizeof(msg3));
+
+        uint8_t msgToSend3[] = {0xAA, 0xBB, 42,         //header
+                               0x1, 0x2, 0x3, 0x4, 0x5, //data to fingers
+                               0x1, 0x2, 0x3, 0x4, 0x5, //data to fingers
+                               0x1, 0x2, 0x3, 0x4, 0x5, //data to fingers
+                               0x1, 0x2, 0x3, 0x4, 0x5, //data to fingers 
+                               0x1, 0x2, 0x3, 0x4, 0x5, //data to fingers
+                               0x1, 0x2, 0x3, 0x4, 0x5, //data to fingers
+                               0x6,                     //hand_mount
+                               0x7,                     //hold_position
+                               0x2,                     //camera_from_bat_cam
+                               0x9,                     //relay_state
+                               0x1,                     //keepalive
+                               0x1,                     //keepalive
+                               0x1,                     //keepalive
+                               0x1,                     //keepalive
+                               crc8_3                   //crc8_2
+                               };
+        
+        std::vector <uint8_t*> msg_vec = {msgToSend, msgToSend2, msgToSend3};
 
         static uint32_t send_count = 0;
         boost::system::error_code err;
-        if (send_count & 1){
-            auto sent = socket_.send_to(boost::asio::buffer(msgToSend), sender_endpoint_, 0, err);
+
+        for (size_t i = 0; i < msg_vec.size(); i++)
+        {
+            auto start = std::chrono::high_resolution_clock::now();
+            auto sent = socket_.send_to(boost::asio::buffer(msg_vec[i],42), sender_endpoint_, 0, err);
             if (!err && sent > 0){
-                std::cout << "SEND TO UDP: ";
-                for (int i = 0; i < sizeof(msgToSend); i++){
-                    printf("[%u]", msgToSend[i]);
+                std::cout << "SEND TO UDP: ";   
+                for (int k = 0; k < 42; k++){
+                    printf("[%u]", msg_vec[i][k]);
                 }
                 std::cout << std::endl;
                 send_count++;
                 std::cout << "Sent Payload = " << sent << "\n";
                 std::cout << "send_count = " << send_count << "\n";
                 //printf("[crc8 = %u\n]", crc8);
-                std::this_thread::sleep_for(std::chrono::microseconds(10000));
+                std::this_thread::sleep_for(std::chrono::microseconds(1000000));
             }
-        } else {
-            auto sent = socket_.send_to(boost::asio::buffer(msgToSend2), sender_endpoint_, 0, err);
-            if (!err && sent > 0){
-                std::cout << "SEND TO UDP: ";
-                for (int i = 0; i < sizeof(msgToSend2); i++){
-                    printf("[%u]", msgToSend2[i]);
-                }
-                std::cout << std::endl;
-                send_count++;
-                std::cout << "Sent Payload = " << sent << "\n";
-                std::cout << "send_count = " << send_count << "\n";
-                //printf("[crc8 = %u\n]", crc8);
-                std::this_thread::sleep_for(std::chrono::microseconds(10000));
-            }
+            auto end = std::chrono::high_resolution_clock::now();
+            std::chrono::duration<float> duration = end - start;
+            float mls = duration.count() * 1000;
+            std::cout << "mls: " << mls << std::endl;
         }
 
-        auto end = std::chrono::high_resolution_clock::now();
-        std::chrono::duration<float> duration = end - start;
-        float mls = duration.count() * 1000;
-        std::cout << "mls: " << mls << std::endl;
+        
     }
 
     ~UDPClient() {
@@ -164,7 +191,7 @@ int main(int argc, char* argv[])
       boost::asio::io_context io_context;
       UDPClient udpClient(io_context);
       uint32_t count = 0;
-      while(1){
+      while(count < 100){
           udpClient.sendMsg();
           ros::spinOnce();
           count++;

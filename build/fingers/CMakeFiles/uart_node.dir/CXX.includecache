@@ -6,9 +6,9 @@
 
 #IncludeRegexTransform: 
 
-/home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/include/fingers/boost_rs485.hpp
+/home/raspberrypi/rtc_work/fingers_rx_tx_ws/src/fingers/include/fingers/boost_rs485.hpp
 i_transport.hpp
-/home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/include/fingers/i_transport.hpp
+/home/raspberrypi/rtc_work/fingers_rx_tx_ws/src/fingers/include/fingers/i_transport.hpp
 boost/asio.hpp
 -
 boost/bind.hpp
@@ -26,29 +26,29 @@ thread
 mutex
 -
 
-/home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/include/fingers/i_transport.hpp
+/home/raspberrypi/rtc_work/fingers_rx_tx_ws/src/fingers/include/fingers/i_transport.hpp
 stdint.h
 -
 stdbool.h
 -
 
-/home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/include/fingers/protocol.hpp
+/home/raspberrypi/rtc_work/fingers_rx_tx_ws/src/fingers/include/fingers/protocol.hpp
 i_transport.hpp
-/home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/include/fingers/i_transport.hpp
+/home/raspberrypi/rtc_work/fingers_rx_tx_ws/src/fingers/include/fingers/i_transport.hpp
 tabl_reg.hpp
-/home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/include/fingers/tabl_reg.hpp
+/home/raspberrypi/rtc_work/fingers_rx_tx_ws/src/fingers/include/fingers/tabl_reg.hpp
 
-/home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/include/fingers/tabl_reg.hpp
+/home/raspberrypi/rtc_work/fingers_rx_tx_ws/src/fingers/include/fingers/tabl_reg.hpp
 stdint.h
 -
 stdbool.h
 -
 
-/home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/include/fingers/umba_crc_table.h
+/home/raspberrypi/rtc_work/fingers_rx_tx_ws/src/fingers/include/fingers/umba_crc_table.h
 stdint.h
 -
 
-/home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/src/uart_node.cpp
+/home/raspberrypi/rtc_work/fingers_rx_tx_ws/src/fingers/src/uart_node.cpp
 iostream
 -
 boost/asio.hpp
@@ -58,13 +58,13 @@ ros/ros.h
 std_msgs/ByteMultiArray.h
 -
 boost_rs485.hpp
-/home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/src/boost_rs485.hpp
+/home/raspberrypi/rtc_work/fingers_rx_tx_ws/src/fingers/src/boost_rs485.hpp
 boost/chrono.hpp
 -
 protocol.hpp
-/home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/src/protocol.hpp
+/home/raspberrypi/rtc_work/fingers_rx_tx_ws/src/fingers/src/protocol.hpp
 umba_crc_table.h
-/home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/src/umba_crc_table.h
+/home/raspberrypi/rtc_work/fingers_rx_tx_ws/src/fingers/src/umba_crc_table.h
 mutex
 -
 

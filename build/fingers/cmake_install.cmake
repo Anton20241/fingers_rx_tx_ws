@@ -1,8 +1,8 @@
-# Install script for directory: /home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers
+# Install script for directory: /home/raspberrypi/rtc_work/fingers_rx_tx_ws/src/fingers
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
-  set(CMAKE_INSTALL_PREFIX "/home/anton20241/rtc_work/fingers_rx_tx_ws/install")
+  set(CMAKE_INSTALL_PREFIX "/home/raspberrypi/rtc_work/fingers_rx_tx_ws/install")
 endif()
 string(REGEX REPLACE "/$" "" CMAKE_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}")
 
@@ -12,7 +12,7 @@ if(NOT DEFINED CMAKE_INSTALL_CONFIG_NAME)
     string(REGEX REPLACE "^[^A-Za-z0-9_]+" ""
            CMAKE_INSTALL_CONFIG_NAME "${BUILD_TYPE}")
   else()
-    set(CMAKE_INSTALL_CONFIG_NAME "")
+    set(CMAKE_INSTALL_CONFIG_NAME "debug")
   endif()
   message(STATUS "Install configuration: \"${CMAKE_INSTALL_CONFIG_NAME}\"")
 endif()
@@ -38,17 +38,17 @@ if(NOT DEFINED CMAKE_CROSSCOMPILING)
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/pkgconfig" TYPE FILE FILES "/home/anton20241/rtc_work/fingers_rx_tx_ws/build/fingers/catkin_generated/installspace/fingers.pc")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/pkgconfig" TYPE FILE FILES "/home/raspberrypi/rtc_work/fingers_rx_tx_ws/build/fingers/catkin_generated/installspace/fingers.pc")
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
   file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/fingers/cmake" TYPE FILE FILES
-    "/home/anton20241/rtc_work/fingers_rx_tx_ws/build/fingers/catkin_generated/installspace/fingersConfig.cmake"
-    "/home/anton20241/rtc_work/fingers_rx_tx_ws/build/fingers/catkin_generated/installspace/fingersConfig-version.cmake"
+    "/home/raspberrypi/rtc_work/fingers_rx_tx_ws/build/fingers/catkin_generated/installspace/fingersConfig.cmake"
+    "/home/raspberrypi/rtc_work/fingers_rx_tx_ws/build/fingers/catkin_generated/installspace/fingersConfig-version.cmake"
     )
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/fingers" TYPE FILE FILES "/home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/package.xml")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/fingers" TYPE FILE FILES "/home/raspberrypi/rtc_work/fingers_rx_tx_ws/src/fingers/package.xml")
 endif()
 

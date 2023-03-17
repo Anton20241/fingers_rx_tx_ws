@@ -1,2 +1,2 @@
 fingers
--DCATKIN_DEVEL_PREFIX=/home/anton20241/rtc_work/fingers_rx_tx_ws/devel -DCMAKE_INSTALL_PREFIX=/home/anton20241/rtc_work/fingers_rx_tx_ws/install -G Unix Makefiles
+-DCATKIN_DEVEL_PREFIX=/home/raspberrypi/rtc_work/fingers_rx_tx_ws/devel -DCMAKE_INSTALL_PREFIX=/home/raspberrypi/rtc_work/fingers_rx_tx_ws/install -G Unix Makefiles

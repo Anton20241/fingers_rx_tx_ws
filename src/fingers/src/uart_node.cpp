@@ -24,7 +24,6 @@ public:
   void UART_process(){
     if (msg_sent){
       bool getResponse = false;
-      std::this_thread::sleep_for(std::chrono::milliseconds(6));
       if (m_protocol.sendCmdReadUART(0x01, from_board_data, &from_board_dataSize, getResponse, msg_sent, cam_status)){
         msg_sent = false;
         resvdFromDev |= 128;
@@ -69,15 +68,17 @@ private:
   bool msg_sent = false;
 
   void getError(){
+    static uint32_t failCount = 0;
+    failCount++;
+    std::cout << "failCount = " << failCount << std::endl;
     std::cout << "\n[RECEIVE ERROR FROM UART]\n";
-    resvdFromDev = 0;
-
     std::cout << "\n\n[NON-Valid MESSAGE]:\n";
     for (int i = 0; i < from_board_dataSize; i++){
         printf("[%u]", from_board_data[i]);
     }
     std::cout << "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" << std::endl;
 
+    resvdFromDev = 0;
     memset(from_board_data, 0, from_board_dataSize);
     from_board_dataSize = 1;
     from_board_data[0] = 0;
@@ -145,12 +146,14 @@ private:
       relay_state_prev = relay_state;
       std::cout << "\n[send UART msg with new relay_state]\n";
       m_protocol.sendCmdWrite(0x01, 0x20, toRelaySet, sizeof(toRelaySet));
+      std::this_thread::sleep_for(std::chrono::milliseconds(6));
       msg_sent = true;
     }
     if (cam_status != cam_status_prev){
       cam_status_prev = cam_status;
       std::cout << "\n[send UART msg with new cam_status]\n";
       m_protocol.sendCmdWrite(0x01, 0x10, &cam_status, sizeof(uint8_t));
+      std::this_thread::sleep_for(std::chrono::milliseconds(6));
       msg_sent = true;
     }
   }
@@ -163,9 +166,9 @@ int main(int argc, char** argv)
 
   ros::param::param<std::string> ("~_UART_baudrate", baudrate, "19200");
   try{
-    std::cout << "\nUART Node is running!\n" << "Baud rate: " << baudrate << ", Port: /dev/ttyUSB" << devPort << "\n";
+    std::cout << "\nUART Node is running!\n" << "Baud rate: " << baudrate << ", Port: /dev/ttyS" << devPort << "\n";
     ros::init(argc, argv, "uart_node");
-    boost_rs485::Boost_RS485_Async boostRS485_transp("/dev/ttyUSB" + devPort, (uint32_t)std::stoi(baudrate));
+    boost_rs485::Boost_RS485_Async boostRS485_transp("/dev/ttyS" + devPort, (uint32_t)std::stoi(baudrate));
     protocol_master::ProtocolMaster boostRS485_prot_master(boostRS485_transp);
     UART_Node uartNode(boostRS485_prot_master);
     while(ros::ok()){

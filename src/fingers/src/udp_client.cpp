@@ -116,7 +116,7 @@ public:
                 std::cout << "Sent Payload = " << sent << "\n";
                 std::cout << "send_count = " << send_count << "\n";
                 //printf("[crc8 = %u\n]", crc8);
-                std::this_thread::sleep_for(std::chrono::microseconds(1000000));
+                std::this_thread::sleep_for(std::chrono::microseconds(10000));
             }
         } else {
             auto sent = socket_.send_to(boost::asio::buffer(msgToSend2), sender_endpoint_, 0, err);
@@ -130,7 +130,7 @@ public:
                 std::cout << "Sent Payload = " << sent << "\n";
                 std::cout << "send_count = " << send_count << "\n";
                 //printf("[crc8 = %u\n]", crc8);
-                std::this_thread::sleep_for(std::chrono::microseconds(1000000));
+                std::this_thread::sleep_for(std::chrono::microseconds(10000));
             }
         }
 
@@ -164,7 +164,7 @@ int main(int argc, char* argv[])
       boost::asio::io_context io_context;
       UDPClient udpClient(io_context);
       uint32_t count = 0;
-      while(count < 100){
+      while(1){
           udpClient.sendMsg();
           ros::spinOnce();
           count++;

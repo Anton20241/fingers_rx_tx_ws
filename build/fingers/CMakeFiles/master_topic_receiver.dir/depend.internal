@@ -5,7 +5,7 @@ fingers/CMakeFiles/master_topic_receiver.dir/src/umba_crc_table.c.o
  /home/raspberrypi/rtc_work/fingers_rx_tx_ws/src/fingers/include/fingers/umba_crc_table.h
  /home/raspberrypi/rtc_work/fingers_rx_tx_ws/src/fingers/src/umba_crc_table.c
 fingers/CMakeFiles/master_topic_receiver.dir/src/master_topic_receiver.cpp.o
- /home/raspberrypi/rtc_work/fingers_rx_tx_ws/src/fingers/include/fingers/boost_rs485.hpp
+ /home/raspberrypi/rtc_work/fingers_rx_tx_ws/src/fingers/include/fingers/boost_serial.hpp
  /home/raspberrypi/rtc_work/fingers_rx_tx_ws/src/fingers/include/fingers/i_transport.hpp
  /home/raspberrypi/rtc_work/fingers_rx_tx_ws/src/fingers/include/fingers/protocol.hpp
  /home/raspberrypi/rtc_work/fingers_rx_tx_ws/src/fingers/include/fingers/tabl_reg.hpp

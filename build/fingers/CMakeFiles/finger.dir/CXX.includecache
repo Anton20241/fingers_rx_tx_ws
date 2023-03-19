@@ -6,7 +6,7 @@
 
 #IncludeRegexTransform: 
 
-/home/raspberrypi/rtc_work/fingers_rx_tx_ws/src/fingers/include/fingers/boost_rs485.hpp
+/home/raspberrypi/rtc_work/fingers_rx_tx_ws/src/fingers/include/fingers/boost_serial.hpp
 i_transport.hpp
 /home/raspberrypi/rtc_work/fingers_rx_tx_ws/src/fingers/include/fingers/i_transport.hpp
 boost/asio.hpp
@@ -48,9 +48,13 @@ stdbool.h
 tabl_reg.hpp
 /home/raspberrypi/rtc_work/fingers_rx_tx_ws/src/fingers/include/fingers/tabl_reg.hpp
 
+/home/raspberrypi/rtc_work/fingers_rx_tx_ws/src/fingers/include/fingers/umba_crc_table.h
+stdint.h
+-
+
 /home/raspberrypi/rtc_work/fingers_rx_tx_ws/src/fingers/src/finger.cpp
-boost_rs485.hpp
-/home/raspberrypi/rtc_work/fingers_rx_tx_ws/src/fingers/src/boost_rs485.hpp
+boost_serial.hpp
+/home/raspberrypi/rtc_work/fingers_rx_tx_ws/src/fingers/src/boost_serial.hpp
 protocol.hpp
 /home/raspberrypi/rtc_work/fingers_rx_tx_ws/src/fingers/src/protocol.hpp
 tabl_reg_config.hpp
@@ -59,6 +63,28 @@ iostream
 -
 ros/ros.h
 -
+
+/home/raspberrypi/rtc_work/fingers_rx_tx_ws/src/fingers/src/protocol.cpp
+protocol.hpp
+/home/raspberrypi/rtc_work/fingers_rx_tx_ws/src/fingers/src/protocol.hpp
+umba_crc_table.h
+/home/raspberrypi/rtc_work/fingers_rx_tx_ws/src/fingers/src/umba_crc_table.h
+assert.h
+-
+iostream
+-
+chrono
+-
+thread
+-
+cstring
+-
+
+/home/raspberrypi/rtc_work/fingers_rx_tx_ws/src/fingers/src/tabl_reg.cpp
+cstring
+-
+tabl_reg.hpp
+/home/raspberrypi/rtc_work/fingers_rx_tx_ws/src/fingers/src/tabl_reg.hpp
 
 /opt/ros/noetic/include/ros/advertise_options.h
 ros/forwards.h

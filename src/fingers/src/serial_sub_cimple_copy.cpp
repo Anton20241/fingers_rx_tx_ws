@@ -3,7 +3,7 @@
 #include "umba_crc_table.h"
 #include <ros/ros.h>
 #include <std_msgs/ByteMultiArray.h>
-#include "boost_rs485.hpp"
+#include "boost_serial.hpp"
 #include <boost/chrono.hpp>
 #include "protocol.hpp"
 #include <mutex>

@@ -1,4 +1,4 @@
-#include "boost_rs485.hpp"
+#include "boost_serial.hpp"
 #include "protocol.hpp"
 #include <tabl_reg_config.hpp>
 #include <iostream>
@@ -78,7 +78,7 @@ int main(int argc, char** argv) {
     printf("(uint32_t)std::stoi(baudrate) = %u\n", (uint32_t)std::stoi(baudrate));
 
 	try{
-        boost_rs485::Boost_RS485_Async boostRS485_transp("/dev/ttyUSB" + devPort, (uint32_t)std::stoi(baudrate));
+        boost_serial::Boost_Serial_Async boostRS485_transp("/dev/ttyUSB" + devPort, (uint32_t)std::stoi(baudrate));
         protocol_master::ProtocolMaster boostRS485_prot_master(boostRS485_transp);
         Boost_RS485_Server raspbPi(boostRS485_prot_master);
         raspbPi.polling();

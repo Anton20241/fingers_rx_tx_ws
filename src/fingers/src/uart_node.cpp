@@ -2,7 +2,7 @@
 #include <boost/asio.hpp>
 #include <ros/ros.h>
 #include <std_msgs/ByteMultiArray.h>
-#include "boost_rs485.hpp"
+#include "boost_serial.hpp"
 #include <boost/chrono.hpp>
 #include "protocol.hpp"
 #include "umba_crc_table.h"
@@ -29,8 +29,8 @@ public:
         resvdFromDev |= 128;
         pub_board_data();
       } else {
-        std::cout << "\n\n[msg_sent and failed]\n\n";
-        getError();
+        std::cout << "[msg SEND and failed]\n";
+        sendError();
       }
       
     } else {
@@ -42,8 +42,8 @@ public:
       } else {
         if (!getResponse || fail_count >= 70000){
           fail_count = 0;
-          std::cout << "\n\n[msg NOT SEND and failed]\n\n";
-          getError();
+          std::cout << "[msg NOT SEND and failed]\n";
+          sendError();
         }
         fail_count++;
         std::this_thread::sleep_for(std::chrono::milliseconds(1));
@@ -67,7 +67,7 @@ private:
   uint8_t relay_state_prev = 0;
   bool msg_sent = false;
 
-  void getError(){
+  void sendError(){
     static uint32_t failCount = 0;
     failCount++;
     std::cout << "failCount = " << failCount << std::endl;
@@ -168,7 +168,7 @@ int main(int argc, char** argv)
   try{
     std::cout << "\nUART Node is running!\n" << "Baud rate: " << baudrate << ", Port: /dev/ttyS" << devPort << "\n";
     ros::init(argc, argv, "uart_node");
-    boost_rs485::Boost_RS485_Async boostRS485_transp("/dev/ttyS" + devPort, (uint32_t)std::stoi(baudrate));
+    boost_serial::Boost_Serial_Async boostRS485_transp("/dev/ttyS" + devPort, (uint32_t)std::stoi(baudrate));
     protocol_master::ProtocolMaster boostRS485_prot_master(boostRS485_transp);
     UART_Node uartNode(boostRS485_prot_master);
     while(ros::ok()){

@@ -56,6 +56,8 @@ private:
   uint32_t send_count_topic_camera = 0;
   uint32_t recvd_count_topic_cam_bat = 0;
   uint8_t resvdFromAllDev = 0;
+  bool dataGetFromBatCam = false;
+
   
   struct currentState_{
     uint8_t hand_mount = 0;
@@ -94,7 +96,7 @@ private:
   }
 
   void from_cam_bat_handle_receive(const std_msgs::ByteMultiArray::ConstPtr& recvdMsg) {
-
+    dataGetFromBatCam = true;
     if(recvdMsg->data.size() == 5){
       //обновляем данные
       currentState.bat_24V                    = recvdMsg->data[0];
@@ -193,6 +195,9 @@ private:
   }
 
   void sendMsgToUDP(){
+
+    if(!dataGetFromBatCam) resvdFromAllDev |= 128;
+    dataGetFromBatCam = false;
     //формируем пакет
     dataToUDP[0] = 0xBB;                                                                            //header 1b
     dataToUDP[1] = 0xAA;                                                                            //header 1b

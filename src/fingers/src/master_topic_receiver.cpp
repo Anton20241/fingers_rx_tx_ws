@@ -2,7 +2,7 @@
 #include <ros/ros.h>
 #include <boost/asio.hpp>
 #include <std_msgs/ByteMultiArray.h>
-#include "boost_rs485.hpp"
+#include "boost_serial.hpp"
 #include "protocol.hpp"
 #include "umba_crc_table.h"
 #include <chrono>
@@ -146,7 +146,7 @@ int main(int argc, char** argv){
 	try{
 		std::cout << "master_topic_receiver is running!" << std::endl;
 		ros::init(argc, argv, "master_topic_receiver");
-		boost_rs485::Boost_RS485_Async boostRS485_transp("/dev/tty" + devPort, (uint32_t)std::stoi(baudrate));
+		boost_serial::Boost_Serial_Async boostRS485_transp("/dev/tty" + devPort, (uint32_t)std::stoi(baudrate));
 		protocol_master::ProtocolMaster boostRS485_prot_master(boostRS485_transp);
 		Boost_RS485_Server raspbPi(boostRS485_prot_master);
         while(ros::ok()){

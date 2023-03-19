@@ -261,7 +261,7 @@ namespace protocol_master
 
     static inline uint8_t getCmd(uint8_t* ptrBuff)
     {
-        return (uint8_t)((cmd_field_t*)(&ptrBuff[indexCmd]))->cmd;
+        return ptrBuff[indexCmd];
     }
 
     bool ProtocolMaster::parser(uint8_t* ptrBuff, uint32_t len)
@@ -337,26 +337,24 @@ namespace protocol_master
 
     bool ProtocolMaster::sendCmdReadUART(uint8_t addressTo, uint8_t* dataFrom, 
             uint32_t* dataFromSize, bool& getResponse, bool wait_response, uint8_t cam_status){
+        
         std::memset(buff, 0, sizeof(buff));
-
         bool byteIsGetBefore = false;
         uint32_t not_response_on_request = 0;
         uint32_t not_bytes_received = 0;
 
         while (1){
-            bool pkgIsReadyForParsing = false;
+            bool pkgIsReadyToParse = false;
 
             //get bytes
             std::memset(recvdBuff, 0, sizeof(recvdBuff));
             uint32_t recvdBuffSize = 0;
             m_transport.getData(recvdBuff, &recvdBuffSize);
-            //std::cout << "\n[recvdBuffSize = " << recvdBuffSize << "]" << std::endl;
 
             if (recvdBuffSize != 0){
                 not_bytes_received = 0;
                 byteIsGetBefore = true;
-                collectPkg(recvdBuff, recvdBuffSize, dataFrom, *dataFromSize, pkgIsReadyForParsing);
-
+            
             } else if (!byteIsGetBefore && (recvdBuffSize == 0) && !wait_response){
                 getResponse = !wait_response;
                 return false;
@@ -371,7 +369,8 @@ namespace protocol_master
                 continue;
             } 
 
-            if (!pkgIsReadyForParsing){
+            collectPkg(recvdBuff, recvdBuffSize, dataFrom, *dataFromSize, pkgIsReadyToParse);
+            if (!pkgIsReadyToParse){
                 std::this_thread::sleep_for(std::chrono::milliseconds(1));
                 continue;
             }
@@ -395,9 +394,8 @@ namespace protocol_master
     }
 
     void ProtocolMaster::collectPkg(uint8_t* resvdData, uint32_t resvdBytes, 
-            uint8_t* dataUart, uint32_t& dataUartSize, bool& pkgIsReadyForParsing){
-        std::cout << "\nIN Collect_pkg FUNCTION\n";
-
+            uint8_t* dataUart, uint32_t& dataUartSize, bool& pkgIsReadyToParse){
+                
         memcpy(dataUart + dataUartSize, resvdData, resvdBytes);
         dataUartSize += resvdBytes;
 
@@ -407,33 +405,10 @@ namespace protocol_master
         }
         std::cout << std::endl;
         
-        if (dataUartSize >= 8) pkgIsReadyForParsing = true;
-        if (dataUartSize >= 5 && dataUart[1] == 5) pkgIsReadyForParsing = true;
+        if (dataUartSize >= 8) pkgIsReadyToParse = true;
+        if (dataUartSize >= 5 && dataUart[1] == 5) pkgIsReadyToParse = true;
 
     }
-
-    // bool ProtocolMaster::parserOk(uint8_t* dataUart, uint32_t& dataUartSize){
-    //     if ((dataUartSize != 8) && (dataUartSize != 5))                                                     return false;
-    //     if (dataUart[0] != 0)                                                                               return false;
-    //     if ((dataUartSize == 8 && dataUart[1] != 8) || (dataUartSize == 5 && dataUart[1] != 5))             return false;
-    //     if ((dataUartSize == 8 && dataUart[2] != 0) || (dataUartSize == 5 && dataUart[2] != 0x70))          return false;
-    //     uint8_t crc_8 = umba_crc8_table(dataUart, dataUartSize - sizeof(uint8_t));
-    //     if (dataUart[dataUartSize - sizeof(uint8_t)] != crc_8)                                              return false;
-    //     return true;
-    // }
-
-    // void ProtocolMaster::updateDataUart(uint8_t* dataUart, uint32_t& dataUartSize){
-    //     if ((dataUartSize <= 2) && (dataUart[0] == 0))                                                          return;
-    //     if ((dataUartSize < 8 && dataUart[1] == 8) || (dataUartSize < 5 && dataUart[1] == 5))                   return;
-    //     if ((dataUartSize < 8 && dataUart[2] == 0) || (dataUartSize < 5 && dataUart[2] == 0x70))                return;
-    //     std::cout << "\n\n!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!NON-Valid MESSAGE:\n";
-    //     for (int i = 0; i < dataUartSize; i++){
-    //         printf("[%u]", dataUart[i]);
-    //     }
-    //     std::cout << "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" << std::endl;
-    //     memset(dataUart, 0, dataUartSize);
-    //     dataUartSize = 0;
-    // }
     
     bool ProtocolMaster::sendCmdWrite(uint8_t addressTo, uint8_t cmd, const uint8_t* dataTo, uint32_t dataToSize){
         std::memset(buff, 0, sizeof(buff));

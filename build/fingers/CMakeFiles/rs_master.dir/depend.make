@@ -10,7 +10,7 @@ fingers/CMakeFiles/rs_master.dir/src/protocol.cpp.o: /home/raspberrypi/rtc_work/
 fingers/CMakeFiles/rs_master.dir/src/protocol.cpp.o: /home/raspberrypi/rtc_work/fingers_rx_tx_ws/src/fingers/include/fingers/umba_crc_table.h
 fingers/CMakeFiles/rs_master.dir/src/protocol.cpp.o: /home/raspberrypi/rtc_work/fingers_rx_tx_ws/src/fingers/src/protocol.cpp
 
-fingers/CMakeFiles/rs_master.dir/src/rs_master.cpp.o: /home/raspberrypi/rtc_work/fingers_rx_tx_ws/src/fingers/include/fingers/boost_rs485.hpp
+fingers/CMakeFiles/rs_master.dir/src/rs_master.cpp.o: /home/raspberrypi/rtc_work/fingers_rx_tx_ws/src/fingers/include/fingers/boost_serial.hpp
 fingers/CMakeFiles/rs_master.dir/src/rs_master.cpp.o: /home/raspberrypi/rtc_work/fingers_rx_tx_ws/src/fingers/include/fingers/i_transport.hpp
 fingers/CMakeFiles/rs_master.dir/src/rs_master.cpp.o: /home/raspberrypi/rtc_work/fingers_rx_tx_ws/src/fingers/include/fingers/protocol.hpp
 fingers/CMakeFiles/rs_master.dir/src/rs_master.cpp.o: /home/raspberrypi/rtc_work/fingers_rx_tx_ws/src/fingers/include/fingers/tabl_reg.hpp

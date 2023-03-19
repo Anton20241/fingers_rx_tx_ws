@@ -20,64 +20,46 @@
 using namespace std;
 using namespace boost::asio;
 
-namespace boost_rs485
+namespace boost_serial
 {
     static const uint32_t proto_max_buff    = 32;
 
-    class Boost_RS485_Async : public i_transport::ITransport
+    class Boost_Serial_Async : public i_transport::ITransport
     {
     private:
         boost::asio::io_service    m_ioService;
         boost::asio::serial_port   m_port;
         int m_fd;
         uint8_t m_recvdData[proto_max_buff] = {0};
-        uint8_t m_copyRecvdData[proto_max_buff] = {0};
-        bool m_recvd = false;
+        std::vector<uint8_t> m_copyRecvdData;
         uint32_t m_sendCount = 0;
         uint32_t m_recvdCount = 0;
-        boost::mutex channel__access;
-        size_t recvd_bytes_RS = 0;
         boost::mutex my_mytex;
-
-        // static std::size_t completion_condition( const boost::system::error_code& error, std::size_t bytes_transferred){
-        //     if(error){
-        //         std::cout << error.what();
-        //         exit(-1);
-        //     }
-        //     /* Ждем */
-        //     std::cout << "bytes_transferred = " << bytes_transferred << std::endl;
-        //     std::this_thread::sleep_for(std::chrono::microseconds(1000));
-        //     return 0;
-        // }
-
+        
         void read_handler(const boost::system::error_code& error,size_t bytes_transferred)
         {
             my_mytex.lock();
             if(!error && bytes_transferred > 0){
-                // std::chrono::microseconds mcs = std::chrono::duration_cast< std::chrono::microseconds >
-                //     (std::chrono::system_clock::now().time_since_epoch());
-                //std::cout << "\nread from rs microseconds = " << mcs.count();
                 m_recvdCount++;
-                m_recvd = true;
-                recvd_bytes_RS = bytes_transferred;
-                std::memset(m_copyRecvdData, 0, sizeof(m_copyRecvdData));
-                memcpy(m_copyRecvdData, m_recvdData, recvd_bytes_RS);
-                printf("\n[M RECEIVED]:\n"
-                "[%u][%u][%u][%u\t][%u][%u][%u][%u]\n"
+                for (size_t i = 0; i < bytes_transferred; i++){
+                    m_copyRecvdData.push_back(m_recvdData[i]);
+                }
+                printf("\n[RECEIVED]:\n"
+                "[%u][%u][%u][%u][%u][%u][%u][%u]\n"
                 "m_recvdCount = %u\n"
                 "m_sendCount = %u\n",
-                m_copyRecvdData[0], m_copyRecvdData[1], m_copyRecvdData[2], m_copyRecvdData[3],
-                m_copyRecvdData[4], m_copyRecvdData[5], m_copyRecvdData[6], m_copyRecvdData[7], m_recvdCount, m_sendCount);
+                m_recvdData[0], m_recvdData[1], m_recvdData[2], m_recvdData[3],
+                m_recvdData[4], m_recvdData[5], m_recvdData[6], m_recvdData[7], m_recvdCount, m_sendCount);
                 cout << "bytes_transferred: "<< bytes_transferred << endl;
             } else {
-                std::cout << "\n[ERROR RESEIVED FROM RS485]\n";
+                std::cout << "\n[ERROR RESEIVED FROM SERIAL]\n";
             }
             my_mytex.unlock();
             read_msg_serial();
         }
 
     public: 
-        Boost_RS485_Async(string dev_Port, uint32_t baudrate):m_ioService(),m_port(m_ioService, dev_Port)
+        Boost_Serial_Async(string dev_Port, uint32_t baudrate):m_ioService(),m_port(m_ioService, dev_Port)
         {
             termios t;
             m_fd = m_port.native_handle();
@@ -97,9 +79,6 @@ namespace boost_rs485
 
         bool sendData(const uint8_t* ptrData, uint32_t len)
         {
-            // std::chrono::microseconds mcs = std::chrono::duration_cast< std::chrono::microseconds >
-            //     (std::chrono::system_clock::now().time_since_epoch());
-            // std::cout << "\nsend to rs microseconds = " << mcs.count();
             boost::system::error_code error;
             size_t sendBytes = m_port.write_some(boost::asio::buffer(ptrData, len), error);
             if(!error && sendBytes > 0){
@@ -124,22 +103,21 @@ namespace boost_rs485
         bool getData(uint8_t* ptrData, uint32_t* lenInOut)
         {
             my_mytex.lock();
-            if (!m_recvd){
+            if (m_copyRecvdData.empty()){
                 my_mytex.unlock();
                 return false;
             } 
 
-            std::cout << "\n\ngetData(uint8_t* ptrData, uint32_t* lenInOut)\n";
-            for (int i = 0; i < recvd_bytes_RS; i++){
+            std::cout << "m_copyRecvdData:\n";
+            for (int i = 0; i < m_copyRecvdData.size(); i++){
                 printf("[%u]", m_copyRecvdData[i]);
+                ptrData[i] = m_copyRecvdData[i];
             }
             std::cout << std::endl;        
 
-            *lenInOut = recvd_bytes_RS;
-            std::memcpy(ptrData, m_copyRecvdData, *lenInOut);
+            *lenInOut = m_copyRecvdData.size();
             std::cout << "*lenInOut = " << *lenInOut << std::endl;
-            recvd_bytes_RS = 0;
-            m_recvd = false;
+            m_copyRecvdData.clear();
             my_mytex.unlock();
             return true;
         }
@@ -147,16 +125,14 @@ namespace boost_rs485
         void read_msg_serial(){
             std::memset(m_recvdData, 0, sizeof(m_recvdData));
             m_port.async_read_some(boost::asio::buffer(m_recvdData, sizeof(m_recvdData)),
-                    boost::bind(&Boost_RS485_Async::read_handler,this,
+                    boost::bind(&Boost_Serial_Async::read_handler,this,
                             boost::asio::placeholders::error,
                             boost::asio::placeholders::bytes_transferred));
-            std::cout <<"\nsizeof(m_recvdData) "<< sizeof(m_recvdData) << std::endl;
-            printf("\nasync_read_some[0] = %u\n",m_recvdData[0]);
         }
 
         bool transportReset() {return true;}
 
-        ~Boost_RS485_Async() override {
+        ~Boost_Serial_Async() override {
             m_port.close();
         };
     };

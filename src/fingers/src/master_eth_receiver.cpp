@@ -122,9 +122,9 @@ private:
   }
 
   void startShutDownProcess(){
-    std::cout << "\n╔═══════════════╗\n";
-    std::cout << "║    SHUTDOWN    ║";
-    std::cout << "\n╚═══════════════╝\n";
+    std::cout << "\n\033[1;31m╔═══════════════╗\033[0m";
+    std::cout << "\n\033[1;31m║   SHUTDOWN    ║\033[0m";
+    std::cout << "\n\033[1;31m╚═══════════════╝\033[0m\n";
     //system("shutdown -h now");
   }
 

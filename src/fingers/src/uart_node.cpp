@@ -166,7 +166,10 @@ int main(int argc, char** argv)
 
   ros::param::param<std::string> ("~_UART_baudrate", baudrate, "19200");
   try{
-    std::cout << "\nUART Node is running!\n" << "Baud rate: " << baudrate << ", Port: /dev/ttyS" << devPort << "\n";
+        std::cout << "\n\033[1;32m╔═══════════════════════════════════════╗\033[0m"
+                  << "\n\033[1;32m║UART Node is running!                  ║\033[0m" 
+                  << "\n\033[1;32m║Baud rate: " << baudrate << ", Port: /dev/ttyS" << devPort << "\t║\033[0m"
+                  << "\n\033[1;32m╚═══════════════════════════════════════╝\033[0m";
     ros::init(argc, argv, "uart_node");
     boost_serial::Boost_Serial_Async boostRS485_transp("/dev/ttyS" + devPort, (uint32_t)std::stoi(baudrate));
     protocol_master::ProtocolMaster boostRS485_prot_master(boostRS485_transp);
@@ -176,7 +179,7 @@ int main(int argc, char** argv)
       ros::spinOnce();
     }
   } catch (std::exception e){
-      std::cerr << "Exeption: " << e.what() << std::endl;
+      std::cerr << "\nExeption: " << e.what() << std::endl;
   }
   return 0;
 };

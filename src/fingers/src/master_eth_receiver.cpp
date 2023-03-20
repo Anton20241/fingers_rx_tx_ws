@@ -132,7 +132,7 @@ private:
     getMsgFromUDP = true;
     if (!error && bytes_transferred > 0){
       if(!parserUDP(dataFromUDP)){
-        std::cout << "UDP data not valid\n";
+        std::cout << "\033[1;31mUDP data not valid\033[0m\n";
         return;
       }
       memset(dataToFingersTopic, 0, sizeof(dataToFingersTopic));
@@ -261,7 +261,9 @@ private:
 
 int main(int argc, char** argv){
   try{
-    std::cout << "\nmaster_eth_receiver is running!" << std::endl;
+    std::cout << "\n\033[1;32m╔═══════════════════════════════╗\033[0m"
+              << "\n\033[1;32m║master_eth_receiver is running!║\033[0m" 
+              << "\n\033[1;32m╚═══════════════════════════════╝\033[0m";
 		ros::init(argc, argv, "master_eth_receiver");
 		boost::asio::io_service io_service;
 		UDPServer udpServer(io_service);

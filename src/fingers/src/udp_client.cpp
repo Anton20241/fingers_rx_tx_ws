@@ -156,7 +156,7 @@ public:
                 std::cout << "Sent Payload = " << sent << "\n";
                 std::cout << "send_count = " << send_count << "\n";
                 //printf("[crc8 = %u\n]", crc8);
-                std::this_thread::sleep_for(std::chrono::microseconds(100000));
+                std::this_thread::sleep_for(std::chrono::microseconds(1000000));
             }
             auto end = std::chrono::high_resolution_clock::now();
             std::chrono::duration<float> duration = end - start;

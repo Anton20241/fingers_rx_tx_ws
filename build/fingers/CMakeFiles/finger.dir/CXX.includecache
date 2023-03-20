@@ -6,9 +6,9 @@
 
 #IncludeRegexTransform: 
 
-/home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/include/fingers/boost_serial.hpp
+/home/raspberrypi/rtc_work/fingers_rx_tx_ws/src/fingers/include/fingers/boost_serial.hpp
 i_transport.hpp
-/home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/include/fingers/i_transport.hpp
+/home/raspberrypi/rtc_work/fingers_rx_tx_ws/src/fingers/include/fingers/i_transport.hpp
 boost/asio.hpp
 -
 boost/bind.hpp
@@ -26,37 +26,37 @@ thread
 mutex
 -
 
-/home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/include/fingers/i_transport.hpp
+/home/raspberrypi/rtc_work/fingers_rx_tx_ws/src/fingers/include/fingers/i_transport.hpp
 stdint.h
 -
 stdbool.h
 -
 
-/home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/include/fingers/protocol.hpp
+/home/raspberrypi/rtc_work/fingers_rx_tx_ws/src/fingers/include/fingers/protocol.hpp
 i_transport.hpp
-/home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/include/fingers/i_transport.hpp
+/home/raspberrypi/rtc_work/fingers_rx_tx_ws/src/fingers/include/fingers/i_transport.hpp
 tabl_reg.hpp
-/home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/include/fingers/tabl_reg.hpp
+/home/raspberrypi/rtc_work/fingers_rx_tx_ws/src/fingers/include/fingers/tabl_reg.hpp
 
-/home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/include/fingers/tabl_reg.hpp
+/home/raspberrypi/rtc_work/fingers_rx_tx_ws/src/fingers/include/fingers/tabl_reg.hpp
 stdint.h
 -
 stdbool.h
 -
 
-/home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/include/fingers/tabl_reg_config.hpp
+/home/raspberrypi/rtc_work/fingers_rx_tx_ws/src/fingers/include/fingers/tabl_reg_config.hpp
 tabl_reg.hpp
-/home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/include/fingers/tabl_reg.hpp
+/home/raspberrypi/rtc_work/fingers_rx_tx_ws/src/fingers/include/fingers/tabl_reg.hpp
 
-/home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/include/fingers/umba_crc_table.h
+/home/raspberrypi/rtc_work/fingers_rx_tx_ws/src/fingers/include/fingers/umba_crc_table.h
 stdint.h
 -
 
-/home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/src/finger.cpp
+/home/raspberrypi/rtc_work/fingers_rx_tx_ws/src/fingers/src/finger.cpp
 boost_serial.hpp
-/home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/src/boost_serial.hpp
+/home/raspberrypi/rtc_work/fingers_rx_tx_ws/src/fingers/src/boost_serial.hpp
 protocol.hpp
-/home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/src/protocol.hpp
+/home/raspberrypi/rtc_work/fingers_rx_tx_ws/src/fingers/src/protocol.hpp
 tabl_reg_config.hpp
 -
 iostream
@@ -64,11 +64,11 @@ iostream
 ros/ros.h
 -
 
-/home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/src/protocol.cpp
+/home/raspberrypi/rtc_work/fingers_rx_tx_ws/src/fingers/src/protocol.cpp
 protocol.hpp
-/home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/src/protocol.hpp
+/home/raspberrypi/rtc_work/fingers_rx_tx_ws/src/fingers/src/protocol.hpp
 umba_crc_table.h
-/home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/src/umba_crc_table.h
+/home/raspberrypi/rtc_work/fingers_rx_tx_ws/src/fingers/src/umba_crc_table.h
 assert.h
 -
 iostream
@@ -80,11 +80,11 @@ thread
 cstring
 -
 
-/home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/src/tabl_reg.cpp
+/home/raspberrypi/rtc_work/fingers_rx_tx_ws/src/fingers/src/tabl_reg.cpp
 cstring
 -
 tabl_reg.hpp
-/home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/src/tabl_reg.hpp
+/home/raspberrypi/rtc_work/fingers_rx_tx_ws/src/fingers/src/tabl_reg.hpp
 
 /opt/ros/noetic/include/ros/advertise_options.h
 ros/forwards.h

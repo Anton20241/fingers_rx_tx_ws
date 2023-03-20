@@ -4,5 +4,5 @@ PROJECT_PKG_CONFIG_INCLUDE_DIRS = "".split(';') if "" != "" else []
 PROJECT_CATKIN_DEPENDS = "".replace(';', ' ')
 PKG_CONFIG_LIBRARIES_WITH_PREFIX = "".split(';') if "" != "" else []
 PROJECT_NAME = "fingers"
-PROJECT_SPACE_DIR = "/home/anton20241/rtc_work/fingers_rx_tx_ws/install"
+PROJECT_SPACE_DIR = "/home/raspberrypi/rtc_work/fingers_rx_tx_ws/install"
 PROJECT_VERSION = "0.0.0"

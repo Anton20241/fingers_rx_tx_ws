@@ -6,33 +6,33 @@
 
 #IncludeRegexTransform: 
 
-/home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/include/fingers/i_transport.hpp
+/home/raspberrypi/rtc_work/fingers_rx_tx_ws/src/fingers/include/fingers/i_transport.hpp
 stdint.h
 -
 stdbool.h
 -
 
-/home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/include/fingers/protocol.hpp
+/home/raspberrypi/rtc_work/fingers_rx_tx_ws/src/fingers/include/fingers/protocol.hpp
 i_transport.hpp
-/home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/include/fingers/i_transport.hpp
+/home/raspberrypi/rtc_work/fingers_rx_tx_ws/src/fingers/include/fingers/i_transport.hpp
 tabl_reg.hpp
-/home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/include/fingers/tabl_reg.hpp
+/home/raspberrypi/rtc_work/fingers_rx_tx_ws/src/fingers/include/fingers/tabl_reg.hpp
 
-/home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/include/fingers/tabl_reg.hpp
+/home/raspberrypi/rtc_work/fingers_rx_tx_ws/src/fingers/include/fingers/tabl_reg.hpp
 stdint.h
 -
 stdbool.h
 -
 
-/home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/include/fingers/umba_crc_table.h
+/home/raspberrypi/rtc_work/fingers_rx_tx_ws/src/fingers/include/fingers/umba_crc_table.h
 stdint.h
 -
 
-/home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/src/protocol.cpp
+/home/raspberrypi/rtc_work/fingers_rx_tx_ws/src/fingers/src/protocol.cpp
 protocol.hpp
-/home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/src/protocol.hpp
+/home/raspberrypi/rtc_work/fingers_rx_tx_ws/src/fingers/src/protocol.hpp
 umba_crc_table.h
-/home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/src/umba_crc_table.h
+/home/raspberrypi/rtc_work/fingers_rx_tx_ws/src/fingers/src/umba_crc_table.h
 assert.h
 -
 iostream
@@ -44,13 +44,13 @@ thread
 cstring
 -
 
-/home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/src/tabl_reg.cpp
+/home/raspberrypi/rtc_work/fingers_rx_tx_ws/src/fingers/src/tabl_reg.cpp
 cstring
 -
 tabl_reg.hpp
-/home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/src/tabl_reg.hpp
+/home/raspberrypi/rtc_work/fingers_rx_tx_ws/src/fingers/src/tabl_reg.hpp
 
-/home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/src/udp_client.cpp
+/home/raspberrypi/rtc_work/fingers_rx_tx_ws/src/fingers/src/udp_client.cpp
 cstdlib
 -
 iostream
@@ -68,7 +68,7 @@ string.h
 ros/ros.h
 -
 umba_crc_table.h
-/home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/src/umba_crc_table.h
+/home/raspberrypi/rtc_work/fingers_rx_tx_ws/src/fingers/src/umba_crc_table.h
 
 /opt/ros/noetic/include/ros/advertise_options.h
 ros/forwards.h

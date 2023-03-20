@@ -24,8 +24,8 @@ public:
   void UART_process(){
     if (msg_sent){
       bool getResponse = false;
+      msg_sent = false;
       if (m_protocol.sendCmdReadUART(0x01, from_board_data, &from_board_dataSize, getResponse, msg_sent, cam_status)){
-        msg_sent = false;
         resvdFromDev |= 128;
         pub_board_data();
       } else {
@@ -70,13 +70,13 @@ private:
   void sendError(){
     static uint32_t failCount = 0;
     failCount++;
-    std::cout << "failCount = " << failCount << std::endl;
-    std::cout << "\n[RECEIVE ERROR FROM UART]\n";
-    std::cout << "\n\n[NON-Valid MESSAGE]:\n";
+    std::cout << "\nfailCount = " << failCount << std::endl;
+    std::cout << "[RECEIVE ERROR FROM UART]\n";
+    std::cout << "[NON-Valid MESSAGE]:\n";
     for (int i = 0; i < from_board_dataSize; i++){
         printf("[%u]", from_board_data[i]);
     }
-    std::cout << "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" << std::endl;
+    std::cout << "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n\n";
 
     resvdFromDev = 0;
     memset(from_board_data, 0, from_board_dataSize);

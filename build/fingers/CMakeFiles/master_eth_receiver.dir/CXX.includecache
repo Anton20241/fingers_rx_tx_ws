@@ -6,11 +6,11 @@
 
 #IncludeRegexTransform: 
 
-/home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/include/fingers/umba_crc_table.h
+/home/raspberrypi/rtc_work/fingers_rx_tx_ws/src/fingers/include/fingers/umba_crc_table.h
 stdint.h
 -
 
-/home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/src/master_eth_receiver.cpp
+/home/raspberrypi/rtc_work/fingers_rx_tx_ws/src/fingers/src/master_eth_receiver.cpp
 iostream
 -
 ros/ros.h
@@ -20,7 +20,7 @@ boost/asio.hpp
 std_msgs/ByteMultiArray.h
 -
 umba_crc_table.h
-/home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/src/umba_crc_table.h
+/home/raspberrypi/rtc_work/fingers_rx_tx_ws/src/fingers/src/umba_crc_table.h
 mutex
 -
 

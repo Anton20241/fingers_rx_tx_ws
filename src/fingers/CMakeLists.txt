@@ -153,7 +153,7 @@ set(MASTER_ETH_RECV src/master_eth_receiver.cpp
             src/protocol.cpp
             src/tabl_reg.cpp
             src/umba_crc_table.c
-            include/fingers/boost_rs485.hpp
+            include/fingers/boost_serial.hpp
             include/fingers/i_transport.hpp
             include/fingers/protocol.hpp
             include/fingers/tabl_reg.hpp
@@ -164,7 +164,7 @@ set(MASTER_TOPIC_RECV src/master_topic_receiver.cpp
                 src/protocol.cpp
                 src/tabl_reg.cpp
                 src/umba_crc_table.c
-                include/fingers/boost_rs485.hpp
+                include/fingers/boost_serial.hpp
                 include/fingers/i_transport.hpp
                 include/fingers/protocol.hpp
                 include/fingers/tabl_reg.hpp
@@ -175,7 +175,7 @@ set(UART_NODE src/uart_node.cpp
                 src/protocol.cpp
                 src/tabl_reg.cpp
                 src/umba_crc_table.c
-                include/fingers/boost_rs485.hpp
+                include/fingers/boost_serial.hpp
                 include/fingers/i_transport.hpp
                 include/fingers/protocol.hpp
                 include/fingers/tabl_reg.hpp
@@ -186,7 +186,7 @@ set(FINGER src/finger.cpp
                 src/protocol.cpp
                 src/tabl_reg.cpp
                 src/umba_crc_table.c
-                include/fingers/boost_rs485.hpp
+                include/fingers/boost_serial.hpp
                 include/fingers/i_transport.hpp
                 include/fingers/protocol.hpp
                 include/fingers/tabl_reg.hpp
@@ -197,7 +197,7 @@ set(RS_MASTER src/rs_master.cpp
                 src/protocol.cpp
                 src/tabl_reg.cpp
                 src/umba_crc_table.c
-                include/fingers/boost_rs485.hpp
+                include/fingers/boost_serial.hpp
                 include/fingers/i_transport.hpp
                 include/fingers/protocol.hpp
                 include/fingers/tabl_reg.hpp
@@ -208,7 +208,7 @@ set(UDP_CLIENT src/udp_client.cpp
                 src/protocol.cpp
                 src/tabl_reg.cpp
                 src/umba_crc_table.c
-                include/fingers/boost_rs485.hpp
+                include/fingers/boost_serial.hpp
                 include/fingers/i_transport.hpp
                 include/fingers/protocol.hpp
                 include/fingers/tabl_reg.hpp

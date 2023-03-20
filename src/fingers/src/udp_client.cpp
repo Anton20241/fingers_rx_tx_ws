@@ -12,7 +12,7 @@ using boost::asio::ip::udp;
 using boost::asio::ip::address;
 
 #define PORT 20002
-#define IP "192.168.43.211"
+#define IP "192.168.43.212"
 
 class UDPClient
 {
@@ -156,7 +156,7 @@ public:
                 std::cout << "Sent Payload = " << sent << "\n";
                 std::cout << "send_count = " << send_count << "\n";
                 //printf("[crc8 = %u\n]", crc8);
-                std::this_thread::sleep_for(std::chrono::microseconds(1000000));
+                std::this_thread::sleep_for(std::chrono::microseconds(10000));
             }
             auto end = std::chrono::high_resolution_clock::now();
             std::chrono::duration<float> duration = end - start;

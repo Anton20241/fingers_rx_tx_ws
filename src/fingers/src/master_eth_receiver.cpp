@@ -122,8 +122,10 @@ private:
   }
 
   void startShutDownProcess(){
-    std::cout << "\n!!!!!!!!!!!!!!!!!!!!SHUT_DOWN!!!!!!!!!!!!!!!!!!!!\n";
-    system("shutdown -h now");
+    std::cout << "\n╔═══════════════╗\n";
+    std::cout << "║    SHUTDOWN    ║";
+    std::cout << "\n╚═══════════════╝\n";
+    //system("shutdown -h now");
   }
 
   void udp_handle_receive(const boost::system::error_code& error, size_t bytes_transferred) {

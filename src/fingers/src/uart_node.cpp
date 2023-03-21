@@ -49,6 +49,7 @@ public:
       bool getResponse = false;
       if (m_protocol.sendCmdReadUART(0x01, from_board_data, &from_board_dataSize, getResponse, false, cam_status)){
         resvdFromDev |= 128;
+        fail_count = 0;
         pub_board_data();
       } else {
         if (!getResponse || fail_count >= 70000){

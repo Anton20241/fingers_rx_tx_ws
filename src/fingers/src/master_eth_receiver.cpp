@@ -113,7 +113,7 @@ private:
       resvdFromAllDev                        |= recvdMsg->data[0];
     } else return;
     recvd_count_topic_cam_bat++;
-    std::cout << "RECVD FROM TOPIC bat_cam_topic recvdMsg->data.size() = " << recvdMsg->data.size() << std::endl;
+    std::cout << "\033[1;34mRECVD FROM TOPIC bat_cam_topic recvdMsg->data.size() = \033[0m" << recvdMsg->data.size() << std::endl;
     std::cout << "recvd_count_topic_cam_bat = " << recvd_count_topic_cam_bat << std::endl;
     for (int i = 0; i < recvdMsg->data.size(); i++){
       printf("[%u]", (uint8_t)recvdMsg->data[i]);
@@ -125,7 +125,7 @@ private:
     std::cout << "\n\033[1;31m╔═══════════════╗\033[0m";
     std::cout << "\n\033[1;31m║   SHUTDOWN    ║\033[0m";
     std::cout << "\n\033[1;31m╚═══════════════╝\033[0m\n";
-    //system("shutdown -h now");
+    system("shutdown -h now");
   }
 
   void udp_handle_receive(const boost::system::error_code& error, size_t bytes_transferred) {
@@ -138,7 +138,7 @@ private:
       memset(dataToFingersTopic, 0, sizeof(dataToFingersTopic));
       memset(currentState.keepalive, 0, sizeof(currentState.keepalive));
       recvd_count_udp++;
-      std::cout << "\nRECVD FROM UDP bytes_transferred = " << bytes_transferred << std::endl;
+      std::cout << "\n\033[1;36mRECVD FROM UDP bytes_transferred = \033[0m" << bytes_transferred << std::endl;
       std::cout << "recvd_count_udp = " << recvd_count_udp << std::endl;
       for (int i = 0; i < bytes_transferred; i++){
         printf("[%u]", dataFromUDP[i]);
@@ -222,7 +222,7 @@ private:
     auto sent = socket_.send_to(boost::asio::buffer(dataToUDP), sender_endpoint_, 0, error);
     if (!error && sent > 0){
       send_count_udp++;
-      std::cout << "SEND TO UDP bytes_transferred = " << sent << std::endl;
+      std::cout << "\033[1;36mSEND TO UDP bytes_transferred = \033[0m" << sent << std::endl;
       std::cout << "send_count_udp = " << send_count_udp << std::endl;
       for (int i = 0; i < sent; i++){
         printf("[%u]", dataToUDP[i]);

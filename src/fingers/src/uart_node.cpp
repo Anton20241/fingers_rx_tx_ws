@@ -22,21 +22,32 @@ public:
     };
 
   void UART_process(){
-    if (msg_sent){
+    if (msg_sent_relay){
       bool getResponse = false;
-      msg_sent = false;
-      if (m_protocol.sendCmdReadUART(0x01, from_board_data, &from_board_dataSize, getResponse, msg_sent, cam_status)){
+      if (m_protocol.sendCmdReadUART(0x01, from_board_data, &from_board_dataSize, getResponse, msg_sent_relay, cam_status)){
         resvdFromDev |= 128;
         pub_board_data();
       } else {
         std::cout << "[msg SEND and failed]\n";
         sendError();
       }
-      
+      msg_sent_relay = false;
+
+    } else if (msg_sent_cam){
+      bool getResponse = false;
+      if (m_protocol.sendCmdReadUART(0x01, from_board_data, &from_board_dataSize, getResponse, msg_sent_cam, cam_status)){
+        resvdFromDev |= 128;
+        pub_board_data();
+      } else {
+        std::cout << "[msg SEND and failed]\n";
+        sendError();
+      }
+      msg_sent_cam = false;
+
     } else {
       static uint32_t fail_count = 0;
       bool getResponse = false;
-      if (m_protocol.sendCmdReadUART(0x01, from_board_data, &from_board_dataSize, getResponse, msg_sent, cam_status)){
+      if (m_protocol.sendCmdReadUART(0x01, from_board_data, &from_board_dataSize, getResponse, false, cam_status)){
         resvdFromDev |= 128;
         pub_board_data();
       } else {
@@ -65,7 +76,8 @@ private:
   uint8_t relay_state = 0;
   uint8_t cam_status_prev = 0;
   uint8_t relay_state_prev = 0;
-  bool msg_sent = false;
+  bool msg_sent_relay = false;
+  bool msg_sent_cam = false;
 
   void sendError(){
     static uint32_t failCount = 0;
@@ -147,14 +159,14 @@ private:
       std::cout << "\n[send UART msg with new relay_state]\n";
       m_protocol.sendCmdWrite(0x01, 0x20, toRelaySet, sizeof(toRelaySet));
       std::this_thread::sleep_for(std::chrono::milliseconds(6));
-      msg_sent = true;
+      msg_sent_relay = true;
     }
     if (cam_status != cam_status_prev){
       cam_status_prev = cam_status;
       std::cout << "\n[send UART msg with new cam_status]\n";
       m_protocol.sendCmdWrite(0x01, 0x10, &cam_status, sizeof(uint8_t));
       std::this_thread::sleep_for(std::chrono::milliseconds(6));
-      msg_sent = true;
+      msg_sent_cam = true;
     }
   }
 };

@@ -103,21 +103,34 @@ namespace boost_serial
         bool getData(uint8_t* ptrData, uint32_t* lenInOut)
         {
             my_mytex.lock();
-            if (m_copyRecvdData.empty()){
+
+            if (m_copyRecvdData.size() < 2){
                 my_mytex.unlock();
                 return false;
-            } 
+            }
+            
+            uint32_t packageLen = m_copyRecvdData[1];
+            if (m_copyRecvdData.size() < packageLen){
+                my_mytex.unlock();
+                return false;
+            }
 
             std::cout << "m_copyRecvdData:\n";
-            for (int i = 0; i < m_copyRecvdData.size(); i++){
+            for (int i = 0; i < packageLen; i++){
                 printf("[%u]", m_copyRecvdData[i]);
                 ptrData[i] = m_copyRecvdData[i];
             }
             std::cout << std::endl;        
 
-            *lenInOut = m_copyRecvdData.size();
+            *lenInOut = packageLen;
             std::cout << "*lenInOut = " << *lenInOut << std::endl;
+
+            std::vector <uint8_t> tmp_vec = m_copyRecvdData;
             m_copyRecvdData.clear();
+            for (size_t i = 0; i < tmp_vec.size() - packageLen; i++){
+                m_copyRecvdData.push_back(tmp_vec[i + packageLen]);
+            }
+
             my_mytex.unlock();
             return true;
         }

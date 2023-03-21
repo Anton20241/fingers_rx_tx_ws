@@ -44,15 +44,15 @@ namespace boost_serial
                 for (size_t i = 0; i < bytes_transferred; i++){
                     m_copyRecvdData.push_back(m_recvdData[i]);
                 }
-                printf("\n[RECEIVED]:\n"
+                  /*printf("\n[RECEIVED]:\n"
                 "[%u][%u][%u][%u][%u][%u][%u][%u]\n"
                 "m_recvdCount = %u\n"
                 "m_sendCount = %u\n",
                 m_recvdData[0], m_recvdData[1], m_recvdData[2], m_recvdData[3],
                 m_recvdData[4], m_recvdData[5], m_recvdData[6], m_recvdData[7], m_recvdCount, m_sendCount);
-                cout << "bytes_transferred: "<< bytes_transferred << endl;
+                cout << "bytes_transferred: "<< bytes_transferred << endl;*/
             } else {
-                std::cout << "\n[ERROR RESEIVED FROM SERIAL]\n";
+                std::cout << "\n\033[1;31m[ERROR RESEIVED FROM SERIAL]\033[0m\n";
             }
             my_mytex.unlock();
             read_msg_serial();

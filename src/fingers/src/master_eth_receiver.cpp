@@ -158,7 +158,7 @@ private:
 
   void sendMsgToFingers(){
     if (currentState.hold_position == 1){
-      printf("currentState.hold_position = %u. MSG NOT TO SEND TO FINGERS.\n", currentState.hold_position);
+      printf("\033[1;33mcurrentState.hold_position = %u. MSG NOT TO SEND TO FINGERS.\033[0m\n", currentState.hold_position);
       return;
     }
     //отправка пакета в топик "toFingersTopic"
@@ -167,7 +167,7 @@ private:
     sendMsgToFingersTopic.layout.dim[0].size = 1;
     sendMsgToFingersTopic.layout.dim[0].stride = sizeof(dataToFingersTopic);
     sendMsgToFingersTopic.data.clear();
-    std::cout << "SEND TO toFingersTopic: ";
+    std::cout << "\033[1;34mSEND TO toFingersTopic: \033[0m";
     for (int i = 0; i < sizeof(dataToFingersTopic); i++){
       printf("[%u]", dataToFingersTopic[i]);
       sendMsgToFingersTopic.data.push_back(dataToFingersTopic[i]);
@@ -187,7 +187,7 @@ private:
     sendMsgToCameraTopic.layout.dim[0].size = 1;
     sendMsgToCameraTopic.layout.dim[0].stride = sizeof(dataToFingersTopic);
     sendMsgToCameraTopic.data.clear();
-    std::cout << "SEND TO camera_topic:\n";
+    std::cout << "\033[1;34mSEND TO camera_topic:\033[0m\n";
     printf("camera_from_udp = [%u]\n", currentState.camera_from_udp);
     printf("relay_state = [%u]\n", currentState.relay_state_from_udp);
     sendMsgToCameraTopic.data.push_back(currentState.camera_from_udp);
@@ -263,7 +263,7 @@ int main(int argc, char** argv){
   try{
     std::cout << "\n\033[1;32m╔═══════════════════════════════╗\033[0m"
               << "\n\033[1;32m║master_eth_receiver is running!║\033[0m" 
-              << "\n\033[1;32m╚═══════════════════════════════╝\033[0m";
+              << "\n\033[1;32m╚═══════════════════════════════╝\033[0m\n";
 		ros::init(argc, argv, "master_eth_receiver");
 		boost::asio::io_service io_service;
 		UDPServer udpServer(io_service);

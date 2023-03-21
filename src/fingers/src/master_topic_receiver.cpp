@@ -78,7 +78,7 @@ private:
     void topic_handle_receive(const std_msgs::ByteMultiArray::ConstPtr& recvdMsg) {
         getMsgFromTopic = true;
         recvd_count_topic++;
-        std::cout << "RECVD FROM TOPIC toFingersTopic recvdMsg->data.size() = " << recvdMsg->data.size() << std::endl;
+        std::cout << "\033[1;34mRECVD FROM TOPIC toFingersTopic recvdMsg->data.size() = \033[0m" << recvdMsg->data.size() << std::endl;
         std::cout << "recvd_count_topic = " << recvd_count_topic << std::endl;
         memset(dataFromTopic, 0, sizeof(dataFromTopic));
         memset(dataToTopic, 0, sizeof(dataToTopic));
@@ -116,7 +116,7 @@ private:
         sendMsgFromFingersTopic.layout.dim[0].size = 1;
         sendMsgFromFingersTopic.layout.dim[0].stride = sizeof(dataToTopic);
         sendMsgFromFingersTopic.data.clear();
-        std::cout << "\nSEND MSG TO TOPIC fromFingersTopic = ";
+        std::cout << "\n\033[1;34mSEND MSG TO TOPIC fromFingersTopic = \033[0m";
         for (int i = 0; i < sizeof(dataToTopic); i++){
             sendMsgFromFingersTopic.data.push_back(dataToTopic[i]);
             printf("[%u]", dataToTopic[i]);

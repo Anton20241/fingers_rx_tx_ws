@@ -127,7 +127,7 @@ private:
     toBatCamTopicMsg.layout.dim[0].stride = bytesToSendCount;
     toBatCamTopicMsg.data.clear();
 
-    std::cout << "SEND TO TOPIC bat_cam_topic: ";
+    std::cout << "\033[1;34mSEND TO TOPIC bat_cam_topic: \033[0m";
     for (size_t i = 0; i < bytesToSendCount; i++)
     {
       toBatCamTopicMsg.data.push_back(to_bat_cam_topic[i]);
@@ -156,14 +156,14 @@ private:
 
     if (relay_state != relay_state_prev){
       relay_state_prev = relay_state;
-      std::cout << "\n[send UART msg with new relay_state]\n";
+      std::cout << "\n\033[1;35m[send UART msg with new relay_state]\033[0m\n";
       m_protocol.sendCmdWrite(0x01, 0x20, toRelaySet, sizeof(toRelaySet));
       std::this_thread::sleep_for(std::chrono::milliseconds(6));
       msg_sent_relay = true;
     }
     if (cam_status != cam_status_prev){
       cam_status_prev = cam_status;
-      std::cout << "\n[send UART msg with new cam_status]\n";
+      std::cout << "\n\033[1;35m[send UART msg with new cam_status]\033[0m\n";
       m_protocol.sendCmdWrite(0x01, 0x10, &cam_status, sizeof(uint8_t));
       std::this_thread::sleep_for(std::chrono::milliseconds(6));
       msg_sent_cam = true;
@@ -181,7 +181,7 @@ int main(int argc, char** argv)
         std::cout << "\n\033[1;32m╔═══════════════════════════════════════╗\033[0m"
                   << "\n\033[1;32m║UART Node is running!                  ║\033[0m" 
                   << "\n\033[1;32m║Baud rate: " << baudrate << ", Port: /dev/ttyS" << devPort << "\t║\033[0m"
-                  << "\n\033[1;32m╚═══════════════════════════════════════╝\033[0m";
+                  << "\n\033[1;32m╚═══════════════════════════════════════╝\033[0m\n";
     ros::init(argc, argv, "uart_node");
     boost_serial::Boost_Serial_Async boostRS485_transp("/dev/ttyS" + devPort, (uint32_t)std::stoi(baudrate));
     protocol_master::ProtocolMaster boostRS485_prot_master(boostRS485_transp);

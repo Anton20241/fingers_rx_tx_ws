@@ -88,9 +88,9 @@ private:
     std::cout << "\033[1;31m[RECEIVE ERROR FROM UART]\033[0m\n";
     std::cout << "\033[1;31m[NON-Valid MESSAGE]:\033[0m\n";
     for (int i = 0; i < from_board_dataSize; i++){
-        printf("[%u]", from_board_data[i]);
+      printf("[%u]", from_board_data[i]);
     }
-
+    std::cout << std::endl;
 
     resvdFromDev = 0;
     memset(from_board_data, 0, from_board_dataSize);

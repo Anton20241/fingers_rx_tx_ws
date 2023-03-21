@@ -349,23 +349,23 @@ namespace protocol_master
             //get bytes
             std::memset(recvdBuff, 0, sizeof(recvdBuff));
             uint32_t recvdBuffSize = 0;
-            m_transport.getData(recvdBuff, &recvdBuffSize);
+            bool get_bytes = m_transport.getData(recvdBuff, &recvdBuffSize);
 
-            if (recvdBuffSize != 0){
-                // std::cout << "recvdBuffSize != 0\n";
+            if (get_bytes){
+                //std::cout << "get_bytes\n";
                 not_bytes_received = 0;
                 byteIsGetBefore = true;
             
-            } else if (!byteIsGetBefore && (recvdBuffSize == 0) && !wait_response){
-                // std::cout << "!byteIsGetBefore && (recvdBuffSize == 0) && !wait_response\n";
+            } else if (!byteIsGetBefore && !get_bytes && !wait_response){
+                //std::cout << "!byteIsGetBefore && !get_bytes && !wait_response\n";
                 getResponse = !wait_response;
                 return false;
 
             } else {
-                // std::cout << "else\n";
+                //std::cout << "else\n";
                 not_bytes_received++;
-                if (not_bytes_received > 6){
-                    // std::cout << "!byteIsGetBefore && (recvdBuffSize == 0) && !wait_response\n";
+                if (not_bytes_received > 1){
+                    //std::cout << "not_bytes_received > 1\n";
                     getResponse = false;
                     return false;
                 }
@@ -400,7 +400,7 @@ namespace protocol_master
 
     void ProtocolMaster::collectPkg(uint8_t* resvdData, uint32_t resvdBytes, 
             uint8_t* dataUart, uint32_t& dataUartSize, bool& pkgIsReadyToParse){
-                
+        if (resvdBytes == 0) return;
         memcpy(dataUart + dataUartSize, resvdData, resvdBytes);
         dataUartSize += resvdBytes;
 

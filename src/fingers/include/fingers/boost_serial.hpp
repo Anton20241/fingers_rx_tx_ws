@@ -35,7 +35,6 @@ namespace boost_serial
         uint32_t m_sendCount = 0;
         uint32_t m_recvdCount = 0;
         boost::mutex my_mytex;
-        bool get_bytes = false;
         
         void read_handler(const boost::system::error_code& error,size_t bytes_transferred)
         {
@@ -54,7 +53,7 @@ namespace boost_serial
                 printf("\n[RECEIVED]:\n");
                 for (size_t i = 0; i < m_copyRecvdData.size(); i++)
                 {
-                printf("[%u]", m_copyRecvdData[i]);
+                    printf("[%u]", m_copyRecvdData[i]);
                 }
                 std::cout << std::endl;
                   
@@ -118,27 +117,27 @@ namespace boost_serial
         {
             my_mytex.lock();
 
-            //std::cout << "getData(...)\n";
+            uint32_t packageLen = 0;
 
-            if (m_copyRecvdData.size() < 2){
-                std::cout << "m_copyRecvdData.size() < 2\n";
+            if (m_copyRecvdData.empty()){
+                //std::cout << "m_copyRecvdData.empty()\n";
                 my_mytex.unlock();
                 return false;
             }
-            
-            uint32_t packageLen = m_copyRecvdData[1];
+            std::cout << "get_data\n";
+            if (m_copyRecvdData.size() == 1) packageLen = m_copyRecvdData.size();
+            else packageLen = m_copyRecvdData[1];
 
-            if (packageLen > 8 || packageLen == 0){
-                std::cout << "packageLen > 8 || packageLen == 0\n";
+            if (packageLen > 8 ||  packageLen == 0){
+                //std::cout << "packageLen > 8 ||  packageLen == 0\n";
                 m_copyRecvdData.clear();
                 my_mytex.unlock();
-                return false;
+                return true;
             }
 
             if (m_copyRecvdData.size() < packageLen){
-                std::cout << "packageLen > 8 || packageLen == 0\n";
                 my_mytex.unlock();
-                return false;
+                return true;
             }
 
             std::cout << "m_copyRecvdData:\n";

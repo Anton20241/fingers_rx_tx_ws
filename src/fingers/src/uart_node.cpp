@@ -81,6 +81,7 @@ private:
   bool msg_sent_cam = false;
 
   void sendError(){
+    m_protocol.m_transport.send_error = true;
     static uint32_t failCount = 0;
     failCount++;
     std::cout << "\nfailCount = " << failCount << std::endl;

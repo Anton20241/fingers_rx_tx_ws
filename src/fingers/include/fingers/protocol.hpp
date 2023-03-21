@@ -121,9 +121,9 @@ namespace protocol_master
                                         bool& getResponse, bool wait_response, uint8_t cam_status);
             bool sendCmdReadWriteUART(uint8_t addressTo, uint8_t cmd, const uint8_t* dataTo, uint32_t dataToSize, 
                                         uint8_t* dataFrom, uint32_t* dataFromSize);
-
-        private:
             i_transport::ITransport&    m_transport;
+        private:
+            //i_transport::ITransport&    m_transport;
             void collectPkg(uint8_t* resvdData, uint32_t resvdBytes, uint8_t* dataUart, uint32_t& dataUartSize, bool& pkgIsReady);
             bool parserOk(uint8_t* dataUart, uint32_t& dataUartSize);
             void updateDataUart(uint8_t* dataUart, uint32_t& dataUartSize);

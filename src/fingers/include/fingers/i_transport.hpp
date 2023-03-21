@@ -26,6 +26,7 @@ namespace i_transport
 
         virtual bool sendData(const uint8_t* ptrData, uint32_t len) = 0;
         virtual bool getData(uint8_t* ptrData, uint32_t* lenInOut) = 0;
+        bool send_error = false;
     };
 /* Exported functions --------------------------------------------------------*/
 }

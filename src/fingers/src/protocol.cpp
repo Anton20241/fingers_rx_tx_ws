@@ -352,16 +352,20 @@ namespace protocol_master
             m_transport.getData(recvdBuff, &recvdBuffSize);
 
             if (recvdBuffSize != 0){
+                // std::cout << "recvdBuffSize != 0\n";
                 not_bytes_received = 0;
                 byteIsGetBefore = true;
             
             } else if (!byteIsGetBefore && (recvdBuffSize == 0) && !wait_response){
+                // std::cout << "!byteIsGetBefore && (recvdBuffSize == 0) && !wait_response\n";
                 getResponse = !wait_response;
                 return false;
 
             } else {
+                // std::cout << "else\n";
                 not_bytes_received++;
                 if (not_bytes_received > 6){
+                    // std::cout << "!byteIsGetBefore && (recvdBuffSize == 0) && !wait_response\n";
                     getResponse = false;
                     return false;
                 }
@@ -376,7 +380,8 @@ namespace protocol_master
             }
 
             if (parser(dataFrom, *dataFromSize)) return true;
-
+            std::cout << "[PARSER FAIL]\n";
+            
             not_response_on_request++;
             if (not_response_on_request > 5){
                 getResponse = false;

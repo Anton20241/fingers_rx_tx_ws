@@ -35,22 +35,35 @@ namespace boost_serial
         uint32_t m_sendCount = 0;
         uint32_t m_recvdCount = 0;
         boost::mutex my_mytex;
+        bool get_bytes = false;
         
         void read_handler(const boost::system::error_code& error,size_t bytes_transferred)
         {
             my_mytex.lock();
             if(!error && bytes_transferred > 0){
                 m_recvdCount++;
+                
+                if(send_error) {
+                    m_copyRecvdData.clear();
+                    send_error = false;
+                }
+                
                 for (size_t i = 0; i < bytes_transferred; i++){
                     m_copyRecvdData.push_back(m_recvdData[i]);
                 }
-                  /*printf("\n[RECEIVED]:\n"
-                "[%u][%u][%u][%u][%u][%u][%u][%u]\n"
-                "m_recvdCount = %u\n"
-                "m_sendCount = %u\n",
-                m_recvdData[0], m_recvdData[1], m_recvdData[2], m_recvdData[3],
-                m_recvdData[4], m_recvdData[5], m_recvdData[6], m_recvdData[7], m_recvdCount, m_sendCount);
-                cout << "bytes_transferred: "<< bytes_transferred << endl;*/
+                printf("\n[RECEIVED]:\n");
+                for (size_t i = 0; i < m_copyRecvdData.size(); i++)
+                {
+                printf("[%u]", m_copyRecvdData[i]);
+                }
+                std::cout << std::endl;
+                  
+                // "[%u][%u][%u][%u][%u][%u][%u][%u]\n"
+                // "m_recvdCount = %u\n"
+                // "m_sendCount = %u\n",
+                // m_recvdData[0], m_recvdData[1], m_recvdData[2], m_recvdData[3],
+                // m_recvdData[4], m_recvdData[5], m_recvdData[6], m_recvdData[7], m_recvdCount, m_sendCount);
+                cout << "bytes_transferred: "<< bytes_transferred << endl;
             } else {
                 std::cout << "\n\033[1;31m[ERROR RESEIVED FROM SERIAL]\033[0m\n";
             }
@@ -59,6 +72,7 @@ namespace boost_serial
         }
 
     public: 
+        
         Boost_Serial_Async(string dev_Port, uint32_t baudrate):m_ioService(),m_port(m_ioService, dev_Port)
         {
             termios t;
@@ -104,13 +118,25 @@ namespace boost_serial
         {
             my_mytex.lock();
 
+            //std::cout << "getData(...)\n";
+
             if (m_copyRecvdData.size() < 2){
+                std::cout << "m_copyRecvdData.size() < 2\n";
                 my_mytex.unlock();
                 return false;
             }
             
             uint32_t packageLen = m_copyRecvdData[1];
+
+            if (packageLen > 8 || packageLen == 0){
+                std::cout << "packageLen > 8 || packageLen == 0\n";
+                m_copyRecvdData.clear();
+                my_mytex.unlock();
+                return false;
+            }
+
             if (m_copyRecvdData.size() < packageLen){
+                std::cout << "packageLen > 8 || packageLen == 0\n";
                 my_mytex.unlock();
                 return false;
             }
@@ -148,6 +174,7 @@ namespace boost_serial
         ~Boost_Serial_Async() override {
             m_port.close();
         };
+
     };
 
 /////////////////////////////////////////////////////////////////

@@ -83,12 +83,12 @@ private:
     static uint32_t failCount = 0;
     failCount++;
     std::cout << "\nfailCount = " << failCount << std::endl;
-    std::cout << "[RECEIVE ERROR FROM UART]\n";
-    std::cout << "[NON-Valid MESSAGE]:\n";
+    std::cout << "\033[1;31m[RECEIVE ERROR FROM UART]\033[0m\n";
+    std::cout << "\033[1;31m[NON-Valid MESSAGE]:\033[0m\n";
     for (int i = 0; i < from_board_dataSize; i++){
         printf("[%u]", from_board_data[i]);
     }
-    std::cout << "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n\n";
+
 
     resvdFromDev = 0;
     memset(from_board_data, 0, from_board_dataSize);

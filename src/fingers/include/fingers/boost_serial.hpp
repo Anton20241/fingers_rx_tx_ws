@@ -35,6 +35,7 @@ namespace boost_serial
         uint32_t m_sendCount = 0;
         uint32_t m_recvdCount = 0;
         boost::mutex my_mytex;
+        uint32_t bytesGet = 0;
         
         void read_handler(const boost::system::error_code& error,size_t bytes_transferred)
         {
@@ -116,29 +117,29 @@ namespace boost_serial
         bool getData(uint8_t* ptrData, uint32_t* lenInOut)
         {
             my_mytex.lock();
-
             uint32_t packageLen = 0;
 
             if (m_copyRecvdData.empty()){
-                //std::cout << "m_copyRecvdData.empty()\n";
+                // std::cout << "m_copyRecvdData.empty()\n";
                 my_mytex.unlock();
                 return false;
             }
-            std::cout << "get_data\n";
-            if (m_copyRecvdData.size() == 1) packageLen = m_copyRecvdData.size();
-            else packageLen = m_copyRecvdData[1];
 
-            if (packageLen > 8 ||  packageLen == 0){
-                //std::cout << "packageLen > 8 ||  packageLen == 0\n";
+            if (m_copyRecvdData.size() != bytesGet){
+                //std::cout << "m_copyRecvdData.size() != bytesGet\n";
+                bytesGet = m_copyRecvdData.size();
+                my_mytex.unlock();
+                return false;
+            }
+
+            if (m_copyRecvdData.size() < 5 || m_copyRecvdData.size() > 32 || m_copyRecvdData[1] > 8 || m_copyRecvdData[1] == 0){
+                std::cout << "m_copyRecvdData.size() < 5 || m_copyRecvdData.size() > 32 || m_copyRecvdData[1] > 8 || m_copyRecvdData[1] == 0\n";
                 m_copyRecvdData.clear();
                 my_mytex.unlock();
                 return true;
             }
 
-            if (m_copyRecvdData.size() < packageLen){
-                my_mytex.unlock();
-                return true;
-            }
+            packageLen = m_copyRecvdData[1];
 
             std::cout << "m_copyRecvdData:\n";
             for (int i = 0; i < packageLen; i++){
@@ -155,6 +156,7 @@ namespace boost_serial
             for (size_t i = 0; i < tmp_vec.size() - packageLen; i++){
                 m_copyRecvdData.push_back(tmp_vec[i + packageLen]);
             }
+            bytesGet = 0;
 
             my_mytex.unlock();
             return true;

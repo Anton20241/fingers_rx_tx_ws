@@ -48,22 +48,6 @@ stdbool.h
 stdint.h
 -
 
-/home/raspberrypi/rtc_work/fingers_rx_tx_ws/src/fingers/src/protocol.cpp
-protocol.hpp
-/home/raspberrypi/rtc_work/fingers_rx_tx_ws/src/fingers/src/protocol.hpp
-umba_crc_table.h
-/home/raspberrypi/rtc_work/fingers_rx_tx_ws/src/fingers/src/umba_crc_table.h
-assert.h
--
-iostream
--
-chrono
--
-thread
--
-cstring
--
-
 /home/raspberrypi/rtc_work/fingers_rx_tx_ws/src/fingers/src/uart_node.cpp
 iostream
 -

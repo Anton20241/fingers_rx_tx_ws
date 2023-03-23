@@ -117,45 +117,66 @@ namespace boost_serial
         bool getData(uint8_t* ptrData, uint32_t* lenInOut)
         {
             my_mytex.lock();
-            uint32_t packageLen = 0;
 
-            if (m_copyRecvdData.empty()){
-                // std::cout << "m_copyRecvdData.empty()\n";
-                my_mytex.unlock();
-                return false;
-            }
+            //std::cout << "bytesGet = " << bytesGet << std::endl;
+            //std::cout << "m_copyRecvdData.size() = " << m_copyRecvdData.size() << std::endl;
 
-            if (m_copyRecvdData.size() != bytesGet){
-                //std::cout << "m_copyRecvdData.size() != bytesGet\n";
+            if (m_copyRecvdData.size() != bytesGet || m_copyRecvdData.empty()){
+                //std::cout << "m_copyRecvdData.size() != bytesGet || m_copyRecvdData.empty()\n";
                 bytesGet = m_copyRecvdData.size();
                 my_mytex.unlock();
                 return false;
             }
 
-            if (m_copyRecvdData.size() < 5 || m_copyRecvdData.size() > 32 || m_copyRecvdData[1] > 8 || m_copyRecvdData[1] == 0){
-                std::cout << "m_copyRecvdData.size() < 5 || m_copyRecvdData.size() > 32 || m_copyRecvdData[1] > 8 || m_copyRecvdData[1] == 0\n";
+            if (m_copyRecvdData.size() < 2 || m_copyRecvdData[1] > 8 || m_copyRecvdData[1] == 0){
+                //std::cout << "m_copyRecvdData.size() < 2 || m_copyRecvdData[1] > 8 || m_copyRecvdData[1] == 0\n";
                 m_copyRecvdData.clear();
                 my_mytex.unlock();
                 return true;
             }
+            
+            uint32_t packageLen           = m_copyRecvdData[1];
+            uint32_t m_copyRecvdData_size = m_copyRecvdData.size();
 
-            packageLen = m_copyRecvdData[1];
+            if (packageLen > m_copyRecvdData_size) {
+                my_mytex.unlock();
+                return true;
+            }            
 
             std::cout << "m_copyRecvdData:\n";
             for (int i = 0; i < packageLen; i++){
-                printf("[%u]", m_copyRecvdData[i]);
                 ptrData[i] = m_copyRecvdData[i];
+                printf("[%u]", m_copyRecvdData[i]);
             }
             std::cout << std::endl;        
 
             *lenInOut = packageLen;
             std::cout << "*lenInOut = " << *lenInOut << std::endl;
 
-            std::vector <uint8_t> tmp_vec = m_copyRecvdData;
-            m_copyRecvdData.clear();
-            for (size_t i = 0; i < tmp_vec.size() - packageLen; i++){
-                m_copyRecvdData.push_back(tmp_vec[i + packageLen]);
+            auto position = m_copyRecvdData.begin();
+            auto begin = m_copyRecvdData.begin() + packageLen;
+            auto end = begin + m_copyRecvdData.size() - packageLen;
+            // std::cout << "\ninsert data: ";
+            // for (auto iter = begin; iter != end; iter++) {
+            //     printf("[%u]",*iter);
+            // }
+            
+            m_copyRecvdData.insert(position, begin, end);
+            
+
+            //std::cout << "\npackageLen = " << packageLen << std::endl;
+            //std::cout << "m_copyRecvdData.size() = " <<  m_copyRecvdData.size() << std::endl;
+
+            m_copyRecvdData.erase(m_copyRecvdData.begin(), m_copyRecvdData.begin() + m_copyRecvdData_size);
+
+            //std::cout << "after erase() m_copyRecvdData.size() = " << m_copyRecvdData.size() << std::endl;
+
+            std::cout << "m_copyRecvdData:\n";
+            for (int i = 0; i < m_copyRecvdData.size(); i++){
+                printf("[%u]", m_copyRecvdData[i]);
             }
+            std::cout << std::endl;    
+
             bytesGet = 0;
 
             my_mytex.unlock();

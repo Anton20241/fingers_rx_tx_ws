@@ -22,10 +22,12 @@ public:
     };
 
   void UART_process(){
+    static uint32_t fail_count = 0;
     if (msg_sent_relay){
       bool getResponse = false;
       if (m_protocol.sendCmdReadUART(0x01, from_board_data, &from_board_dataSize, getResponse, msg_sent_relay, cam_status)){
         resvdFromDev |= 128;
+        fail_count = 0;
         pub_board_data();
       } else {
         std::cout << "[msg SEND and failed]\n";
@@ -37,6 +39,7 @@ public:
       bool getResponse = false;
       if (m_protocol.sendCmdReadUART(0x01, from_board_data, &from_board_dataSize, getResponse, msg_sent_cam, cam_status)){
         resvdFromDev |= 128;
+        fail_count = 0;
         pub_board_data();
       } else {
         std::cout << "[msg SEND and failed]\n";
@@ -45,7 +48,6 @@ public:
       msg_sent_cam = false;
 
     } else {
-      static uint32_t fail_count = 0;
       bool getResponse = false;
       if (m_protocol.sendCmdReadUART(0x01, from_board_data, &from_board_dataSize, getResponse, false, cam_status)){
         resvdFromDev |= 128;
@@ -87,11 +89,11 @@ private:
     std::cout << "\nfailCount = " << failCount << std::endl;
     std::cout << "\033[1;31m[RECEIVE ERROR FROM UART]\033[0m\n";
     std::cout << "\033[1;31m[NON-Valid MESSAGE]:\033[0m\n";
+    
     for (int i = 0; i < from_board_dataSize; i++){
       printf("[%u]", from_board_data[i]);
     }
     std::cout << std::endl;
-
     resvdFromDev = 0;
     memset(from_board_data, 0, from_board_dataSize);
     from_board_dataSize = 1;

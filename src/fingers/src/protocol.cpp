@@ -364,18 +364,18 @@ namespace protocol_master
             } else {
                 //std::cout << "else\n";
                 not_bytes_received++;
-                if (not_bytes_received > 1){
-                    //std::cout << "not_bytes_received > 1\n";
+                if (not_bytes_received > 5){
+                    //std::cout << "not_bytes_received > 10\n";
                     getResponse = false;
                     return false;
                 }
-                std::this_thread::sleep_for(std::chrono::milliseconds(1));
+                std::this_thread::sleep_for(std::chrono::milliseconds(2));
                 continue;
             } 
 
             collectPkg(recvdBuff, recvdBuffSize, dataFrom, *dataFromSize, pkgIsReadyToParse);
             if (!pkgIsReadyToParse){
-                std::this_thread::sleep_for(std::chrono::milliseconds(1));
+                std::this_thread::sleep_for(std::chrono::milliseconds(2));
                 continue;
             }
 

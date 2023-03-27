@@ -7,16 +7,42 @@
 
 #define PORT 20002
 
+#define RAW_UDP_DATA 1
+#define COMPLETE_UDP_DATA 2
+
+#define CODE_PART RAW_UDP_DATA
+
+#if CODE_PART == RAW_UDP_DATA
+
+#define DATA_FROM_UDP_SIZE 42
+#define DATA_TO_UDP_SIZE 69
+#define DATA_FROM_FINGERS_TOPIC_SIZE 56
+#define DATA_TO_FINGERS_TOPIC_SIZE 31
+
+#elif CODE_PART == COMPLETE_UDP_DATA
+
+#define DATA_FROM_UDP_SIZE 36
+#define DATA_TO_UDP_SIZE 51
+#define DATA_FROM_FINGERS_TOPIC_SIZE 37
+#define DATA_TO_FINGERS_TOPIC_SIZE 25
+
+#else 
+
+#error "INCORRECT CODE_PART"
+
+#endif
+
+
 using boost::asio::ip::udp;
 using boost::asio::ip::address;
 
 class UDPServer{
 public:
 	UDPServer(boost::asio::io_service& io_service): socket_(io_service, udp::endpoint(udp::v4(), PORT)){
-    toFingersPub = node.advertise<std_msgs::ByteMultiArray>("toFingersTopic", 10);
-    toCamPub = node.advertise<std_msgs::ByteMultiArray>("camera_topic", 10);
-    fromFingersSub = node.subscribe<std_msgs::ByteMultiArray>("fromFingersTopic", 10, &UDPServer::from_finger_handle_receive, this);
-    fromCamBatSub = node.subscribe<std_msgs::ByteMultiArray>("bat_cam_topic", 10, &UDPServer::from_cam_bat_handle_receive, this);
+    toFingersPub = node.advertise<std_msgs::ByteMultiArray>("toFingersTopic", 0);
+    toCamPub = node.advertise<std_msgs::ByteMultiArray>("camera_topic", 0);
+    fromFingersSub = node.subscribe<std_msgs::ByteMultiArray>("fromFingersTopic", 0, &UDPServer::from_finger_handle_receive, this);
+    fromCamBatSub = node.subscribe<std_msgs::ByteMultiArray>("bat_cam_topic", 0, &UDPServer::from_cam_bat_handle_receive, this);
     boost::bind(&UDPServer::udp_handle_receive, this, boost::asio::placeholders::error, boost::asio::placeholders::bytes_transferred);
     read_msg_udp();
   }
@@ -39,11 +65,10 @@ public:
 private:
 	udp::socket socket_;
 	udp::endpoint sender_endpoint_;
-	uint8_t dataFromUDP[42] = {0};
-  uint32_t dataFromUDPSize = 42;
-	uint8_t dataToUDP[69] = {0};
-  uint8_t dataToFingersTopic[31] = {0};
-  uint8_t dataFromFingersTopic[56] = {0};
+	uint8_t dataFromUDP[DATA_FROM_UDP_SIZE] = {0};
+	uint8_t dataToUDP[DATA_TO_UDP_SIZE] = {0};
+  uint8_t dataToFingersTopic[DATA_TO_FINGERS_TOPIC_SIZE] = {0};
+  uint8_t dataFromFingersTopic[DATA_FROM_FINGERS_TOPIC_SIZE] = {0};
   ros::NodeHandle node;
   ros::Publisher toFingersPub;
   ros::Subscriber fromFingersSub;
@@ -204,7 +229,7 @@ private:
     dataToUDP[0] = 0xBB;                                                                            //header 1b
     dataToUDP[1] = 0xAA;                                                                            //header 1b
     dataToUDP[2] = sizeof(dataToUDP);                                                               //data length 1b
-    memcpy(dataToUDP + 3, dataFromFingersTopic, sizeof(dataFromFingersTopic) - sizeof(uint8_t));                  //data from fingers 9*6b
+    memcpy(dataToUDP + 3, dataFromFingersTopic, sizeof(dataFromFingersTopic) - sizeof(uint8_t));    //data from fingers 9*6b
     dataToUDP[sizeof(dataToUDP) - 12 * sizeof(uint8_t)] = currentState.hand_mount;                  //hand_mount 1b
     dataToUDP[sizeof(dataToUDP) - 11 * sizeof(uint8_t)] = currentState.hold_position;               //hold_position 1b
     dataToUDP[sizeof(dataToUDP) - 10 * sizeof(uint8_t)] = currentState.camera_from_bat_cam;         //camera_from_bat_cam 1b
@@ -248,11 +273,11 @@ private:
     if (dataFromUDP[0] != 0xAA) return false;
     if (dataFromUDP[1] != 0xBB) return false;
     /* Если длина пакета не валидная, ошибка */
-    if (getLen(dataFromUDP) != dataFromUDPSize) {
+    if (getLen(dataFromUDP) != DATA_FROM_UDP_SIZE) {
       return false;
     }
     /* Если контрольная сумма не совпадает, приняли муссор, ошибка */
-    if (umba_crc8_table(dataFromUDP, dataFromUDPSize - sizeof(uint8_t)) != getCrc8(dataFromUDP, dataFromUDPSize)) {
+    if (umba_crc8_table(dataFromUDP, DATA_FROM_UDP_SIZE - sizeof(uint8_t)) != getCrc8(dataFromUDP, DATA_FROM_UDP_SIZE)) {
       return false;
     }
     return true;

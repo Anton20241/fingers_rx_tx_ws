@@ -264,17 +264,17 @@ namespace protocol_master
         return ptrBuff[indexCmd];
     }
 
-    bool ProtocolMaster::parser(uint8_t* ptrBuff, uint32_t len)
+    bool ProtocolMaster::parser(uint8_t* ptrBuff, uint32_t len, uint8_t addressTo)
     {
         /* Если адрес не валидный, ошибка */
-        if (getAddr(ptrBuff) != 0x00) {
+        if (getAddr(ptrBuff) != addressTo) {
             return false;
         }
         /* Если длина пакета не валидная, ошибка */
         if (getLen(ptrBuff) != len) {
             return false;
         }
-        if (getLen(ptrBuff) != 5 && getLen(ptrBuff) != 8) {
+        if (getLen(ptrBuff) != 5 && getLen(ptrBuff) != 8 && getLen(ptrBuff) != 6  && getLen(ptrBuff) != 9) {
             return false;
         }
         /* Если команды не соответствуют пакетам, ошибка*/
@@ -379,7 +379,7 @@ namespace protocol_master
                 continue;
             }
 
-            if (parser(dataFrom, *dataFromSize)) return true;
+            if (parser(dataFrom, *dataFromSize, 0x00)) return true;
             std::cout << "[PARSER FAIL]\n";
             
             not_response_on_request++;
@@ -410,8 +410,10 @@ namespace protocol_master
         }
         std::cout << std::endl;
         
-        if (dataUartSize >= 8) pkgIsReadyToParse = true;
         if (dataUartSize >= 5 && dataUart[1] == 5) pkgIsReadyToParse = true;
+        if (dataUartSize >= 6 && dataUart[1] == 6) pkgIsReadyToParse = true;
+        if (dataUartSize >= 8 && dataUart[1] == 8) pkgIsReadyToParse = true;
+        if (dataUartSize >= 9 && dataUart[1] == 9) pkgIsReadyToParse = true;
 
     }
     
@@ -428,6 +430,16 @@ namespace protocol_master
         return true;
     }
 
+    bool ProtocolMaster::sendCmdWriteComplete(const uint8_t* dataTo, uint32_t dataToSize){
+        std::memset(buff, 0, sizeof(buff));
+        std::memset(recvdBuff, 0, sizeof(recvdBuff));
+        memcpy(buff, dataTo, dataToSize);
+        /* Отправляем CmdWrite */
+        assert(m_transport.sendData(buff, buff[1]));
+        return true;
+    }
+    
+
     bool ProtocolMaster::sendCmdReadWrite(uint8_t addressTo, uint8_t cmd, const uint8_t* dataTo, uint32_t dataToSize, 
                                         uint8_t* dataFrom, uint32_t* dataFromSize){
         std::memset(buff, 0, sizeof(buff));
@@ -440,10 +452,64 @@ namespace protocol_master
         buff[len + dataToSize - sizeof(uint8_t)] = umba_crc8_table(buff,len + dataToSize - sizeof(uint8_t));
         /* Отправляем CmdReadWrite */
         assert(m_transport.sendData(buff, buff[1]));
+
         /* Ждем DATA */
         std::this_thread::sleep_for(std::chrono::microseconds(300));
-        if (!m_transport.getData(dataFrom, dataFromSize)) return false;
-        return true;
+
+        uint32_t not_response_on_request = 0;
+        uint32_t not_bytes_received = 0;
+        uint32_t pkgSize = 0;
+
+        while (1){
+            bool pkgIsReadyToParse = false;
+
+            //get bytes
+            std::memset(recvdBuff, 0, sizeof(recvdBuff));
+            uint32_t recvdBuffSize = 0;
+            bool get_bytes = m_transport.getData(recvdBuff, &recvdBuffSize);
+
+            if (get_bytes){
+                //std::cout << "get_bytes\n";
+                not_bytes_received = 0;
+            
+            } else {
+                //std::cout << "else\n";
+                not_bytes_received++;
+                if (not_bytes_received > 3){
+                    //std::cout << "not_bytes_received > 1\n";
+                    return false;
+                }
+                std::this_thread::sleep_for(std::chrono::microseconds(100));
+                continue;
+            }
+
+            collectPkg(recvdBuff, recvdBuffSize, dataFrom, *dataFromSize, pkgIsReadyToParse);
+
+            if (!pkgIsReadyToParse){
+                std::this_thread::sleep_for(std::chrono::microseconds(100));
+                continue;
+            }
+
+            if (parser(dataFrom, *dataFromSize, addressTo)) return true;
+            std::cout << "[PARSER RS FAIL]\n";
+            
+            not_response_on_request++;
+            if (not_response_on_request > 5){
+                std::cout << "not_response_on_request RS\n";
+                return false;
+            }
+
+            sendCmdWrite(addressTo, cmd, dataTo, dataToSize);
+            std::this_thread::sleep_for(std::chrono::microseconds(300));
+
+            memset(dataFrom, 0, *dataFromSize);
+            *dataFromSize = 0;
+        
+        }
+        
+        // std::this_thread::sleep_for(std::chrono::microseconds(300));
+        // if (!m_transport.getData(dataFrom, dataFromSize)) return false;
+        // return true;
     }
 
     bool ProtocolMaster::sendSomeCmd(const uint8_t* dataTo, uint32_t dataToSize, uint8_t* dataFrom, uint32_t* dataFromSize){
@@ -451,20 +517,64 @@ namespace protocol_master
         std::memset(recvdBuff, 0, sizeof(recvdBuff));
         std::memset(dataFrom, 0, *dataFromSize);
         memcpy(buff, dataTo, dataToSize);
-        buff[dataToSize] = umba_crc8_table(buff, dataToSize);
         /* Отправляем SomeCmd */
-        assert(m_transport.sendData(buff, dataToSize + sizeof(uint8_t)));
+        assert(m_transport.sendData(buff, dataToSize));
+        if (getCmd(buff) == cmdWrite) return true;
+
         /* Ждем DATA */
         std::this_thread::sleep_for(std::chrono::microseconds(300));
-        if (getCmd(buff) == cmdWrite) return true;
-        if (!m_transport.getData(dataFrom, dataFromSize)) return false;
-        if (getCmd(buff) == cmdNop){
-            if (buff[0] != getAddr(dataFrom)) return false;
-            if (buff[1] != getLen(dataFrom)) return false;
-            if (buff[2] != getCmd(dataFrom)) return false;
-            if (buff[3] != getCrc8(dataFrom, getLen(dataFrom))) return false;
+
+        uint32_t not_response_on_request = 0;
+        uint32_t not_bytes_received = 0;
+        uint32_t pkgSize = 0;
+
+        while (1){
+            bool pkgIsReadyToParse = false;
+
+            //get bytes
+            std::memset(recvdBuff, 0, sizeof(recvdBuff));
+            uint32_t recvdBuffSize = 0;
+            bool get_bytes = m_transport.getData(recvdBuff, &recvdBuffSize);
+
+            if (get_bytes){
+                //std::cout << "get_bytes\n";
+                not_bytes_received = 0;
+            
+            } else {
+                //std::cout << "else\n";
+                not_bytes_received++;
+                if (not_bytes_received > 3){
+                    //std::cout << "not_bytes_received > 1\n";
+                    return false;
+                }
+                std::this_thread::sleep_for(std::chrono::microseconds(100));
+                continue;
+            }
+
+            collectPkg(recvdBuff, recvdBuffSize, dataFrom, *dataFromSize, pkgIsReadyToParse);
+
+            if (!pkgIsReadyToParse){
+                std::this_thread::sleep_for(std::chrono::microseconds(100));
+                continue;
+            }
+
+            if (parser(dataFrom, *dataFromSize, dataTo[0])) return true;
+            std::cout << "[PARSER RS FAIL]\n";
+            
+            not_response_on_request++;
+            if (not_response_on_request > 5){
+                std::cout << "not_response_on_request RS\n";
+                return false;
+            }
+
+            sendCmdWriteComplete(dataTo, dataToSize);
+            std::this_thread::sleep_for(std::chrono::microseconds(300));
+
+            memset(dataFrom, 0, *dataFromSize);
+            *dataFromSize = 0;
+        
         }
-        return true;
+
     }
 
 } //namespace protocol_master

@@ -26,115 +26,115 @@ public:
 
     void sendMsg() {
     
-        uint8_t msg[] =       {0xAA, 0xBB, 42,          //header
-                               0x1, 0x2, 0x3, 0x4, 0x5, //data to fingers
-                               0x1, 0x2, 0x3, 0x4, 0x5, //data to fingers
-                               0x1, 0x2, 0x3, 0x4, 0x5, //data to fingers
-                               0x1, 0x2, 0x3, 0x4, 0x5, //data to fingers 
-                               0x1, 0x2, 0x3, 0x4, 0x5, //data to fingers
-                               0x1, 0x2, 0x3, 0x4, 0x5, //data to fingers
-                               0x1,                     //hand_mount
-                               0x1,                     //hold_position
-                               0x1,                     //camera_from_bat_cam
-                               0x1,                     //relay_state
-                               0x1,                     //keepalive
-                               0x1,                     //keepalive
-                               0x1,                     //keepalive
-                               0x1                      //keepalive
+        uint8_t msg[] =       {0xAA, 0xBB, 36,              //header
+                               0x21, 0x04, 0x10, 0xB4,      //data to fingers
+                               0x22, 0x04, 0x10, 0x7E,      //data to fingers
+                               0x23, 0x04, 0x10, 0x38,      //data to fingers
+                               0x24, 0x04, 0x10, 0xD8,      //data to fingers 
+                               0x25, 0x04, 0x10, 0x9D,      //data to fingers
+                               0x26, 0x04, 0x10, 0x57,      //data to fingers
+                               0x1,                         //hand_mount
+                               0x1,                         //hold_position
+                               0x1,                         //camera_from_bat_cam
+                               0x1,                         //relay_state
+                               0x1,                         //keepalive
+                               0x1,                         //keepalive
+                               0x1,                         //keepalive
+                               0x1                          //keepalive
                                };
 
         uint8_t crc8 = umba_crc8_table(msg, sizeof(msg));
 
-        uint8_t msgToSend[] = {0xAA, 0xBB, 42,          //header
-                               0x1, 0x2, 0x3, 0x4, 0x5, //data to fingers
-                               0x1, 0x2, 0x3, 0x4, 0x5, //data to fingers
-                               0x1, 0x2, 0x3, 0x4, 0x5, //data to fingers
-                               0x1, 0x2, 0x3, 0x4, 0x5, //data to fingers 
-                               0x1, 0x2, 0x3, 0x4, 0x5, //data to fingers
-                               0x1, 0x2, 0x3, 0x4, 0x5, //data to fingers
-                               0x1,                     //hand_mount
-                               0x1,                     //hold_position
-                               0x1,                     //camera_from_bat_cam
-                               0x1,                     //relay_state
-                               0x1,                     //keepalive
-                               0x1,                     //keepalive
-                               0x1,                     //keepalive
-                               0x1,                     //keepalive
-                               crc8                     //crc8
+        uint8_t msgToSend[] = {0xAA, 0xBB, 36,              //header
+                               0x21, 0x04, 0x10, 0xB4,      //data to fingers
+                               0x22, 0x04, 0x10, 0x7E,      //data to fingers
+                               0x23, 0x04, 0x10, 0x38,      //data to fingers
+                               0x24, 0x04, 0x10, 0xD8,      //data to fingers 
+                               0x25, 0x04, 0x10, 0x9D,      //data to fingers
+                               0x26, 0x04, 0x10, 0x57,      //data to fingers
+                               0x1,                         //hand_mount
+                               0x1,                         //hold_position
+                               0x1,                         //camera_from_bat_cam
+                               0x1,                         //relay_state
+                               0x1,                         //keepalive
+                               0x1,                         //keepalive
+                               0x1,                         //keepalive
+                               0x1,                         //keepalive
+                               crc8                         //crc8
                                };
 
-        uint8_t msg2[] =      {0xAA, 0xBB, 42,          //header
-                               0x1, 0x2, 0x3, 0x4, 0x5, //data to fingers
-                               0x1, 0x2, 0x3, 0x4, 0x5, //data to fingers
-                               0x1, 0x2, 0x3, 0x4, 0x5, //data to fingers
-                               0x1, 0x2, 0x3, 0x4, 0x5, //data to fingers 
-                               0x1, 0x2, 0x3, 0x4, 0x5, //data to fingers
-                               0x1, 0x2, 0x3, 0x4, 0x5, //data to fingers
-                               0x6,                     //hand_mount
-                               0x7,                     //hold_position
-                               0x8,                     //camera_from_bat_cam
-                               0x9,                     //relay_state
-                               0x1,                     //keepalive
-                               0x1,                     //keepalive
-                               0x1,                     //keepalive
-                               0x1                      //keepalive
+        uint8_t msg2[] =      {0xAA, 0xBB, 36,              //header
+                               0x21, 0x04, 0x10, 0xB4,      //data to fingers
+                               0x22, 0x04, 0x10, 0x7E,      //data to fingers
+                               0x23, 0x04, 0x10, 0x38,      //data to fingers
+                               0x24, 0x04, 0x10, 0xD8,      //data to fingers 
+                               0x25, 0x04, 0x10, 0x9D,      //data to fingers
+                               0x26, 0x04, 0x10, 0x57,      //data to fingers
+                               0x6,                         //hand_mount
+                               0x7,                         //hold_position
+                               0x8,                         //camera_from_bat_cam
+                               0x9,                         //relay_state
+                               0x1,                         //keepalive
+                               0x1,                         //keepalive
+                               0x1,                         //keepalive
+                               0x1                          //keepalive
                                };
 
         uint8_t crc8_2 = umba_crc8_table(msg2, sizeof(msg2));
 
-        uint8_t msgToSend2[] = {0xAA, 0xBB, 42,         //header
-                               0x1, 0x2, 0x3, 0x4, 0x5, //data to fingers
-                               0x1, 0x2, 0x3, 0x4, 0x5, //data to fingers
-                               0x1, 0x2, 0x3, 0x4, 0x5, //data to fingers
-                               0x1, 0x2, 0x3, 0x4, 0x5, //data to fingers 
-                               0x1, 0x2, 0x3, 0x4, 0x5, //data to fingers
-                               0x1, 0x2, 0x3, 0x4, 0x5, //data to fingers
-                               0x6,                     //hand_mount
-                               0x7,                     //hold_position
-                               0x8,                     //camera_from_bat_cam
-                               0x9,                     //relay_state
-                               0x1,                     //keepalive
-                               0x1,                     //keepalive
-                               0x1,                     //keepalive
-                               0x1,                     //keepalive
-                               crc8_2                   //crc8_2
+        uint8_t msgToSend2[] = {0xAA, 0xBB, 36,             //header
+                               0x21, 0x04, 0x10, 0xB4,      //data to fingers
+                               0x22, 0x04, 0x10, 0x7E,      //data to fingers
+                               0x23, 0x04, 0x10, 0x38,      //data to fingers
+                               0x24, 0x04, 0x10, 0xD8,      //data to fingers 
+                               0x25, 0x04, 0x10, 0x9D,      //data to fingers
+                               0x26, 0x04, 0x10, 0x57,      //data to fingers
+                               0x6,                         //hand_mount
+                               0x7,                         //hold_position
+                               0x8,                         //camera_from_bat_cam
+                               0x9,                         //relay_state
+                               0x1,                         //keepalive
+                               0x1,                         //keepalive
+                               0x1,                         //keepalive
+                               0x1,                         //keepalive
+                               crc8_2                       //crc8_2
                                };
 
-        uint8_t msg3[] =      {0xAA, 0xBB, 42,          //header
-                               0x1, 0x2, 0x3, 0x4, 0x5, //data to fingers
-                               0x1, 0x2, 0x3, 0x4, 0x5, //data to fingers
-                               0x1, 0x2, 0x3, 0x4, 0x5, //data to fingers
-                               0x1, 0x2, 0x3, 0x4, 0x5, //data to fingers 
-                               0x1, 0x2, 0x3, 0x4, 0x5, //data to fingers
-                               0x1, 0x2, 0x3, 0x4, 0x5, //data to fingers
-                               0x6,                     //hand_mount
-                               0x7,                     //hold_position
-                               0x2,                     //camera_from_bat_cam
-                               0x9,                     //relay_state
-                               0x1,                     //keepalive
-                               0x1,                     //keepalive
-                               0x1,                     //keepalive
-                               0x1                      //keepalive
+        uint8_t msg3[] =      {0xAA, 0xBB, 36,              //header
+                               0x21, 0x04, 0x10, 0xB4,      //data to fingers
+                               0x22, 0x04, 0x10, 0x7E,      //data to fingers
+                               0x23, 0x04, 0x10, 0x38,      //data to fingers
+                               0x24, 0x04, 0x10, 0xD8,      //data to fingers 
+                               0x25, 0x04, 0x10, 0x9D,      //data to fingers
+                               0x26, 0x04, 0x10, 0x57,      //data to fingers
+                               0x6,                         //hand_mount
+                               0x7,                         //hold_position
+                               0x2,                         //camera_from_bat_cam
+                               0x9,                         //relay_state
+                               0x1,                         //keepalive
+                               0x1,                         //keepalive
+                               0x1,                         //keepalive
+                               0x1                          //keepalive
                                };
 
         uint8_t crc8_3 = umba_crc8_table(msg3, sizeof(msg3));
 
-        uint8_t msgToSend3[] = {0xAA, 0xBB, 42,         //header
-                               0x1, 0x2, 0x3, 0x4, 0x5, //data to fingers
-                               0x1, 0x2, 0x3, 0x4, 0x5, //data to fingers
-                               0x1, 0x2, 0x3, 0x4, 0x5, //data to fingers
-                               0x1, 0x2, 0x3, 0x4, 0x5, //data to fingers 
-                               0x1, 0x2, 0x3, 0x4, 0x5, //data to fingers
-                               0x1, 0x2, 0x3, 0x4, 0x5, //data to fingers
-                               0x6,                     //hand_mount
-                               0x7,                     //hold_position
-                               0x2,                     //camera_from_bat_cam
-                               0x9,                     //relay_state
-                               0x1,                     //keepalive
-                               0x1,                     //keepalive
-                               0x1,                     //keepalive
-                               0x1,                     //keepalive
-                               crc8_3                   //crc8_2
+        uint8_t msgToSend3[] = {0xAA, 0xBB, 36,             //header
+                               0x21, 0x04, 0x10, 0xB4,      //data to fingers
+                               0x22, 0x04, 0x10, 0x7E,      //data to fingers
+                               0x23, 0x04, 0x10, 0x38,      //data to fingers
+                               0x24, 0x04, 0x10, 0xD8,      //data to fingers 
+                               0x25, 0x04, 0x10, 0x9D,      //data to fingers
+                               0x26, 0x04, 0x10, 0x57,      //data to fingers
+                               0x6,                         //hand_mount
+                               0x7,                         //hold_position
+                               0x2,                         //camera_from_bat_cam
+                               0x9,                         //relay_state
+                               0x1,                         //keepalive
+                               0x1,                         //keepalive
+                               0x1,                         //keepalive
+                               0x1,                         //keepalive
+                               crc8_3                       //crc8_2
                                };
         
         std::vector <uint8_t*> msg_vec = {msgToSend, msgToSend2, msgToSend3};

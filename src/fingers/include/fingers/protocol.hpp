@@ -112,6 +112,7 @@ namespace protocol_master
             bool sendCmdNOP(uint8_t addressTo);
             bool sendCmdRead(uint8_t addressTo, uint8_t* dataFrom, uint32_t* dataFromSize);
             bool sendCmdWrite(uint8_t addressTo, uint8_t cmd, const uint8_t* dataTo, uint32_t dataToSize);
+            bool sendCmdWriteComplete(const uint8_t* dataTo, uint32_t dataToSize);
             bool sendCmdReadWrite(uint8_t addressTo, uint8_t cmd, const uint8_t* dataTo, uint32_t dataToSize, 
                                         uint8_t* dataFrom, uint32_t* dataFromSize);
             bool sendSomeCmd(const uint8_t* dataTo, uint32_t dataToSize, uint8_t* dataFrom, uint32_t* dataFromSize);
@@ -127,7 +128,7 @@ namespace protocol_master
             void collectPkg(uint8_t* resvdData, uint32_t resvdBytes, uint8_t* dataUart, uint32_t& dataUartSize, bool& pkgIsReady);
             bool parserOk(uint8_t* dataUart, uint32_t& dataUartSize);
             void updateDataUart(uint8_t* dataUart, uint32_t& dataUartSize);
-            bool parser(uint8_t* ptrBuff, uint32_t len);
+            bool parser(uint8_t* ptrBuff, uint32_t len, uint8_t addressTo);
 
     };
 }

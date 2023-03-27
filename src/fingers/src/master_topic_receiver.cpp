@@ -10,13 +10,41 @@
 #include <chrono>
 #include <ctime>
 
+#define HMOUNT_DATA_SIZE 5
+
+#define RAW_UDP_DATA 1
+#define COMPLETE_UDP_DATA 2
+
+#define CODE_PART RAW_UDP_DATA
+
+#if CODE_PART == RAW_UDP_DATA
+
+#define DATA_FROM_FINGER_SIZE 9
+#define DATA_TO_FINGER_SIZE 5
+#define DATA_FROM_TOPIC_SIZE 31
+#define DATA_TO_TOPIC_SIZE 56
+
+#elif CODE_PART == COMPLETE_UDP_DATA
+
+#define DATA_FROM_FINGER_SIZE 6
+#define DATA_TO_FINGER_SIZE 4
+#define DATA_FROM_TOPIC_SIZE 25
+#define DATA_TO_TOPIC_SIZE 38
+
+#else 
+
+#error "INCORRECT CODE_PART"
+
+#endif
+
+
 class Boost_RS485_Server
 {
 public:
     Boost_RS485_Server(protocol_master::ProtocolMaster& protocol_)
     : m_protocol(protocol_){
-        toFingersSub = node.subscribe<std_msgs::ByteMultiArray>("toFingersTopic", 100, &Boost_RS485_Server::topic_handle_receive, this);
-        fromFingersPub = node.advertise<std_msgs::ByteMultiArray>("fromFingersTopic", 100);
+        toFingersSub = node.subscribe<std_msgs::ByteMultiArray>("toFingersTopic", 0, &Boost_RS485_Server::topic_handle_receive, this);
+        fromFingersPub = node.advertise<std_msgs::ByteMultiArray>("fromFingersTopic", 0);
     };
 
     void nodeFromTopicProcess(){
@@ -31,10 +59,11 @@ public:
 
 private:
     protocol_master::ProtocolMaster& m_protocol;
-    uint8_t dataFromTopic[31] = {0};
-    uint8_t dataToTopic[56] = {0};
-    uint8_t dataToFinger[5] = {0};
-    uint8_t dataFromFinger[9] = {0};
+    uint8_t dataFromHandMount[HMOUNT_DATA_SIZE] = {0};
+    uint8_t dataFromTopic[DATA_FROM_TOPIC_SIZE] = {0};
+    uint8_t dataToTopic[DATA_TO_TOPIC_SIZE] = {0};
+    uint8_t dataToFinger[DATA_TO_FINGER_SIZE] = {0};
+    uint8_t dataFromFinger[DATA_FROM_FINGER_SIZE] = {0};
     uint32_t dataFromFingerSize = sizeof(dataFromFinger);
     ros::NodeHandle node;
     ros::Publisher fromFingersPub;
@@ -46,11 +75,10 @@ private:
     bool getMsgFromTopic = false;
     std::vector<uint8_t> fingersAddrs = {0x11, 0x12, 0x13, 0x14, 0x15, 0x16};       //5 пальцев + модуль отведения
     uint8_t hand_mount_addr = 0x31;                                                 //устройство отсоединения схвата
-    uint8_t to_hand_mount = 0;
-    uint8_t from_hand_mount = 0;
+    uint8_t dataToHandMount = 0;
     bool start_communication = true;
     uint8_t resvdFromAllDev = 0;
-    uint32_t size8t = 1;
+    uint32_t dataFromHandMountSize = HMOUNT_DATA_SIZE;
 
     enum fingersOK{                  //ок, если ответ пришел
         bigFinger      =     1,      //большой палец
@@ -65,14 +93,37 @@ private:
     uint8_t fingers_OK[7] = {1, 2, 4, 8, 16, 32, 64}; ////ок, если ответ пришел
 
     void update_hand_mount(){
-        to_hand_mount = dataFromTopic[sizeof(dataFromTopic) - sizeof(uint8_t)];
-        std::cout << "\nupdate brush holder = ";
-        printf("%u", to_hand_mount);
-        if(m_protocol.sendCmdReadWrite(hand_mount_addr, 0x3, &to_hand_mount, sizeof(uint8_t), 
-                                                &from_hand_mount, &size8t)){
+        if(dataToHandMount == dataFromTopic[sizeof(dataFromTopic) - sizeof(uint8_t)]) return;
+        dataToHandMount = dataFromTopic[sizeof(dataFromTopic) - sizeof(uint8_t)];
+        std::cout << "\ndataToHandMount = ";
+        printf("%u\n", dataToHandMount);
+
+        #if CODE_PART == RAW_UDP_DATA
+
+        if(m_protocol.sendCmdReadWrite(hand_mount_addr, 0x3, &dataToHandMount, sizeof(uint8_t), 
+                                                dataFromHandMount, &dataFromHandMountSize)){
             resvdFromAllDev |= fingers_OK[6]; //ответ пришел
         }
-        dataToTopic[sizeof(dataToTopic) - 2 * sizeof(uint8_t)] = from_hand_mount;
+
+        #elif CODE_PART == COMPLETE_UDP_DATA
+
+        uint8_t dataToHMount[HMOUNT_DATA_SIZE] = {0};
+        dataToHMount[0] = hand_mount_addr;
+        dataToHMount[1] = 0x05;
+        dataToHMount[2] = 0x3;
+        dataToHMount[3] = dataToHandMount;
+        dataToHMount[4] = umba_crc8_table(dataToHMount, HMOUNT_DATA_SIZE - sizeof(uint8_t));
+        if(m_protocol.sendSomeCmd(dataToHMount, sizeof(dataToHMount), dataFromHandMount, &dataFromHandMountSize)){
+            resvdFromAllDev |= fingers_OK[6]; //ответ пришел
+        }
+
+        #else 
+
+        #error "INCORRECT CODE_PART"
+
+        #endif
+
+        dataToTopic[sizeof(dataToTopic) - 2 * sizeof(uint8_t)] = dataFromHandMount[3];
     }
 
     void topic_handle_receive(const std_msgs::ByteMultiArray::ConstPtr& recvdMsg) {
@@ -100,10 +151,30 @@ private:
             for (int i = 0; i < sizeof(dataToFinger); i++){
                 printf("[%u]", dataToFinger[i]);
             }
+
+            #if CODE_PART == RAW_UDP_DATA
+
+            //
 			if (m_protocol.sendCmdReadWrite(fingersAddrs[i], 0x3, dataToFinger, sizeof(dataToFinger), 
                                                     dataFromFinger, &dataFromFingerSize)) {
                 resvdFromAllDev |= fingers_OK[i]; //ответ пришел
             }
+            //
+
+            #elif CODE_PART == COMPLETE_UDP_DATA
+
+            //
+			if (m_protocol.sendSomeCmd(dataToFinger, sizeof(dataToFinger), dataFromFinger, &dataFromFingerSize)) {
+                resvdFromAllDev |= fingers_OK[i]; //ответ пришел
+            }
+            //
+
+            #else 
+
+            #error "INCORRECT CODE_PART"
+
+            #endif
+
 			memcpy(dataToTopic + i * sizeof(dataFromFinger), dataFromFinger, sizeof(dataFromFinger));
 		}
         dataToTopic[sizeof(dataToTopic) - sizeof(uint8_t)] = resvdFromAllDev;

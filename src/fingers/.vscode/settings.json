@@ -75,6 +75,14 @@
         "typeinfo": "cpp",
         "variant": "cpp",
         "*.ipp": "cpp",
-        "forward_list": "cpp"
-    }
+        "forward_list": "cpp",
+        "qcoreapplication": "cpp",
+        "qserialport": "cpp",
+        "qbytearray": "cpp",
+        "qtextstream": "cpp",
+        "qdebug": "cpp"
+    },
+    "python.analysis.extraPaths": [
+        "/opt/ros/noetic/lib/python3/dist-packages"
+    ]
 }

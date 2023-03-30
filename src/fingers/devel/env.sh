@@ -1,0 +1,1 @@
+/home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/devel/.private/catkin_tools_prebuild/env.sh

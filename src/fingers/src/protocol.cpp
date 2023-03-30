@@ -10,6 +10,7 @@
 #include <chrono>
 #include <thread>
 #include <cstring>
+#include <QCoreApplication>
 
 namespace protocol
 {
@@ -268,31 +269,41 @@ namespace protocol_master
     {
         /* Если адрес не валидный, ошибка */
         if (getAddr(ptrBuff) != addressTo) {
+            printf("\ngetAddr(ptrBuff) = %u\n", getAddr(ptrBuff));
+            printf("addressTo = %u\n", addressTo);
+            std::cout << "\ngetAddr(ptrBuff)\n";
             return false;
         }
         /* Если длина пакета не валидная, ошибка */
         if (getLen(ptrBuff) != len) {
+            std::cout << "\ngetLen(ptrBuff) != len\n";
             return false;
         }
-        if (getLen(ptrBuff) != 5 && getLen(ptrBuff) != 8 && getLen(ptrBuff) != 6  && getLen(ptrBuff) != 9) {
+        if (getLen(ptrBuff) != 4 && getLen(ptrBuff) != 5 && getLen(ptrBuff) != 6  && getLen(ptrBuff) != 8 && getLen(ptrBuff) != 9) {
+            std::cout << "\ngetLen(ptrBuff) != 5\n";
             return false;
         }
         /* Если команды не соответствуют пакетам, ошибка*/
         if (getLen(ptrBuff) == 8 && getCmd(ptrBuff) != 0x00) {
+            std::cout << "\ngetLen(ptrBuff) == 8\n";
             return false;
         }
         if (getLen(ptrBuff) == 5 && getCmd(ptrBuff) != 0x70) {
+            std::cout << "\ngetLen(ptrBuff) == 5\n";
             return false;
         }
         /* Если контрольная сумма не совпадает, приняли муссор, ошибка */
         if (umba_crc8_table(ptrBuff, len - sizeof(uint8_t)) != getCrc8(ptrBuff, len)) {
+            std::cout << "\numba_crc8_table(ptrBuff, len \n";
             return false;
         }
         return true;
     }
     
-    ProtocolMaster::ProtocolMaster(i_transport::ITransport& transport)
-    :m_transport(transport) {}
+    ProtocolMaster::ProtocolMaster(i_transport::ITransport& transport, QCoreApplication* _coreApplication)
+    :m_transport(transport) {
+        m_coreApplication = _coreApplication;
+    }
 
     uint8_t     buff[proto_max_buff] = {0};
     uint8_t     recvdBuff[proto_max_buff] = {0};
@@ -339,6 +350,7 @@ namespace protocol_master
             uint32_t* dataFromSize, bool& getResponse, bool wait_response, uint8_t cam_status){
         
         std::memset(buff, 0, sizeof(buff));
+        *dataFromSize = 0;
         bool byteIsGetBefore = false;
         uint32_t not_response_on_request = 0;
         uint32_t not_bytes_received = 0;
@@ -365,7 +377,8 @@ namespace protocol_master
                 //std::cout << "else\n";
                 not_bytes_received++;
                 if (not_bytes_received > 5){
-                    //std::cout << "not_bytes_received > 10\n";
+                    //std::cout << "not_bytes_received > 5\n";
+                    clear(dataFrom, dataFromSize);
                     getResponse = false;
                     return false;
                 }
@@ -373,7 +386,7 @@ namespace protocol_master
                 continue;
             } 
 
-            collectPkg(recvdBuff, recvdBuffSize, dataFrom, *dataFromSize, pkgIsReadyToParse);
+            collectPkg(recvdBuff, recvdBuffSize, dataFrom, dataFromSize, pkgIsReadyToParse);
             if (!pkgIsReadyToParse){
                 std::this_thread::sleep_for(std::chrono::milliseconds(2));
                 continue;
@@ -384,36 +397,35 @@ namespace protocol_master
             
             not_response_on_request++;
             if (not_response_on_request > 5){
+                clear(dataFrom, dataFromSize);
                 getResponse = false;
                 return false;
             }
             sendCmdWrite(0x01, 0x10, &cam_status, sizeof(uint8_t));
             std::this_thread::sleep_for(std::chrono::milliseconds(5));
 
-            memset(dataFrom, 0, *dataFromSize);
-            *dataFromSize = 0;
+            clear(dataFrom, dataFromSize);
             wait_response = true;
             byteIsGetBefore = false;
-            
         }
     }
 
     void ProtocolMaster::collectPkg(uint8_t* resvdData, uint32_t resvdBytes, 
-            uint8_t* dataUart, uint32_t& dataUartSize, bool& pkgIsReadyToParse){
+            uint8_t* dataUart, uint32_t* dataUartSize, bool& pkgIsReadyToParse){
         if (resvdBytes == 0) return;
-        memcpy(dataUart + dataUartSize, resvdData, resvdBytes);
-        dataUartSize += resvdBytes;
-
+        memcpy(dataUart + *dataUartSize, resvdData, resvdBytes);
+        *dataUartSize += resvdBytes;
         std::cout << "[collectPkg]:\n";
-        for (size_t i = 0; i < dataUartSize; i++){
+        for (size_t i = 0; i < *dataUartSize; i++){
             printf("[%u]", dataUart[i]);
         }
         std::cout << std::endl;
         
-        if (dataUartSize >= 5 && dataUart[1] == 5) pkgIsReadyToParse = true;
-        if (dataUartSize >= 6 && dataUart[1] == 6) pkgIsReadyToParse = true;
-        if (dataUartSize >= 8 && dataUart[1] == 8) pkgIsReadyToParse = true;
-        if (dataUartSize >= 9 && dataUart[1] == 9) pkgIsReadyToParse = true;
+        if (*dataUartSize >= 4 && dataUart[1] == 4) pkgIsReadyToParse = true;
+        if (*dataUartSize >= 5 && dataUart[1] == 5) pkgIsReadyToParse = true;
+        if (*dataUartSize >= 6 && dataUart[1] == 6) pkgIsReadyToParse = true;
+        if (*dataUartSize >= 8 && dataUart[1] == 8) pkgIsReadyToParse = true;
+        if (*dataUartSize >= 9 && dataUart[1] == 9) pkgIsReadyToParse = true;
 
     }
     
@@ -445,6 +457,7 @@ namespace protocol_master
         std::memset(buff, 0, sizeof(buff));
         std::memset(recvdBuff, 0, sizeof(recvdBuff));
         std::memset(dataFrom, 0, *dataFromSize);
+        *dataFromSize = 0;
         buff[0] = addressTo;
         buff[1] = len + dataToSize;
         buff[2] = cmd;
@@ -454,11 +467,11 @@ namespace protocol_master
         assert(m_transport.sendData(buff, buff[1]));
 
         /* Ждем DATA */
-        std::this_thread::sleep_for(std::chrono::microseconds(300));
+        std::this_thread::sleep_for(std::chrono::microseconds(500));        //microseconds(500)
+        m_coreApplication->processEvents();
 
         uint32_t not_response_on_request = 0;
         uint32_t not_bytes_received = 0;
-        uint32_t pkgSize = 0;
 
         while (1){
             bool pkgIsReadyToParse = false;
@@ -471,62 +484,52 @@ namespace protocol_master
             if (get_bytes){
                 //std::cout << "get_bytes\n";
                 not_bytes_received = 0;
-            
+
             } else {
                 //std::cout << "else\n";
                 not_bytes_received++;
-                if (not_bytes_received > 3){
-                    //std::cout << "not_bytes_received > 1\n";
+                if (not_bytes_received > 5){
+                    //std::cout << "not_bytes_received > 5\n";
+                    clear(dataFrom, dataFromSize);
                     return false;
                 }
                 std::this_thread::sleep_for(std::chrono::microseconds(100));
+                m_coreApplication->processEvents();
                 continue;
-            }
+            } 
 
-            collectPkg(recvdBuff, recvdBuffSize, dataFrom, *dataFromSize, pkgIsReadyToParse);
+            collectPkg(recvdBuff, recvdBuffSize, dataFrom, dataFromSize, pkgIsReadyToParse);
 
             if (!pkgIsReadyToParse){
                 std::this_thread::sleep_for(std::chrono::microseconds(100));
+                m_coreApplication->processEvents();
                 continue;
             }
 
-            if (parser(dataFrom, *dataFromSize, addressTo)) return true;
+            if (parser(dataFrom, *dataFromSize, dataTo[0])) return true;
             std::cout << "[PARSER RS FAIL]\n";
-            
-            not_response_on_request++;
-            if (not_response_on_request > 5){
-                std::cout << "not_response_on_request RS\n";
-                return false;
-            }
-
-            sendCmdWrite(addressTo, cmd, dataTo, dataToSize);
-            std::this_thread::sleep_for(std::chrono::microseconds(300));
-
-            memset(dataFrom, 0, *dataFromSize);
-            *dataFromSize = 0;
-        
+            clear(dataFrom, dataFromSize);  
+            return false;
         }
-        
-        // std::this_thread::sleep_for(std::chrono::microseconds(300));
-        // if (!m_transport.getData(dataFrom, dataFromSize)) return false;
-        // return true;
     }
 
     bool ProtocolMaster::sendSomeCmd(const uint8_t* dataTo, uint32_t dataToSize, uint8_t* dataFrom, uint32_t* dataFromSize){
         std::memset(buff, 0, sizeof(buff));
         std::memset(recvdBuff, 0, sizeof(recvdBuff));
         std::memset(dataFrom, 0, *dataFromSize);
+        *dataFromSize = 0;
         memcpy(buff, dataTo, dataToSize);
         /* Отправляем SomeCmd */
         assert(m_transport.sendData(buff, dataToSize));
+
         if (getCmd(buff) == cmdWrite) return true;
 
         /* Ждем DATA */
-        std::this_thread::sleep_for(std::chrono::microseconds(300));
+        std::this_thread::sleep_for(std::chrono::microseconds(5000000));
+        m_coreApplication->processEvents();
 
         uint32_t not_response_on_request = 0;
         uint32_t not_bytes_received = 0;
-        uint32_t pkgSize = 0;
 
         while (1){
             bool pkgIsReadyToParse = false;
@@ -539,42 +542,39 @@ namespace protocol_master
             if (get_bytes){
                 //std::cout << "get_bytes\n";
                 not_bytes_received = 0;
-            
+
             } else {
                 //std::cout << "else\n";
                 not_bytes_received++;
-                if (not_bytes_received > 3){
-                    //std::cout << "not_bytes_received > 1\n";
+                if (not_bytes_received > 5){
+                    //std::cout << "not_bytes_received > 5\n";
+                    clear(dataFrom, dataFromSize);
                     return false;
                 }
                 std::this_thread::sleep_for(std::chrono::microseconds(100));
+                m_coreApplication->processEvents();
                 continue;
-            }
-
-            collectPkg(recvdBuff, recvdBuffSize, dataFrom, *dataFromSize, pkgIsReadyToParse);
+            } 
+            std::cout << "\n*dataFromSize = " << *dataFromSize << std::endl;
+            collectPkg(recvdBuff, recvdBuffSize, dataFrom, dataFromSize, pkgIsReadyToParse);
 
             if (!pkgIsReadyToParse){
                 std::this_thread::sleep_for(std::chrono::microseconds(100));
+                m_coreApplication->processEvents();
                 continue;
             }
 
             if (parser(dataFrom, *dataFromSize, dataTo[0])) return true;
             std::cout << "[PARSER RS FAIL]\n";
-            
-            not_response_on_request++;
-            if (not_response_on_request > 5){
-                std::cout << "not_response_on_request RS\n";
-                return false;
-            }
-
-            sendCmdWriteComplete(dataTo, dataToSize);
-            std::this_thread::sleep_for(std::chrono::microseconds(300));
-
-            memset(dataFrom, 0, *dataFromSize);
-            *dataFromSize = 0;
-        
+            clear(dataFrom, dataFromSize);
+            std::cout << "\nEND*dataFromSize = " << *dataFromSize << std::endl;
+            return false;
         }
+    }
 
+    void ProtocolMaster::clear(uint8_t* dataFrom, uint32_t* dataFromSize) {
+        std::memset(dataFrom, 0, *dataFromSize);
+        *dataFromSize = 0;
     }
 
 } //namespace protocol_master

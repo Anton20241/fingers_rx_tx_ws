@@ -34,9 +34,18 @@ namespace boost_serial
         std::vector<uint8_t> m_copyRecvdData;
         uint32_t m_sendCount = 0;
         uint32_t m_recvdCount = 0;
-        boost::mutex my_mytex;
+        std::mutex my_mytex;
         uint32_t bytesGet = 0;
         
+        void read_msg_serial(){
+            std::memset(m_recvdData, 0, sizeof(m_recvdData));
+            m_port.async_read_some(boost::asio::buffer(m_recvdData, sizeof(m_recvdData)),
+                    boost::bind(&Boost_Serial_Async::read_handler,this,
+                            boost::asio::placeholders::error,
+                            boost::asio::placeholders::bytes_transferred));
+            std::cout << "\n\033[1;31mread_msg_serial\033[0m\n";
+        }
+
         void read_handler(const boost::system::error_code& error,size_t bytes_transferred)
         {
             my_mytex.lock();
@@ -96,20 +105,20 @@ namespace boost_serial
             boost::system::error_code error;
             size_t sendBytes = m_port.write_some(boost::asio::buffer(ptrData, len), error);
             if(!error && sendBytes > 0){
-                // m_sendCount++;
-                // std::cout << "\nport write returns: " + error.message();
-                // printf("\n[I SEND]:\n"
-                // "[%u][%u][%u][%u\t][%u][%u][%u][%u][%u][%u][%u][%u][%u][%u][%u][%u]\n"
-                // "m_recvdCount = %u\n"
-                // "m_sendCount = %u\n",
-                // ptrData[0], ptrData[1], ptrData[2], ptrData[3],
-                // ptrData[4], ptrData[5], ptrData[6], ptrData[7], 
-                // ptrData[8], ptrData[9], ptrData[10], ptrData[11],
-                // ptrData[12], ptrData[13], ptrData[14], ptrData[15], m_recvdCount, m_sendCount);
-                // cout << "sendBytes: "<< sendBytes << endl;
+                m_sendCount++;
+                std::cout << "\nport write returns: " + error.message();
+                printf("\n[I SEND]:\n"
+                "[%u][%u][%u][%u\t][%u][%u][%u][%u][%u][%u][%u][%u][%u][%u][%u][%u]\n"
+                "m_recvdCount = %u\n"
+                "m_sendCount = %u\n",
+                ptrData[0], ptrData[1], ptrData[2], ptrData[3],
+                ptrData[4], ptrData[5], ptrData[6], ptrData[7], 
+                ptrData[8], ptrData[9], ptrData[10], ptrData[11],
+                ptrData[12], ptrData[13], ptrData[14], ptrData[15], m_recvdCount, m_sendCount);
+                cout << "sendBytes: "<< sendBytes << endl;
                 return true;
             } else {
-                //std::cerr << error.what();
+                std::cout << "error.what()\n";
                 return false;
             }
         }
@@ -118,18 +127,18 @@ namespace boost_serial
         {
             my_mytex.lock();
 
-            //std::cout << "bytesGet = " << bytesGet << std::endl;
-            //std::cout << "m_copyRecvdData.size() = " << m_copyRecvdData.size() << std::endl;
+            std::cout << "bytesGet = " << bytesGet << std::endl;
+            std::cout << "m_copyRecvdData.size() = " << m_copyRecvdData.size() << std::endl;
 
             if (m_copyRecvdData.size() != bytesGet || m_copyRecvdData.empty()){
-                //std::cout << "m_copyRecvdData.size() != bytesGet || m_copyRecvdData.empty()\n";
+                std::cout << "m_copyRecvdData.size() != bytesGet || m_copyRecvdData.empty()\n";
                 bytesGet = m_copyRecvdData.size();
                 my_mytex.unlock();
                 return false;
             }
 
-            if (m_copyRecvdData.size() < 2 || m_copyRecvdData[1] > 8 || m_copyRecvdData[1] == 0){
-                //std::cout << "m_copyRecvdData.size() < 2 || m_copyRecvdData[1] > 8 || m_copyRecvdData[1] == 0\n";
+            if (m_copyRecvdData.size() < 2 || m_copyRecvdData[1] > 9 || m_copyRecvdData[1] == 0){
+                std::cout << "m_copyRecvdData.size() < 2 || m_copyRecvdData[1] > 9 || m_copyRecvdData[1] == 0\n";
                 m_copyRecvdData.clear();
                 my_mytex.unlock();
                 return true;
@@ -181,14 +190,6 @@ namespace boost_serial
 
             my_mytex.unlock();
             return true;
-        }
-
-        void read_msg_serial(){
-            std::memset(m_recvdData, 0, sizeof(m_recvdData));
-            m_port.async_read_some(boost::asio::buffer(m_recvdData, sizeof(m_recvdData)),
-                    boost::bind(&Boost_Serial_Async::read_handler,this,
-                            boost::asio::placeholders::error,
-                            boost::asio::placeholders::bytes_transferred));
         }
 
         bool transportReset() {return true;}

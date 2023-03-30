@@ -70,6 +70,7 @@
 //#include "main.h"
 #include "i_transport.hpp"
 #include "tabl_reg.hpp"
+#include <QCoreApplication>
 
 namespace protocol
 {
@@ -106,7 +107,7 @@ namespace protocol_master
     class ProtocolMaster
     {
         public:
-            ProtocolMaster(i_transport::ITransport& transport);
+            ProtocolMaster(i_transport::ITransport& transport, QCoreApplication* _coreApplication);
             ~ProtocolMaster() {};
 
             bool sendCmdNOP(uint8_t addressTo);
@@ -125,10 +126,12 @@ namespace protocol_master
             i_transport::ITransport&    m_transport;
         private:
             //i_transport::ITransport&    m_transport;
-            void collectPkg(uint8_t* resvdData, uint32_t resvdBytes, uint8_t* dataUart, uint32_t& dataUartSize, bool& pkgIsReady);
+            void collectPkg(uint8_t* resvdData, uint32_t resvdBytes, uint8_t* dataUart, uint32_t* dataUartSize, bool& pkgIsReady);
             bool parserOk(uint8_t* dataUart, uint32_t& dataUartSize);
             void updateDataUart(uint8_t* dataUart, uint32_t& dataUartSize);
             bool parser(uint8_t* ptrBuff, uint32_t len, uint8_t addressTo);
+            void clear(uint8_t* dataFrom, uint32_t* dataFromSize);
+            QCoreApplication* m_coreApplication;
 
     };
 }

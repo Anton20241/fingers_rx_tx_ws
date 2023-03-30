@@ -1,0 +1,13 @@
+/home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/build/catkin_tools_prebuild
+/home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/devel/.private/catkin_tools_prebuild/setup.sh /home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/devel/./setup.sh
+/home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/devel/.private/catkin_tools_prebuild/setup.bash /home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/devel/./setup.bash
+/home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/devel/.private/catkin_tools_prebuild/local_setup.zsh /home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/devel/./local_setup.zsh
+/home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/devel/.private/catkin_tools_prebuild/local_setup.bash /home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/devel/./local_setup.bash
+/home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/devel/.private/catkin_tools_prebuild/env.sh /home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/devel/./env.sh
+/home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/devel/.private/catkin_tools_prebuild/setup.zsh /home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/devel/./setup.zsh
+/home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/devel/.private/catkin_tools_prebuild/_setup_util.py /home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/devel/./_setup_util.py
+/home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/devel/.private/catkin_tools_prebuild/cmake.lock /home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/devel/./cmake.lock
+/home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/devel/.private/catkin_tools_prebuild/local_setup.sh /home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/devel/./local_setup.sh
+/home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/devel/.private/catkin_tools_prebuild/share/catkin_tools_prebuild/cmake/catkin_tools_prebuildConfig-version.cmake /home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/devel/share/catkin_tools_prebuild/cmake/catkin_tools_prebuildConfig-version.cmake
+/home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/devel/.private/catkin_tools_prebuild/share/catkin_tools_prebuild/cmake/catkin_tools_prebuildConfig.cmake /home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/devel/share/catkin_tools_prebuild/cmake/catkin_tools_prebuildConfig.cmake
+/home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/devel/.private/catkin_tools_prebuild/lib/pkgconfig/catkin_tools_prebuild.pc /home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/devel/lib/pkgconfig/catkin_tools_prebuild.pc

@@ -3,6 +3,7 @@
 #include <tabl_reg_config.hpp>
 #include <iostream>
 #include <ros/ros.h>
+#include <QCoreApplication>
 
 class Boost_RS485_Server
 {
@@ -64,6 +65,7 @@ private:
 };
 
 int main(int argc, char** argv) {
+    QCoreApplication coreApplication(argc, argv);
 
 	if(argc != 3) {
 		std::cerr << "[program_name][devPort(1, 2...)][baudrate]" << std::endl;
@@ -79,7 +81,7 @@ int main(int argc, char** argv) {
 
 	try{
         boost_serial::Boost_Serial_Async boostRS485_transp("/dev/ttyUSB" + devPort, (uint32_t)std::stoi(baudrate));
-        protocol_master::ProtocolMaster boostRS485_prot_master(boostRS485_transp);
+        protocol_master::ProtocolMaster boostRS485_prot_master(boostRS485_transp, &coreApplication);
         Boost_RS485_Server raspbPi(boostRS485_prot_master);
         raspbPi.polling();
         // while(ros::ok()){

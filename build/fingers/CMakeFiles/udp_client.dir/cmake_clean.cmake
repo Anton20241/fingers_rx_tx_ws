@@ -1,7 +1,8 @@
 file(REMOVE_RECURSE
-  "/home/raspberrypi/rtc_work/fingers_rx_tx_ws/devel/lib/fingers/udp_client"
-  "/home/raspberrypi/rtc_work/fingers_rx_tx_ws/devel/lib/fingers/udp_client.pdb"
+  "/home/anton20241/rtc_work/fingers_rx_tx_ws/devel/lib/fingers/udp_client"
+  "/home/anton20241/rtc_work/fingers_rx_tx_ws/devel/lib/fingers/udp_client.pdb"
   "CMakeFiles/udp_client.dir/src/protocol.cpp.o"
+  "CMakeFiles/udp_client.dir/src/qt_serial.cpp.o"
   "CMakeFiles/udp_client.dir/src/tabl_reg.cpp.o"
   "CMakeFiles/udp_client.dir/src/udp_client.cpp.o"
   "CMakeFiles/udp_client.dir/src/umba_crc_table.c.o"

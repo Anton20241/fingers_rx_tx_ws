@@ -13,7 +13,7 @@ find_package(catkin REQUIRED COMPONENTS
 
 # System dependencies are found with CMake's conventions
  find_package(Boost REQUIRED COMPONENTS system)
-
+ find_package(Qt5Core REQUIRED)
 
 ## Uncomment this if the package has a setup.py. This macro ensures
 ## modules and global scripts declared therein get installed
@@ -149,95 +149,56 @@ include_directories(
 # )
 
 SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -pthread")
-set(MASTER_ETH_RECV src/master_eth_receiver.cpp
-            src/protocol.cpp
-            src/tabl_reg.cpp
-            src/umba_crc_table.c
-            include/fingers/boost_serial.hpp
-            include/fingers/i_transport.hpp
-            include/fingers/protocol.hpp
-            include/fingers/tabl_reg.hpp
-            include/fingers/tabl_reg_config.hpp
-            include/fingers/umba_crc_table.h)
 
-set(MASTER_TOPIC_RECV src/master_topic_receiver.cpp
-                src/protocol.cpp
-                src/tabl_reg.cpp
-                src/umba_crc_table.c
-                include/fingers/boost_serial.hpp
-                include/fingers/i_transport.hpp
-                include/fingers/protocol.hpp
-                include/fingers/tabl_reg.hpp
-                include/fingers/tabl_reg_config.hpp
-                include/fingers/umba_crc_table.h)
+set(SOURCES 
+  src/protocol.cpp
+  src/tabl_reg.cpp
+  src/umba_crc_table.c
+  src/qt_serial.cpp
+  include/fingers/boost_serial.hpp
+  include/fingers/qt_serial.hpp
+  include/fingers/i_transport.hpp
+  include/fingers/protocol.hpp
+  include/fingers/tabl_reg.hpp
+  include/fingers/tabl_reg_config.hpp
+  include/fingers/umba_crc_table.h)
 
-set(UART_NODE src/uart_node.cpp
-                src/protocol.cpp
-                src/tabl_reg.cpp
-                src/umba_crc_table.c
-                include/fingers/boost_serial.hpp
-                include/fingers/i_transport.hpp
-                include/fingers/protocol.hpp
-                include/fingers/tabl_reg.hpp
-                include/fingers/tabl_reg_config.hpp
-                include/fingers/umba_crc_table.h)
+set(MASTER_ETH_RECV src/master_eth_receiver.cpp)
+set(MASTER_TOPIC_RECV src/master_topic_receiver.cpp)
+set(UART_NODE src/uart_node.cpp)
+set(FINGER src/finger.cpp)              
+set(RS_MASTER src/rs_master.cpp)
+set(UDP_CLIENT src/udp_client.cpp)
 
-set(FINGER src/finger.cpp
-                src/protocol.cpp
-                src/tabl_reg.cpp
-                src/umba_crc_table.c
-                include/fingers/boost_serial.hpp
-                include/fingers/i_transport.hpp
-                include/fingers/protocol.hpp
-                include/fingers/tabl_reg.hpp
-                include/fingers/tabl_reg_config.hpp
-                include/fingers/umba_crc_table.h)
-                
-set(RS_MASTER src/rs_master.cpp
-                src/protocol.cpp
-                src/tabl_reg.cpp
-                src/umba_crc_table.c
-                include/fingers/boost_serial.hpp
-                include/fingers/i_transport.hpp
-                include/fingers/protocol.hpp
-                include/fingers/tabl_reg.hpp
-                include/fingers/tabl_reg_config.hpp
-                include/fingers/umba_crc_table.h)
-
-set(UDP_CLIENT src/udp_client.cpp
-                src/protocol.cpp
-                src/tabl_reg.cpp
-                src/umba_crc_table.c
-                include/fingers/boost_serial.hpp
-                include/fingers/i_transport.hpp
-                include/fingers/protocol.hpp
-                include/fingers/tabl_reg.hpp
-                include/fingers/tabl_reg_config.hpp
-                include/fingers/umba_crc_table.h)
-
-add_executable(master_eth_receiver ${MASTER_ETH_RECV})
+add_executable(master_eth_receiver ${MASTER_ETH_RECV} ${SOURCES})
 target_include_directories (master_eth_receiver PRIVATE include/fingers/ src/)
 target_link_libraries(master_eth_receiver ${catkin_LIBRARIES})
+qt5_use_modules(master_eth_receiver Core SerialPort)
 
-add_executable(master_topic_receiver ${MASTER_TOPIC_RECV})
+add_executable(master_topic_receiver ${MASTER_TOPIC_RECV} ${SOURCES})
 target_include_directories (master_topic_receiver PRIVATE include/fingers/ src/)
 target_link_libraries(master_topic_receiver ${catkin_LIBRARIES})
+qt5_use_modules(master_topic_receiver Core SerialPort)
 
-add_executable(uart_node ${UART_NODE})
+add_executable(uart_node ${UART_NODE} ${SOURCES})
 target_include_directories (uart_node PRIVATE include/fingers/ src/)
 target_link_libraries(uart_node ${catkin_LIBRARIES})
+qt5_use_modules(uart_node Core SerialPort)
 
-add_executable(finger ${FINGER})
+add_executable(finger ${FINGER} ${SOURCES})
 target_include_directories (finger PRIVATE include/fingers/ src/)
 target_link_libraries(finger ${catkin_LIBRARIES})
+qt5_use_modules(finger Core SerialPort)
 
-add_executable(rs_master ${RS_MASTER})
+add_executable(rs_master ${RS_MASTER} ${SOURCES})
 target_include_directories (rs_master PRIVATE include/fingers/ src/)
 target_link_libraries(rs_master ${catkin_LIBRARIES})
+qt5_use_modules(rs_master Core SerialPort)
 
-add_executable(udp_client ${UDP_CLIENT})
+add_executable(udp_client ${UDP_CLIENT} ${SOURCES})
 target_include_directories (udp_client PRIVATE include/fingers/ src/)
 target_link_libraries(udp_client ${catkin_LIBRARIES})
+qt5_use_modules(udp_client Core SerialPort)
 
 #############
 ## Install ##

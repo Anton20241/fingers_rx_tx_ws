@@ -69,6 +69,7 @@ private:
   ros::Publisher fromFingersPub;
   ros::Subscriber toFingersSub;
   uint32_t recvd_count_topic = 0;
+  uint32_t fail_cnt = 0;
   uint32_t send_count_rs = 0;
   uint32_t recvd_count_rs = 0;
   uint32_t send_count_topic = 0;
@@ -81,13 +82,13 @@ private:
   uint32_t dataFromHandMountSize = 0;
 
   enum fingersOK{                  //ок, если ответ пришел
-    bigFinger      =     1,      //большой палец
-    foreFinger     =     2,      //указательный палец
-    middleFinger   =     4,      //средный палец
-    ringFinger     =     8,      //безымянный палец
-    pinkyFinger    =     16,     //мизинец
-    leadModule     =     32,     //модуль отведения
-    handMount      =     64      //устройство отсоединения схвата
+    bigFinger      =     1,        //большой палец
+    foreFinger     =     2,        //указательный палец
+    middleFinger   =     4,        //средный палец
+    ringFinger     =     8,        //безымянный палец
+    pinkyFinger    =     16,       //мизинец
+    leadModule     =     32,       //модуль отведения
+    handMount      =     64        //устройство отсоединения схвата
   };
 
   uint8_t fingers_OK[7] = {1, 2, 4, 8, 16, 32, 64}; ////ок, если ответ пришел
@@ -121,10 +122,15 @@ private:
     if(m_protocol.sendSomeCmd(dataToHMount, sizeof(dataToHMount), dataFromHandMount, &dataFromHandMountSize)){
       resvdFromAllDev |= fingers_OK[6]; //ответ пришел
       std::cout << "\nOk\n";
+      recvd_count_rs++;
+      printf("\nrecvd_count_rs = %u\n", recvd_count_rs);
+      printf("\nfail_cnt = %u\n", fail_cnt);
     } else {
       std::cout << "\nFail\n";
       memset(dataFromHandMount, 0, dataFromHandMountSize);
       dataFromHandMountSize = 0;
+      fail_cnt++;
+      printf("\nfail_cnt = %u\n", fail_cnt);
     }
 
     #else 
@@ -139,7 +145,7 @@ private:
   void topic_handle_receive(const std_msgs::ByteMultiArray::ConstPtr& recvdMsg) {
       getMsgFromTopic = true;
       recvd_count_topic++;
-      std::cout << "\033[1;34mRECVD FROM TOPIC toFingersTopic recvdMsg->data.size() = \033[0m" << recvdMsg->data.size() << std::endl;
+      std::cout << "\033\n[1;34mRECVD FROM TOPIC toFingersTopic recvdMsg->data.size() = \033[0m" << recvdMsg->data.size() << std::endl;
       std::cout << "recvd_count_topic = " << recvd_count_topic << std::endl;
       memset(dataFromTopic, 0, sizeof(dataFromTopic));
       memset(dataToTopic, 0, sizeof(dataToTopic));
@@ -148,7 +154,6 @@ private:
         dataFromTopic[i] = recvdMsg->data[i];
         printf("[%u]", dataFromTopic[i]);
       }
-      std::cout << endl;
   }
 
   void toEachFinger(){
@@ -182,10 +187,15 @@ private:
       if (m_protocol.sendSomeCmd(dataToFinger, sizeof(dataToFinger), dataFromFinger, &dataFromFingerSize)) {
         resvdFromAllDev |= fingers_OK[i]; //ответ пришел
         std::cout << "\nOk\n";
+        recvd_count_rs++;
+        printf("\nrecvd_count_rs = %u\n", recvd_count_rs);
+        printf("\nfail_cnt = %u\n", fail_cnt);
       } else {
         std::cout << "\nFail\n";
         memset(dataFromHandMount, 0, dataFromHandMountSize);
         dataFromHandMountSize = 0;
+        fail_cnt++;
+        printf("\nfail_cnt = %u\n", fail_cnt);
       }
       //
 
@@ -207,13 +217,12 @@ private:
     sendMsgFromFingersTopic.layout.dim[0].size = 1;
     sendMsgFromFingersTopic.layout.dim[0].stride = sizeof(dataToTopic);
     sendMsgFromFingersTopic.data.clear();
-    std::cout << "\n\033[1;34mSEND MSG TO TOPIC fromFingersTopic = \033[0m";
+    std::cout << "\n\033[1;34mSEND MSG TO TOPIC fromFingersTopic: \n\033[0m";
     for (int i = 0; i < sizeof(dataToTopic); i++){
       sendMsgFromFingersTopic.data.push_back(dataToTopic[i]);
       printf("[%u]", dataToTopic[i]);
     }
     fromFingersPub.publish(sendMsgFromFingersTopic);
-    std::cout << endl;
   }
 };
 

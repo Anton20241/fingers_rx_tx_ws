@@ -152,11 +152,11 @@ public:
                                0x21, 0x04, 0x10, 0xB4,      //data to fingers
                                0x22, 0x04, 0x10, 0x7E,      //data to fingers
                                0x23, 0x04, 0x10, 0x38,      //data to fingers
-                               0x24, 0x04, 0x10, 0xD8,      //data to fingers 
+                               0x24, 0x04, 0x10, 0xDB,      //data to fingers 
                                0x25, 0x04, 0x10, 0x9D,      //data to fingers
                                0x26, 0x04, 0x10, 0x57,      //data to fingers
                                0x1,                         //hand_mount
-                               0x1,                         //hold_position
+                               0x0,                         //hold_position
                                0x1,                         //camera_from_bat_cam
                                0x1,                         //relay_state
                                0x1,                         //keepalive
@@ -171,11 +171,11 @@ public:
                                0x21, 0x04, 0x10, 0xB4,      //data to fingers
                                0x22, 0x04, 0x10, 0x7E,      //data to fingers
                                0x23, 0x04, 0x10, 0x38,      //data to fingers
-                               0x24, 0x04, 0x10, 0xD8,      //data to fingers 
+                               0x24, 0x04, 0x10, 0xDB,      //data to fingers 
                                0x25, 0x04, 0x10, 0x9D,      //data to fingers
                                0x26, 0x04, 0x10, 0x57,      //data to fingers
                                0x1,                         //hand_mount
-                               0x1,                         //hold_position
+                               0x0,                         //hold_position
                                0x1,                         //camera_from_bat_cam
                                0x1,                         //relay_state
                                0x1,                         //keepalive
@@ -189,7 +189,7 @@ public:
                                0x21, 0x04, 0x10, 0xB4,      //data to fingers
                                0x22, 0x04, 0x10, 0x7E,      //data to fingers
                                0x23, 0x04, 0x10, 0x38,      //data to fingers
-                               0x24, 0x04, 0x10, 0xD8,      //data to fingers 
+                               0x24, 0x04, 0x10, 0xDB,      //data to fingers 
                                0x25, 0x04, 0x10, 0x9D,      //data to fingers
                                0x26, 0x04, 0x10, 0x57,      //data to fingers
                                0x6,                         //hand_mount
@@ -208,7 +208,7 @@ public:
                                0x21, 0x04, 0x10, 0xB4,      //data to fingers
                                0x22, 0x04, 0x10, 0x7E,      //data to fingers
                                0x23, 0x04, 0x10, 0x38,      //data to fingers
-                               0x24, 0x04, 0x10, 0xD8,      //data to fingers 
+                               0x24, 0x04, 0x10, 0xDB,      //data to fingers 
                                0x25, 0x04, 0x10, 0x9D,      //data to fingers
                                0x26, 0x04, 0x10, 0x57,      //data to fingers
                                0x6,                         //hand_mount
@@ -226,11 +226,11 @@ public:
                                0x21, 0x04, 0x10, 0xB4,      //data to fingers
                                0x22, 0x04, 0x10, 0x7E,      //data to fingers
                                0x23, 0x04, 0x10, 0x38,      //data to fingers
-                               0x24, 0x04, 0x10, 0xD8,      //data to fingers 
+                               0x24, 0x04, 0x10, 0xDB,      //data to fingers 
                                0x25, 0x04, 0x10, 0x9D,      //data to fingers
                                0x26, 0x04, 0x10, 0x57,      //data to fingers
-                               0x6,                         //hand_mount
-                               0x7,                         //hold_position
+                               0x7,                         //hand_mount
+                               0x8,                         //hold_position
                                0x2,                         //camera_from_bat_cam
                                0x9,                         //relay_state
                                0x1,                         //keepalive
@@ -245,11 +245,11 @@ public:
                                0x21, 0x04, 0x10, 0xB4,      //data to fingers
                                0x22, 0x04, 0x10, 0x7E,      //data to fingers
                                0x23, 0x04, 0x10, 0x38,      //data to fingers
-                               0x24, 0x04, 0x10, 0xD8,      //data to fingers 
+                               0x24, 0x04, 0x10, 0xDB,      //data to fingers 
                                0x25, 0x04, 0x10, 0x9D,      //data to fingers
                                0x26, 0x04, 0x10, 0x57,      //data to fingers
-                               0x6,                         //hand_mount
-                               0x7,                         //hold_position
+                               0x7,                         //hand_mount
+                               0x8,                         //hold_position
                                0x2,                         //camera_from_bat_cam
                                0x9,                         //relay_state
                                0x1,                         //keepalive
@@ -284,7 +284,7 @@ public:
                 std::cout << "Sent Payload = " << sent << "\n";
                 std::cout << "send_count = " << send_count << "\n";
                 //printf("[crc8 = %u\n]", crc8);
-                std::this_thread::sleep_for(std::chrono::microseconds(100000));
+                std::this_thread::sleep_for(std::chrono::microseconds(30000));
             }
             auto end = std::chrono::high_resolution_clock::now();
             std::chrono::duration<float> duration = end - start;
@@ -319,7 +319,7 @@ int main(int argc, char* argv[])
       boost::asio::io_context io_context;
       UDPClient udpClient(io_context);
       uint32_t count = 0;
-      while(count < 1){
+      while(count < 100){
           udpClient.sendMsg();
           ros::spinOnce();
           count++;

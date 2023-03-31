@@ -11,6 +11,8 @@
 #include <thread>
 #include <cstring>
 #include <QCoreApplication>
+#include <boost/chrono.hpp>
+
 
 namespace protocol
 {
@@ -219,6 +221,8 @@ namespace protocol_master
             uint8_t err:1;
         };
     } cmd_field_t;
+
+    boost::chrono::system_clock::time_point first_tp = boost::chrono::system_clock::now();
 
     /* Индекс полей */
     static const uint8_t indexAddr          = 0;
@@ -468,12 +472,12 @@ namespace protocol_master
 
         /* Ждем DATA */
         std::this_thread::sleep_for(std::chrono::microseconds(500));        //microseconds(500)
-        m_coreApplication->processEvents();
 
         uint32_t not_response_on_request = 0;
         uint32_t not_bytes_received = 0;
 
         while (1){
+            m_coreApplication->processEvents();
             bool pkgIsReadyToParse = false;
 
             //get bytes
@@ -494,7 +498,6 @@ namespace protocol_master
                     return false;
                 }
                 std::this_thread::sleep_for(std::chrono::microseconds(100));
-                m_coreApplication->processEvents();
                 continue;
             } 
 
@@ -502,7 +505,6 @@ namespace protocol_master
 
             if (!pkgIsReadyToParse){
                 std::this_thread::sleep_for(std::chrono::microseconds(100));
-                m_coreApplication->processEvents();
                 continue;
             }
 
@@ -514,6 +516,7 @@ namespace protocol_master
     }
 
     bool ProtocolMaster::sendSomeCmd(const uint8_t* dataTo, uint32_t dataToSize, uint8_t* dataFrom, uint32_t* dataFromSize){
+
         std::memset(buff, 0, sizeof(buff));
         std::memset(recvdBuff, 0, sizeof(recvdBuff));
         std::memset(dataFrom, 0, *dataFromSize);
@@ -522,16 +525,17 @@ namespace protocol_master
         /* Отправляем SomeCmd */
         assert(m_transport.sendData(buff, dataToSize));
 
+        first_tp = boost::chrono::system_clock::now();
+
         if (getCmd(buff) == cmdWrite) return true;
-
+        
         /* Ждем DATA */
-        std::this_thread::sleep_for(std::chrono::microseconds(5000000));
-        m_coreApplication->processEvents();
-
+        //std::this_thread::sleep_for(std::chrono::microseconds(5000));
         uint32_t not_response_on_request = 0;
         uint32_t not_bytes_received = 0;
 
         while (1){
+            m_coreApplication->processEvents();
             bool pkgIsReadyToParse = false;
 
             //get bytes
@@ -540,19 +544,18 @@ namespace protocol_master
             bool get_bytes = m_transport.getData(recvdBuff, &recvdBuffSize);
 
             if (get_bytes){
-                //std::cout << "get_bytes\n";
+                std::cout << "get_bytes\n";
                 not_bytes_received = 0;
 
             } else {
-                //std::cout << "else\n";
+                std::cout << "else\n";
                 not_bytes_received++;
-                if (not_bytes_received > 5){
-                    //std::cout << "not_bytes_received > 5\n";
+                if (not_bytes_received > 50){
+                    std::cout << "not_bytes_received > 50\n";
                     clear(dataFrom, dataFromSize);
                     return false;
                 }
                 std::this_thread::sleep_for(std::chrono::microseconds(100));
-                m_coreApplication->processEvents();
                 continue;
             } 
             std::cout << "\n*dataFromSize = " << *dataFromSize << std::endl;
@@ -560,11 +563,16 @@ namespace protocol_master
 
             if (!pkgIsReadyToParse){
                 std::this_thread::sleep_for(std::chrono::microseconds(100));
-                m_coreApplication->processEvents();
                 continue;
             }
 
-            if (parser(dataFrom, *dataFromSize, dataTo[0])) return true;
+            if (parser(dataFrom, *dataFromSize, dataTo[0])) {
+                boost::chrono::system_clock::time_point cur_tp = boost::chrono::system_clock::now();
+                boost::chrono::duration<double> ex_time = cur_tp - first_tp;
+                std::cout << "Execution time: " << ex_time.count() << std::endl;
+                return true;
+            }
+            
             std::cout << "[PARSER RS FAIL]\n";
             clear(dataFrom, dataFromSize);
             std::cout << "\nEND*dataFromSize = " << *dataFromSize << std::endl;

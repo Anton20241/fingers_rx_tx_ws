@@ -23,7 +23,7 @@
 
 #define DATA_FROM_UDP_SIZE 36
 #define DATA_TO_UDP_SIZE 51
-#define DATA_FROM_FINGERS_TOPIC_SIZE 37
+#define DATA_FROM_FINGERS_TOPIC_SIZE 38
 #define DATA_TO_FINGERS_TOPIC_SIZE 25
 
 #else 
@@ -109,7 +109,7 @@ private:
     getMsgFromFingers = true;
     recvd_count_topic_fingers++;
     memset(dataFromFingersTopic, 0, sizeof(dataFromFingersTopic));
-    std::cout << "\nRECVD FROM TOPIC fromFingersTopic recvdMsg->data.size() = " << recvdMsg->data.size() << std::endl;
+    std::cout << "\n\033[1;34mRECVD FROM TOPIC fromFingersTopic recvdMsg->data.size() = \033[0m" << recvdMsg->data.size() << std::endl;
     std::cout << "recvd_count_topic_fingers = " << recvd_count_topic_fingers << std::endl;
     for (int i = 0; i < recvdMsg->data.size(); i++){
         dataFromFingersTopic[i] = recvdMsg->data[i];
@@ -117,7 +117,7 @@ private:
     }
     std::cout << std::endl;
     currentState.hand_mount = dataFromFingersTopic[sizeof(dataFromFingersTopic) - 2 * sizeof(uint8_t)];
-    resvdFromAllDev |= dataFromFingersTopic[sizeof(dataFromFingersTopic) - sizeof(uint8_t)]; //get answers from all fingers
+    resvdFromAllDev |= dataFromFingersTopic[sizeof(dataFromFingersTopic) - 1 * sizeof(uint8_t)]; //get answers from all fingers
   }
 
   void from_cam_bat_handle_receive(const std_msgs::ByteMultiArray::ConstPtr& recvdMsg) {
@@ -223,13 +223,11 @@ private:
 
   void sendMsgToUDP(){
 
-    if(!dataGetFromBatCam) resvdFromAllDev |= 128;
-    dataGetFromBatCam = false;
     //формируем пакет
     dataToUDP[0] = 0xBB;                                                                            //header 1b
     dataToUDP[1] = 0xAA;                                                                            //header 1b
     dataToUDP[2] = sizeof(dataToUDP);                                                               //data length 1b
-    memcpy(dataToUDP + 3, dataFromFingersTopic, sizeof(dataFromFingersTopic) - sizeof(uint8_t));    //data from fingers 9*6b
+    memcpy(dataToUDP + 3, dataFromFingersTopic, sizeof(dataFromFingersTopic) - sizeof(uint8_t));    //data from fingers
     dataToUDP[sizeof(dataToUDP) - 12 * sizeof(uint8_t)] = currentState.hand_mount;                  //hand_mount 1b
     dataToUDP[sizeof(dataToUDP) - 11 * sizeof(uint8_t)] = currentState.hold_position;               //hold_position 1b
     dataToUDP[sizeof(dataToUDP) - 10 * sizeof(uint8_t)] = currentState.camera_from_bat_cam;         //camera_from_bat_cam 1b
@@ -239,7 +237,7 @@ private:
     dataToUDP[sizeof(dataToUDP) - 6  * sizeof(uint8_t)] = currentState.relay_state_from_bat_cam;    //relay_state 1b
     memcpy(dataToUDP + sizeof(dataToUDP) - 5 * sizeof(uint8_t), currentState.keepalive, 
         sizeof(currentState.keepalive));                                                            //keepalive 4b
-    dataToUDP[sizeof(dataToUDP) - sizeof(uint8_t)] = 
+    dataToUDP[sizeof(dataToUDP) - 1 * sizeof(uint8_t)] = 
         umba_crc8_table(dataToUDP, sizeof(dataToUDP) - sizeof(uint8_t));                            //crc8 1b
 
     //отправляем пакет в UDP

@@ -47,6 +47,8 @@ cstring
 -
 QCoreApplication
 -
+boost/chrono.hpp
+-
 
 /usr/include/x86_64-linux-gnu/qt5/QtCore/QCoreApplication
 qcoreapplication.h

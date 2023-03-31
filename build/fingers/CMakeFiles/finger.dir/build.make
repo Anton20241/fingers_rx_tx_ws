@@ -43,10 +43,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/anton20241/rtc_work/fingers_rx_tx_ws/src
+CMAKE_SOURCE_DIR = /home/raspberrypi/rtc_work/fingers_rx_tx_ws/src
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/anton20241/rtc_work/fingers_rx_tx_ws/build
+CMAKE_BINARY_DIR = /home/raspberrypi/rtc_work/fingers_rx_tx_ws/build
 
 # Include any dependencies generated for this target.
 include fingers/CMakeFiles/finger.dir/depend.make
@@ -58,69 +58,69 @@ include fingers/CMakeFiles/finger.dir/progress.make
 include fingers/CMakeFiles/finger.dir/flags.make
 
 fingers/CMakeFiles/finger.dir/src/finger.cpp.o: fingers/CMakeFiles/finger.dir/flags.make
-fingers/CMakeFiles/finger.dir/src/finger.cpp.o: /home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/src/finger.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/anton20241/rtc_work/fingers_rx_tx_ws/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object fingers/CMakeFiles/finger.dir/src/finger.cpp.o"
-	cd /home/anton20241/rtc_work/fingers_rx_tx_ws/build/fingers && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/finger.dir/src/finger.cpp.o -c /home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/src/finger.cpp
+fingers/CMakeFiles/finger.dir/src/finger.cpp.o: /home/raspberrypi/rtc_work/fingers_rx_tx_ws/src/fingers/src/finger.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/raspberrypi/rtc_work/fingers_rx_tx_ws/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object fingers/CMakeFiles/finger.dir/src/finger.cpp.o"
+	cd /home/raspberrypi/rtc_work/fingers_rx_tx_ws/build/fingers && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/finger.dir/src/finger.cpp.o -c /home/raspberrypi/rtc_work/fingers_rx_tx_ws/src/fingers/src/finger.cpp
 
 fingers/CMakeFiles/finger.dir/src/finger.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/finger.dir/src/finger.cpp.i"
-	cd /home/anton20241/rtc_work/fingers_rx_tx_ws/build/fingers && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/src/finger.cpp > CMakeFiles/finger.dir/src/finger.cpp.i
+	cd /home/raspberrypi/rtc_work/fingers_rx_tx_ws/build/fingers && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/raspberrypi/rtc_work/fingers_rx_tx_ws/src/fingers/src/finger.cpp > CMakeFiles/finger.dir/src/finger.cpp.i
 
 fingers/CMakeFiles/finger.dir/src/finger.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/finger.dir/src/finger.cpp.s"
-	cd /home/anton20241/rtc_work/fingers_rx_tx_ws/build/fingers && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/src/finger.cpp -o CMakeFiles/finger.dir/src/finger.cpp.s
+	cd /home/raspberrypi/rtc_work/fingers_rx_tx_ws/build/fingers && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/raspberrypi/rtc_work/fingers_rx_tx_ws/src/fingers/src/finger.cpp -o CMakeFiles/finger.dir/src/finger.cpp.s
 
 fingers/CMakeFiles/finger.dir/src/protocol.cpp.o: fingers/CMakeFiles/finger.dir/flags.make
-fingers/CMakeFiles/finger.dir/src/protocol.cpp.o: /home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/src/protocol.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/anton20241/rtc_work/fingers_rx_tx_ws/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object fingers/CMakeFiles/finger.dir/src/protocol.cpp.o"
-	cd /home/anton20241/rtc_work/fingers_rx_tx_ws/build/fingers && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/finger.dir/src/protocol.cpp.o -c /home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/src/protocol.cpp
+fingers/CMakeFiles/finger.dir/src/protocol.cpp.o: /home/raspberrypi/rtc_work/fingers_rx_tx_ws/src/fingers/src/protocol.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/raspberrypi/rtc_work/fingers_rx_tx_ws/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object fingers/CMakeFiles/finger.dir/src/protocol.cpp.o"
+	cd /home/raspberrypi/rtc_work/fingers_rx_tx_ws/build/fingers && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/finger.dir/src/protocol.cpp.o -c /home/raspberrypi/rtc_work/fingers_rx_tx_ws/src/fingers/src/protocol.cpp
 
 fingers/CMakeFiles/finger.dir/src/protocol.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/finger.dir/src/protocol.cpp.i"
-	cd /home/anton20241/rtc_work/fingers_rx_tx_ws/build/fingers && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/src/protocol.cpp > CMakeFiles/finger.dir/src/protocol.cpp.i
+	cd /home/raspberrypi/rtc_work/fingers_rx_tx_ws/build/fingers && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/raspberrypi/rtc_work/fingers_rx_tx_ws/src/fingers/src/protocol.cpp > CMakeFiles/finger.dir/src/protocol.cpp.i
 
 fingers/CMakeFiles/finger.dir/src/protocol.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/finger.dir/src/protocol.cpp.s"
-	cd /home/anton20241/rtc_work/fingers_rx_tx_ws/build/fingers && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/src/protocol.cpp -o CMakeFiles/finger.dir/src/protocol.cpp.s
+	cd /home/raspberrypi/rtc_work/fingers_rx_tx_ws/build/fingers && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/raspberrypi/rtc_work/fingers_rx_tx_ws/src/fingers/src/protocol.cpp -o CMakeFiles/finger.dir/src/protocol.cpp.s
 
 fingers/CMakeFiles/finger.dir/src/tabl_reg.cpp.o: fingers/CMakeFiles/finger.dir/flags.make
-fingers/CMakeFiles/finger.dir/src/tabl_reg.cpp.o: /home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/src/tabl_reg.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/anton20241/rtc_work/fingers_rx_tx_ws/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object fingers/CMakeFiles/finger.dir/src/tabl_reg.cpp.o"
-	cd /home/anton20241/rtc_work/fingers_rx_tx_ws/build/fingers && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/finger.dir/src/tabl_reg.cpp.o -c /home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/src/tabl_reg.cpp
+fingers/CMakeFiles/finger.dir/src/tabl_reg.cpp.o: /home/raspberrypi/rtc_work/fingers_rx_tx_ws/src/fingers/src/tabl_reg.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/raspberrypi/rtc_work/fingers_rx_tx_ws/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object fingers/CMakeFiles/finger.dir/src/tabl_reg.cpp.o"
+	cd /home/raspberrypi/rtc_work/fingers_rx_tx_ws/build/fingers && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/finger.dir/src/tabl_reg.cpp.o -c /home/raspberrypi/rtc_work/fingers_rx_tx_ws/src/fingers/src/tabl_reg.cpp
 
 fingers/CMakeFiles/finger.dir/src/tabl_reg.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/finger.dir/src/tabl_reg.cpp.i"
-	cd /home/anton20241/rtc_work/fingers_rx_tx_ws/build/fingers && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/src/tabl_reg.cpp > CMakeFiles/finger.dir/src/tabl_reg.cpp.i
+	cd /home/raspberrypi/rtc_work/fingers_rx_tx_ws/build/fingers && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/raspberrypi/rtc_work/fingers_rx_tx_ws/src/fingers/src/tabl_reg.cpp > CMakeFiles/finger.dir/src/tabl_reg.cpp.i
 
 fingers/CMakeFiles/finger.dir/src/tabl_reg.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/finger.dir/src/tabl_reg.cpp.s"
-	cd /home/anton20241/rtc_work/fingers_rx_tx_ws/build/fingers && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/src/tabl_reg.cpp -o CMakeFiles/finger.dir/src/tabl_reg.cpp.s
+	cd /home/raspberrypi/rtc_work/fingers_rx_tx_ws/build/fingers && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/raspberrypi/rtc_work/fingers_rx_tx_ws/src/fingers/src/tabl_reg.cpp -o CMakeFiles/finger.dir/src/tabl_reg.cpp.s
 
 fingers/CMakeFiles/finger.dir/src/umba_crc_table.c.o: fingers/CMakeFiles/finger.dir/flags.make
-fingers/CMakeFiles/finger.dir/src/umba_crc_table.c.o: /home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/src/umba_crc_table.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/anton20241/rtc_work/fingers_rx_tx_ws/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building C object fingers/CMakeFiles/finger.dir/src/umba_crc_table.c.o"
-	cd /home/anton20241/rtc_work/fingers_rx_tx_ws/build/fingers && /usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/finger.dir/src/umba_crc_table.c.o   -c /home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/src/umba_crc_table.c
+fingers/CMakeFiles/finger.dir/src/umba_crc_table.c.o: /home/raspberrypi/rtc_work/fingers_rx_tx_ws/src/fingers/src/umba_crc_table.c
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/raspberrypi/rtc_work/fingers_rx_tx_ws/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building C object fingers/CMakeFiles/finger.dir/src/umba_crc_table.c.o"
+	cd /home/raspberrypi/rtc_work/fingers_rx_tx_ws/build/fingers && /usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/finger.dir/src/umba_crc_table.c.o   -c /home/raspberrypi/rtc_work/fingers_rx_tx_ws/src/fingers/src/umba_crc_table.c
 
 fingers/CMakeFiles/finger.dir/src/umba_crc_table.c.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/finger.dir/src/umba_crc_table.c.i"
-	cd /home/anton20241/rtc_work/fingers_rx_tx_ws/build/fingers && /usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/src/umba_crc_table.c > CMakeFiles/finger.dir/src/umba_crc_table.c.i
+	cd /home/raspberrypi/rtc_work/fingers_rx_tx_ws/build/fingers && /usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/raspberrypi/rtc_work/fingers_rx_tx_ws/src/fingers/src/umba_crc_table.c > CMakeFiles/finger.dir/src/umba_crc_table.c.i
 
 fingers/CMakeFiles/finger.dir/src/umba_crc_table.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/finger.dir/src/umba_crc_table.c.s"
-	cd /home/anton20241/rtc_work/fingers_rx_tx_ws/build/fingers && /usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/src/umba_crc_table.c -o CMakeFiles/finger.dir/src/umba_crc_table.c.s
+	cd /home/raspberrypi/rtc_work/fingers_rx_tx_ws/build/fingers && /usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/raspberrypi/rtc_work/fingers_rx_tx_ws/src/fingers/src/umba_crc_table.c -o CMakeFiles/finger.dir/src/umba_crc_table.c.s
 
 fingers/CMakeFiles/finger.dir/src/qt_serial.cpp.o: fingers/CMakeFiles/finger.dir/flags.make
-fingers/CMakeFiles/finger.dir/src/qt_serial.cpp.o: /home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/src/qt_serial.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/anton20241/rtc_work/fingers_rx_tx_ws/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object fingers/CMakeFiles/finger.dir/src/qt_serial.cpp.o"
-	cd /home/anton20241/rtc_work/fingers_rx_tx_ws/build/fingers && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/finger.dir/src/qt_serial.cpp.o -c /home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/src/qt_serial.cpp
+fingers/CMakeFiles/finger.dir/src/qt_serial.cpp.o: /home/raspberrypi/rtc_work/fingers_rx_tx_ws/src/fingers/src/qt_serial.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/raspberrypi/rtc_work/fingers_rx_tx_ws/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object fingers/CMakeFiles/finger.dir/src/qt_serial.cpp.o"
+	cd /home/raspberrypi/rtc_work/fingers_rx_tx_ws/build/fingers && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/finger.dir/src/qt_serial.cpp.o -c /home/raspberrypi/rtc_work/fingers_rx_tx_ws/src/fingers/src/qt_serial.cpp
 
 fingers/CMakeFiles/finger.dir/src/qt_serial.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/finger.dir/src/qt_serial.cpp.i"
-	cd /home/anton20241/rtc_work/fingers_rx_tx_ws/build/fingers && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/src/qt_serial.cpp > CMakeFiles/finger.dir/src/qt_serial.cpp.i
+	cd /home/raspberrypi/rtc_work/fingers_rx_tx_ws/build/fingers && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/raspberrypi/rtc_work/fingers_rx_tx_ws/src/fingers/src/qt_serial.cpp > CMakeFiles/finger.dir/src/qt_serial.cpp.i
 
 fingers/CMakeFiles/finger.dir/src/qt_serial.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/finger.dir/src/qt_serial.cpp.s"
-	cd /home/anton20241/rtc_work/fingers_rx_tx_ws/build/fingers && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/src/qt_serial.cpp -o CMakeFiles/finger.dir/src/qt_serial.cpp.s
+	cd /home/raspberrypi/rtc_work/fingers_rx_tx_ws/build/fingers && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/raspberrypi/rtc_work/fingers_rx_tx_ws/src/fingers/src/qt_serial.cpp -o CMakeFiles/finger.dir/src/qt_serial.cpp.s
 
 # Object files for target finger
 finger_OBJECTS = \
@@ -133,45 +133,45 @@ finger_OBJECTS = \
 # External object files for target finger
 finger_EXTERNAL_OBJECTS =
 
-/home/anton20241/rtc_work/fingers_rx_tx_ws/devel/lib/fingers/finger: fingers/CMakeFiles/finger.dir/src/finger.cpp.o
-/home/anton20241/rtc_work/fingers_rx_tx_ws/devel/lib/fingers/finger: fingers/CMakeFiles/finger.dir/src/protocol.cpp.o
-/home/anton20241/rtc_work/fingers_rx_tx_ws/devel/lib/fingers/finger: fingers/CMakeFiles/finger.dir/src/tabl_reg.cpp.o
-/home/anton20241/rtc_work/fingers_rx_tx_ws/devel/lib/fingers/finger: fingers/CMakeFiles/finger.dir/src/umba_crc_table.c.o
-/home/anton20241/rtc_work/fingers_rx_tx_ws/devel/lib/fingers/finger: fingers/CMakeFiles/finger.dir/src/qt_serial.cpp.o
-/home/anton20241/rtc_work/fingers_rx_tx_ws/devel/lib/fingers/finger: fingers/CMakeFiles/finger.dir/build.make
-/home/anton20241/rtc_work/fingers_rx_tx_ws/devel/lib/fingers/finger: /opt/ros/noetic/lib/libroscpp.so
-/home/anton20241/rtc_work/fingers_rx_tx_ws/devel/lib/fingers/finger: /usr/lib/x86_64-linux-gnu/libpthread.so
-/home/anton20241/rtc_work/fingers_rx_tx_ws/devel/lib/fingers/finger: /usr/lib/x86_64-linux-gnu/libboost_chrono.so.1.71.0
-/home/anton20241/rtc_work/fingers_rx_tx_ws/devel/lib/fingers/finger: /usr/lib/x86_64-linux-gnu/libboost_filesystem.so.1.71.0
-/home/anton20241/rtc_work/fingers_rx_tx_ws/devel/lib/fingers/finger: /opt/ros/noetic/lib/librosconsole.so
-/home/anton20241/rtc_work/fingers_rx_tx_ws/devel/lib/fingers/finger: /opt/ros/noetic/lib/librosconsole_log4cxx.so
-/home/anton20241/rtc_work/fingers_rx_tx_ws/devel/lib/fingers/finger: /opt/ros/noetic/lib/librosconsole_backend_interface.so
-/home/anton20241/rtc_work/fingers_rx_tx_ws/devel/lib/fingers/finger: /usr/lib/x86_64-linux-gnu/liblog4cxx.so
-/home/anton20241/rtc_work/fingers_rx_tx_ws/devel/lib/fingers/finger: /usr/lib/x86_64-linux-gnu/libboost_regex.so.1.71.0
-/home/anton20241/rtc_work/fingers_rx_tx_ws/devel/lib/fingers/finger: /opt/ros/noetic/lib/libroscpp_serialization.so
-/home/anton20241/rtc_work/fingers_rx_tx_ws/devel/lib/fingers/finger: /opt/ros/noetic/lib/libxmlrpcpp.so
-/home/anton20241/rtc_work/fingers_rx_tx_ws/devel/lib/fingers/finger: /opt/ros/noetic/lib/librostime.so
-/home/anton20241/rtc_work/fingers_rx_tx_ws/devel/lib/fingers/finger: /usr/lib/x86_64-linux-gnu/libboost_date_time.so.1.71.0
-/home/anton20241/rtc_work/fingers_rx_tx_ws/devel/lib/fingers/finger: /opt/ros/noetic/lib/libcpp_common.so
-/home/anton20241/rtc_work/fingers_rx_tx_ws/devel/lib/fingers/finger: /usr/lib/x86_64-linux-gnu/libboost_system.so.1.71.0
-/home/anton20241/rtc_work/fingers_rx_tx_ws/devel/lib/fingers/finger: /usr/lib/x86_64-linux-gnu/libboost_thread.so.1.71.0
-/home/anton20241/rtc_work/fingers_rx_tx_ws/devel/lib/fingers/finger: /usr/lib/x86_64-linux-gnu/libconsole_bridge.so.0.4
-/home/anton20241/rtc_work/fingers_rx_tx_ws/devel/lib/fingers/finger: /usr/lib/x86_64-linux-gnu/libQt5SerialPort.so.5.12.8
-/home/anton20241/rtc_work/fingers_rx_tx_ws/devel/lib/fingers/finger: /usr/lib/x86_64-linux-gnu/libQt5Core.so.5.12.8
-/home/anton20241/rtc_work/fingers_rx_tx_ws/devel/lib/fingers/finger: fingers/CMakeFiles/finger.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/anton20241/rtc_work/fingers_rx_tx_ws/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Linking CXX executable /home/anton20241/rtc_work/fingers_rx_tx_ws/devel/lib/fingers/finger"
-	cd /home/anton20241/rtc_work/fingers_rx_tx_ws/build/fingers && $(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/finger.dir/link.txt --verbose=$(VERBOSE)
+/home/raspberrypi/rtc_work/fingers_rx_tx_ws/devel/lib/fingers/finger: fingers/CMakeFiles/finger.dir/src/finger.cpp.o
+/home/raspberrypi/rtc_work/fingers_rx_tx_ws/devel/lib/fingers/finger: fingers/CMakeFiles/finger.dir/src/protocol.cpp.o
+/home/raspberrypi/rtc_work/fingers_rx_tx_ws/devel/lib/fingers/finger: fingers/CMakeFiles/finger.dir/src/tabl_reg.cpp.o
+/home/raspberrypi/rtc_work/fingers_rx_tx_ws/devel/lib/fingers/finger: fingers/CMakeFiles/finger.dir/src/umba_crc_table.c.o
+/home/raspberrypi/rtc_work/fingers_rx_tx_ws/devel/lib/fingers/finger: fingers/CMakeFiles/finger.dir/src/qt_serial.cpp.o
+/home/raspberrypi/rtc_work/fingers_rx_tx_ws/devel/lib/fingers/finger: fingers/CMakeFiles/finger.dir/build.make
+/home/raspberrypi/rtc_work/fingers_rx_tx_ws/devel/lib/fingers/finger: /opt/ros/noetic/lib/libroscpp.so
+/home/raspberrypi/rtc_work/fingers_rx_tx_ws/devel/lib/fingers/finger: /usr/lib/aarch64-linux-gnu/libpthread.so
+/home/raspberrypi/rtc_work/fingers_rx_tx_ws/devel/lib/fingers/finger: /usr/lib/aarch64-linux-gnu/libboost_chrono.so.1.71.0
+/home/raspberrypi/rtc_work/fingers_rx_tx_ws/devel/lib/fingers/finger: /usr/lib/aarch64-linux-gnu/libboost_filesystem.so.1.71.0
+/home/raspberrypi/rtc_work/fingers_rx_tx_ws/devel/lib/fingers/finger: /opt/ros/noetic/lib/librosconsole.so
+/home/raspberrypi/rtc_work/fingers_rx_tx_ws/devel/lib/fingers/finger: /opt/ros/noetic/lib/librosconsole_log4cxx.so
+/home/raspberrypi/rtc_work/fingers_rx_tx_ws/devel/lib/fingers/finger: /opt/ros/noetic/lib/librosconsole_backend_interface.so
+/home/raspberrypi/rtc_work/fingers_rx_tx_ws/devel/lib/fingers/finger: /usr/lib/aarch64-linux-gnu/liblog4cxx.so
+/home/raspberrypi/rtc_work/fingers_rx_tx_ws/devel/lib/fingers/finger: /usr/lib/aarch64-linux-gnu/libboost_regex.so.1.71.0
+/home/raspberrypi/rtc_work/fingers_rx_tx_ws/devel/lib/fingers/finger: /opt/ros/noetic/lib/libroscpp_serialization.so
+/home/raspberrypi/rtc_work/fingers_rx_tx_ws/devel/lib/fingers/finger: /opt/ros/noetic/lib/libxmlrpcpp.so
+/home/raspberrypi/rtc_work/fingers_rx_tx_ws/devel/lib/fingers/finger: /opt/ros/noetic/lib/librostime.so
+/home/raspberrypi/rtc_work/fingers_rx_tx_ws/devel/lib/fingers/finger: /usr/lib/aarch64-linux-gnu/libboost_date_time.so.1.71.0
+/home/raspberrypi/rtc_work/fingers_rx_tx_ws/devel/lib/fingers/finger: /opt/ros/noetic/lib/libcpp_common.so
+/home/raspberrypi/rtc_work/fingers_rx_tx_ws/devel/lib/fingers/finger: /usr/lib/aarch64-linux-gnu/libboost_system.so.1.71.0
+/home/raspberrypi/rtc_work/fingers_rx_tx_ws/devel/lib/fingers/finger: /usr/lib/aarch64-linux-gnu/libboost_thread.so.1.71.0
+/home/raspberrypi/rtc_work/fingers_rx_tx_ws/devel/lib/fingers/finger: /usr/lib/aarch64-linux-gnu/libconsole_bridge.so.0.4
+/home/raspberrypi/rtc_work/fingers_rx_tx_ws/devel/lib/fingers/finger: /usr/lib/aarch64-linux-gnu/libQt5SerialPort.so.5.12.8
+/home/raspberrypi/rtc_work/fingers_rx_tx_ws/devel/lib/fingers/finger: /usr/lib/aarch64-linux-gnu/libQt5Core.so.5.12.8
+/home/raspberrypi/rtc_work/fingers_rx_tx_ws/devel/lib/fingers/finger: fingers/CMakeFiles/finger.dir/link.txt
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/raspberrypi/rtc_work/fingers_rx_tx_ws/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Linking CXX executable /home/raspberrypi/rtc_work/fingers_rx_tx_ws/devel/lib/fingers/finger"
+	cd /home/raspberrypi/rtc_work/fingers_rx_tx_ws/build/fingers && $(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/finger.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
-fingers/CMakeFiles/finger.dir/build: /home/anton20241/rtc_work/fingers_rx_tx_ws/devel/lib/fingers/finger
+fingers/CMakeFiles/finger.dir/build: /home/raspberrypi/rtc_work/fingers_rx_tx_ws/devel/lib/fingers/finger
 
 .PHONY : fingers/CMakeFiles/finger.dir/build
 
 fingers/CMakeFiles/finger.dir/clean:
-	cd /home/anton20241/rtc_work/fingers_rx_tx_ws/build/fingers && $(CMAKE_COMMAND) -P CMakeFiles/finger.dir/cmake_clean.cmake
+	cd /home/raspberrypi/rtc_work/fingers_rx_tx_ws/build/fingers && $(CMAKE_COMMAND) -P CMakeFiles/finger.dir/cmake_clean.cmake
 .PHONY : fingers/CMakeFiles/finger.dir/clean
 
 fingers/CMakeFiles/finger.dir/depend:
-	cd /home/anton20241/rtc_work/fingers_rx_tx_ws/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/anton20241/rtc_work/fingers_rx_tx_ws/src /home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers /home/anton20241/rtc_work/fingers_rx_tx_ws/build /home/anton20241/rtc_work/fingers_rx_tx_ws/build/fingers /home/anton20241/rtc_work/fingers_rx_tx_ws/build/fingers/CMakeFiles/finger.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/raspberrypi/rtc_work/fingers_rx_tx_ws/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/raspberrypi/rtc_work/fingers_rx_tx_ws/src /home/raspberrypi/rtc_work/fingers_rx_tx_ws/src/fingers /home/raspberrypi/rtc_work/fingers_rx_tx_ws/build /home/raspberrypi/rtc_work/fingers_rx_tx_ws/build/fingers /home/raspberrypi/rtc_work/fingers_rx_tx_ws/build/fingers/CMakeFiles/finger.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : fingers/CMakeFiles/finger.dir/depend
 

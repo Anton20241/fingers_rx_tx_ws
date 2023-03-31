@@ -127,18 +127,18 @@ namespace boost_serial
         {
             my_mytex.lock();
 
-            std::cout << "bytesGet = " << bytesGet << std::endl;
-            std::cout << "m_copyRecvdData.size() = " << m_copyRecvdData.size() << std::endl;
+            // std::cout << "bytesGet = " << bytesGet << std::endl;
+            // std::cout << "m_copyRecvdData.size() = " << m_copyRecvdData.size() << std::endl;
 
             if (m_copyRecvdData.size() != bytesGet || m_copyRecvdData.empty()){
-                std::cout << "m_copyRecvdData.size() != bytesGet || m_copyRecvdData.empty()\n";
+                //std::cout << "m_copyRecvdData.size() != bytesGet || m_copyRecvdData.empty()\n";
                 bytesGet = m_copyRecvdData.size();
                 my_mytex.unlock();
                 return false;
             }
 
             if (m_copyRecvdData.size() < 2 || m_copyRecvdData[1] > 9 || m_copyRecvdData[1] == 0){
-                std::cout << "m_copyRecvdData.size() < 2 || m_copyRecvdData[1] > 9 || m_copyRecvdData[1] == 0\n";
+                //std::cout << "m_copyRecvdData.size() < 2 || m_copyRecvdData[1] > 9 || m_copyRecvdData[1] == 0\n";
                 m_copyRecvdData.clear();
                 my_mytex.unlock();
                 return true;

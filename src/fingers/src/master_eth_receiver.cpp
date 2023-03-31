@@ -129,15 +129,17 @@ private:
       currentState.camera_from_bat_cam        = recvdMsg->data[2];
       currentState.relay_state_from_bat_cam   = recvdMsg->data[3];
       resvdFromAllDev                        |= recvdMsg->data[4];
+      recvd_count_topic_cam_bat++;
     } else if (recvdMsg->data.size() == 3){
       currentState.cmdBatCamTopic             = recvdMsg->data[0];
       currentState.time_down                  = recvdMsg->data[1];
       resvdFromAllDev                        |= recvdMsg->data[2];
+      recvd_count_topic_cam_bat++;
       startShutDownProcess();
     } else if (recvdMsg->data.size() == 1){
       resvdFromAllDev                        |= recvdMsg->data[0];
     } else return;
-    recvd_count_topic_cam_bat++;
+    //recvd_count_topic_cam_bat++;
     std::cout << "\033[1;34mRECVD FROM TOPIC bat_cam_topic recvdMsg->data.size() = \033[0m" << recvdMsg->data.size() << std::endl;
     std::cout << "recvd_count_topic_cam_bat = " << recvd_count_topic_cam_bat << std::endl;
     for (int i = 0; i < recvdMsg->data.size(); i++){
@@ -222,7 +224,7 @@ private:
   }
 
   void sendMsgToUDP(){
-
+    std::cout << "recvd_count_topic_cam_bat = " << recvd_count_topic_cam_bat << std::endl;
     //формируем пакет
     dataToUDP[0] = 0xBB;                                                                            //header 1b
     dataToUDP[1] = 0xAA;                                                                            //header 1b

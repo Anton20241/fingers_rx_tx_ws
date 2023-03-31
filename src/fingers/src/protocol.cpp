@@ -544,14 +544,14 @@ namespace protocol_master
             bool get_bytes = m_transport.getData(recvdBuff, &recvdBuffSize);
 
             if (get_bytes){
-                std::cout << "get_bytes\n";
+                //std::cout << "get_bytes\n";
                 not_bytes_received = 0;
 
             } else {
-                std::cout << "else\n";
+                //std::cout << "else\n";
                 not_bytes_received++;
                 if (not_bytes_received > 50){
-                    std::cout << "not_bytes_received > 50\n";
+                    //std::cout << "not_bytes_received > 50\n";
                     clear(dataFrom, dataFromSize);
                     return false;
                 }

@@ -242,7 +242,7 @@ int main(int argc, char** argv)
               << "\n\033[1;32m╚═══════════════════════════════════════╝\033[0m\n";
     ros::init(argc, argv, "master_topic_receiver");
     
-    qt_serial::Qt_Serial_Async qt_RS_transp("/dev/ttyUSB0", 256000);
+    qt_serial::Qt_Serial_Async qt_RS_transp("/dev/tty" + devPort, 256000);
     protocol_master::ProtocolMaster rs_prot_master(qt_RS_transp, &coreApplication);
     RS_Server raspbPi(rs_prot_master);
 

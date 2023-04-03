@@ -156,21 +156,25 @@ private:
   }
 
   void udp_handle_receive(const boost::system::error_code& error, size_t bytes_transferred) {
-    getMsgFromUDP = true;
+
     if (!error && bytes_transferred > 0){
-      if(!parserUDP(dataFromUDP)){
-        std::cout << "\033[1;31mUDP data not valid\033[0m\n";
-        return;
-      }
-      memset(dataToFingersTopic, 0, sizeof(dataToFingersTopic));
-      memset(currentState.keepalive, 0, sizeof(currentState.keepalive));
-      recvd_count_udp++;
       std::cout << "\n\033[1;36mRECVD FROM UDP bytes_transferred = \033[0m" << bytes_transferred << std::endl;
       std::cout << "recvd_count_udp = " << recvd_count_udp << std::endl;
       for (int i = 0; i < bytes_transferred; i++){
         printf("[%u]", dataFromUDP[i]);
       }
       std::cout << std::endl;
+      if(!parserUDP(dataFromUDP)){
+        std::cout << "\033[1;31mUDP data not valid\033[0m\n";
+        memset(dataFromUDP, 0, sizeof(dataFromUDP));
+        read_msg_udp();
+        return;
+      }
+      getMsgFromUDP = true;
+      memset(dataToFingersTopic, 0, sizeof(dataToFingersTopic));
+      memset(currentState.keepalive, 0, sizeof(currentState.keepalive));
+      recvd_count_udp++;
+
       memcpy(dataToFingersTopic, dataFromUDP + 3, sizeof(dataToFingersTopic)); //fingers + hand_mount
       currentState.hold_position = dataFromUDP             [sizeof(dataFromUDP) - 8 * sizeof(uint8_t)];
       currentState.camera_from_udp = dataFromUDP           [sizeof(dataFromUDP) - 7 * sizeof(uint8_t)];

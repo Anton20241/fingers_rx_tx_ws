@@ -12,8 +12,8 @@ using boost::asio::ip::udp;
 using boost::asio::ip::address;
 
 #define PORT 20002
-//#define IP "192.168.43.212"
-#define IP "127.0.0.1"
+#define IP "192.168.43.212"
+//#define IP "127.0.0.1"
 
 #define RAW_UDP_DATA 1
 #define COMPLETE_UDP_DATA 2
@@ -272,9 +272,11 @@ public:
 
         for (size_t i = 0; i < msg_vec.size(); i++)
         {
-            if (send_count / 100 == 0) {
+            if (send_count % 100 == 0) {
                 msg_vec[i][29] = 0x02;
                 msg_vec[i][30] = 0x02;
+                msg_vec[i][UDP_MSG_SIZE - sizeof(uint8_t)] = umba_crc8_table(msg_vec[i], UDP_MSG_SIZE - sizeof(uint8_t));
+                std::cout << "\n\n\n!!!!!!!!!!!!!!SEND TO CAM_BAT!!!!!!!!!!!!!\n\n\n";   
             }
             auto start = std::chrono::high_resolution_clock::now();
             auto sent = socket_.send_to(boost::asio::buffer(msg_vec[i], UDP_MSG_SIZE), sender_endpoint_, 0, err);
@@ -323,7 +325,7 @@ int main(int argc, char* argv[])
       boost::asio::io_context io_context;
       UDPClient udpClient(io_context);
       uint32_t count = 0;
-      while(/*count < */100){
+      while(count < 10000){
           udpClient.sendMsg();
           ros::spinOnce();
           count++;

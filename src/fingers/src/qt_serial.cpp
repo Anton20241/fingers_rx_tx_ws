@@ -150,7 +150,7 @@ namespace qt_serial{
 
     if (packageLen > m_copyRecvdData_size) {
       my_mytex.unlock();
-      return true;
+      return false;
     }            
 
     std::cout << "m_copyRecvdData:\n";
@@ -196,6 +196,6 @@ namespace qt_serial{
   bool Qt_Serial_Async::transportReset() {return true;}
 
   Qt_Serial_Async::~Qt_Serial_Async() {
-
+    m_serialPort.close();
   };
 }

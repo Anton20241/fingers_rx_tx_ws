@@ -8,6 +8,7 @@
 #include "umba_crc_table.h"
 #include <mutex>
 #include <QCoreApplication>
+#include "qt_serial.hpp"
 
 #define CAM_TOPIC_NAME "camera_topic"
 #define BAT_CAM_TOPIC_NAME "bat_cam_topic"
@@ -171,15 +172,18 @@ private:
       relay_state_prev = relay_state;
       std::cout << "\n\033[1;35m[send UART msg with new relay_state]\033[0m\n";
       m_protocol.sendCmdWrite(0x01, 0x20, toRelaySet, sizeof(toRelaySet));
-      std::this_thread::sleep_for(std::chrono::milliseconds(50));
       msg_sent_relay = true;
     }
+
     if (cam_status != cam_status_prev){
       cam_status_prev = cam_status;
       std::cout << "\n\033[1;35m[send UART msg with new cam_status]\033[0m\n";
       m_protocol.sendCmdWrite(0x01, 0x10, &cam_status, sizeof(uint8_t));
-      std::this_thread::sleep_for(std::chrono::milliseconds(50));
       msg_sent_cam = true;
+    }
+
+    if (msg_sent_relay || msg_sent_cam){
+      std::this_thread::sleep_for(std::chrono::milliseconds(50));
     }
   }
 };
@@ -197,8 +201,8 @@ int main(int argc, char** argv)
                   << "\n\033[1;32m║Baud rate: " << baudrate << ", Port: /dev/ttyS" << devPort << "\t║\033[0m"
                   << "\n\033[1;32m╚═══════════════════════════════════════╝\033[0m\n";
     ros::init(argc, argv, "uart_node");
-    boost_serial::Boost_Serial_Async boostRS485_transp("/dev/ttyS" + devPort, (uint32_t)std::stoi(baudrate));
-    protocol_master::ProtocolMaster boostRS485_prot_master(boostRS485_transp, &coreApplication);
+    qt_serial::Qt_Serial_Async qt_UART_transp("/dev/ttyS" + devPort, (uint32_t)std::stoi(baudrate));
+    protocol_master::ProtocolMaster boostRS485_prot_master(qt_UART_transp, &coreApplication);
     UART_Node uartNode(boostRS485_prot_master);
     while(ros::ok()){
       uartNode.UART_process();

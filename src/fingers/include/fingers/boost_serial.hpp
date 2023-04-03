@@ -131,14 +131,14 @@ namespace boost_serial
             // std::cout << "m_copyRecvdData.size() = " << m_copyRecvdData.size() << std::endl;
 
             if (m_copyRecvdData.size() != bytesGet || m_copyRecvdData.empty()){
-                //std::cout << "m_copyRecvdData.size() != bytesGet || m_copyRecvdData.empty()\n";
+                //std::cout << "empty or not BytesGet\n";
                 bytesGet = m_copyRecvdData.size();
                 my_mytex.unlock();
                 return false;
             }
 
             if (m_copyRecvdData.size() < 2 || m_copyRecvdData[1] > 9 || m_copyRecvdData[1] == 0){
-                //std::cout << "m_copyRecvdData.size() < 2 || m_copyRecvdData[1] > 9 || m_copyRecvdData[1] == 0\n";
+                //std::cout << "non-valid m_copyRecvdData length\n";
                 m_copyRecvdData.clear();
                 my_mytex.unlock();
                 return true;
@@ -149,7 +149,7 @@ namespace boost_serial
 
             if (packageLen > m_copyRecvdData_size) {
                 my_mytex.unlock();
-                return true;
+                return false;
             }            
 
             std::cout << "m_copyRecvdData:\n";

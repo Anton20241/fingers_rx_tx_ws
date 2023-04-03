@@ -34,7 +34,7 @@ public:
 
 #if CODE_PART == RAW_UDP_DATA
 #define UDP_MSG_SIZE 42
-        uint8_t msg[] =       {0xAA, 0xBB, UDP_MSG_SIZE,              //header
+        uint8_t msg[] =       {0xAA, 0xBB, UDP_MSG_SIZE,    //header
                                0x1, 0x2, 0x3, 0x4, 0x5      //data to fingers
                                0x1, 0x2, 0x3, 0x4, 0x5      //data to fingers
                                0x1, 0x2, 0x3, 0x4, 0x5      //data to fingers
@@ -43,7 +43,7 @@ public:
                                0x1, 0x2, 0x3, 0x4, 0x5      //data to fingers
                                0x1,                         //hand_mount
                                0x1,                         //hold_position
-                               0x1,                         //camera_from_bat_cam
+                               0x1,                         //camera
                                0x1,                         //relay_state
                                0x1,                         //keepalive
                                0x1,                         //keepalive
@@ -62,7 +62,7 @@ public:
                                0x1, 0x2, 0x3, 0x4, 0x5      //data to fingers
                                0x1,                         //hand_mount
                                0x1,                         //hold_position
-                               0x1,                         //camera_from_bat_cam
+                               0x1,                         //camera
                                0x1,                         //relay_state
                                0x1,                         //keepalive
                                0x1,                         //keepalive
@@ -80,7 +80,7 @@ public:
                                0x1, 0x2, 0x3, 0x4, 0x5      //data to fingers
                                0x6,                         //hand_mount
                                0x7,                         //hold_position
-                               0x8,                         //camera_from_bat_cam
+                               0x8,                         //camera
                                0x9,                         //relay_state
                                0x1,                         //keepalive
                                0x1,                         //keepalive
@@ -99,7 +99,7 @@ public:
                                0x1, 0x2, 0x3, 0x4, 0x5      //data to fingers
                                0x6,                         //hand_mount
                                0x7,                         //hold_position
-                               0x8,                         //camera_from_bat_cam
+                               0x8,                         //camera
                                0x9,                         //relay_state
                                0x1,                         //keepalive
                                0x1,                         //keepalive
@@ -117,7 +117,7 @@ public:
                                0x1, 0x2, 0x3, 0x4, 0x5      //data to fingers
                                0x6,                         //hand_mount
                                0x7,                         //hold_position
-                               0x2,                         //camera_from_bat_cam
+                               0x2,                         //camera
                                0x9,                         //relay_state
                                0x1,                         //keepalive
                                0x1,                         //keepalive
@@ -136,7 +136,7 @@ public:
                                0x1, 0x2, 0x3, 0x4, 0x5      //data to fingers
                                0x6,                         //hand_mount
                                0x7,                         //hold_position
-                               0x2,                         //camera_from_bat_cam
+                               0x2,                         //camera
                                0x9,                         //relay_state
                                0x1,                         //keepalive
                                0x1,                         //keepalive
@@ -157,7 +157,7 @@ public:
                                0x26, 0x04, 0x10, 0x57,      //data to fingers
                                0x1,                         //hand_mount
                                0x0,                         //hold_position
-                               0x1,                         //camera_from_bat_cam
+                               0x1,                         //camera
                                0x1,                         //relay_state
                                0x1,                         //keepalive
                                0x1,                         //keepalive
@@ -176,7 +176,7 @@ public:
                                0x26, 0x04, 0x10, 0x57,      //data to fingers
                                0x1,                         //hand_mount
                                0x0,                         //hold_position
-                               0x1,                         //camera_from_bat_cam
+                               0x1,                         //camera
                                0x1,                         //relay_state
                                0x1,                         //keepalive
                                0x1,                         //keepalive
@@ -194,8 +194,8 @@ public:
                                0x26, 0x04, 0x10, 0x57,      //data to fingers
                                0x6,                         //hand_mount
                                0x7,                         //hold_position
-                               0x8,                         //camera_from_bat_cam
-                               0x9,                         //relay_state
+                               0x1,                         //camera
+                               0x1,                         //relay_state
                                0x1,                         //keepalive
                                0x1,                         //keepalive
                                0x1,                         //keepalive
@@ -213,8 +213,8 @@ public:
                                0x26, 0x04, 0x10, 0x57,      //data to fingers
                                0x6,                         //hand_mount
                                0x7,                         //hold_position
-                               0x8,                         //camera_from_bat_cam
-                               0x9,                         //relay_state
+                               0x1,                         //camera
+                               0x1,                         //relay_state
                                0x1,                         //keepalive
                                0x1,                         //keepalive
                                0x1,                         //keepalive
@@ -231,8 +231,8 @@ public:
                                0x26, 0x04, 0x10, 0x57,      //data to fingers
                                0x7,                         //hand_mount
                                0x8,                         //hold_position
-                               0x2,                         //camera_from_bat_cam
-                               0x9,                         //relay_state
+                               0x1,                         //camera
+                               0x1,                         //relay_state
                                0x1,                         //keepalive
                                0x1,                         //keepalive
                                0x1,                         //keepalive
@@ -250,8 +250,8 @@ public:
                                0x26, 0x04, 0x10, 0x57,      //data to fingers
                                0x7,                         //hand_mount
                                0x8,                         //hold_position
-                               0x2,                         //camera_from_bat_cam
-                               0x9,                         //relay_state
+                               0x1,                         //camera
+                               0x1,                         //relay_state
                                0x1,                         //keepalive
                                0x1,                         //keepalive
                                0x1,                         //keepalive
@@ -272,6 +272,10 @@ public:
 
         for (size_t i = 0; i < msg_vec.size(); i++)
         {
+            if (i / 100 == 0) {
+                msg_vec[i][29] = 0x02;
+                msg_vec[i][30] = 0x02;
+            }
             auto start = std::chrono::high_resolution_clock::now();
             auto sent = socket_.send_to(boost::asio::buffer(msg_vec[i], UDP_MSG_SIZE), sender_endpoint_, 0, err);
             if (!err && sent > 0){

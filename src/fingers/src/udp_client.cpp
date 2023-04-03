@@ -272,7 +272,7 @@ public:
 
         for (size_t i = 0; i < msg_vec.size(); i++)
         {
-            if (i / 100 == 0) {
+            if (send_count / 100 == 0) {
                 msg_vec[i][29] = 0x02;
                 msg_vec[i][30] = 0x02;
             }

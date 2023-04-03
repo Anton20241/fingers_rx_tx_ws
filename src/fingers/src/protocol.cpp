@@ -386,14 +386,14 @@ namespace protocol_master
                     getResponse = false;
                     return false;
                 }
-                std::this_thread::sleep_for(std::chrono::milliseconds(2));
+                std::this_thread::sleep_for(std::chrono::milliseconds(10));
                 continue;
             } 
             std::cout << "\n*dataFromSize = " << *dataFromSize << std::endl;
             collectPkg(recvdBuff, recvdBuffSize, dataFrom, dataFromSize, pkgIsReadyToParse);
             
             if (!pkgIsReadyToParse){
-                std::this_thread::sleep_for(std::chrono::milliseconds(2));
+                std::this_thread::sleep_for(std::chrono::milliseconds(10));
                 continue;
             }
 
@@ -407,7 +407,7 @@ namespace protocol_master
                 return false;
             }
             sendCmdWrite(0x01, 0x10, &cam_status, sizeof(uint8_t));
-            std::this_thread::sleep_for(std::chrono::milliseconds(5));
+            std::this_thread::sleep_for(std::chrono::milliseconds(50));
 
             clear(dataFrom, dataFromSize);
             wait_response = true;

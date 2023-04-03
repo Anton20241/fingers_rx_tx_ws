@@ -1,5 +1,5 @@
 # generated from catkin/cmake/template/order_packages.context.py.in
-source_root_dir = '/home/anton20241/rtc_work/fingers_rx_tx_ws/src'
+source_root_dir = '/home/raspberrypi/rtc_work/fingers_rx_tx_ws/src'
 whitelisted_packages = ''.split(';') if '' != '' else []
 blacklisted_packages = ''.split(';') if '' != '' else []
-underlay_workspaces = '/home/anton20241/pipe_inspect_ws/devel;/opt/ros/noetic'.split(';') if '/home/anton20241/pipe_inspect_ws/devel;/opt/ros/noetic' != '' else []
+underlay_workspaces = '/home/raspberrypi/rtc_work/fingers_rx_tx_ws/devel;/opt/ros/noetic'.split(';') if '/home/raspberrypi/rtc_work/fingers_rx_tx_ws/devel;/opt/ros/noetic' != '' else []

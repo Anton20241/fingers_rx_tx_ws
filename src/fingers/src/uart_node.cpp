@@ -82,6 +82,7 @@ private:
   uint8_t relay_state_prev = 0;
   bool msg_sent_relay = false;
   bool msg_sent_cam = false;
+  uint32_t sendToTopicCount = 0;
 
   void sendError(){
     m_protocol.m_transport.send_error = true;
@@ -139,6 +140,8 @@ private:
       printf("[%u]", to_bat_cam_topic[i]);
     }
     std::cout << std::endl;
+    sendToTopicCount++;
+    std::cout << "sendToTopicCount = " << sendToTopicCount << std::endl;
     bat_cam_pub.publish(toBatCamTopicMsg);
     memset(to_bat_cam_topic, 0, sizeof(to_bat_cam_topic));
     memset(from_board_data, 0, from_board_dataSize);
@@ -189,7 +192,7 @@ int main(int argc, char** argv)
                   << "\n\033[1;32m║Baud rate: " << baudrate << ", Port: /dev/ttyS" << devPort << "\t║\033[0m"
                   << "\n\033[1;32m╚═══════════════════════════════════════╝\033[0m\n";
     ros::init(argc, argv, "uart_node");
-    boost_serial::Boost_Serial_Async boostRS485_transp("/dev/ttyS" + devPort, (uint32_t)std::stoi(baudrate));
+    boost_serial::Boost_Serial_Async boostRS485_transp("/dev/ttyUSB" + devPort, (uint32_t)std::stoi(baudrate));
     protocol_master::ProtocolMaster boostRS485_prot_master(boostRS485_transp, &coreApplication);
     UART_Node uartNode(boostRS485_prot_master);
     while(ros::ok()){

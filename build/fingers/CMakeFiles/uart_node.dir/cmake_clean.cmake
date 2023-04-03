@@ -1,6 +1,6 @@
 file(REMOVE_RECURSE
-  "/home/raspberrypi/rtc_work/fingers_rx_tx_ws/devel/lib/fingers/uart_node"
-  "/home/raspberrypi/rtc_work/fingers_rx_tx_ws/devel/lib/fingers/uart_node.pdb"
+  "/home/anton20241/rtc_work/fingers_rx_tx_ws/devel/lib/fingers/uart_node"
+  "/home/anton20241/rtc_work/fingers_rx_tx_ws/devel/lib/fingers/uart_node.pdb"
   "CMakeFiles/uart_node.dir/src/protocol.cpp.o"
   "CMakeFiles/uart_node.dir/src/qt_serial.cpp.o"
   "CMakeFiles/uart_node.dir/src/tabl_reg.cpp.o"

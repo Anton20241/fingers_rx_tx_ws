@@ -6,9 +6,9 @@
 
 #IncludeRegexTransform: 
 
-/home/raspberrypi/rtc_work/fingers_rx_tx_ws/src/fingers/include/fingers/boost_serial.hpp
+/home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/include/fingers/boost_serial.hpp
 i_transport.hpp
-/home/raspberrypi/rtc_work/fingers_rx_tx_ws/src/fingers/include/fingers/i_transport.hpp
+/home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/include/fingers/i_transport.hpp
 boost/asio.hpp
 -
 boost/bind.hpp
@@ -26,39 +26,39 @@ thread
 mutex
 -
 
-/home/raspberrypi/rtc_work/fingers_rx_tx_ws/src/fingers/include/fingers/i_transport.hpp
+/home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/include/fingers/i_transport.hpp
 stdint.h
 -
 stdbool.h
 -
 
-/home/raspberrypi/rtc_work/fingers_rx_tx_ws/src/fingers/include/fingers/protocol.hpp
+/home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/include/fingers/protocol.hpp
 i_transport.hpp
-/home/raspberrypi/rtc_work/fingers_rx_tx_ws/src/fingers/include/fingers/i_transport.hpp
+/home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/include/fingers/i_transport.hpp
 tabl_reg.hpp
-/home/raspberrypi/rtc_work/fingers_rx_tx_ws/src/fingers/include/fingers/tabl_reg.hpp
+/home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/include/fingers/tabl_reg.hpp
 QCoreApplication
 -
 
-/home/raspberrypi/rtc_work/fingers_rx_tx_ws/src/fingers/include/fingers/tabl_reg.hpp
+/home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/include/fingers/tabl_reg.hpp
 stdint.h
 -
 stdbool.h
 -
 
-/home/raspberrypi/rtc_work/fingers_rx_tx_ws/src/fingers/include/fingers/tabl_reg_config.hpp
+/home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/include/fingers/tabl_reg_config.hpp
 tabl_reg.hpp
-/home/raspberrypi/rtc_work/fingers_rx_tx_ws/src/fingers/include/fingers/tabl_reg.hpp
+/home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/include/fingers/tabl_reg.hpp
 
-/home/raspberrypi/rtc_work/fingers_rx_tx_ws/src/fingers/include/fingers/umba_crc_table.h
+/home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/include/fingers/umba_crc_table.h
 stdint.h
 -
 
-/home/raspberrypi/rtc_work/fingers_rx_tx_ws/src/fingers/src/protocol.cpp
+/home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/src/protocol.cpp
 protocol.hpp
-/home/raspberrypi/rtc_work/fingers_rx_tx_ws/src/fingers/src/protocol.hpp
+/home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/src/protocol.hpp
 umba_crc_table.h
-/home/raspberrypi/rtc_work/fingers_rx_tx_ws/src/fingers/src/umba_crc_table.h
+/home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/src/umba_crc_table.h
 assert.h
 -
 iostream
@@ -74,11 +74,11 @@ QCoreApplication
 boost/chrono.hpp
 -
 
-/home/raspberrypi/rtc_work/fingers_rx_tx_ws/src/fingers/src/rs_master.cpp
+/home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/src/rs_master.cpp
 boost_serial.hpp
-/home/raspberrypi/rtc_work/fingers_rx_tx_ws/src/fingers/src/boost_serial.hpp
+/home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/src/boost_serial.hpp
 protocol.hpp
-/home/raspberrypi/rtc_work/fingers_rx_tx_ws/src/fingers/src/protocol.hpp
+/home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/src/protocol.hpp
 tabl_reg_config.hpp
 -
 iostream
@@ -748,43 +748,43 @@ vector
 time.h
 -
 
-/usr/include/aarch64-linux-gnu/qt5/QtCore/QCoreApplication
+/usr/include/x86_64-linux-gnu/qt5/QtCore/QCoreApplication
 qcoreapplication.h
-/usr/include/aarch64-linux-gnu/qt5/QtCore/qcoreapplication.h
+/usr/include/x86_64-linux-gnu/qt5/QtCore/qcoreapplication.h
 
-/usr/include/aarch64-linux-gnu/qt5/QtCore/qalgorithms.h
+/usr/include/x86_64-linux-gnu/qt5/QtCore/qalgorithms.h
 QtCore/qglobal.h
 -
 intrin.h
 -
 
-/usr/include/aarch64-linux-gnu/qt5/QtCore/qarraydata.h
+/usr/include/x86_64-linux-gnu/qt5/QtCore/qarraydata.h
 QtCore/qrefcount.h
 -
 string.h
 -
 
-/usr/include/aarch64-linux-gnu/qt5/QtCore/qatomic.h
+/usr/include/x86_64-linux-gnu/qt5/QtCore/qatomic.h
 QtCore/qglobal.h
 -
 QtCore/qbasicatomic.h
 -
 
-/usr/include/aarch64-linux-gnu/qt5/QtCore/qatomic_bootstrap.h
+/usr/include/x86_64-linux-gnu/qt5/QtCore/qatomic_bootstrap.h
 QtCore/qgenericatomic.h
 -
 
-/usr/include/aarch64-linux-gnu/qt5/QtCore/qatomic_cxx11.h
+/usr/include/x86_64-linux-gnu/qt5/QtCore/qatomic_cxx11.h
 QtCore/qgenericatomic.h
 -
 atomic
 -
 
-/usr/include/aarch64-linux-gnu/qt5/QtCore/qatomic_msvc.h
+/usr/include/x86_64-linux-gnu/qt5/QtCore/qatomic_msvc.h
 QtCore/qgenericatomic.h
 -
 
-/usr/include/aarch64-linux-gnu/qt5/QtCore/qbasicatomic.h
+/usr/include/x86_64-linux-gnu/qt5/QtCore/qbasicatomic.h
 QtCore/qglobal.h
 -
 QtCore/qatomic_bootstrap.h
@@ -794,7 +794,7 @@ QtCore/qatomic_cxx11.h
 QtCore/qatomic_msvc.h
 -
 
-/usr/include/aarch64-linux-gnu/qt5/QtCore/qbytearray.h
+/usr/include/x86_64-linux-gnu/qt5/QtCore/qbytearray.h
 QtCore/qrefcount.h
 -
 QtCore/qnamespace.h
@@ -812,31 +812,31 @@ string
 iterator
 -
 
-/usr/include/aarch64-linux-gnu/qt5/QtCore/qbytearraylist.h
+/usr/include/x86_64-linux-gnu/qt5/QtCore/qbytearraylist.h
 QtCore/qlist.h
 -
 QtCore/qbytearray.h
 -
 
-/usr/include/aarch64-linux-gnu/qt5/QtCore/qchar.h
+/usr/include/x86_64-linux-gnu/qt5/QtCore/qchar.h
 QtCore/qglobal.h
 -
 
-/usr/include/aarch64-linux-gnu/qt5/QtCore/qcompilerdetection.h
+/usr/include/x86_64-linux-gnu/qt5/QtCore/qcompilerdetection.h
 QtCore/qglobal.h
 -
 utility
 -
 
-/usr/include/aarch64-linux-gnu/qt5/QtCore/qconfig-bootstrapped.h
+/usr/include/x86_64-linux-gnu/qt5/QtCore/qconfig-bootstrapped.h
 
-/usr/include/aarch64-linux-gnu/qt5/QtCore/qconfig.h
+/usr/include/x86_64-linux-gnu/qt5/QtCore/qconfig.h
 
-/usr/include/aarch64-linux-gnu/qt5/QtCore/qcontainerfwd.h
+/usr/include/x86_64-linux-gnu/qt5/QtCore/qcontainerfwd.h
 QtCore/qglobal.h
 -
 
-/usr/include/aarch64-linux-gnu/qt5/QtCore/qcoreapplication.h
+/usr/include/x86_64-linux-gnu/qt5/QtCore/qcoreapplication.h
 QtCore/qglobal.h
 -
 QtCore/qstring.h
@@ -850,7 +850,7 @@ QtCore/qeventloop.h
 QtCore/qscopedpointer.h
 -
 
-/usr/include/aarch64-linux-gnu/qt5/QtCore/qcoreevent.h
+/usr/include/x86_64-linux-gnu/qt5/QtCore/qcoreevent.h
 QtCore/qnamespace.h
 -
 QtCore/qbytearray.h
@@ -858,23 +858,23 @@ QtCore/qbytearray.h
 QtCore/qobjectdefs.h
 -
 
-/usr/include/aarch64-linux-gnu/qt5/QtCore/qeventloop.h
+/usr/include/x86_64-linux-gnu/qt5/QtCore/qeventloop.h
 QtCore/qobject.h
 -
 
-/usr/include/aarch64-linux-gnu/qt5/QtCore/qflags.h
+/usr/include/x86_64-linux-gnu/qt5/QtCore/qflags.h
 QtCore/qglobal.h
 -
 initializer_list
 -
 
-/usr/include/aarch64-linux-gnu/qt5/QtCore/qgenericatomic.h
+/usr/include/x86_64-linux-gnu/qt5/QtCore/qgenericatomic.h
 QtCore/qglobal.h
 -
 QtCore/qtypeinfo.h
 -
 
-/usr/include/aarch64-linux-gnu/qt5/QtCore/qglobal.h
+/usr/include/x86_64-linux-gnu/qt5/QtCore/qglobal.h
 type_traits
 -
 cstddef
@@ -916,7 +916,7 @@ QtCore/qnumeric.h
 QtCore/qversiontagging.h
 -
 
-/usr/include/aarch64-linux-gnu/qt5/QtCore/qglobalstatic.h
+/usr/include/x86_64-linux-gnu/qt5/QtCore/qglobalstatic.h
 QtCore/qglobal.h
 -
 QtCore/qatomic.h
@@ -924,7 +924,7 @@ QtCore/qatomic.h
 QtCore/qmutex.h
 -
 
-/usr/include/aarch64-linux-gnu/qt5/QtCore/qhashfunctions.h
+/usr/include/x86_64-linux-gnu/qt5/QtCore/qhashfunctions.h
 QtCore/qstring.h
 -
 QtCore/qpair.h
@@ -932,11 +932,11 @@ QtCore/qpair.h
 numeric
 -
 
-/usr/include/aarch64-linux-gnu/qt5/QtCore/qiterator.h
+/usr/include/x86_64-linux-gnu/qt5/QtCore/qiterator.h
 QtCore/qglobal.h
 -
 
-/usr/include/aarch64-linux-gnu/qt5/QtCore/qlist.h
+/usr/include/x86_64-linux-gnu/qt5/QtCore/qlist.h
 QtCore/qalgorithms.h
 -
 QtCore/qiterator.h
@@ -968,11 +968,11 @@ QtCore/qbytearraylist.h
 QtCore/qstringlist.h
 -
 
-/usr/include/aarch64-linux-gnu/qt5/QtCore/qlogging.h
+/usr/include/x86_64-linux-gnu/qt5/QtCore/qlogging.h
 QtCore/qglobal.h
 -
 
-/usr/include/aarch64-linux-gnu/qt5/QtCore/qmetatype.h
+/usr/include/x86_64-linux-gnu/qt5/QtCore/qmetatype.h
 QtCore/qglobal.h
 -
 QtCore/qatomic.h
@@ -992,7 +992,7 @@ list
 map
 -
 
-/usr/include/aarch64-linux-gnu/qt5/QtCore/qmutex.h
+/usr/include/x86_64-linux-gnu/qt5/QtCore/qmutex.h
 QtCore/qglobal.h
 -
 QtCore/qatomic.h
@@ -1004,15 +1004,15 @@ chrono
 limits
 -
 
-/usr/include/aarch64-linux-gnu/qt5/QtCore/qnamespace.h
+/usr/include/x86_64-linux-gnu/qt5/QtCore/qnamespace.h
 QtCore/qglobal.h
 -
 
-/usr/include/aarch64-linux-gnu/qt5/QtCore/qnumeric.h
+/usr/include/x86_64-linux-gnu/qt5/QtCore/qnumeric.h
 QtCore/qglobal.h
 -
 
-/usr/include/aarch64-linux-gnu/qt5/QtCore/qobject.h
+/usr/include/x86_64-linux-gnu/qt5/QtCore/qobject.h
 QtCore/qobjectdefs.h
 -
 QtCore/qstring.h
@@ -1032,43 +1032,43 @@ QtCore/qobject_impl.h
 chrono
 -
 
-/usr/include/aarch64-linux-gnu/qt5/QtCore/qobject_impl.h
+/usr/include/x86_64-linux-gnu/qt5/QtCore/qobject_impl.h
 
-/usr/include/aarch64-linux-gnu/qt5/QtCore/qobjectdefs.h
+/usr/include/x86_64-linux-gnu/qt5/QtCore/qobjectdefs.h
 QtCore/qnamespace.h
 -
 QtCore/qobjectdefs_impl.h
 -
 
-/usr/include/aarch64-linux-gnu/qt5/QtCore/qobjectdefs_impl.h
+/usr/include/x86_64-linux-gnu/qt5/QtCore/qobjectdefs_impl.h
 QtCore/qnamespace.h
 -
 
-/usr/include/aarch64-linux-gnu/qt5/QtCore/qpair.h
+/usr/include/x86_64-linux-gnu/qt5/QtCore/qpair.h
 QtCore/qglobal.h
 -
 
-/usr/include/aarch64-linux-gnu/qt5/QtCore/qprocessordetection.h
+/usr/include/x86_64-linux-gnu/qt5/QtCore/qprocessordetection.h
 QtCore/qglobal.h
 -
 
-/usr/include/aarch64-linux-gnu/qt5/QtCore/qrefcount.h
+/usr/include/x86_64-linux-gnu/qt5/QtCore/qrefcount.h
 QtCore/qatomic.h
 -
 
-/usr/include/aarch64-linux-gnu/qt5/QtCore/qregexp.h
+/usr/include/x86_64-linux-gnu/qt5/QtCore/qregexp.h
 QtCore/qglobal.h
 -
 QtCore/qstring.h
 -
 
-/usr/include/aarch64-linux-gnu/qt5/QtCore/qscopedpointer.h
+/usr/include/x86_64-linux-gnu/qt5/QtCore/qscopedpointer.h
 QtCore/qglobal.h
 -
 stdlib.h
 -
 
-/usr/include/aarch64-linux-gnu/qt5/QtCore/qstring.h
+/usr/include/x86_64-linux-gnu/qt5/QtCore/qstring.h
 QtCore/qchar.h
 -
 QtCore/qbytearray.h
@@ -1092,11 +1092,11 @@ stdarg.h
 QtCore/qstringbuilder.h
 -
 
-/usr/include/aarch64-linux-gnu/qt5/QtCore/qstringalgorithms.h
+/usr/include/x86_64-linux-gnu/qt5/QtCore/qstringalgorithms.h
 QtCore/qnamespace.h
 -
 
-/usr/include/aarch64-linux-gnu/qt5/QtCore/qstringbuilder.h
+/usr/include/x86_64-linux-gnu/qt5/QtCore/qstringbuilder.h
 QtCore/qstring.h
 -
 QtCore/qbytearray.h
@@ -1104,7 +1104,7 @@ QtCore/qbytearray.h
 string.h
 -
 
-/usr/include/aarch64-linux-gnu/qt5/QtCore/qstringlist.h
+/usr/include/x86_64-linux-gnu/qt5/QtCore/qstringlist.h
 QtCore/qlist.h
 -
 QtCore/qalgorithms.h
@@ -1116,15 +1116,15 @@ QtCore/qstring.h
 QtCore/qstringmatcher.h
 -
 
-/usr/include/aarch64-linux-gnu/qt5/QtCore/qstringliteral.h
+/usr/include/x86_64-linux-gnu/qt5/QtCore/qstringliteral.h
 QtCore/qarraydata.h
 -
 
-/usr/include/aarch64-linux-gnu/qt5/QtCore/qstringmatcher.h
+/usr/include/x86_64-linux-gnu/qt5/QtCore/qstringmatcher.h
 QtCore/qstring.h
 -
 
-/usr/include/aarch64-linux-gnu/qt5/QtCore/qstringview.h
+/usr/include/x86_64-linux-gnu/qt5/QtCore/qstringview.h
 QtCore/qchar.h
 -
 QtCore/qbytearray.h
@@ -1136,11 +1136,11 @@ QtCore/qstringalgorithms.h
 string
 -
 
-/usr/include/aarch64-linux-gnu/qt5/QtCore/qsysinfo.h
+/usr/include/x86_64-linux-gnu/qt5/QtCore/qsysinfo.h
 QtCore/qglobal.h
 -
 
-/usr/include/aarch64-linux-gnu/qt5/QtCore/qsystemdetection.h
+/usr/include/x86_64-linux-gnu/qt5/QtCore/qsystemdetection.h
 QtCore/qglobal.h
 -
 TargetConditionals.h
@@ -1150,13 +1150,13 @@ Availability.h
 AvailabilityMacros.h
 -
 
-/usr/include/aarch64-linux-gnu/qt5/QtCore/qtcore-config.h
+/usr/include/x86_64-linux-gnu/qt5/QtCore/qtcore-config.h
 
-/usr/include/aarch64-linux-gnu/qt5/QtCore/qtypeinfo.h
+/usr/include/x86_64-linux-gnu/qt5/QtCore/qtypeinfo.h
 QtCore/qglobal.h
 -
 
-/usr/include/aarch64-linux-gnu/qt5/QtCore/qvarlengtharray.h
+/usr/include/x86_64-linux-gnu/qt5/QtCore/qvarlengtharray.h
 QtCore/qcontainerfwd.h
 -
 QtCore/qglobal.h
@@ -1176,7 +1176,7 @@ initializer_list
 iterator
 -
 
-/usr/include/aarch64-linux-gnu/qt5/QtCore/qversiontagging.h
+/usr/include/x86_64-linux-gnu/qt5/QtCore/qversiontagging.h
 QtCore/qglobal.h
 -
 

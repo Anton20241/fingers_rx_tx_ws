@@ -389,8 +389,9 @@ namespace protocol_master
                 std::this_thread::sleep_for(std::chrono::milliseconds(2));
                 continue;
             } 
-
+            std::cout << "\n*dataFromSize = " << *dataFromSize << std::endl;
             collectPkg(recvdBuff, recvdBuffSize, dataFrom, dataFromSize, pkgIsReadyToParse);
+            
             if (!pkgIsReadyToParse){
                 std::this_thread::sleep_for(std::chrono::milliseconds(2));
                 continue;

@@ -152,7 +152,7 @@ private:
     std::cout << "\n\033[1;31m╔═══════════════╗\033[0m";
     std::cout << "\n\033[1;31m║   SHUTDOWN    ║\033[0m";
     std::cout << "\n\033[1;31m╚═══════════════╝\033[0m\n";
-    system("shutdown -h now");
+    //system("shutdown -h now");
   }
 
   void udp_handle_receive(const boost::system::error_code& error, size_t bytes_transferred) {

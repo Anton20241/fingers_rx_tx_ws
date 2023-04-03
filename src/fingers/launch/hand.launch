@@ -7,10 +7,10 @@
 	<arg name="baudrateForFingers" default="256000"/>
 	
 <!--launch nodes-->
-	<!-- <node pkg="fingers" type="uart_node" name="uart_node"/>
-		<param name="_UART_baudrate" value="$(arg UART_baudrate)"/> -->
+	<node pkg="fingers" type="uart_node" name="uart_node"/>
+		<param name="_UART_baudrate" value="$(arg UART_baudrate)"/>
 	<node pkg="fingers" type="master_topic_receiver" name="master_topic_receiver"/>
 		<param name="_devPortForFingers" value="$(arg devPortForFingers)"/>
 		<param name="_baudrateForFingers" value="$(arg baudrateForFingers)"/>
-	<!-- <node pkg="fingers" type="master_eth_receiver" name="master_eth_receiver" output="screen"/> -->
+	<node pkg="fingers" type="master_eth_receiver" name="master_eth_receiver" output="screen"/>
 </launch>

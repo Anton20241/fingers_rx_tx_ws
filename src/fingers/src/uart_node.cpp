@@ -3,6 +3,7 @@
 #include <ros/ros.h>
 #include <std_msgs/ByteMultiArray.h>
 #include "boost_serial.hpp"
+#include "qt_serial.hpp"
 #include <boost/chrono.hpp>
 #include "protocol.hpp"
 #include "umba_crc_table.h"
@@ -170,7 +171,7 @@ private:
       std::this_thread::sleep_for(std::chrono::milliseconds(10));
       msg_sent_relay = true;
     }
-    
+
     if (cam_status != cam_status_prev){
       cam_status_prev = cam_status;
       std::cout << "\n\033[1;35m[send UART msg with new cam_status]\033[0m\n";

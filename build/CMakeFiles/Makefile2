@@ -80,11 +80,9 @@ clean: fingers/clean
 
 # Recursive "all" directory target.
 fingers/all: fingers/CMakeFiles/udp_client.dir/all
-fingers/all: fingers/CMakeFiles/rs_master.dir/all
 fingers/all: fingers/CMakeFiles/uart_node.dir/all
 fingers/all: fingers/CMakeFiles/master_eth_receiver.dir/all
 fingers/all: fingers/CMakeFiles/master_topic_receiver.dir/all
-fingers/all: fingers/CMakeFiles/finger.dir/all
 
 .PHONY : fingers/all
 
@@ -95,7 +93,6 @@ fingers/preinstall:
 
 # Recursive "clean" directory target.
 fingers/clean: fingers/CMakeFiles/udp_client.dir/clean
-fingers/clean: fingers/CMakeFiles/rs_master.dir/clean
 fingers/clean: fingers/CMakeFiles/uart_node.dir/clean
 fingers/clean: fingers/CMakeFiles/std_msgs_generate_messages_py.dir/clean
 fingers/clean: fingers/CMakeFiles/std_msgs_generate_messages_nodejs.dir/clean
@@ -112,7 +109,6 @@ fingers/clean: fingers/CMakeFiles/std_msgs_generate_messages_cpp.dir/clean
 fingers/clean: fingers/CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/clean
 fingers/clean: fingers/CMakeFiles/master_topic_receiver.dir/clean
 fingers/clean: fingers/CMakeFiles/rosgraph_msgs_generate_messages_lisp.dir/clean
-fingers/clean: fingers/CMakeFiles/finger.dir/clean
 fingers/clean: fingers/CMakeFiles/roscpp_generate_messages_lisp.dir/clean
 fingers/clean: fingers/CMakeFiles/rosgraph_msgs_generate_messages_py.dir/clean
 
@@ -318,7 +314,7 @@ gtest/googlemock/CMakeFiles/gmock_main.dir/all: gtest/googlemock/CMakeFiles/gmoc
 gtest/googlemock/CMakeFiles/gmock_main.dir/all: gtest/googletest/CMakeFiles/gtest.dir/all
 	$(MAKE) -f gtest/googlemock/CMakeFiles/gmock_main.dir/build.make gtest/googlemock/CMakeFiles/gmock_main.dir/depend
 	$(MAKE) -f gtest/googlemock/CMakeFiles/gmock_main.dir/build.make gtest/googlemock/CMakeFiles/gmock_main.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/anton20241/rtc_work/fingers_rx_tx_ws/build/CMakeFiles --progress-num=9,10 "Built target gmock_main"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/anton20241/rtc_work/fingers_rx_tx_ws/build/CMakeFiles --progress-num=3,4 "Built target gmock_main"
 .PHONY : gtest/googlemock/CMakeFiles/gmock_main.dir/all
 
 # Build rule for subdir invocation for target.
@@ -345,7 +341,7 @@ gtest/googlemock/CMakeFiles/gmock_main.dir/clean:
 gtest/googlemock/CMakeFiles/gmock.dir/all: gtest/googletest/CMakeFiles/gtest.dir/all
 	$(MAKE) -f gtest/googlemock/CMakeFiles/gmock.dir/build.make gtest/googlemock/CMakeFiles/gmock.dir/depend
 	$(MAKE) -f gtest/googlemock/CMakeFiles/gmock.dir/build.make gtest/googlemock/CMakeFiles/gmock.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/anton20241/rtc_work/fingers_rx_tx_ws/build/CMakeFiles --progress-num=7,8 "Built target gmock"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/anton20241/rtc_work/fingers_rx_tx_ws/build/CMakeFiles --progress-num=1,2 "Built target gmock"
 .PHONY : gtest/googlemock/CMakeFiles/gmock.dir/all
 
 # Build rule for subdir invocation for target.
@@ -372,7 +368,7 @@ gtest/googlemock/CMakeFiles/gmock.dir/clean:
 gtest/googletest/CMakeFiles/gtest_main.dir/all: gtest/googletest/CMakeFiles/gtest.dir/all
 	$(MAKE) -f gtest/googletest/CMakeFiles/gtest_main.dir/build.make gtest/googletest/CMakeFiles/gtest_main.dir/depend
 	$(MAKE) -f gtest/googletest/CMakeFiles/gtest_main.dir/build.make gtest/googletest/CMakeFiles/gtest_main.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/anton20241/rtc_work/fingers_rx_tx_ws/build/CMakeFiles --progress-num=13,14 "Built target gtest_main"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/anton20241/rtc_work/fingers_rx_tx_ws/build/CMakeFiles --progress-num=7,8 "Built target gtest_main"
 .PHONY : gtest/googletest/CMakeFiles/gtest_main.dir/all
 
 # Build rule for subdir invocation for target.
@@ -399,7 +395,7 @@ gtest/googletest/CMakeFiles/gtest_main.dir/clean:
 gtest/googletest/CMakeFiles/gtest.dir/all:
 	$(MAKE) -f gtest/googletest/CMakeFiles/gtest.dir/build.make gtest/googletest/CMakeFiles/gtest.dir/depend
 	$(MAKE) -f gtest/googletest/CMakeFiles/gtest.dir/build.make gtest/googletest/CMakeFiles/gtest.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/anton20241/rtc_work/fingers_rx_tx_ws/build/CMakeFiles --progress-num=11,12 "Built target gtest"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/anton20241/rtc_work/fingers_rx_tx_ws/build/CMakeFiles --progress-num=5,6 "Built target gtest"
 .PHONY : gtest/googletest/CMakeFiles/gtest.dir/all
 
 # Build rule for subdir invocation for target.
@@ -426,7 +422,7 @@ gtest/googletest/CMakeFiles/gtest.dir/clean:
 fingers/CMakeFiles/udp_client.dir/all:
 	$(MAKE) -f fingers/CMakeFiles/udp_client.dir/build.make fingers/CMakeFiles/udp_client.dir/depend
 	$(MAKE) -f fingers/CMakeFiles/udp_client.dir/build.make fingers/CMakeFiles/udp_client.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/anton20241/rtc_work/fingers_rx_tx_ws/build/CMakeFiles --progress-num=39,40,41,42,43,44 "Built target udp_client"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/anton20241/rtc_work/fingers_rx_tx_ws/build/CMakeFiles --progress-num=27,28,29,30,31,32 "Built target udp_client"
 .PHONY : fingers/CMakeFiles/udp_client.dir/all
 
 # Build rule for subdir invocation for target.
@@ -447,40 +443,13 @@ fingers/CMakeFiles/udp_client.dir/clean:
 .PHONY : fingers/CMakeFiles/udp_client.dir/clean
 
 #=============================================================================
-# Target rules for target fingers/CMakeFiles/rs_master.dir
-
-# All Build rule for target.
-fingers/CMakeFiles/rs_master.dir/all:
-	$(MAKE) -f fingers/CMakeFiles/rs_master.dir/build.make fingers/CMakeFiles/rs_master.dir/depend
-	$(MAKE) -f fingers/CMakeFiles/rs_master.dir/build.make fingers/CMakeFiles/rs_master.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/anton20241/rtc_work/fingers_rx_tx_ws/build/CMakeFiles --progress-num=27,28,29,30,31,32 "Built target rs_master"
-.PHONY : fingers/CMakeFiles/rs_master.dir/all
-
-# Build rule for subdir invocation for target.
-fingers/CMakeFiles/rs_master.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/anton20241/rtc_work/fingers_rx_tx_ws/build/CMakeFiles 6
-	$(MAKE) -f CMakeFiles/Makefile2 fingers/CMakeFiles/rs_master.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/anton20241/rtc_work/fingers_rx_tx_ws/build/CMakeFiles 0
-.PHONY : fingers/CMakeFiles/rs_master.dir/rule
-
-# Convenience name for target.
-rs_master: fingers/CMakeFiles/rs_master.dir/rule
-
-.PHONY : rs_master
-
-# clean rule for target.
-fingers/CMakeFiles/rs_master.dir/clean:
-	$(MAKE) -f fingers/CMakeFiles/rs_master.dir/build.make fingers/CMakeFiles/rs_master.dir/clean
-.PHONY : fingers/CMakeFiles/rs_master.dir/clean
-
-#=============================================================================
 # Target rules for target fingers/CMakeFiles/uart_node.dir
 
 # All Build rule for target.
 fingers/CMakeFiles/uart_node.dir/all:
 	$(MAKE) -f fingers/CMakeFiles/uart_node.dir/build.make fingers/CMakeFiles/uart_node.dir/depend
 	$(MAKE) -f fingers/CMakeFiles/uart_node.dir/build.make fingers/CMakeFiles/uart_node.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/anton20241/rtc_work/fingers_rx_tx_ws/build/CMakeFiles --progress-num=33,34,35,36,37,38 "Built target uart_node"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/anton20241/rtc_work/fingers_rx_tx_ws/build/CMakeFiles --progress-num=21,22,23,24,25,26 "Built target uart_node"
 .PHONY : fingers/CMakeFiles/uart_node.dir/all
 
 # Build rule for subdir invocation for target.
@@ -777,7 +746,7 @@ fingers/CMakeFiles/rosgraph_msgs_generate_messages_cpp.dir/clean:
 fingers/CMakeFiles/master_eth_receiver.dir/all:
 	$(MAKE) -f fingers/CMakeFiles/master_eth_receiver.dir/build.make fingers/CMakeFiles/master_eth_receiver.dir/depend
 	$(MAKE) -f fingers/CMakeFiles/master_eth_receiver.dir/build.make fingers/CMakeFiles/master_eth_receiver.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/anton20241/rtc_work/fingers_rx_tx_ws/build/CMakeFiles --progress-num=15,16,17,18,19,20 "Built target master_eth_receiver"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/anton20241/rtc_work/fingers_rx_tx_ws/build/CMakeFiles --progress-num=9,10,11,12,13,14 "Built target master_eth_receiver"
 .PHONY : fingers/CMakeFiles/master_eth_receiver.dir/all
 
 # Build rule for subdir invocation for target.
@@ -858,7 +827,7 @@ fingers/CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/clean:
 fingers/CMakeFiles/master_topic_receiver.dir/all:
 	$(MAKE) -f fingers/CMakeFiles/master_topic_receiver.dir/build.make fingers/CMakeFiles/master_topic_receiver.dir/depend
 	$(MAKE) -f fingers/CMakeFiles/master_topic_receiver.dir/build.make fingers/CMakeFiles/master_topic_receiver.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/anton20241/rtc_work/fingers_rx_tx_ws/build/CMakeFiles --progress-num=21,22,23,24,25,26 "Built target master_topic_receiver"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/anton20241/rtc_work/fingers_rx_tx_ws/build/CMakeFiles --progress-num=15,16,17,18,19,20 "Built target master_topic_receiver"
 .PHONY : fingers/CMakeFiles/master_topic_receiver.dir/all
 
 # Build rule for subdir invocation for target.
@@ -904,33 +873,6 @@ rosgraph_msgs_generate_messages_lisp: fingers/CMakeFiles/rosgraph_msgs_generate_
 fingers/CMakeFiles/rosgraph_msgs_generate_messages_lisp.dir/clean:
 	$(MAKE) -f fingers/CMakeFiles/rosgraph_msgs_generate_messages_lisp.dir/build.make fingers/CMakeFiles/rosgraph_msgs_generate_messages_lisp.dir/clean
 .PHONY : fingers/CMakeFiles/rosgraph_msgs_generate_messages_lisp.dir/clean
-
-#=============================================================================
-# Target rules for target fingers/CMakeFiles/finger.dir
-
-# All Build rule for target.
-fingers/CMakeFiles/finger.dir/all:
-	$(MAKE) -f fingers/CMakeFiles/finger.dir/build.make fingers/CMakeFiles/finger.dir/depend
-	$(MAKE) -f fingers/CMakeFiles/finger.dir/build.make fingers/CMakeFiles/finger.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/anton20241/rtc_work/fingers_rx_tx_ws/build/CMakeFiles --progress-num=1,2,3,4,5,6 "Built target finger"
-.PHONY : fingers/CMakeFiles/finger.dir/all
-
-# Build rule for subdir invocation for target.
-fingers/CMakeFiles/finger.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/anton20241/rtc_work/fingers_rx_tx_ws/build/CMakeFiles 6
-	$(MAKE) -f CMakeFiles/Makefile2 fingers/CMakeFiles/finger.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/anton20241/rtc_work/fingers_rx_tx_ws/build/CMakeFiles 0
-.PHONY : fingers/CMakeFiles/finger.dir/rule
-
-# Convenience name for target.
-finger: fingers/CMakeFiles/finger.dir/rule
-
-.PHONY : finger
-
-# clean rule for target.
-fingers/CMakeFiles/finger.dir/clean:
-	$(MAKE) -f fingers/CMakeFiles/finger.dir/build.make fingers/CMakeFiles/finger.dir/clean
-.PHONY : fingers/CMakeFiles/finger.dir/clean
 
 #=============================================================================
 # Target rules for target fingers/CMakeFiles/roscpp_generate_messages_lisp.dir

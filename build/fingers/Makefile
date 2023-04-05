@@ -183,21 +183,6 @@ udp_client/fast:
 .PHONY : udp_client/fast
 
 # Convenience name for target.
-fingers/CMakeFiles/rs_master.dir/rule:
-	cd /home/anton20241/rtc_work/fingers_rx_tx_ws/build && $(MAKE) -f CMakeFiles/Makefile2 fingers/CMakeFiles/rs_master.dir/rule
-.PHONY : fingers/CMakeFiles/rs_master.dir/rule
-
-# Convenience name for target.
-rs_master: fingers/CMakeFiles/rs_master.dir/rule
-
-.PHONY : rs_master
-
-# fast build rule for target.
-rs_master/fast:
-	cd /home/anton20241/rtc_work/fingers_rx_tx_ws/build && $(MAKE) -f fingers/CMakeFiles/rs_master.dir/build.make fingers/CMakeFiles/rs_master.dir/build
-.PHONY : rs_master/fast
-
-# Convenience name for target.
 fingers/CMakeFiles/uart_node.dir/rule:
 	cd /home/anton20241/rtc_work/fingers_rx_tx_ws/build && $(MAKE) -f CMakeFiles/Makefile2 fingers/CMakeFiles/uart_node.dir/rule
 .PHONY : fingers/CMakeFiles/uart_node.dir/rule
@@ -438,21 +423,6 @@ rosgraph_msgs_generate_messages_lisp/fast:
 .PHONY : rosgraph_msgs_generate_messages_lisp/fast
 
 # Convenience name for target.
-fingers/CMakeFiles/finger.dir/rule:
-	cd /home/anton20241/rtc_work/fingers_rx_tx_ws/build && $(MAKE) -f CMakeFiles/Makefile2 fingers/CMakeFiles/finger.dir/rule
-.PHONY : fingers/CMakeFiles/finger.dir/rule
-
-# Convenience name for target.
-finger: fingers/CMakeFiles/finger.dir/rule
-
-.PHONY : finger
-
-# fast build rule for target.
-finger/fast:
-	cd /home/anton20241/rtc_work/fingers_rx_tx_ws/build && $(MAKE) -f fingers/CMakeFiles/finger.dir/build.make fingers/CMakeFiles/finger.dir/build
-.PHONY : finger/fast
-
-# Convenience name for target.
 fingers/CMakeFiles/roscpp_generate_messages_lisp.dir/rule:
 	cd /home/anton20241/rtc_work/fingers_rx_tx_ws/build && $(MAKE) -f CMakeFiles/Makefile2 fingers/CMakeFiles/roscpp_generate_messages_lisp.dir/rule
 .PHONY : fingers/CMakeFiles/roscpp_generate_messages_lisp.dir/rule
@@ -481,33 +451,6 @@ rosgraph_msgs_generate_messages_py: fingers/CMakeFiles/rosgraph_msgs_generate_me
 rosgraph_msgs_generate_messages_py/fast:
 	cd /home/anton20241/rtc_work/fingers_rx_tx_ws/build && $(MAKE) -f fingers/CMakeFiles/rosgraph_msgs_generate_messages_py.dir/build.make fingers/CMakeFiles/rosgraph_msgs_generate_messages_py.dir/build
 .PHONY : rosgraph_msgs_generate_messages_py/fast
-
-src/finger.o: src/finger.cpp.o
-
-.PHONY : src/finger.o
-
-# target to build an object file
-src/finger.cpp.o:
-	cd /home/anton20241/rtc_work/fingers_rx_tx_ws/build && $(MAKE) -f fingers/CMakeFiles/finger.dir/build.make fingers/CMakeFiles/finger.dir/src/finger.cpp.o
-.PHONY : src/finger.cpp.o
-
-src/finger.i: src/finger.cpp.i
-
-.PHONY : src/finger.i
-
-# target to preprocess a source file
-src/finger.cpp.i:
-	cd /home/anton20241/rtc_work/fingers_rx_tx_ws/build && $(MAKE) -f fingers/CMakeFiles/finger.dir/build.make fingers/CMakeFiles/finger.dir/src/finger.cpp.i
-.PHONY : src/finger.cpp.i
-
-src/finger.s: src/finger.cpp.s
-
-.PHONY : src/finger.s
-
-# target to generate assembly for a file
-src/finger.cpp.s:
-	cd /home/anton20241/rtc_work/fingers_rx_tx_ws/build && $(MAKE) -f fingers/CMakeFiles/finger.dir/build.make fingers/CMakeFiles/finger.dir/src/finger.cpp.s
-.PHONY : src/finger.cpp.s
 
 src/master_eth_receiver.o: src/master_eth_receiver.cpp.o
 
@@ -570,11 +513,9 @@ src/protocol.o: src/protocol.cpp.o
 # target to build an object file
 src/protocol.cpp.o:
 	cd /home/anton20241/rtc_work/fingers_rx_tx_ws/build && $(MAKE) -f fingers/CMakeFiles/udp_client.dir/build.make fingers/CMakeFiles/udp_client.dir/src/protocol.cpp.o
-	cd /home/anton20241/rtc_work/fingers_rx_tx_ws/build && $(MAKE) -f fingers/CMakeFiles/rs_master.dir/build.make fingers/CMakeFiles/rs_master.dir/src/protocol.cpp.o
 	cd /home/anton20241/rtc_work/fingers_rx_tx_ws/build && $(MAKE) -f fingers/CMakeFiles/uart_node.dir/build.make fingers/CMakeFiles/uart_node.dir/src/protocol.cpp.o
 	cd /home/anton20241/rtc_work/fingers_rx_tx_ws/build && $(MAKE) -f fingers/CMakeFiles/master_eth_receiver.dir/build.make fingers/CMakeFiles/master_eth_receiver.dir/src/protocol.cpp.o
 	cd /home/anton20241/rtc_work/fingers_rx_tx_ws/build && $(MAKE) -f fingers/CMakeFiles/master_topic_receiver.dir/build.make fingers/CMakeFiles/master_topic_receiver.dir/src/protocol.cpp.o
-	cd /home/anton20241/rtc_work/fingers_rx_tx_ws/build && $(MAKE) -f fingers/CMakeFiles/finger.dir/build.make fingers/CMakeFiles/finger.dir/src/protocol.cpp.o
 .PHONY : src/protocol.cpp.o
 
 src/protocol.i: src/protocol.cpp.i
@@ -584,11 +525,9 @@ src/protocol.i: src/protocol.cpp.i
 # target to preprocess a source file
 src/protocol.cpp.i:
 	cd /home/anton20241/rtc_work/fingers_rx_tx_ws/build && $(MAKE) -f fingers/CMakeFiles/udp_client.dir/build.make fingers/CMakeFiles/udp_client.dir/src/protocol.cpp.i
-	cd /home/anton20241/rtc_work/fingers_rx_tx_ws/build && $(MAKE) -f fingers/CMakeFiles/rs_master.dir/build.make fingers/CMakeFiles/rs_master.dir/src/protocol.cpp.i
 	cd /home/anton20241/rtc_work/fingers_rx_tx_ws/build && $(MAKE) -f fingers/CMakeFiles/uart_node.dir/build.make fingers/CMakeFiles/uart_node.dir/src/protocol.cpp.i
 	cd /home/anton20241/rtc_work/fingers_rx_tx_ws/build && $(MAKE) -f fingers/CMakeFiles/master_eth_receiver.dir/build.make fingers/CMakeFiles/master_eth_receiver.dir/src/protocol.cpp.i
 	cd /home/anton20241/rtc_work/fingers_rx_tx_ws/build && $(MAKE) -f fingers/CMakeFiles/master_topic_receiver.dir/build.make fingers/CMakeFiles/master_topic_receiver.dir/src/protocol.cpp.i
-	cd /home/anton20241/rtc_work/fingers_rx_tx_ws/build && $(MAKE) -f fingers/CMakeFiles/finger.dir/build.make fingers/CMakeFiles/finger.dir/src/protocol.cpp.i
 .PHONY : src/protocol.cpp.i
 
 src/protocol.s: src/protocol.cpp.s
@@ -598,11 +537,9 @@ src/protocol.s: src/protocol.cpp.s
 # target to generate assembly for a file
 src/protocol.cpp.s:
 	cd /home/anton20241/rtc_work/fingers_rx_tx_ws/build && $(MAKE) -f fingers/CMakeFiles/udp_client.dir/build.make fingers/CMakeFiles/udp_client.dir/src/protocol.cpp.s
-	cd /home/anton20241/rtc_work/fingers_rx_tx_ws/build && $(MAKE) -f fingers/CMakeFiles/rs_master.dir/build.make fingers/CMakeFiles/rs_master.dir/src/protocol.cpp.s
 	cd /home/anton20241/rtc_work/fingers_rx_tx_ws/build && $(MAKE) -f fingers/CMakeFiles/uart_node.dir/build.make fingers/CMakeFiles/uart_node.dir/src/protocol.cpp.s
 	cd /home/anton20241/rtc_work/fingers_rx_tx_ws/build && $(MAKE) -f fingers/CMakeFiles/master_eth_receiver.dir/build.make fingers/CMakeFiles/master_eth_receiver.dir/src/protocol.cpp.s
 	cd /home/anton20241/rtc_work/fingers_rx_tx_ws/build && $(MAKE) -f fingers/CMakeFiles/master_topic_receiver.dir/build.make fingers/CMakeFiles/master_topic_receiver.dir/src/protocol.cpp.s
-	cd /home/anton20241/rtc_work/fingers_rx_tx_ws/build && $(MAKE) -f fingers/CMakeFiles/finger.dir/build.make fingers/CMakeFiles/finger.dir/src/protocol.cpp.s
 .PHONY : src/protocol.cpp.s
 
 src/qt_serial.o: src/qt_serial.cpp.o
@@ -612,11 +549,9 @@ src/qt_serial.o: src/qt_serial.cpp.o
 # target to build an object file
 src/qt_serial.cpp.o:
 	cd /home/anton20241/rtc_work/fingers_rx_tx_ws/build && $(MAKE) -f fingers/CMakeFiles/udp_client.dir/build.make fingers/CMakeFiles/udp_client.dir/src/qt_serial.cpp.o
-	cd /home/anton20241/rtc_work/fingers_rx_tx_ws/build && $(MAKE) -f fingers/CMakeFiles/rs_master.dir/build.make fingers/CMakeFiles/rs_master.dir/src/qt_serial.cpp.o
 	cd /home/anton20241/rtc_work/fingers_rx_tx_ws/build && $(MAKE) -f fingers/CMakeFiles/uart_node.dir/build.make fingers/CMakeFiles/uart_node.dir/src/qt_serial.cpp.o
 	cd /home/anton20241/rtc_work/fingers_rx_tx_ws/build && $(MAKE) -f fingers/CMakeFiles/master_eth_receiver.dir/build.make fingers/CMakeFiles/master_eth_receiver.dir/src/qt_serial.cpp.o
 	cd /home/anton20241/rtc_work/fingers_rx_tx_ws/build && $(MAKE) -f fingers/CMakeFiles/master_topic_receiver.dir/build.make fingers/CMakeFiles/master_topic_receiver.dir/src/qt_serial.cpp.o
-	cd /home/anton20241/rtc_work/fingers_rx_tx_ws/build && $(MAKE) -f fingers/CMakeFiles/finger.dir/build.make fingers/CMakeFiles/finger.dir/src/qt_serial.cpp.o
 .PHONY : src/qt_serial.cpp.o
 
 src/qt_serial.i: src/qt_serial.cpp.i
@@ -626,11 +561,9 @@ src/qt_serial.i: src/qt_serial.cpp.i
 # target to preprocess a source file
 src/qt_serial.cpp.i:
 	cd /home/anton20241/rtc_work/fingers_rx_tx_ws/build && $(MAKE) -f fingers/CMakeFiles/udp_client.dir/build.make fingers/CMakeFiles/udp_client.dir/src/qt_serial.cpp.i
-	cd /home/anton20241/rtc_work/fingers_rx_tx_ws/build && $(MAKE) -f fingers/CMakeFiles/rs_master.dir/build.make fingers/CMakeFiles/rs_master.dir/src/qt_serial.cpp.i
 	cd /home/anton20241/rtc_work/fingers_rx_tx_ws/build && $(MAKE) -f fingers/CMakeFiles/uart_node.dir/build.make fingers/CMakeFiles/uart_node.dir/src/qt_serial.cpp.i
 	cd /home/anton20241/rtc_work/fingers_rx_tx_ws/build && $(MAKE) -f fingers/CMakeFiles/master_eth_receiver.dir/build.make fingers/CMakeFiles/master_eth_receiver.dir/src/qt_serial.cpp.i
 	cd /home/anton20241/rtc_work/fingers_rx_tx_ws/build && $(MAKE) -f fingers/CMakeFiles/master_topic_receiver.dir/build.make fingers/CMakeFiles/master_topic_receiver.dir/src/qt_serial.cpp.i
-	cd /home/anton20241/rtc_work/fingers_rx_tx_ws/build && $(MAKE) -f fingers/CMakeFiles/finger.dir/build.make fingers/CMakeFiles/finger.dir/src/qt_serial.cpp.i
 .PHONY : src/qt_serial.cpp.i
 
 src/qt_serial.s: src/qt_serial.cpp.s
@@ -640,39 +573,10 @@ src/qt_serial.s: src/qt_serial.cpp.s
 # target to generate assembly for a file
 src/qt_serial.cpp.s:
 	cd /home/anton20241/rtc_work/fingers_rx_tx_ws/build && $(MAKE) -f fingers/CMakeFiles/udp_client.dir/build.make fingers/CMakeFiles/udp_client.dir/src/qt_serial.cpp.s
-	cd /home/anton20241/rtc_work/fingers_rx_tx_ws/build && $(MAKE) -f fingers/CMakeFiles/rs_master.dir/build.make fingers/CMakeFiles/rs_master.dir/src/qt_serial.cpp.s
 	cd /home/anton20241/rtc_work/fingers_rx_tx_ws/build && $(MAKE) -f fingers/CMakeFiles/uart_node.dir/build.make fingers/CMakeFiles/uart_node.dir/src/qt_serial.cpp.s
 	cd /home/anton20241/rtc_work/fingers_rx_tx_ws/build && $(MAKE) -f fingers/CMakeFiles/master_eth_receiver.dir/build.make fingers/CMakeFiles/master_eth_receiver.dir/src/qt_serial.cpp.s
 	cd /home/anton20241/rtc_work/fingers_rx_tx_ws/build && $(MAKE) -f fingers/CMakeFiles/master_topic_receiver.dir/build.make fingers/CMakeFiles/master_topic_receiver.dir/src/qt_serial.cpp.s
-	cd /home/anton20241/rtc_work/fingers_rx_tx_ws/build && $(MAKE) -f fingers/CMakeFiles/finger.dir/build.make fingers/CMakeFiles/finger.dir/src/qt_serial.cpp.s
 .PHONY : src/qt_serial.cpp.s
-
-src/rs_master.o: src/rs_master.cpp.o
-
-.PHONY : src/rs_master.o
-
-# target to build an object file
-src/rs_master.cpp.o:
-	cd /home/anton20241/rtc_work/fingers_rx_tx_ws/build && $(MAKE) -f fingers/CMakeFiles/rs_master.dir/build.make fingers/CMakeFiles/rs_master.dir/src/rs_master.cpp.o
-.PHONY : src/rs_master.cpp.o
-
-src/rs_master.i: src/rs_master.cpp.i
-
-.PHONY : src/rs_master.i
-
-# target to preprocess a source file
-src/rs_master.cpp.i:
-	cd /home/anton20241/rtc_work/fingers_rx_tx_ws/build && $(MAKE) -f fingers/CMakeFiles/rs_master.dir/build.make fingers/CMakeFiles/rs_master.dir/src/rs_master.cpp.i
-.PHONY : src/rs_master.cpp.i
-
-src/rs_master.s: src/rs_master.cpp.s
-
-.PHONY : src/rs_master.s
-
-# target to generate assembly for a file
-src/rs_master.cpp.s:
-	cd /home/anton20241/rtc_work/fingers_rx_tx_ws/build && $(MAKE) -f fingers/CMakeFiles/rs_master.dir/build.make fingers/CMakeFiles/rs_master.dir/src/rs_master.cpp.s
-.PHONY : src/rs_master.cpp.s
 
 src/tabl_reg.o: src/tabl_reg.cpp.o
 
@@ -681,11 +585,9 @@ src/tabl_reg.o: src/tabl_reg.cpp.o
 # target to build an object file
 src/tabl_reg.cpp.o:
 	cd /home/anton20241/rtc_work/fingers_rx_tx_ws/build && $(MAKE) -f fingers/CMakeFiles/udp_client.dir/build.make fingers/CMakeFiles/udp_client.dir/src/tabl_reg.cpp.o
-	cd /home/anton20241/rtc_work/fingers_rx_tx_ws/build && $(MAKE) -f fingers/CMakeFiles/rs_master.dir/build.make fingers/CMakeFiles/rs_master.dir/src/tabl_reg.cpp.o
 	cd /home/anton20241/rtc_work/fingers_rx_tx_ws/build && $(MAKE) -f fingers/CMakeFiles/uart_node.dir/build.make fingers/CMakeFiles/uart_node.dir/src/tabl_reg.cpp.o
 	cd /home/anton20241/rtc_work/fingers_rx_tx_ws/build && $(MAKE) -f fingers/CMakeFiles/master_eth_receiver.dir/build.make fingers/CMakeFiles/master_eth_receiver.dir/src/tabl_reg.cpp.o
 	cd /home/anton20241/rtc_work/fingers_rx_tx_ws/build && $(MAKE) -f fingers/CMakeFiles/master_topic_receiver.dir/build.make fingers/CMakeFiles/master_topic_receiver.dir/src/tabl_reg.cpp.o
-	cd /home/anton20241/rtc_work/fingers_rx_tx_ws/build && $(MAKE) -f fingers/CMakeFiles/finger.dir/build.make fingers/CMakeFiles/finger.dir/src/tabl_reg.cpp.o
 .PHONY : src/tabl_reg.cpp.o
 
 src/tabl_reg.i: src/tabl_reg.cpp.i
@@ -695,11 +597,9 @@ src/tabl_reg.i: src/tabl_reg.cpp.i
 # target to preprocess a source file
 src/tabl_reg.cpp.i:
 	cd /home/anton20241/rtc_work/fingers_rx_tx_ws/build && $(MAKE) -f fingers/CMakeFiles/udp_client.dir/build.make fingers/CMakeFiles/udp_client.dir/src/tabl_reg.cpp.i
-	cd /home/anton20241/rtc_work/fingers_rx_tx_ws/build && $(MAKE) -f fingers/CMakeFiles/rs_master.dir/build.make fingers/CMakeFiles/rs_master.dir/src/tabl_reg.cpp.i
 	cd /home/anton20241/rtc_work/fingers_rx_tx_ws/build && $(MAKE) -f fingers/CMakeFiles/uart_node.dir/build.make fingers/CMakeFiles/uart_node.dir/src/tabl_reg.cpp.i
 	cd /home/anton20241/rtc_work/fingers_rx_tx_ws/build && $(MAKE) -f fingers/CMakeFiles/master_eth_receiver.dir/build.make fingers/CMakeFiles/master_eth_receiver.dir/src/tabl_reg.cpp.i
 	cd /home/anton20241/rtc_work/fingers_rx_tx_ws/build && $(MAKE) -f fingers/CMakeFiles/master_topic_receiver.dir/build.make fingers/CMakeFiles/master_topic_receiver.dir/src/tabl_reg.cpp.i
-	cd /home/anton20241/rtc_work/fingers_rx_tx_ws/build && $(MAKE) -f fingers/CMakeFiles/finger.dir/build.make fingers/CMakeFiles/finger.dir/src/tabl_reg.cpp.i
 .PHONY : src/tabl_reg.cpp.i
 
 src/tabl_reg.s: src/tabl_reg.cpp.s
@@ -709,11 +609,9 @@ src/tabl_reg.s: src/tabl_reg.cpp.s
 # target to generate assembly for a file
 src/tabl_reg.cpp.s:
 	cd /home/anton20241/rtc_work/fingers_rx_tx_ws/build && $(MAKE) -f fingers/CMakeFiles/udp_client.dir/build.make fingers/CMakeFiles/udp_client.dir/src/tabl_reg.cpp.s
-	cd /home/anton20241/rtc_work/fingers_rx_tx_ws/build && $(MAKE) -f fingers/CMakeFiles/rs_master.dir/build.make fingers/CMakeFiles/rs_master.dir/src/tabl_reg.cpp.s
 	cd /home/anton20241/rtc_work/fingers_rx_tx_ws/build && $(MAKE) -f fingers/CMakeFiles/uart_node.dir/build.make fingers/CMakeFiles/uart_node.dir/src/tabl_reg.cpp.s
 	cd /home/anton20241/rtc_work/fingers_rx_tx_ws/build && $(MAKE) -f fingers/CMakeFiles/master_eth_receiver.dir/build.make fingers/CMakeFiles/master_eth_receiver.dir/src/tabl_reg.cpp.s
 	cd /home/anton20241/rtc_work/fingers_rx_tx_ws/build && $(MAKE) -f fingers/CMakeFiles/master_topic_receiver.dir/build.make fingers/CMakeFiles/master_topic_receiver.dir/src/tabl_reg.cpp.s
-	cd /home/anton20241/rtc_work/fingers_rx_tx_ws/build && $(MAKE) -f fingers/CMakeFiles/finger.dir/build.make fingers/CMakeFiles/finger.dir/src/tabl_reg.cpp.s
 .PHONY : src/tabl_reg.cpp.s
 
 src/uart_node.o: src/uart_node.cpp.o
@@ -777,11 +675,9 @@ src/umba_crc_table.o: src/umba_crc_table.c.o
 # target to build an object file
 src/umba_crc_table.c.o:
 	cd /home/anton20241/rtc_work/fingers_rx_tx_ws/build && $(MAKE) -f fingers/CMakeFiles/udp_client.dir/build.make fingers/CMakeFiles/udp_client.dir/src/umba_crc_table.c.o
-	cd /home/anton20241/rtc_work/fingers_rx_tx_ws/build && $(MAKE) -f fingers/CMakeFiles/rs_master.dir/build.make fingers/CMakeFiles/rs_master.dir/src/umba_crc_table.c.o
 	cd /home/anton20241/rtc_work/fingers_rx_tx_ws/build && $(MAKE) -f fingers/CMakeFiles/uart_node.dir/build.make fingers/CMakeFiles/uart_node.dir/src/umba_crc_table.c.o
 	cd /home/anton20241/rtc_work/fingers_rx_tx_ws/build && $(MAKE) -f fingers/CMakeFiles/master_eth_receiver.dir/build.make fingers/CMakeFiles/master_eth_receiver.dir/src/umba_crc_table.c.o
 	cd /home/anton20241/rtc_work/fingers_rx_tx_ws/build && $(MAKE) -f fingers/CMakeFiles/master_topic_receiver.dir/build.make fingers/CMakeFiles/master_topic_receiver.dir/src/umba_crc_table.c.o
-	cd /home/anton20241/rtc_work/fingers_rx_tx_ws/build && $(MAKE) -f fingers/CMakeFiles/finger.dir/build.make fingers/CMakeFiles/finger.dir/src/umba_crc_table.c.o
 .PHONY : src/umba_crc_table.c.o
 
 src/umba_crc_table.i: src/umba_crc_table.c.i
@@ -791,11 +687,9 @@ src/umba_crc_table.i: src/umba_crc_table.c.i
 # target to preprocess a source file
 src/umba_crc_table.c.i:
 	cd /home/anton20241/rtc_work/fingers_rx_tx_ws/build && $(MAKE) -f fingers/CMakeFiles/udp_client.dir/build.make fingers/CMakeFiles/udp_client.dir/src/umba_crc_table.c.i
-	cd /home/anton20241/rtc_work/fingers_rx_tx_ws/build && $(MAKE) -f fingers/CMakeFiles/rs_master.dir/build.make fingers/CMakeFiles/rs_master.dir/src/umba_crc_table.c.i
 	cd /home/anton20241/rtc_work/fingers_rx_tx_ws/build && $(MAKE) -f fingers/CMakeFiles/uart_node.dir/build.make fingers/CMakeFiles/uart_node.dir/src/umba_crc_table.c.i
 	cd /home/anton20241/rtc_work/fingers_rx_tx_ws/build && $(MAKE) -f fingers/CMakeFiles/master_eth_receiver.dir/build.make fingers/CMakeFiles/master_eth_receiver.dir/src/umba_crc_table.c.i
 	cd /home/anton20241/rtc_work/fingers_rx_tx_ws/build && $(MAKE) -f fingers/CMakeFiles/master_topic_receiver.dir/build.make fingers/CMakeFiles/master_topic_receiver.dir/src/umba_crc_table.c.i
-	cd /home/anton20241/rtc_work/fingers_rx_tx_ws/build && $(MAKE) -f fingers/CMakeFiles/finger.dir/build.make fingers/CMakeFiles/finger.dir/src/umba_crc_table.c.i
 .PHONY : src/umba_crc_table.c.i
 
 src/umba_crc_table.s: src/umba_crc_table.c.s
@@ -805,11 +699,9 @@ src/umba_crc_table.s: src/umba_crc_table.c.s
 # target to generate assembly for a file
 src/umba_crc_table.c.s:
 	cd /home/anton20241/rtc_work/fingers_rx_tx_ws/build && $(MAKE) -f fingers/CMakeFiles/udp_client.dir/build.make fingers/CMakeFiles/udp_client.dir/src/umba_crc_table.c.s
-	cd /home/anton20241/rtc_work/fingers_rx_tx_ws/build && $(MAKE) -f fingers/CMakeFiles/rs_master.dir/build.make fingers/CMakeFiles/rs_master.dir/src/umba_crc_table.c.s
 	cd /home/anton20241/rtc_work/fingers_rx_tx_ws/build && $(MAKE) -f fingers/CMakeFiles/uart_node.dir/build.make fingers/CMakeFiles/uart_node.dir/src/umba_crc_table.c.s
 	cd /home/anton20241/rtc_work/fingers_rx_tx_ws/build && $(MAKE) -f fingers/CMakeFiles/master_eth_receiver.dir/build.make fingers/CMakeFiles/master_eth_receiver.dir/src/umba_crc_table.c.s
 	cd /home/anton20241/rtc_work/fingers_rx_tx_ws/build && $(MAKE) -f fingers/CMakeFiles/master_topic_receiver.dir/build.make fingers/CMakeFiles/master_topic_receiver.dir/src/umba_crc_table.c.s
-	cd /home/anton20241/rtc_work/fingers_rx_tx_ws/build && $(MAKE) -f fingers/CMakeFiles/finger.dir/build.make fingers/CMakeFiles/finger.dir/src/umba_crc_table.c.s
 .PHONY : src/umba_crc_table.c.s
 
 # Help Target
@@ -823,7 +715,6 @@ help:
 	@echo "... edit_cache"
 	@echo "... test"
 	@echo "... udp_client"
-	@echo "... rs_master"
 	@echo "... uart_node"
 	@echo "... std_msgs_generate_messages_py"
 	@echo "... std_msgs_generate_messages_nodejs"
@@ -843,12 +734,8 @@ help:
 	@echo "... rosgraph_msgs_generate_messages_eus"
 	@echo "... master_topic_receiver"
 	@echo "... rosgraph_msgs_generate_messages_lisp"
-	@echo "... finger"
 	@echo "... roscpp_generate_messages_lisp"
 	@echo "... rosgraph_msgs_generate_messages_py"
-	@echo "... src/finger.o"
-	@echo "... src/finger.i"
-	@echo "... src/finger.s"
 	@echo "... src/master_eth_receiver.o"
 	@echo "... src/master_eth_receiver.i"
 	@echo "... src/master_eth_receiver.s"
@@ -861,9 +748,6 @@ help:
 	@echo "... src/qt_serial.o"
 	@echo "... src/qt_serial.i"
 	@echo "... src/qt_serial.s"
-	@echo "... src/rs_master.o"
-	@echo "... src/rs_master.i"
-	@echo "... src/rs_master.s"
 	@echo "... src/tabl_reg.o"
 	@echo "... src/tabl_reg.i"
 	@echo "... src/tabl_reg.s"

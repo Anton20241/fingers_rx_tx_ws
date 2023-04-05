@@ -298,19 +298,6 @@ udp_client/fast:
 .PHONY : udp_client/fast
 
 #=============================================================================
-# Target rules for targets named rs_master
-
-# Build rule for target.
-rs_master: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 rs_master
-.PHONY : rs_master
-
-# fast build rule for target.
-rs_master/fast:
-	$(MAKE) -f fingers/CMakeFiles/rs_master.dir/build.make fingers/CMakeFiles/rs_master.dir/build
-.PHONY : rs_master/fast
-
-#=============================================================================
 # Target rules for targets named uart_node
 
 # Build rule for target.
@@ -519,19 +506,6 @@ rosgraph_msgs_generate_messages_lisp/fast:
 .PHONY : rosgraph_msgs_generate_messages_lisp/fast
 
 #=============================================================================
-# Target rules for targets named finger
-
-# Build rule for target.
-finger: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 finger
-.PHONY : finger
-
-# fast build rule for target.
-finger/fast:
-	$(MAKE) -f fingers/CMakeFiles/finger.dir/build.make fingers/CMakeFiles/finger.dir/build
-.PHONY : finger/fast
-
-#=============================================================================
 # Target rules for targets named roscpp_generate_messages_lisp
 
 # Build rule for target.
@@ -580,7 +554,6 @@ help:
 	@echo "... gtest_main"
 	@echo "... gtest"
 	@echo "... udp_client"
-	@echo "... rs_master"
 	@echo "... uart_node"
 	@echo "... std_msgs_generate_messages_py"
 	@echo "... std_msgs_generate_messages_nodejs"
@@ -597,7 +570,6 @@ help:
 	@echo "... rosgraph_msgs_generate_messages_eus"
 	@echo "... master_topic_receiver"
 	@echo "... rosgraph_msgs_generate_messages_lisp"
-	@echo "... finger"
 	@echo "... roscpp_generate_messages_lisp"
 	@echo "... rosgraph_msgs_generate_messages_py"
 .PHONY : help

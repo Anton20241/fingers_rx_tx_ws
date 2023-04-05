@@ -1,6 +1,6 @@
 file(REMOVE_RECURSE
-  "/home/raspberrypi/rtc_work/fingers_rx_tx_ws/devel/lib/fingers/finger"
-  "/home/raspberrypi/rtc_work/fingers_rx_tx_ws/devel/lib/fingers/finger.pdb"
+  "/home/anton20241/rtc_work/fingers_rx_tx_ws/devel/lib/fingers/finger"
+  "/home/anton20241/rtc_work/fingers_rx_tx_ws/devel/lib/fingers/finger.pdb"
   "CMakeFiles/finger.dir/src/finger.cpp.o"
   "CMakeFiles/finger.dir/src/protocol.cpp.o"
   "CMakeFiles/finger.dir/src/qt_serial.cpp.o"

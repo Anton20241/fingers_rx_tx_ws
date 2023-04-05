@@ -7,8 +7,6 @@
 #include "protocol.hpp"
 #include "umba_crc_table.h"
 #include <mutex>
-#include <QCoreApplication>
-#include "qt_serial.hpp"
 
 #define CAM_TOPIC_NAME "camera_topic"
 #define BAT_CAM_TOPIC_NAME "bat_cam_topic"
@@ -25,7 +23,6 @@ public:
 
   void UART_process(){
     static uint32_t fail_count = 0;
-
     if (msg_sent_relay){
       bool getResponse = false;
       if (m_protocol.sendCmdReadUART(0x01, from_board_data, &from_board_dataSize, getResponse, msg_sent_relay, cam_status)){
@@ -36,9 +33,9 @@ public:
         std::cout << "[msg SEND and failed]\n";
         sendError();
       }
-    } 
-    
-    if (msg_sent_cam){
+      msg_sent_relay = false;
+
+    } else if (msg_sent_cam){
       bool getResponse = false;
       if (m_protocol.sendCmdReadUART(0x01, from_board_data, &from_board_dataSize, getResponse, msg_sent_cam, cam_status)){
         resvdFromDev |= 128;
@@ -48,27 +45,23 @@ public:
         std::cout << "[msg SEND and failed]\n";
         sendError();
       }
-    } 
-    
-    if (msg_sent_relay || msg_sent_cam){
-      msg_sent_relay = false;
       msg_sent_cam = false;
-      return;
-    }
 
-    bool getResponse = false;
-    if (m_protocol.sendCmdReadUART(0x01, from_board_data, &from_board_dataSize, getResponse, false, cam_status)){
-      resvdFromDev |= 128;
-      fail_count = 0;
-      pub_board_data();
     } else {
-      if (!getResponse || fail_count >= 70000){
+      bool getResponse = false;
+      if (m_protocol.sendCmdReadUART(0x01, from_board_data, &from_board_dataSize, getResponse, false, cam_status)){
+        resvdFromDev |= 128;
         fail_count = 0;
-        std::cout << "[msg NOT SEND and failed]\n";
-        sendError();
+        pub_board_data();
+      } else {
+        if (!getResponse || fail_count >= 70000){
+          fail_count = 0;
+          std::cout << "[msg NOT SEND and failed]\n";
+          sendError();
+        }
+        fail_count++;
+        std::this_thread::sleep_for(std::chrono::milliseconds(1));
       }
-      fail_count++;
-      std::this_thread::sleep_for(std::chrono::milliseconds(1));
     }
   }
 
@@ -88,7 +81,6 @@ private:
   uint8_t relay_state_prev = 0;
   bool msg_sent_relay = false;
   bool msg_sent_cam = false;
-  uint32_t sendToTopicCount = 0;
 
   void sendError(){
     m_protocol.m_transport.send_error = true;
@@ -146,8 +138,6 @@ private:
       printf("[%u]", to_bat_cam_topic[i]);
     }
     std::cout << std::endl;
-    sendToTopicCount++;
-    std::cout << "sendToTopicCount = " << sendToTopicCount << std::endl;
     bat_cam_pub.publish(toBatCamTopicMsg);
     memset(to_bat_cam_topic, 0, sizeof(to_bat_cam_topic));
     memset(from_board_data, 0, from_board_dataSize);
@@ -172,27 +162,25 @@ private:
       relay_state_prev = relay_state;
       std::cout << "\n\033[1;35m[send UART msg with new relay_state]\033[0m\n";
       m_protocol.sendCmdWrite(0x01, 0x20, toRelaySet, sizeof(toRelaySet));
+      std::this_thread::sleep_for(std::chrono::milliseconds(6));
       msg_sent_relay = true;
     }
-
     if (cam_status != cam_status_prev){
       cam_status_prev = cam_status;
       std::cout << "\n\033[1;35m[send UART msg with new cam_status]\033[0m\n";
       m_protocol.sendCmdWrite(0x01, 0x10, &cam_status, sizeof(uint8_t));
+      std::this_thread::sleep_for(std::chrono::milliseconds(6));
       msg_sent_cam = true;
-    }
-
-    if (msg_sent_relay || msg_sent_cam){
-      std::this_thread::sleep_for(std::chrono::milliseconds(50));
     }
   }
 };
 
 int main(int argc, char** argv)
 {
-  QCoreApplication coreApplication(argc, argv);
   std::string devPort = "0";
   std::string baudrate = "19200"; 
+
+  QCoreApplication coreApplication(argc, argv);
 
   ros::param::param<std::string> ("~_UART_baudrate", baudrate, "19200");
   try{
@@ -201,8 +189,8 @@ int main(int argc, char** argv)
                   << "\n\033[1;32m║Baud rate: " << baudrate << ", Port: /dev/ttyS" << devPort << "\t║\033[0m"
                   << "\n\033[1;32m╚═══════════════════════════════════════╝\033[0m\n";
     ros::init(argc, argv, "uart_node");
-    qt_serial::Qt_Serial_Async qt_UART_transp("/dev/ttyS" + devPort, (uint32_t)std::stoi(baudrate));
-    protocol_master::ProtocolMaster boostRS485_prot_master(qt_UART_transp, &coreApplication);
+    boost_serial::Boost_Serial_Async boostRS485_transp("/dev/ttyUSB" + devPort, (uint32_t)std::stoi(baudrate));
+    protocol_master::ProtocolMaster boostRS485_prot_master(boostRS485_transp, &coreApplication);
     UART_Node uartNode(boostRS485_prot_master);
     while(ros::ok()){
       uartNode.UART_process();

@@ -354,15 +354,11 @@ namespace protocol_master
             uint32_t* dataFromSize, bool& getResponse, bool wait_response, uint8_t cam_status){
         
         std::memset(buff, 0, sizeof(buff));
-        *dataFromSize = 0;
-
-        /* Ждем DATA */
         bool byteIsGetBefore = false;
         uint32_t not_response_on_request = 0;
         uint32_t not_bytes_received = 0;
 
         while (1){
-            m_coreApplication->processEvents();
             bool pkgIsReadyToParse = false;
 
             //get bytes
@@ -384,38 +380,36 @@ namespace protocol_master
                 //std::cout << "else\n";
                 not_bytes_received++;
                 if (not_bytes_received > 5){
-                    //std::cout << "not_bytes_received > 5\n";
-                    clear(dataFrom, dataFromSize);
+                    //std::cout << "not_bytes_received > 10\n";
                     getResponse = false;
                     return false;
                 }
-                std::this_thread::sleep_for(std::chrono::milliseconds(10));
+                std::this_thread::sleep_for(std::chrono::milliseconds(2));
                 continue;
-            }
+            } 
 
-            std::cout << "\n*dataFromSize = " << *dataFromSize << std::endl;
             collectPkg(recvdBuff, recvdBuffSize, dataFrom, dataFromSize, pkgIsReadyToParse);
-
             if (!pkgIsReadyToParse){
-                std::this_thread::sleep_for(std::chrono::milliseconds(10));
+                std::this_thread::sleep_for(std::chrono::milliseconds(2));
                 continue;
             }
 
             if (parser(dataFrom, *dataFromSize, 0x00)) return true;
-            std::cout << "[PARSER UART FAIL]\n";
-
+            std::cout << "[PARSER FAIL]\n";
+            
             not_response_on_request++;
             if (not_response_on_request > 5){
-                clear(dataFrom, dataFromSize);
                 getResponse = false;
                 return false;
             }
             sendCmdWrite(0x01, 0x10, &cam_status, sizeof(uint8_t));
-            std::this_thread::sleep_for(std::chrono::milliseconds(50));
+            std::this_thread::sleep_for(std::chrono::milliseconds(5));
 
-            clear(dataFrom, dataFromSize);
+            memset(dataFrom, 0, *dataFromSize);
+            *dataFromSize = 0;
             wait_response = true;
             byteIsGetBefore = false;
+            
         }
     }
 
@@ -524,8 +518,8 @@ namespace protocol_master
 
         std::memset(buff, 0, sizeof(buff));
         std::memset(recvdBuff, 0, sizeof(recvdBuff));
-        std::memset(dataFrom, 0, *dataFromSize);
-        *dataFromSize = 0;
+        clear(dataFrom, dataFromSize);
+
         memcpy(buff, dataTo, dataToSize);
         /* Отправляем SomeCmd */
         assert(m_transport.sendData(buff, dataToSize));

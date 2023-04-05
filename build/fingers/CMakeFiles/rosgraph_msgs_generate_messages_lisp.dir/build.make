@@ -43,10 +43,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/raspberrypi/rtc_work/fingers_rx_tx_ws/src
+CMAKE_SOURCE_DIR = /home/anton20241/rtc_work/fingers_rx_tx_ws/src
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/raspberrypi/rtc_work/fingers_rx_tx_ws/build
+CMAKE_BINARY_DIR = /home/anton20241/rtc_work/fingers_rx_tx_ws/build
 
 # Utility rule file for rosgraph_msgs_generate_messages_lisp.
 
@@ -63,10 +63,10 @@ fingers/CMakeFiles/rosgraph_msgs_generate_messages_lisp.dir/build: rosgraph_msgs
 .PHONY : fingers/CMakeFiles/rosgraph_msgs_generate_messages_lisp.dir/build
 
 fingers/CMakeFiles/rosgraph_msgs_generate_messages_lisp.dir/clean:
-	cd /home/raspberrypi/rtc_work/fingers_rx_tx_ws/build/fingers && $(CMAKE_COMMAND) -P CMakeFiles/rosgraph_msgs_generate_messages_lisp.dir/cmake_clean.cmake
+	cd /home/anton20241/rtc_work/fingers_rx_tx_ws/build/fingers && $(CMAKE_COMMAND) -P CMakeFiles/rosgraph_msgs_generate_messages_lisp.dir/cmake_clean.cmake
 .PHONY : fingers/CMakeFiles/rosgraph_msgs_generate_messages_lisp.dir/clean
 
 fingers/CMakeFiles/rosgraph_msgs_generate_messages_lisp.dir/depend:
-	cd /home/raspberrypi/rtc_work/fingers_rx_tx_ws/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/raspberrypi/rtc_work/fingers_rx_tx_ws/src /home/raspberrypi/rtc_work/fingers_rx_tx_ws/src/fingers /home/raspberrypi/rtc_work/fingers_rx_tx_ws/build /home/raspberrypi/rtc_work/fingers_rx_tx_ws/build/fingers /home/raspberrypi/rtc_work/fingers_rx_tx_ws/build/fingers/CMakeFiles/rosgraph_msgs_generate_messages_lisp.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/anton20241/rtc_work/fingers_rx_tx_ws/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/anton20241/rtc_work/fingers_rx_tx_ws/src /home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers /home/anton20241/rtc_work/fingers_rx_tx_ws/build /home/anton20241/rtc_work/fingers_rx_tx_ws/build/fingers /home/anton20241/rtc_work/fingers_rx_tx_ws/build/fingers/CMakeFiles/rosgraph_msgs_generate_messages_lisp.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : fingers/CMakeFiles/rosgraph_msgs_generate_messages_lisp.dir/depend
 

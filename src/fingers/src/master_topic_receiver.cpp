@@ -230,10 +230,10 @@ int main(int argc, char** argv)
 {
   QCoreApplication coreApplication(argc, argv);
 
-  std::string devPort = "USB0";
+  std::string devPort = "USB1";
   std::string baudrate = "256000";
 
-  ros::param::param<std::string> ("~_devPortForFingers", devPort, "USB0");
+  ros::param::param<std::string> ("~_devPortForFingers", devPort, "USB1");
   ros::param::param<std::string> ("~_baudrateForFingers", baudrate, "256000");
   try{
     std::cout << "\n\033[1;32m╔═══════════════════════════════════════╗\033[0m"

@@ -401,6 +401,9 @@ namespace protocol_master
                 continue;
             }
 
+            if (parser(dataFrom, *dataFromSize, 0x00)) return true;
+            std::cout << "[PARSER UART FAIL]\n";
+
             not_response_on_request++;
             if (not_response_on_request > 5){
                 clear(dataFrom, dataFromSize);

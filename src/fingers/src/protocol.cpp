@@ -403,7 +403,7 @@ namespace protocol_master
                 return false;
             }
             sendCmdWrite(0x01, 0x10, &cam_status, sizeof(uint8_t));
-            std::this_thread::sleep_for(std::chrono::milliseconds(5));
+            std::this_thread::sleep_for(std::chrono::milliseconds(10));
 
             memset(dataFrom, 0, *dataFromSize);
             *dataFromSize = 0;

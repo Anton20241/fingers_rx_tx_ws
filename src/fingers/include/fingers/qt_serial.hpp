@@ -11,7 +11,7 @@ namespace qt_serial{
   class Qt_Serial_Async : public i_transport::ITransport, public QObject
   {
   public:
-    Qt_Serial_Async(const std::string serialPortName, const uint32_t serialPortBaudRate);
+    Qt_Serial_Async(std::string port_, std::string boudrate);
     bool sendData(const uint8_t* ptrData, uint32_t len);
     bool getData(uint8_t* ptrData, uint32_t* lenInOut);
     bool transportReset();

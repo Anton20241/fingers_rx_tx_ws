@@ -37,25 +37,12 @@ namespace boost_serial
         std::mutex my_mytex;
         uint32_t bytesGet = 0;
         
-        void read_msg_serial(){
-            std::memset(m_recvdData, 0, sizeof(m_recvdData));
-            m_port.async_read_some(boost::asio::buffer(m_recvdData, sizeof(m_recvdData)),
-                    boost::bind(&Boost_Serial_Async::read_handler,this,
-                            boost::asio::placeholders::error,
-                            boost::asio::placeholders::bytes_transferred));
-            std::cout << "\n\033[1;31mread_msg_serial\033[0m\n";
-        }
-
-        void read_handler(const boost::system::error_code& error,size_t bytes_transferred)
+        void read_handler(const boost::system::error_code& error, size_t bytes_transferred)
         {
+            std::cout << "\n\n!!!!!!!!!read_handler!!!!!!!!!\n\n";
             my_mytex.lock();
             if(!error && bytes_transferred > 0){
                 m_recvdCount++;
-                
-                if(send_error) {
-                    m_copyRecvdData.clear();
-                    send_error = false;
-                }
                 
                 for (size_t i = 0; i < bytes_transferred; i++){
                     m_copyRecvdData.push_back(m_recvdData[i]);
@@ -73,48 +60,58 @@ namespace boost_serial
             my_mytex.unlock();
             read_msg_serial();
         }
+        
+        void read_msg_serial()
+        {
+            memset(m_recvdData, 0, sizeof(m_recvdData));
+            m_port.async_read_some(boost::asio::buffer(m_recvdData,sizeof(m_recvdData)),
+                    boost::bind(&Boost_Serial_Async::read_handler,this,
+                            boost::asio::placeholders::error,
+                            boost::asio::placeholders::bytes_transferred));
+        }
 
     public: 
         
-        Boost_Serial_Async(string dev_Port, uint32_t baudrate):m_ioService(),m_port(m_ioService, dev_Port)
-        {
-            termios t;
-            m_fd = m_port.native_handle();
-            if (tcgetattr(m_fd, &t) < 0) { /* handle error */ }
-            if (cfsetspeed(&t, baudrate) < 0) { /* handle error */ }
-            if (tcsetattr(m_fd, TCSANOW, &t) < 0) { /* handle error */ }
-            //m_port.set_option(boost::asio::serial_port_base::baud_rate(baudrate));
-            m_port.set_option(boost::asio::serial_port_base::character_size(8));
-            m_port.set_option(boost::asio::serial_port_base::stop_bits(serial_port_base::stop_bits::one));
-            m_port.set_option(boost::asio::serial_port_base::parity(serial_port_base::parity::none));
-            m_port.set_option(boost::asio::serial_port_base::flow_control(serial_port_base::flow_control::none));
+        Boost_Serial_Async(std::string port_, std::string boudrate):m_ioService(),m_port(m_ioService, port_)
+            {
+                // Configure basic serial port parameters
+                termios t;
+                int m_fd;
+                m_fd = m_port.native_handle();
+                if (tcgetattr(m_fd, &t) < 0) { /* handle error */ }
+                if (cfsetspeed(&t, std::stoi(boudrate)) < 0) { /* handle error */ }
+                if (tcsetattr(m_fd, TCSANOW, &t) < 0) { /* handle error */ }
+                m_port.set_option(boost::asio::serial_port_base::baud_rate(std::stoi(boudrate)));
+                m_port.set_option(boost::asio::serial_port_base::character_size(8 /* data bits */));
+                m_port.set_option(boost::asio::serial_port_base::parity(boost::asio::serial_port_base::parity::none));
+                m_port.set_option(boost::asio::serial_port_base::stop_bits(boost::asio::serial_port_base::stop_bits::one));
+                m_port.set_option(boost::asio::serial_port_base::flow_control(boost::asio::serial_port_base::flow_control::none));
 
-            boost::thread td(boost::bind(&boost::asio::io_service::run, &m_ioService));
-            read_msg_serial();
-
-        }
-
-        bool sendData(const uint8_t* ptrData, uint32_t len)
-        {
-            boost::system::error_code error;
-            size_t sendBytes = m_port.write_some(boost::asio::buffer(ptrData, len), error);
-            if(!error && sendBytes > 0){
-                m_sendCount++;
-                std::cout << "\nport write returns: " + error.message();
-                
-                printf("\n[SEND]:\n");
-                for (size_t i = 0; i < sendBytes; i++)
-                {
-                    printf("[%u]", ptrData[i]);
-                }
-                std::cout << std::endl;
-                cout << "sendBytes: "<< sendBytes << endl;
-                return true;
-            } else {
-                std::cout << "error.what()\n";
-                return false;
+                boost::thread td(boost::bind(&boost::asio::io_service::run, &m_ioService));
+                read_msg_serial();
             }
-        }
+
+            bool sendData(const uint8_t* ptrData, uint32_t len)
+            {
+                boost::system::error_code error;
+                size_t sendBytes = m_port.write_some(boost::asio::buffer(ptrData, len), error);
+                if(!error && sendBytes > 0){
+                    m_sendCount++;
+                    std::cout << "\nport write returns: " + error.message();
+                    
+                    printf("\n[SEND]:\n");
+                    for (size_t i = 0; i < sendBytes; i++)
+                    {
+                        printf("[%u]", ptrData[i]);
+                    }
+                    std::cout << std::endl;
+                    cout << "sendBytes: "<< sendBytes << endl;
+                    return true;
+                } else {
+                    std::cout << "error.what()\n";
+                    return false;
+                }
+            }
 
         bool getData(uint8_t* ptrData, uint32_t* lenInOut)
         {

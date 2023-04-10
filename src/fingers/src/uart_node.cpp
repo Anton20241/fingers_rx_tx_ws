@@ -182,17 +182,17 @@ int main(int argc, char** argv)
 {
   QCoreApplication coreApplication(argc, argv);
 
-  std::string devPort = "0";
+  std::string port = "S0";
   std::string baudrate = "19200"; 
 
   ros::param::param<std::string> ("~_UART_baudrate", baudrate, "19200");
   try{
         std::cout << "\n\033[1;32m╔═══════════════════════════════════════╗\033[0m"
                   << "\n\033[1;32m║UART Node is running!                  ║\033[0m" 
-                  << "\n\033[1;32m║Baud rate: " << baudrate << ", Port: /dev/ttyS" << devPort << "\t║\033[0m"
+                  << "\n\033[1;32m║Baud rate: " << baudrate << ", Port: /dev/tty" << port << "\t║\033[0m"
                   << "\n\033[1;32m╚═══════════════════════════════════════╝\033[0m\n";
     ros::init(argc, argv, "uart_node");
-    boost_serial::Boost_Serial_Async boostRS485_transp("/dev/ttyS" + devPort, (uint32_t)std::stoi(baudrate));
+    boost_serial::Boost_Serial_Async boostRS485_transp("/dev/tty" + port, baudrate);
     protocol_master::ProtocolMaster boostRS485_prot_master(boostRS485_transp, &coreApplication);
     UART_Node uartNode(boostRS485_prot_master);
     while(ros::ok()){

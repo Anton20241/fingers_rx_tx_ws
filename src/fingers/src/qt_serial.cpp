@@ -63,13 +63,13 @@ namespace qt_serial{
     }
   }
 
-  Qt_Serial_Async::Qt_Serial_Async(const std::string _serialPortName, const uint32_t _serialPortBaudRate):
+  Qt_Serial_Async::Qt_Serial_Async(std::string port_, std::string boudrate):
           m_standardOutput(stdout)
   {
-    const QString serialPortName = QString::fromStdString(_serialPortName);
+    const QString serialPortName = QString::fromStdString(port_);
     m_serialPort.setPortName(serialPortName);
 
-    if(!m_serialPort.setBaudRate(_serialPortBaudRate))
+    if(!m_serialPort.setBaudRate(std::stoi(boudrate)))
       qDebug() << m_serialPort.errorString();
 
     if(!m_serialPort.setDataBits(QSerialPort::Data8))

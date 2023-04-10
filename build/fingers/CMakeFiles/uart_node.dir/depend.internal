@@ -145,7 +145,6 @@ fingers/CMakeFiles/uart_node.dir/src/uart_node.cpp.o
  /home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/include/fingers/boost_serial.hpp
  /home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/include/fingers/i_transport.hpp
  /home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/include/fingers/protocol.hpp
- /home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/include/fingers/qt_serial.hpp
  /home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/include/fingers/tabl_reg.hpp
  /home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/include/fingers/umba_crc_table.h
  /home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/src/uart_node.cpp
@@ -210,9 +209,7 @@ fingers/CMakeFiles/uart_node.dir/src/uart_node.cpp.o
  /opt/ros/noetic/include/std_msgs/MultiArrayLayout.h
  /opt/ros/noetic/include/xmlrpcpp/XmlRpcDecl.h
  /opt/ros/noetic/include/xmlrpcpp/XmlRpcValue.h
- /usr/include/x86_64-linux-gnu/qt5/QtCore/QByteArray
  /usr/include/x86_64-linux-gnu/qt5/QtCore/QCoreApplication
- /usr/include/x86_64-linux-gnu/qt5/QtCore/QTextStream
  /usr/include/x86_64-linux-gnu/qt5/QtCore/qalgorithms.h
  /usr/include/x86_64-linux-gnu/qt5/QtCore/qarraydata.h
  /usr/include/x86_64-linux-gnu/qt5/QtCore/qatomic.h
@@ -227,23 +224,17 @@ fingers/CMakeFiles/uart_node.dir/src/uart_node.cpp.o
  /usr/include/x86_64-linux-gnu/qt5/QtCore/qconfig-bootstrapped.h
  /usr/include/x86_64-linux-gnu/qt5/QtCore/qconfig.h
  /usr/include/x86_64-linux-gnu/qt5/QtCore/qcontainerfwd.h
- /usr/include/x86_64-linux-gnu/qt5/QtCore/qcontiguouscache.h
  /usr/include/x86_64-linux-gnu/qt5/QtCore/qcoreapplication.h
  /usr/include/x86_64-linux-gnu/qt5/QtCore/qcoreevent.h
- /usr/include/x86_64-linux-gnu/qt5/QtCore/qdebug.h
  /usr/include/x86_64-linux-gnu/qt5/QtCore/qeventloop.h
  /usr/include/x86_64-linux-gnu/qt5/QtCore/qflags.h
  /usr/include/x86_64-linux-gnu/qt5/QtCore/qgenericatomic.h
  /usr/include/x86_64-linux-gnu/qt5/QtCore/qglobal.h
  /usr/include/x86_64-linux-gnu/qt5/QtCore/qglobalstatic.h
- /usr/include/x86_64-linux-gnu/qt5/QtCore/qhash.h
  /usr/include/x86_64-linux-gnu/qt5/QtCore/qhashfunctions.h
- /usr/include/x86_64-linux-gnu/qt5/QtCore/qiodevice.h
  /usr/include/x86_64-linux-gnu/qt5/QtCore/qiterator.h
  /usr/include/x86_64-linux-gnu/qt5/QtCore/qlist.h
- /usr/include/x86_64-linux-gnu/qt5/QtCore/qlocale.h
  /usr/include/x86_64-linux-gnu/qt5/QtCore/qlogging.h
- /usr/include/x86_64-linux-gnu/qt5/QtCore/qmap.h
  /usr/include/x86_64-linux-gnu/qt5/QtCore/qmetatype.h
  /usr/include/x86_64-linux-gnu/qt5/QtCore/qmutex.h
  /usr/include/x86_64-linux-gnu/qt5/QtCore/qnamespace.h
@@ -253,15 +244,10 @@ fingers/CMakeFiles/uart_node.dir/src/uart_node.cpp.o
  /usr/include/x86_64-linux-gnu/qt5/QtCore/qobjectdefs.h
  /usr/include/x86_64-linux-gnu/qt5/QtCore/qobjectdefs_impl.h
  /usr/include/x86_64-linux-gnu/qt5/QtCore/qpair.h
- /usr/include/x86_64-linux-gnu/qt5/QtCore/qpoint.h
  /usr/include/x86_64-linux-gnu/qt5/QtCore/qprocessordetection.h
  /usr/include/x86_64-linux-gnu/qt5/QtCore/qrefcount.h
  /usr/include/x86_64-linux-gnu/qt5/QtCore/qregexp.h
  /usr/include/x86_64-linux-gnu/qt5/QtCore/qscopedpointer.h
- /usr/include/x86_64-linux-gnu/qt5/QtCore/qset.h
- /usr/include/x86_64-linux-gnu/qt5/QtCore/qshareddata.h
- /usr/include/x86_64-linux-gnu/qt5/QtCore/qsharedpointer.h
- /usr/include/x86_64-linux-gnu/qt5/QtCore/qsharedpointer_impl.h
  /usr/include/x86_64-linux-gnu/qt5/QtCore/qstring.h
  /usr/include/x86_64-linux-gnu/qt5/QtCore/qstringalgorithms.h
  /usr/include/x86_64-linux-gnu/qt5/QtCore/qstringbuilder.h
@@ -272,12 +258,6 @@ fingers/CMakeFiles/uart_node.dir/src/uart_node.cpp.o
  /usr/include/x86_64-linux-gnu/qt5/QtCore/qsysinfo.h
  /usr/include/x86_64-linux-gnu/qt5/QtCore/qsystemdetection.h
  /usr/include/x86_64-linux-gnu/qt5/QtCore/qtcore-config.h
- /usr/include/x86_64-linux-gnu/qt5/QtCore/qtextstream.h
  /usr/include/x86_64-linux-gnu/qt5/QtCore/qtypeinfo.h
- /usr/include/x86_64-linux-gnu/qt5/QtCore/qvariant.h
  /usr/include/x86_64-linux-gnu/qt5/QtCore/qvarlengtharray.h
- /usr/include/x86_64-linux-gnu/qt5/QtCore/qvector.h
  /usr/include/x86_64-linux-gnu/qt5/QtCore/qversiontagging.h
- /usr/include/x86_64-linux-gnu/qt5/QtSerialPort/QSerialPort
- /usr/include/x86_64-linux-gnu/qt5/QtSerialPort/qserialport.h
- /usr/include/x86_64-linux-gnu/qt5/QtSerialPort/qserialportglobal.h

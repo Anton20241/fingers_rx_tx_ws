@@ -3,7 +3,6 @@
 #include <ros/ros.h>
 #include <std_msgs/ByteMultiArray.h>
 #include "boost_serial.hpp"
-#include "qt_serial.hpp"
 #include <boost/chrono.hpp>
 #include "protocol.hpp"
 #include "umba_crc_table.h"
@@ -24,7 +23,6 @@ public:
 
   void UART_process(){
     static uint32_t fail_count = 0;
-
     if (msg_sent_relay){
       bool getResponse = false;
       if (m_protocol.sendCmdReadUART(0x01, from_board_data, &from_board_dataSize, getResponse, msg_sent_relay, cam_status)){
@@ -34,8 +32,8 @@ public:
       } else {
         std::cout << "[msg SEND and failed]\n";
         sendError();
-      }    
-    } 
+      }
+    }
     
     if (msg_sent_cam){
       bool getResponse = false;
@@ -46,7 +44,7 @@ public:
       } else {
         std::cout << "[msg SEND and failed]\n";
         sendError();
-      }  
+      }
     } 
 
     if (msg_sent_relay || msg_sent_cam){
@@ -168,15 +166,14 @@ private:
       relay_state_prev = relay_state;
       std::cout << "\n\033[1;35m[send UART msg with new relay_state]\033[0m\n";
       m_protocol.sendCmdWrite(0x01, 0x20, toRelaySet, sizeof(toRelaySet));
-      std::this_thread::sleep_for(std::chrono::milliseconds(10));
+      std::this_thread::sleep_for(std::chrono::milliseconds(6));
       msg_sent_relay = true;
     }
-
     if (cam_status != cam_status_prev){
       cam_status_prev = cam_status;
       std::cout << "\n\033[1;35m[send UART msg with new cam_status]\033[0m\n";
       m_protocol.sendCmdWrite(0x01, 0x10, &cam_status, sizeof(uint8_t));
-      std::this_thread::sleep_for(std::chrono::milliseconds(10));
+      std::this_thread::sleep_for(std::chrono::milliseconds(6));
       msg_sent_cam = true;
     }
   }
@@ -184,10 +181,10 @@ private:
 
 int main(int argc, char** argv)
 {
+  QCoreApplication coreApplication(argc, argv);
+
   std::string devPort = "0";
   std::string baudrate = "19200"; 
-
-  QCoreApplication coreApplication(argc, argv);
 
   ros::param::param<std::string> ("~_UART_baudrate", baudrate, "19200");
   try{

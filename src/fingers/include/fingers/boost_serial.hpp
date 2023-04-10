@@ -66,12 +66,6 @@ namespace boost_serial
                     printf("[%u]", m_copyRecvdData[i]);
                 }
                 std::cout << std::endl;
-                  
-                // "[%u][%u][%u][%u][%u][%u][%u][%u]\n"
-                // "m_recvdCount = %u\n"
-                // "m_sendCount = %u\n",
-                // m_recvdData[0], m_recvdData[1], m_recvdData[2], m_recvdData[3],
-                // m_recvdData[4], m_recvdData[5], m_recvdData[6], m_recvdData[7], m_recvdCount, m_sendCount);
                 cout << "bytes_transferred: "<< bytes_transferred << endl;
             } else {
                 std::cout << "\n\033[1;31m[ERROR RESEIVED FROM SERIAL]\033[0m\n";
@@ -107,14 +101,13 @@ namespace boost_serial
             if(!error && sendBytes > 0){
                 m_sendCount++;
                 std::cout << "\nport write returns: " + error.message();
-                printf("\n[I SEND]:\n"
-                "[%u][%u][%u][%u\t][%u][%u][%u][%u][%u][%u][%u][%u][%u][%u][%u][%u]\n"
-                "m_recvdCount = %u\n"
-                "m_sendCount = %u\n",
-                ptrData[0], ptrData[1], ptrData[2], ptrData[3],
-                ptrData[4], ptrData[5], ptrData[6], ptrData[7], 
-                ptrData[8], ptrData[9], ptrData[10], ptrData[11],
-                ptrData[12], ptrData[13], ptrData[14], ptrData[15], m_recvdCount, m_sendCount);
+                
+                printf("\n[SEND]:\n");
+                for (size_t i = 0; i < sendBytes; i++)
+                {
+                    printf("[%u]", ptrData[i]);
+                }
+                std::cout << std::endl;
                 cout << "sendBytes: "<< sendBytes << endl;
                 return true;
             } else {

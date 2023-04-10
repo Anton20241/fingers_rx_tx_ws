@@ -23,6 +23,24 @@ public:
 
   void UART_process(){
     static uint32_t fail_count = 0;
+
+    if (!msg_sent_relay && !msg_sent_cam){
+      bool getResponse = false;
+      if (m_protocol.sendCmdReadUART(0x01, from_board_data, &from_board_dataSize, getResponse, false, cam_status)){
+        resvdFromDev |= 128;
+        fail_count = 0;
+        pub_board_data();
+      } else {
+        if (!getResponse || fail_count >= 70000){
+          fail_count = 0;
+          std::cout << "[msg NOT SEND and failed]\n";
+          sendError();
+        }
+        fail_count++;
+        std::this_thread::sleep_for(std::chrono::milliseconds(1));
+      }
+    }
+
     if (msg_sent_relay){
       bool getResponse = false;
       if (m_protocol.sendCmdReadUART(0x01, from_board_data, &from_board_dataSize, getResponse, msg_sent_relay, cam_status)){
@@ -33,6 +51,7 @@ public:
         std::cout << "[msg SEND and failed]\n";
         sendError();
       }
+      msg_sent_relay = false;
     }
     
     if (msg_sent_cam){
@@ -45,28 +64,8 @@ public:
         std::cout << "[msg SEND and failed]\n";
         sendError();
       }
-    } 
-
-    if (msg_sent_relay || msg_sent_cam){
-      msg_sent_relay = false;
       msg_sent_cam = false;
-      return;
-    }
-    
-    bool getResponse = false;
-    if (m_protocol.sendCmdReadUART(0x01, from_board_data, &from_board_dataSize, getResponse, false, cam_status)){
-      resvdFromDev |= 128;
-      fail_count = 0;
-      pub_board_data();
-    } else {
-      if (!getResponse || fail_count >= 70000){
-        fail_count = 0;
-        std::cout << "[msg NOT SEND and failed]\n";
-        sendError();
-      }
-      fail_count++;
-      std::this_thread::sleep_for(std::chrono::milliseconds(1));
-    }
+    } 
   }
 
 private:

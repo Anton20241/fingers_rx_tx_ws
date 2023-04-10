@@ -269,15 +269,20 @@ public:
         std::vector <uint8_t*> msg_vec = {msgToSend, msgToSend2, msgToSend3};
 
         static uint32_t send_count = 0;
+        static uint32_t send_count_chanched = 0;
         boost::system::error_code err;
 
         for (size_t i = 0; i < msg_vec.size(); i++)
         {
-            if (send_count % 100 == 0) {
-                msg_vec[i][29] = 0x02;
+            if (send_count % 200 == 0 || send_count_chanched) {
+                send_count_chanched++;
+                //msg_vec[i][29] = 0x02;
                 msg_vec[i][30] = 0x02;
                 msg_vec[i][UDP_MSG_SIZE - sizeof(uint8_t)] = umba_crc8_table(msg_vec[i], UDP_MSG_SIZE - sizeof(uint8_t));
-                std::cout << "\n\n\n!!!!!!!!!!!!!!SEND TO CAM_BAT!!!!!!!!!!!!!\n\n\n";   
+                std::cout << "\n\n\n!!!!!!!!!!!!!!SEND TO CAM_BAT!!!!!!!!!!!!!\n\n\n";
+                if (send_count_chanched == 100) {
+                    send_count_chanched = 0;
+                }   
             }
             auto start = std::chrono::high_resolution_clock::now();
             auto sent = socket_.send_to(boost::asio::buffer(msg_vec[i], UDP_MSG_SIZE), sender_endpoint_, 0, err);

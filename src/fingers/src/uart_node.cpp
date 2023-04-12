@@ -182,7 +182,7 @@ int main(int argc, char** argv)
 {
   QCoreApplication coreApplication(argc, argv);
 
-  std::string port = "USB0";
+  std::string port = "AMA0";
   std::string baudrate = "19200"; 
 
   ros::param::param<std::string> ("~_UART_baudrate", baudrate, "19200");

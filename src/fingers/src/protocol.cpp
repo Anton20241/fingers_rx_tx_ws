@@ -415,8 +415,10 @@ namespace protocol_master
 
     void ProtocolMaster::collectPkg(uint8_t* resvdData, uint32_t resvdBytes, 
             uint8_t* dataUart, uint32_t* dataUartSize, bool& pkgIsReadyToParse){
+        
         if (resvdBytes == 0) return;
-        memcpy(dataUart + *dataUartSize, resvdData, resvdBytes);
+
+        memcpy(dataUart + (*dataUartSize), resvdData, resvdBytes);
         *dataUartSize += resvdBytes;
         std::cout << "[collectPkg]:\n";
         for (size_t i = 0; i < *dataUartSize; i++){
@@ -463,14 +465,15 @@ namespace protocol_master
         *dataFromSize = 0;
         buff[0] = addressTo;
         buff[1] = len + dataToSize;
+        //std::cout << "\nLEN + DtSz = " << len + dataToSize << std::endl;
         buff[2] = cmd;
         memcpy(buff + 3, dataTo, dataToSize);
         buff[len + dataToSize - sizeof(uint8_t)] = umba_crc8_table(buff,len + dataToSize - sizeof(uint8_t));
         /* Отправляем CmdReadWrite */
         assert(m_transport.sendData(buff, buff[1]));
-
+        first_tp = boost::chrono::system_clock::now();
         /* Ждем DATA */
-        std::this_thread::sleep_for(std::chrono::microseconds(500));        //microseconds(500)
+        std::this_thread::sleep_for(std::chrono::microseconds(200));        //microseconds(500)
 
         uint32_t not_response_on_request = 0;
         uint32_t not_bytes_received = 0;
@@ -482,28 +485,36 @@ namespace protocol_master
             //get bytes
             std::memset(recvdBuff, 0, sizeof(recvdBuff));
             uint32_t recvdBuffSize = 0;
+
             bool get_bytes = m_transport.getData(recvdBuff, &recvdBuffSize);
-
+            // if (recvdBuffSize != 0)
+            //     std::cout << "recvdBuffSize = " << recvdBuffSize << std::endl;
             if (get_bytes){
-                //std::cout << "get_bytes\n";
+                std::cout << "get_bytes\n";
+                std::cout << "recvdBuffSize = " << recvdBuffSize << std::endl;
                 not_bytes_received = 0;
-
+                boost::chrono::system_clock::time_point cur_tp = boost::chrono::system_clock::now();
+                boost::chrono::duration<double> ex_time = cur_tp - first_tp;
+                
+                std::cout << "Execution time: " << ex_time.count() << std::endl;
             } else {
                 //std::cout << "else\n";
                 not_bytes_received++;
                 if (not_bytes_received > 5){
-                    //std::cout << "not_bytes_received > 5\n";
+                    std::cout << "not_bytes_received > 5\n";
                     clear(dataFrom, dataFromSize);
+
                     return false;
                 }
-                std::this_thread::sleep_for(std::chrono::microseconds(100));
+                std::this_thread::sleep_for(std::chrono::microseconds(50)); //50us
                 continue;
             } 
-
+            std::cout << "\n\nDATA UART SZ CP = " << *dataFromSize << std::endl;
             collectPkg(recvdBuff, recvdBuffSize, dataFrom, dataFromSize, pkgIsReadyToParse);
 
             if (!pkgIsReadyToParse){
-                std::this_thread::sleep_for(std::chrono::microseconds(100));
+                std::cout << "!pkgIsReadyToParse" << std::endl;
+                std::this_thread::sleep_for(std::chrono::microseconds(50)); //50us
                 continue;
             }
 
@@ -566,9 +577,9 @@ namespace protocol_master
             }
 
             if (parser(dataFrom, *dataFromSize, dataTo[0])) {
-                boost::chrono::system_clock::time_point cur_tp = boost::chrono::system_clock::now();
-                boost::chrono::duration<double> ex_time = cur_tp - first_tp;
-                std::cout << "Execution time: " << ex_time.count() << std::endl;
+                // boost::chrono::system_clock::time_point cur_tp = boost::chrono::system_clock::now();
+                // boost::chrono::duration<double> ex_time = cur_tp - first_tp;
+                // std::cout << "Execution time: " << ex_time.count() << std::endl;
                 return true;
             }
             

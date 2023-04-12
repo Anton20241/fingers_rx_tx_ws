@@ -16,7 +16,9 @@
 #define RAW_UDP_DATA 1
 #define COMPLETE_UDP_DATA 2
 
-#define CODE_PART COMPLETE_UDP_DATA
+/*DATA TYPE*/
+#define CODE_PART RAW_UDP_DATA
+/////////////
 
 #if CODE_PART == RAW_UDP_DATA
 
@@ -106,7 +108,7 @@ private:
       resvdFromAllDev |= fingers_OK[6]; //ответ пришел
       std::cout << "\nOk\n";
     } else {
-      std::cout << "\nFail\n";
+      std::cout << "\033\n[1;31mNO DATA FROM HAND_MOUNT\033\n[0m";
       memset(dataFromHandMount, 0, dataFromHandMountSize);
       dataFromHandMountSize = 0;
     }
@@ -145,7 +147,7 @@ private:
   void topic_handle_receive(const std_msgs::ByteMultiArray::ConstPtr& recvdMsg) {
       getMsgFromTopic = true;
       recvd_count_topic++;
-      std::cout << "\033\n[1;34mRECVD FROM TOPIC toFingersTopic recvdMsg->data.size() = \033[0m" << recvdMsg->data.size() << std::endl;
+      std::cout << "\033\n[1;34mSIZE OF RECVD DATA FROM TOPIC toFingersTopic = \033[0m" << recvdMsg->data.size() << std::endl;
       std::cout << "recvd_count_topic = " << recvd_count_topic << std::endl;
       memset(dataFromTopic, 0, sizeof(dataFromTopic));
       memset(dataToTopic, 0, sizeof(dataToTopic));
@@ -170,12 +172,12 @@ private:
       #if CODE_PART == RAW_UDP_DATA
 
       //
-      if (m_protocol.sendCmdReadWrite(fingersAddrs[i], 0x3, dataToFinger, sizeof(dataToFinger), 
+      if (m_protocol.sendCmdReadWrite(fingersAddrs[i], 0x30, dataToFinger, sizeof(dataToFinger), 
                                                     dataFromFinger, &dataFromFingerSize)) {
         resvdFromAllDev |= fingers_OK[i]; //ответ пришел
-        std::cout << "\nOk\n";
+        std::cout << "\033\n[1;32mOk\033\n[0m";
       } else {
-        std::cout << "\nFail\n";
+        std::cout << "\033\n[1;31mNO DATA FROM DEVICE\033\n[0m";
         memset(dataFromHandMount, 0, dataFromHandMountSize);
         dataFromHandMountSize = 0;
       }

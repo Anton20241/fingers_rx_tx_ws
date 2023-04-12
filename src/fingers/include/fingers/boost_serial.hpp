@@ -128,7 +128,7 @@ namespace boost_serial
             }
 
             if (m_copyRecvdData.size() < 2 || m_copyRecvdData[1] > 9 || m_copyRecvdData[1] == 0){
-                //std::cout << "non-valid m_copyRecvdData length\n";
+                std::cout << "non-valid m_copyRecvdData length\n";
                 m_copyRecvdData.clear();
                 my_mytex.unlock();
                 return true;
@@ -179,6 +179,7 @@ namespace boost_serial
             bytesGet = 0;
 
             my_mytex.unlock();
+            
             return true;
         }
 

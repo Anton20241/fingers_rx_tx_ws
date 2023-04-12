@@ -10,7 +10,9 @@
 #define RAW_UDP_DATA 1
 #define COMPLETE_UDP_DATA 2
 
-#define CODE_PART COMPLETE_UDP_DATA
+/*DATA TYPE*/
+#define CODE_PART RAW_UDP_DATA
+/////////////
 
 #if CODE_PART == RAW_UDP_DATA
 
@@ -189,7 +191,7 @@ private:
 
   void sendMsgToFingers(){
     if (currentState.hold_position == 1){
-      printf("\033[1;33mcurrentState.hold_position = %u. MSG NOT TO SEND TO FINGERS.\033[0m\n", currentState.hold_position);
+      printf("\033[1;33mcurrentState.hold_position = %u. MSG NOT SENT TO FINGERS.\033[0m\n", currentState.hold_position);
       return;
     }
     //отправка пакета в топик "toFingersTopic"

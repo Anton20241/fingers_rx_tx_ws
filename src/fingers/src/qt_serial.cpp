@@ -138,8 +138,8 @@ namespace qt_serial{
       return false;
     }
 
-    if (m_copyRecvdData.size() < 2 || m_copyRecvdData[1] > 9 || m_copyRecvdData[1] == 0){
-      //std::cout << "m_copyRecvdData.size() < 2 || m_copyRecvdData[1] > 9 || m_copyRecvdData[1] == 0\n";
+    if (m_copyRecvdData.size() < 2 || m_copyRecvdData[1] > 13 || m_copyRecvdData[1] == 0){
+      std::cout << "m_copyRecvdData.size() < 2 || m_copyRecvdData[1] > 9 || m_copyRecvdData[1] == 0\n";
       m_copyRecvdData.clear();
       my_mytex.unlock();
       return true;
@@ -152,7 +152,7 @@ namespace qt_serial{
       my_mytex.unlock();
       return false;
     }            
-
+    std::cout << "m_copyRecvdDataSZ: = " << packageLen << std::endl;
     std::cout << "m_copyRecvdData:\n";
     for (int i = 0; i < packageLen; i++){
       ptrData[i] = m_copyRecvdData[i];

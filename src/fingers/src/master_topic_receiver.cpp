@@ -22,7 +22,7 @@
 
 #if CODE_PART == RAW_UDP_DATA
 
-#define DATA_FROM_FINGER_SIZE 9
+#define DATA_FROM_FINGER_SIZE 13
 #define DATA_TO_FINGER_SIZE 5
 #define DATA_FROM_TOPIC_SIZE 31
 #define DATA_TO_TOPIC_SIZE 56
@@ -72,6 +72,9 @@ private:
   ros::Subscriber toFingersSub;
   uint32_t recvd_count_topic = 0;
   uint32_t fail_cnt = 0;
+  uint32_t fail_cnt_f[6] = {0};
+  uint32_t rcvd_cnt_f[6] = {0};
+
   uint32_t send_count_rs = 0;
   uint32_t recvd_count_rs = 0;
   uint32_t send_count_topic = 0;
@@ -82,6 +85,7 @@ private:
   bool start_communication = true;
   uint8_t resvdFromAllDev = 0;
   uint32_t dataFromHandMountSize = 0;
+
 
   enum fingersOK{                  //ок, если ответ пришел
     bigFinger      =     1,        //большой палец
@@ -97,6 +101,8 @@ private:
 
   void update_hand_mount(){
     if(dataToHandMount == dataFromTopic[sizeof(dataFromTopic) - sizeof(uint8_t)]) return;
+    memset(dataFromHandMount, 0, sizeof(dataFromHandMount));
+    dataFromHandMountSize = 0;
     dataToHandMount = dataFromTopic[sizeof(dataFromTopic) - sizeof(uint8_t)];
     std::cout << "\ndataToHandMount = ";
     printf("%u\n", dataToHandMount);
@@ -107,10 +113,17 @@ private:
                                             dataFromHandMount, &dataFromHandMountSize)){
       resvdFromAllDev |= fingers_OK[6]; //ответ пришел
       std::cout << "\nOk\n";
+      recvd_count_rs++;
+      printf("\nrecvd_count_rs = %u\n", recvd_count_rs);
+      printf("\nfail_cnt = %u\n", fail_cnt);
+
     } else {
+      resvdFromAllDev &= ~fingers_OK[6]; //ответ НЕ пришел
       std::cout << "\033\n[1;31mNO DATA FROM HAND_MOUNT\033\n[0m";
       memset(dataFromHandMount, 0, dataFromHandMountSize);
       dataFromHandMountSize = 0;
+      fail_cnt++;
+      printf("\nfail_cnt = %u\n", fail_cnt);
     }
 
     #elif CODE_PART == COMPLETE_UDP_DATA
@@ -127,8 +140,10 @@ private:
       recvd_count_rs++;
       printf("\nrecvd_count_rs = %u\n", recvd_count_rs);
       printf("\nfail_cnt = %u\n", fail_cnt);
+
     } else {
-      std::cout << "\nFail\n";
+      resvdFromAllDev &= ~fingers_OK[6]; //ответ НЕ пришел
+      std::cout << "\033\n[1;31mNO DATA FROM HAND_MOUNT\033\n[0m";
       memset(dataFromHandMount, 0, dataFromHandMountSize);
       dataFromHandMountSize = 0;
       fail_cnt++;
@@ -162,6 +177,7 @@ private:
     for (int i = 0; i < fingersAddrs.size(); i++){
       memset(dataToFinger, 0, sizeof(dataToFinger));
       memset(dataFromFinger, 0, sizeof(dataFromFinger));
+      dataFromFingerSize = 0;
       memcpy(dataToFinger, dataFromTopic + i * sizeof(dataToFinger), sizeof(dataToFinger));
       std::cout << "\ndataToFinger ";
       printf("%u = ", fingersAddrs[i]);
@@ -174,12 +190,24 @@ private:
       //
       if (m_protocol.sendCmdReadWrite(fingersAddrs[i], 0x30, dataToFinger, sizeof(dataToFinger), 
                                                     dataFromFinger, &dataFromFingerSize)) {
-        resvdFromAllDev |= fingers_OK[i]; //ответ пришел
-        std::cout << "\033\n[1;32mOk\033\n[0m";
+      	resvdFromAllDev |= fingers_OK[i]; //ответ пришел
+      	std::cout << "\033\n[1;32mOk\033\n[0m";
+      	recvd_count_rs++;
+        rcvd_cnt_f[fingersAddrs[i]- 0x11]++;
+      	printf("\nrecvd_count_rs = %u\n", recvd_count_rs);
+      	std::cout << "FAIL CNT OF " << fingersAddrs[i] << "device = " << fail_cnt_f[fingersAddrs[i] - 0x11] << std::endl;
+        std::cout << "RCVD CNT OF " << fingersAddrs[i] << "device = " << rcvd_cnt_f[fingersAddrs[i] - 0x11] << std::endl;
+
       } else {
-        std::cout << "\033\n[1;31mNO DATA FROM DEVICE\033\n[0m";
-        memset(dataFromHandMount, 0, dataFromHandMountSize);
-        dataFromHandMountSize = 0;
+      	resvdFromAllDev &= ~fingers_OK[i]; //ответ НЕ пришел
+      	std::cout << "\033\n[1;31mNO DATA FROM DEVICE\033\n[0m";
+        std::cout << "FAIL CNT OF " << fingersAddrs[i] << "device = " << fail_cnt_f[fingersAddrs[i] - 0x11] << std::endl;
+        std::cout << "RCVD CNT OF " << fingersAddrs[i] << "device = " << rcvd_cnt_f[fingersAddrs[i] - 0x11] << std::endl;
+        fail_cnt_f[fingersAddrs[i] - 0x11]++;
+      	memset(dataFromHandMount, 0, dataFromHandMountSize);
+      	dataFromHandMountSize = 0;
+      	fail_cnt++;
+      	printf("\nfail_cnt = %u\n", fail_cnt);
       }
       //
 
@@ -187,17 +215,19 @@ private:
 
       //
       if (m_protocol.sendSomeCmd(dataToFinger, sizeof(dataToFinger), dataFromFinger, &dataFromFingerSize)) {
-        resvdFromAllDev |= fingers_OK[i]; //ответ пришел
-        std::cout << "\nOk\n";
-        recvd_count_rs++;
-        printf("\nrecvd_count_rs = %u\n", recvd_count_rs);
-        printf("\nfail_cnt = %u\n", fail_cnt);
+      	resvdFromAllDev |= fingers_OK[i]; //ответ пришел
+      	std::cout << "\nOk\n";
+      	recvd_count_rs++;
+      	printf("\nrecvd_count_rs = %u\n", recvd_count_rs);
+      	printf("\nfail_cnt = %u\n", fail_cnt);
+
       } else {
-        std::cout << "\nFail\n";
-        memset(dataFromHandMount, 0, dataFromHandMountSize);
-        dataFromHandMountSize = 0;
-        fail_cnt++;
-        printf("\nfail_cnt = %u\n", fail_cnt);
+      	resvdFromAllDev &= ~fingers_OK[i]; //ответ НЕ пришел
+      	std::cout << "\033\n[1;31mNO DATA FROM HAND_MOUNT\033\n[0m";
+      	memset(dataFromHandMount, 0, dataFromHandMountSize);
+      	dataFromHandMountSize = 0;
+      	fail_cnt++;
+      	printf("\nfail_cnt = %u\n", fail_cnt);
       }
       //
 
@@ -207,7 +237,7 @@ private:
 
       #endif
 
-      memcpy(dataToTopic + i * sizeof(dataFromFinger), dataFromFinger, sizeof(dataFromFinger));
+      memcpy(dataToTopic + i * sizeof(dataFromFinger), dataFromFinger + 3, sizeof(dataFromFinger) - 4);
     }
     dataToTopic[sizeof(dataToTopic) - sizeof(uint8_t)] = resvdFromAllDev;
   }

@@ -1,5 +1,6 @@
 #include "qt_serial.hpp"
 
+
 #include <QCoreApplication>
 #include <QDebug>
 #include <iostream>
@@ -13,7 +14,7 @@ namespace qt_serial{
     return std::vector<uint8_t> (arr.begin(),arr.end());
   }
 
-  void add_to_vector(const QByteArray& arr, std::vector<uint8_t> &vec) {
+  inline void add_to_vector(const QByteArray& arr, std::vector<uint8_t> &vec) {
     std::vector<uint8_t> add_vec = to_vector(arr);
     vec.insert(vec.end(),add_vec.begin(),add_vec.end());
   }
@@ -38,9 +39,9 @@ namespace qt_serial{
       m_copyRecvdData.clear();
       send_error = false;
     }
-    
+    //cout << " m_readData.size(): = "<<  m_readData.size() << endl;
     add_to_vector(m_readData, m_copyRecvdData);
-
+    
     printf("\n[RECEIVED]:\n");
     for (size_t i = 0; i < m_copyRecvdData.size(); i++)
     {
@@ -48,6 +49,7 @@ namespace qt_serial{
     }
     std::cout << std::endl;
     cout << "bytes_transferred: "<< m_readData.size() << endl;
+
     my_mytex.unlock();
   }
 
@@ -107,16 +109,13 @@ namespace qt_serial{
     uint64_t sendBytes = m_serialPort.write(m_sendData);
     if(sendBytes > 0){
       m_sendCount++;
-      printf("\n[I SEND]:\n"
-      "[%u][%u][%u][%u\t][%u][%u][%u][%u][%u][%u][%u][%u][%u][%u][%u][%u]\n"
-      "m_recvdCount = %u\n"
-      "m_sendCount = %u\n"
-      "sendBytes = %u\n",
-      ptrData[0], ptrData[1], ptrData[2], ptrData[3],
-      ptrData[4], ptrData[5], ptrData[6], ptrData[7], 
-      ptrData[8], ptrData[9], ptrData[10], ptrData[11],
-      ptrData[12], ptrData[13], ptrData[14], ptrData[15], 
-      m_recvdCount, m_sendCount, sendBytes);
+                    printf("\n[SEND]:\n");
+                    for (size_t i = 0; i < sendBytes; i++)
+                    {
+                        printf("[%u]", m_sendData.at(i));
+                    }
+                    std::cout << std::endl;
+                    cout << "sendBytes: "<< sendBytes << endl;
       return true;
     } else {
       std::cout << "error.what()\n";
@@ -127,6 +126,12 @@ namespace qt_serial{
   bool Qt_Serial_Async::getData(uint8_t* ptrData, uint32_t* lenInOut)
   {
     my_mytex.lock();
+    if (m_copyRecvdData.size() > 32) {
+      m_copyRecvdData.clear();
+      std::cout << "\n!!!SIZE > 32!!!" << std::endl;
+      my_mytex.unlock();
+      return false;
+    }
 
     // std::cout << "bytesGet = " << bytesGet << std::endl;
     // std::cout << "m_copyRecvdData.size() = " << m_copyRecvdData.size() << std::endl;

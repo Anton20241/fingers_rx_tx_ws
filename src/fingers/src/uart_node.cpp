@@ -21,9 +21,17 @@ public:
         // tp_first = boost::chrono::system_clock::now();
     };
 
+  void send_init_cmd() {
+    bool getResponse = false;
+    if (m_protocol.sendCmdWrite(0x01, 0x10, &cam_status, sizeof(uint8_t))) {
+      std::cout << "INIT COMMAND TO UART CHL = 0" << std::endl;
+    } else {
+      std::cout << "wat" << std::endl;
+    }
+  }
+
   void UART_process(){
     static uint32_t fail_count = 0;
-
     if (!msg_sent_relay && !msg_sent_cam){
       bool getResponse = false;
       if (m_protocol.sendCmdReadUART(0x01, from_board_data, &from_board_dataSize, getResponse, false, cam_status)){
@@ -84,6 +92,7 @@ private:
   uint8_t relay_state_prev = 0;
   bool msg_sent_relay = false;
   bool msg_sent_cam = false;
+  bool initCMD = true;
 
   void sendError(){
     m_protocol.m_transport.send_error = true;
@@ -195,6 +204,11 @@ int main(int argc, char** argv)
     boost_serial::Boost_Serial_Async boostRS485_transp("/dev/tty" + port, baudrate);
     protocol_master::ProtocolMaster boostRS485_prot_master(boostRS485_transp, &coreApplication);
     UART_Node uartNode(boostRS485_prot_master);
+    // uint32_t init_cmd_size = 5
+    // if (UART_Node.sendCmdReadUART(0x01, from_board_data, &from_board_dataSize, getResponse, 1, cam_status)) {
+    //   std::cout << "INIT COMMAND TO UART CHL = 0" << std::endl;
+    // }
+    uartNode.send_init_cmd();
     while(ros::ok()){
       uartNode.UART_process();
       ros::spinOnce();

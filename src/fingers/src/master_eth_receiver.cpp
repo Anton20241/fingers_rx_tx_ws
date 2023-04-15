@@ -107,6 +107,10 @@ private:
   bool getMsgFromFingers = false; 
   bool getMsgFromUDP = false;
 
+  void show_cur_state() {
+    std::cout << "b24V:" << currentState.bat_24V << " rly: " << currentState.relay_state_from_bat_cam << " cm: " << currentState.camera_from_bat_cam << std::endl;
+  }
+
   void from_finger_handle_receive(const std_msgs::ByteMultiArray::ConstPtr& recvdMsg) {
     getMsgFromFingers = true;
     recvd_count_topic_fingers++;
@@ -123,7 +127,7 @@ private:
   }
 
   void from_cam_bat_handle_receive(const std_msgs::ByteMultiArray::ConstPtr& recvdMsg) {
-    dataGetFromBatCam = true;
+    //dataGetFromBatCam = true;
     if(recvdMsg->data.size() == 5){
       //обновляем данные
       currentState.bat_24V                    = recvdMsg->data[0];
@@ -247,7 +251,7 @@ private:
         sizeof(currentState.keepalive));                                                            //keepalive 4b
     dataToUDP[sizeof(dataToUDP) - 1 * sizeof(uint8_t)] = 
         umba_crc8_table(dataToUDP, sizeof(dataToUDP) - sizeof(uint8_t));                            //crc8 1b
-
+    show_cur_state();
     //отправляем пакет в UDP
     boost::system::error_code error;
     auto sent = socket_.send_to(boost::asio::buffer(dataToUDP), sender_endpoint_, 0, error);
@@ -257,9 +261,12 @@ private:
       std::cout << "send_count_udp = " << send_count_udp << std::endl;
       for (int i = 0; i < sent; i++){
         printf("[%u]", dataToUDP[i]);
+        if (i==2 || i==11 || i== 20 || i==29 || i==38 || i==47 || i==56 || i==57 || i==58 || i==59 || i==60 || i== 61 || i==62 || i==63 || i==67){
+          printf("\033[1;31m|\033[0m");
+        }
       }
       std::cout << std::endl;
-      resvdFromAllDev = 0;
+      //resvdFromAllDev = 0;
     } else {
       //std::cerr << error.what();
     }

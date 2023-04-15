@@ -292,7 +292,7 @@ namespace protocol_master
             std::cout << "\ngetLen(ptrBuff) == 8\n";
             return false;
         }
-        if (getLen(ptrBuff) == 5 && getCmd(ptrBuff) != 0x70) {
+        if (getLen(ptrBuff) == 5 && !(getCmd(ptrBuff) == 0x70 || getCmd(ptrBuff) == 0x30)) {
             std::cout << "\ngetLen(ptrBuff) == 5\n";
             return false;
         }

@@ -23,10 +23,13 @@ public:
 
   void send_init_cmd() {
     bool getResponse = false;
-    if (m_protocol.sendCmdWrite(0x01, 0x10, &cam_status, sizeof(uint8_t))) {
-      std::cout << "INIT COMMAND TO UART CHL = 0" << std::endl;
-    } else {
-      std::cout << "wat" << std::endl;
+    while(resvdFromDev == 0){
+      m_protocol.sendCmdWrite(0x01, 0x10, &cam_status, sizeof(uint8_t));
+      if(m_protocol.sendCmdReadUART(0x01, from_board_data, &from_board_dataSize, getResponse, true, cam_status)){
+        resvdFromDev |= 128;
+        pub_board_data();
+      }
+      std::this_thread::sleep_for(std::chrono::milliseconds(1000));
     }
   }
 

@@ -70,6 +70,7 @@ private:
 	uint8_t dataFromUDP[DATA_FROM_UDP_SIZE] = {0};
 	uint8_t dataToUDP[DATA_TO_UDP_SIZE] = {0};
   uint8_t dataToFingersTopic[DATA_TO_FINGERS_TOPIC_SIZE] = {0};
+  uint8_t dataToFingersTopic_OLD[DATA_TO_FINGERS_TOPIC_SIZE] = {0};
   uint8_t dataFromFingersTopic[DATA_FROM_FINGERS_TOPIC_SIZE] = {0};
   ros::NodeHandle node;
   ros::Publisher toFingersPub;
@@ -180,7 +181,7 @@ private:
       memset(dataToFingersTopic, 0, sizeof(dataToFingersTopic));
       memset(currentState.keepalive, 0, sizeof(currentState.keepalive));
       recvd_count_udp++;
-
+      memcpy(dataToFingersTopic_OLD, dataToFingersTopic, sizeof(dataToFingersTopic_OLD));
       memcpy(dataToFingersTopic, dataFromUDP + 3, sizeof(dataToFingersTopic)); //fingers + hand_mount
       currentState.hold_position = dataFromUDP             [sizeof(dataFromUDP) - 8 * sizeof(uint8_t)];
       currentState.camera_from_udp = dataFromUDP           [sizeof(dataFromUDP) - 7 * sizeof(uint8_t)];
@@ -193,10 +194,20 @@ private:
     }
   }
 
+  bool equal(uint8_t* arr1, uint32_t arr1Size, uint8_t* arr2, uint32_t arr2Size){
+    if (arr1Size != arr2Size) return false;
+    for (size_t i = 0; i < arr1Size; i++) {
+      if (arr1[i] != arr2[i]) return false;
+    }
+    return true;
+  }
+
   void sendMsgToFingers(){
     if (currentState.hold_position == 1){
-      printf("\033[1;33mcurrentState.hold_position = %u. MSG NOT SENT TO FINGERS.\033[0m\n", currentState.hold_position);
-      return;
+      printf("\033[1;33mcurrentState.hold_position = %u.\033[0m\n", currentState.hold_position);
+      if(!equal(dataToFingersTopic_OLD, sizeof(dataToFingersTopic_OLD), dataToFingersTopic, sizeof(dataToFingersTopic))){
+        memcpy(dataToFingersTopic, dataToFingersTopic_OLD, sizeof(dataToFingersTopic));
+      }
     }
     //отправка пакета в топик "toFingersTopic"
     std_msgs::ByteMultiArray sendMsgToFingersTopic;

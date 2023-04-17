@@ -109,13 +109,13 @@ namespace qt_serial{
     uint64_t sendBytes = m_serialPort.write(m_sendData);
     if(sendBytes > 0){
       m_sendCount++;
-                    printf("\n[SEND]:\n");
-                    for (size_t i = 0; i < sendBytes; i++)
-                    {
-                        printf("[%u]", m_sendData.at(i));
-                    }
-                    std::cout << std::endl;
-                    cout << "sendBytes: "<< sendBytes << endl;
+      printf("\n[SEND]:\n");
+      for (size_t i = 0; i < sendBytes; i++)
+      {
+          printf("[%u]", m_sendData.at(i));
+      }
+      std::cout << std::endl;
+      cout << "sendBytes: "<< sendBytes << endl;
       return true;
     } else {
       std::cout << "error.what()\n";

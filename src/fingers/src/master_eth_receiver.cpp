@@ -124,7 +124,7 @@ private:
     }
     std::cout << std::endl;
     currentState.hand_mount = dataFromFingersTopic[sizeof(dataFromFingersTopic) - 2 * sizeof(uint8_t)];
-    resvdFromAllDev |= dataFromFingersTopic[sizeof(dataFromFingersTopic) - 1 * sizeof(uint8_t)]; //get answers from all fingers
+    resvdFromAllDev        |= dataFromFingersTopic[sizeof(dataFromFingersTopic) - 1 * sizeof(uint8_t)]; //get answers from all fingers
   }
 
   void from_cam_bat_handle_receive(const std_msgs::ByteMultiArray::ConstPtr& recvdMsg) {
@@ -183,11 +183,10 @@ private:
       recvd_count_udp++;
       memcpy(dataToFingersTopic_OLD, dataToFingersTopic, sizeof(dataToFingersTopic_OLD));
       memcpy(dataToFingersTopic, dataFromUDP + 3, sizeof(dataToFingersTopic)); //fingers + hand_mount
-      currentState.hold_position = dataFromUDP             [sizeof(dataFromUDP) - 8 * sizeof(uint8_t)];
-      currentState.camera_from_udp = dataFromUDP           [sizeof(dataFromUDP) - 7 * sizeof(uint8_t)];
-      currentState.relay_state_from_udp = dataFromUDP      [sizeof(dataFromUDP) - 6 * sizeof(uint8_t)];
-      memcpy(currentState.keepalive, dataFromUDP + sizeof(dataFromUDP) - 5 * sizeof(uint8_t),
-          sizeof(currentState.keepalive));
+      currentState.hold_position        = dataFromUDP[sizeof(dataFromUDP) - 8 * sizeof(uint8_t)];
+      currentState.camera_from_udp      = dataFromUDP[sizeof(dataFromUDP) - 7 * sizeof(uint8_t)];
+      currentState.relay_state_from_udp = dataFromUDP[sizeof(dataFromUDP) - 6 * sizeof(uint8_t)];
+      memcpy(currentState.keepalive,    dataFromUDP + sizeof(dataFromUDP) - 5 * sizeof(uint8_t), sizeof(currentState.keepalive));
       read_msg_udp();
     } else {
       //std::cerr << error.what();

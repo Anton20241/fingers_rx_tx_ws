@@ -22,15 +22,22 @@ public:
     };
 
   void send_init_cmd() {
+    std::cout << "!!!START send_init_cmd!!!" << std::endl;
+    uint32_t cnt = 0;
     bool getResponse = false;
-    while(resvdFromDev == 0){
+    while(!getDataFromBoard){
       m_protocol.sendCmdWrite(0x01, 0x10, &cam_status, sizeof(uint8_t));
+      std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+      cnt++;
       if(m_protocol.sendCmdReadUART(0x01, from_board_data, &from_board_dataSize, getResponse, true, cam_status)){
+        getDataFromBoard = true;
+        std::cout << "getDataFromBoard = " << getDataFromBoard << std::endl;
         resvdFromDev |= 128;
         pub_board_data();
       }
-      std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+      std::cout << "cnt: " << cnt << std::endl;
     }
+    std::cout << "!!!END send_init_cmd!!!" << std::endl;
   }
 
   void UART_process(){
@@ -95,7 +102,7 @@ private:
   uint8_t relay_state_prev = 0;
   bool msg_sent_relay = false;
   bool msg_sent_cam = false;
-  bool initCMD = true;
+  bool getDataFromBoard = false;
 
   void sendError(){
     m_protocol.m_transport.send_error = true;

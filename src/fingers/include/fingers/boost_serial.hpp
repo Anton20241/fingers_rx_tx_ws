@@ -116,6 +116,12 @@ namespace boost_serial
         bool getData(uint8_t* ptrData, uint32_t* lenInOut)
         {
             my_mytex.lock();
+            if (m_copyRecvdData.size() > 32) {
+                m_copyRecvdData.clear();
+                std::cout << "\n!!!SIZE > 32!!!" << std::endl;
+                my_mytex.unlock();
+                return false;
+            }
 
             // std::cout << "bytesGet = " << bytesGet << std::endl;
             // std::cout << "m_copyRecvdData.size() = " << m_copyRecvdData.size() << std::endl;
@@ -127,7 +133,7 @@ namespace boost_serial
                 return false;
             }
 
-            if (m_copyRecvdData.size() < 2 || m_copyRecvdData[1] > 9 || m_copyRecvdData[1] == 0){
+            if (m_copyRecvdData.size() < 2 || m_copyRecvdData[1] > 13 || m_copyRecvdData[1] == 0){
                 std::cout << "non-valid m_copyRecvdData length\n";
                 m_copyRecvdData.clear();
                 my_mytex.unlock();
@@ -142,6 +148,7 @@ namespace boost_serial
                 return false;
             }            
 
+            std::cout << "m_copyRecvdDataSZ: = " << packageLen << std::endl;
             std::cout << "m_copyRecvdData:\n";
             for (int i = 0; i < packageLen; i++){
                 ptrData[i] = m_copyRecvdData[i];

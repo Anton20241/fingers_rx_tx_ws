@@ -32,7 +32,7 @@ namespace qt_serial{
 
     my_mytex.lock();
     m_readData.clear();
-    m_readData.append(m_serialPort.readAll());    
+    m_readData.append(m_serialPort.read(32));    
     m_recvdCount++;
 
     if(send_error) {
@@ -137,14 +137,14 @@ namespace qt_serial{
     // std::cout << "m_copyRecvdData.size() = " << m_copyRecvdData.size() << std::endl;
 
     if (m_copyRecvdData.size() != bytesGet || m_copyRecvdData.empty()){
-      //std::cout << "m_copyRecvdData.size() != bytesGet || m_copyRecvdData.empty()\n";
+      //std::cout << "empty or not BytesGet\n";
       bytesGet = m_copyRecvdData.size();
       my_mytex.unlock();
       return false;
     }
 
     if (m_copyRecvdData.size() < 2 || m_copyRecvdData[1] > 13 || m_copyRecvdData[1] == 0){
-      std::cout << "m_copyRecvdData.size() < 2 || m_copyRecvdData[1] > 9 || m_copyRecvdData[1] == 0\n";
+      std::cout << "non-valid m_copyRecvdData length\n";
       m_copyRecvdData.clear();
       my_mytex.unlock();
       return true;
@@ -156,7 +156,8 @@ namespace qt_serial{
     if (packageLen > m_copyRecvdData_size) {
       my_mytex.unlock();
       return false;
-    }            
+    }     
+       
     std::cout << "m_copyRecvdDataSZ: = " << packageLen << std::endl;
     std::cout << "m_copyRecvdData:\n";
     for (int i = 0; i < packageLen; i++){
@@ -195,6 +196,7 @@ namespace qt_serial{
     bytesGet = 0;
 
     my_mytex.unlock();
+
     return true;
   }
 

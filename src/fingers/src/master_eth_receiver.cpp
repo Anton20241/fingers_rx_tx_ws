@@ -193,20 +193,16 @@ private:
     }
   }
 
-  bool equal(uint8_t* arr1, uint32_t arr1Size, uint8_t* arr2, uint32_t arr2Size){
-    if (arr1Size != arr2Size) return false;
-    for (size_t i = 0; i < arr1Size; i++) {
-      if (arr1[i] != arr2[i]) return false;
+  void setAnglesOLD(uint8_t* dataToFingersTopic_, uint8_t* dataToFingersTopic_OLD_){
+    for (int i = 0; i < 6; i++){
+      memcpy(dataToFingersTopic_ + i * 5, dataToFingersTopic_OLD_ + i * 5, 2);
     }
-    return true;
   }
 
   void sendMsgToFingers(){
     if (currentState.hold_position == 1){
       printf("\033[1;33mcurrentState.hold_position = %u.\033[0m\n", currentState.hold_position);
-      if(!equal(dataToFingersTopic_OLD, sizeof(dataToFingersTopic_OLD), dataToFingersTopic, sizeof(dataToFingersTopic))){
-        memcpy(dataToFingersTopic, dataToFingersTopic_OLD, sizeof(dataToFingersTopic));
-      }
+      setAnglesOLD(dataToFingersTopic, dataToFingersTopic_OLD);
     }
     //отправка пакета в топик "toFingersTopic"
     std_msgs::ByteMultiArray sendMsgToFingersTopic;

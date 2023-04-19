@@ -359,6 +359,7 @@ namespace protocol_master
         uint32_t not_bytes_received = 0;
 
         while (1){
+            m_coreApplication->processEvents();
             bool pkgIsReadyToParse = false;
 
             //get bytes

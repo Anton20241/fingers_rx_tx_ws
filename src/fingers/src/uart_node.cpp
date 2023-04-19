@@ -2,6 +2,7 @@
 #include <boost/asio.hpp>
 #include <ros/ros.h>
 #include <std_msgs/ByteMultiArray.h>
+#include "qt_serial.hpp"
 #include "boost_serial.hpp"
 #include <boost/chrono.hpp>
 #include "protocol.hpp"
@@ -25,7 +26,7 @@ public:
     std::cout << "!!!START send_init_cmd!!!" << std::endl;
     uint32_t cnt = 0;
     bool getResponse = false;
-    while(!getDataFromBoard){
+    while(!getDataFromBoard && cnt < 10){
       m_protocol.sendCmdWrite(0x01, 0x10, &cam_status, sizeof(uint8_t));
       std::this_thread::sleep_for(std::chrono::milliseconds(1000));
       cnt++;
@@ -211,7 +212,7 @@ int main(int argc, char** argv)
                   << "\n\033[1;32m║Baud rate: " << baudrate << ", Port: /dev/tty" << port << "\t║\033[0m"
                   << "\n\033[1;32m╚═══════════════════════════════════════╝\033[0m\n";
     ros::init(argc, argv, "uart_node");
-    boost_serial::Boost_Serial_Async boostRS485_transp("/dev/tty" + port, baudrate);
+    qt_serial::Qt_Serial_Async boostRS485_transp("/dev/tty" + port, baudrate);
     protocol_master::ProtocolMaster boostRS485_prot_master(boostRS485_transp, &coreApplication);
     UART_Node uartNode(boostRS485_prot_master);
     // uint32_t init_cmd_size = 5

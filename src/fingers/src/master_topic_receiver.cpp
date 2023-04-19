@@ -244,7 +244,7 @@ private:
       // for (int i = 0; i < sizeof(dataFromFinger) - 4; i++)
       //   printf("[%u]", dataFromFinger[i+3]);
       // std::cout << "SIZE OF DATA FROM FINGER: " << dataFromFingerSize << std::endl;
-      memcpy(dataToTopic + i * (sizeof(dataFromFinger)-4), dataFromFinger + 3, sizeof(dataFromFinger) - 4);
+      memcpy(dataToTopic + i * (sizeof(dataFromFinger) - 4 * sizeof(uint8_t)), dataFromFinger + 3 * sizeof(uint8_t), sizeof(dataFromFinger) - 4 * sizeof(uint8_t));
       // std::cout << "\ndata TO TOPIC Finger \n";
       // for (int i = 0; i < sizeof(dataToTopic); i++)
       //   printf("[%u]", dataToTopic[i]);

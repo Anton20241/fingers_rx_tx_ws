@@ -2,6 +2,8 @@
 #include <ros/ros.h>
 #include <boost/asio.hpp>
 #include <std_msgs/ByteMultiArray.h>
+#include <fingers/To_Finger.h>
+#include <fingers/To_Bat_Cam.h>
 #include "umba_crc_table.h"
 #include <mutex>
 
@@ -38,11 +40,28 @@
 using boost::asio::ip::udp;
 using boost::asio::ip::address;
 
+int debugBigFinger   = 0;
+int debugIndexFinger = 0;
+int debugMidFinger   = 0;
+int debugRingFinger  = 0;
+int debugPinky       = 0;
+int debugModulOtv    = 0;
+int debugBatCam      = 0;
+
 class UDPServer{
 public:
 	UDPServer(boost::asio::io_service& io_service): socket_(io_service, udp::endpoint(udp::v4(), PORT)){
     toFingersPub = node.advertise<std_msgs::ByteMultiArray>("toFingersTopic", 0);
     toCamPub = node.advertise<std_msgs::ByteMultiArray>("camera_topic", 0);
+
+    debugToBigFingerPub        = node.advertise<fingers::To_Finger>("debugToBigFingerTopic", 0);
+    debugToIndexFingerPub      = node.advertise<fingers::To_Finger>("debugToIndexFingerTopic", 0);
+    debugToMidFingerPub        = node.advertise<fingers::To_Finger>("debugToMidFingerTopic", 0);
+    debugToRingFingerPub       = node.advertise<fingers::To_Finger>("debugToRingFingerTopic", 0);
+    debugToPinkyPub            = node.advertise<fingers::To_Finger>("debugToPinkyTopic", 0);
+    debugToModulOtvPub         = node.advertise<fingers::To_Finger>("debugToModulOtvTopic", 0);
+    debugToBatCamPub           = node.advertise<fingers::To_Finger>("debugToBatCamTopic", 0);
+
     fromFingersSub = node.subscribe<std_msgs::ByteMultiArray>("fromFingersTopic", 0, &UDPServer::from_finger_handle_receive, this);
     fromCamBatSub = node.subscribe<std_msgs::ByteMultiArray>("bat_cam_topic", 0, &UDPServer::from_cam_bat_handle_receive, this);
     boost::bind(&UDPServer::udp_handle_receive, this, boost::asio::placeholders::error, boost::asio::placeholders::bytes_transferred);
@@ -73,7 +92,17 @@ private:
   uint8_t dataToFingersTopic_OLD[DATA_TO_FINGERS_TOPIC_SIZE] = {0};
   uint8_t dataFromFingersTopic[DATA_FROM_FINGERS_TOPIC_SIZE] = {0};
   ros::NodeHandle node;
+
   ros::Publisher toFingersPub;
+
+  ros::Publisher debugToBigFingerPub;
+  ros::Publisher debugToIndexFingerPub;
+  ros::Publisher debugToMidFingerPub;
+  ros::Publisher debugToRingFingerPub;
+  ros::Publisher debugToPinkyPub;
+  ros::Publisher debugToModulOtvPub;
+  ros::Publisher debugToBatCamPub;
+
   ros::Subscriber fromFingersSub;
   ros::Publisher toCamPub;
   ros::Subscriber fromCamBatSub;
@@ -86,7 +115,6 @@ private:
   uint8_t resvdFromAllDev = 0;
   bool dataGetFromBatCam = false;
 
-  
   struct currentState_{
     uint8_t hand_mount = 0;
     uint8_t hold_position = 0;
@@ -112,7 +140,7 @@ private:
     std::cout << "b24V:" << currentState.bat_24V << " rly: " << currentState.relay_state_from_bat_cam << " cm: " << currentState.camera_from_bat_cam << std::endl;
   }
 
-  void from_finger_handle_receive(const std_msgs::ByteMultiArray::ConstPtr& recvdMsg) {
+  void from_finger_handle_receive(const std_msgs::ByteMultiArray::ConstPtr& recvdMsg) {    
     getMsgFromFingers = true;
     recvd_count_topic_fingers++;
     memset(dataFromFingersTopic, 0, sizeof(dataFromFingersTopic));
@@ -199,6 +227,23 @@ private:
     }
   }
 
+  void sendMsgToDebugTopic(const fingers::To_Finger msgsArrToDebugFingers[]){
+    if (debugBigFinger)   debugToBigFingerPub.publish(msgsArrToDebugFingers[0]);
+    if (debugIndexFinger) debugToIndexFingerPub.publish(msgsArrToDebugFingers[1]);
+    if (debugMidFinger)   debugToMidFingerPub.publish(msgsArrToDebugFingers[2]);
+    if (debugRingFinger)  debugToRingFingerPub.publish(msgsArrToDebugFingers[3]);
+    if (debugPinky)       debugToPinkyPub.publish(msgsArrToDebugFingers[4]);
+    if (debugModulOtv)    debugToModulOtvPub.publish(msgsArrToDebugFingers[5]);
+  }
+
+  void setMsgsToDebugTopic(fingers::To_Finger msgsArrToDebugFingers[], uint8_t dataToFingersTopic[]){
+    for (size_t i = 0; i < 6; i++){
+      msgsArrToDebugFingers[i].angle = (dataToFingersTopic[i * 5 + 1] << 8) + dataToFingersTopic[i * 5];
+      msgsArrToDebugFingers[i].reserve = (dataToFingersTopic[i * 5 + 3] << 8) + dataToFingersTopic[i * 5 + 2];
+      msgsArrToDebugFingers[i].mask = dataToFingersTopic[i * 5 + 4];
+    }
+  }
+
   void sendMsgToFingers(){
     if (currentState.hold_position == 1){
       printf("\033[1;33mcurrentState.hold_position = %u.\033[0m\n", currentState.hold_position);
@@ -217,6 +262,10 @@ private:
     }
     toFingersPub.publish(sendMsgToFingersTopic);
     std::cout << std::endl;
+
+    fingers::To_Finger msgsArrToDebugFingers[6];
+    setMsgsToDebugTopic(msgsArrToDebugFingers, dataToFingersTopic);
+    sendMsgToDebugTopic(msgsArrToDebugFingers);
   }
 
   void sendMsgToCamBat(){
@@ -228,7 +277,7 @@ private:
     std_msgs::ByteMultiArray sendMsgToCameraTopic;
     sendMsgToCameraTopic.layout.dim.push_back(std_msgs::MultiArrayDimension());
     sendMsgToCameraTopic.layout.dim[0].size = 1;
-    sendMsgToCameraTopic.layout.dim[0].stride = sizeof(dataToFingersTopic);
+    sendMsgToCameraTopic.layout.dim[0].stride = 2;
     sendMsgToCameraTopic.data.clear();
     std::cout << "\033[1;34mSEND TO camera_topic:\033[0m\n";
     printf("camera_from_udp = [%u]\n", currentState.camera_from_udp);
@@ -237,6 +286,11 @@ private:
     sendMsgToCameraTopic.data.push_back(currentState.relay_state_from_udp);
     toCamPub.publish(sendMsgToCameraTopic);
     std::cout << std::endl;
+
+    fingers::To_Bat_Cam msgToDebugBatCam;
+    msgToDebugBatCam.camera = currentState.camera_from_udp;
+    msgToDebugBatCam.relay  = currentState.relay_state_from_udp;
+    if (debugBatCam) debugToBatCamPub.publish(msgToDebugBatCam);
   }
 
   void sendMsgToUDP(){
@@ -305,6 +359,15 @@ private:
 
 int main(int argc, char** argv){
   try{
+
+    ros::param::param<int>("~_debugBigFinger", debugBigFinger, 0);
+    ros::param::param<int>("~_debugIndexFinger", debugIndexFinger, 0);
+    ros::param::param<int>("~_debugMidFinger", debugMidFinger, 0);
+    ros::param::param<int>("~_debugRingFinger", debugRingFinger, 0);
+    ros::param::param<int>("~_debugPinky", debugPinky, 0);
+    ros::param::param<int>("~_debugModulOtv", debugModulOtv, 0);
+    ros::param::param<int>("~_debugBatCam", debugBatCam, 0);
+
     std::cout << "\n\033[1;32m╔═══════════════════════════════╗\033[0m"
               << "\n\033[1;32m║master_eth_receiver is running!║\033[0m" 
               << "\n\033[1;32m╚═══════════════════════════════╝\033[0m\n";

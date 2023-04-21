@@ -1,7 +1,9 @@
 #include <iostream>
 #include <ros/ros.h>
 #include <boost/asio.hpp>
+#include <boost/chrono.hpp>
 #include <std_msgs/ByteMultiArray.h>
+#include <fingers/From_Finger.h>
 #include "qt_serial.hpp"
 #include "protocol.hpp"
 #include "umba_crc_table.h"
@@ -40,12 +42,29 @@
 
 #endif
 
+int debugBigFinger   = 0;
+int debugIndexFinger = 0;
+int debugMidFinger   = 0;
+int debugRingFinger  = 0;
+int debugPinky       = 0;
+int debugModulOtv    = 0;
+int debugBatCam      = 0;
+
 class RS_Server
 {
 public:
   RS_Server(protocol_master::ProtocolMaster& protocol_)
   : m_protocol(protocol_){
     toFingersSub = node.subscribe<std_msgs::ByteMultiArray>("toFingersTopic", 0, &RS_Server::topic_handle_receive, this);
+
+    debugFromBigFingerPub        = node.advertise<fingers::From_Finger>("debugFromBigFingerTopic", 0);
+    debugFromIndexFingerPub      = node.advertise<fingers::From_Finger>("debugFromIndexFingerTopic", 0);
+    debugFromMidFingerPub        = node.advertise<fingers::From_Finger>("debugFromMidFingerTopic", 0);
+    debugFromRingFingerPub       = node.advertise<fingers::From_Finger>("debugFromRingFingerTopic", 0);
+    debugFromPinkyPub            = node.advertise<fingers::From_Finger>("debugFromPinkyTopic", 0);
+    debugFromModulOtvPub         = node.advertise<fingers::From_Finger>("debugFromModulOtvTopic", 0);
+    debugFromBatCamPub           = node.advertise<fingers::From_Finger>("debugFromBatCamTopic", 0);
+
     fromFingersPub = node.advertise<std_msgs::ByteMultiArray>("fromFingersTopic", 0);
   };
 
@@ -71,6 +90,15 @@ private:
   ros::NodeHandle node;
   ros::Publisher fromFingersPub;
   ros::Subscriber toFingersSub;
+
+  ros::Publisher debugFromBigFingerPub;
+  ros::Publisher debugFromIndexFingerPub;
+  ros::Publisher debugFromMidFingerPub;
+  ros::Publisher debugFromRingFingerPub;
+  ros::Publisher debugFromPinkyPub;
+  ros::Publisher debugFromModulOtvPub;
+  ros::Publisher debugFromBatCamPub;
+
   uint32_t recvd_count_topic = 0;
   uint32_t fail_cnt = 0;
   uint32_t fail_cnt_f[6] = {0};
@@ -86,6 +114,7 @@ private:
   bool start_communication = true;
   uint8_t resvdFromAllDev = 0;
   uint32_t dataFromHandMountSize = 0;
+  boost::chrono::system_clock::time_point first_tp = boost::chrono::system_clock::now();
 
 
   enum fingersOK{                  //ок, если ответ пришел
@@ -174,7 +203,24 @@ private:
       }
   }
 
+  // void debug_topic_receive(const fingers::To_Fingers_HandMount::ConstPtr& recvdMsg) {
+  //   for (size_t i = 0; i < 6; i++)
+  //   {
+  //     dataFromTopic[i*5] = (recvdMsg->angle[i])&&0xFF;
+  //     dataFromTopic[i*5+1] = (recvdMsg->angle[i])>>8;
+  //     dataFromTopic[i*5+2] = (recvdMsg->force[i])&&0xFF;
+  //     dataFromTopic[i*5+3] = (recvdMsg->force[i])>>8;
+  //   }
+  //   dataFromTopic[30] = recvdMsg->hand_mount;
+  // }
+
   void toEachFinger(){
+
+    boost::chrono::system_clock::time_point cur_tp = boost::chrono::system_clock::now();
+    boost::chrono::duration<double> ex_time = cur_tp - first_tp;
+    std::cout << "Execution time: " << ex_time.count() << std::endl;
+    first_tp = boost::chrono::system_clock::now();
+
     for (int i = 0; i < fingersAddrs.size(); i++){
       memset(dataToFinger, 0, sizeof(dataToFinger));
       memset(dataFromFinger, 0, sizeof(dataFromFinger));
@@ -253,6 +299,26 @@ private:
     dataToTopic[sizeof(dataToTopic) - sizeof(uint8_t)] = resvdFromAllDev;
   }
 
+  void sendMsgToDebugTopic(const fingers::From_Finger msgsArrToDebugFingers[]){
+    if (debugBigFinger)   debugFromBigFingerPub.publish(msgsArrToDebugFingers[0]);
+    if (debugIndexFinger) debugFromIndexFingerPub.publish(msgsArrToDebugFingers[1]);
+    if (debugMidFinger)   debugFromMidFingerPub.publish(msgsArrToDebugFingers[2]);
+    if (debugRingFinger)  debugFromRingFingerPub.publish(msgsArrToDebugFingers[3]);
+    if (debugPinky)       debugFromPinkyPub.publish(msgsArrToDebugFingers[4]);
+    if (debugModulOtv)    debugFromModulOtvPub.publish(msgsArrToDebugFingers[5]);
+  }
+
+  void setMsgsToDebugTopic(fingers::From_Finger msgsArrToDebugFingers[], uint8_t dataToTopic[]){
+    for (size_t i = 0; i < 6; i++){
+      msgsArrToDebugFingers[i].current = (dataToTopic[i * 9 + 1] << 8) + dataToTopic[i * 9];
+      msgsArrToDebugFingers[i].pressure = (dataToTopic[i * 9 + 3] << 8) + dataToTopic[i * 9 + 2];
+      msgsArrToDebugFingers[i].angle = (dataToTopic[i * 9 + 5] << 8) + dataToTopic[i * 9 + 4];
+      msgsArrToDebugFingers[i].count = (dataToTopic[i * 9 + 7] << 8) + dataToTopic[i * 9 + 6];
+      msgsArrToDebugFingers[i].mask = dataToTopic[i * 9 + 8];
+    }
+  }
+
+
   void sendMsgToTopic(){
     //отправка пакета в топик "fromFingersTopic" 
     std_msgs::ByteMultiArray sendMsgFromFingersTopic;
@@ -267,7 +333,12 @@ private:
     }
     std::cout << "\nresvdFromAllDev = " << resvdFromAllDev;
     fromFingersPub.publish(sendMsgFromFingersTopic);
+
+    fingers::From_Finger msgsArrToDebugFingers[6];
+    setMsgsToDebugTopic(msgsArrToDebugFingers, dataToTopic);
+    sendMsgToDebugTopic(msgsArrToDebugFingers);
   }
+  
 };
 
 int main(int argc, char** argv)
@@ -280,6 +351,14 @@ int main(int argc, char** argv)
   ros::param::param<std::string> ("~_devPortForFingers", devPort, "USB0");
   ros::param::param<std::string> ("~_baudrateForFingers", baudrate, "256000");
   try{
+
+    ros::param::param<int>("~_debugBigFinger", debugBigFinger, 0);
+    ros::param::param<int>("~_debugIndexFinger", debugIndexFinger, 0);
+    ros::param::param<int>("~_debugMidFinger", debugMidFinger, 0);
+    ros::param::param<int>("~_debugRingFinger", debugRingFinger, 0);
+    ros::param::param<int>("~_debugPinky", debugPinky, 0);
+    ros::param::param<int>("~_debugModulOtv", debugModulOtv, 0);
+
     std::cout << "\n\033[1;32m╔═══════════════════════════════════════╗\033[0m"
               << "\n\033[1;32m║       MTOPIC_RECIEVER is running!     ║\033[0m" 
               << "\n\033[1;32m║Baud rate: " << baudrate << ", Port: /dev/tty" << devPort << "\t║\033[0m"

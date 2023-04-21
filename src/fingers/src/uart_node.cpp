@@ -2,6 +2,9 @@
 #include <boost/asio.hpp>
 #include <ros/ros.h>
 #include <std_msgs/ByteMultiArray.h>
+#include <fingers/From_Bat_Cam_Norm_Work.h>
+#include <fingers/From_Bat_Cam_Shutdown.h>
+#include <fingers/To_Bat_Cam.h>
 #include "qt_serial.hpp"
 #include "boost_serial.hpp"
 #include <boost/chrono.hpp>
@@ -9,16 +12,23 @@
 #include "umba_crc_table.h"
 #include <mutex>
 
-#define CAM_TOPIC_NAME "camera_topic"
-#define BAT_CAM_TOPIC_NAME "bat_cam_topic"
+#define TO_BAT_CAM_TOPIC_NAME "toBatCamTopic"
+#define DEBUG_TO_BAT_CAM_TOPIC_NAME "debugToBatCamTopic"
+#define FROM_BAT_CAM_TOPIC_NAME "fromBatCamTopic"
+
+int debugBatCam = 0;
 
 class UART_Node
 {
 public:
     UART_Node(protocol_master::ProtocolMaster& protocol_)
     : m_protocol(protocol_){
-        bat_cam_sub = node.subscribe<std_msgs::ByteMultiArray>(CAM_TOPIC_NAME, 10, &UART_Node::cam_callback,this);
-        bat_cam_pub = node.advertise<std_msgs::ByteMultiArray>(BAT_CAM_TOPIC_NAME, 10);
+        bat_cam_sub = node.subscribe<std_msgs::ByteMultiArray>(TO_BAT_CAM_TOPIC_NAME, 10, &UART_Node::to_bat_cam_callback,this);
+        debug_bat_cam_sub = node.subscribe<fingers::To_Bat_Cam>(DEBUG_TO_BAT_CAM_TOPIC_NAME, 10, &UART_Node::debug_to_bat_cam_callback,this);
+
+        bat_cam_pub = node.advertise<std_msgs::ByteMultiArray>(FROM_BAT_CAM_TOPIC_NAME, 10);
+        debugFromBatCamNormPub = node.advertise<fingers::From_Bat_Cam_Norm_Work>("debugFromBatCamNormTopic", 0);
+        debugFromBatCamShutdownPub = node.advertise<fingers::From_Bat_Cam_Shutdown>("debugFromBatCamShutdownTopic", 0);
         // tp_first = boost::chrono::system_clock::now();
     };
 
@@ -91,7 +101,11 @@ private:
   protocol_master::ProtocolMaster& m_protocol;
   ros::NodeHandle node;
   ros::Subscriber bat_cam_sub;
+  ros::Subscriber debug_bat_cam_sub;
   ros::Publisher bat_cam_pub;
+  ros::Publisher debugFromBatCamNormPub;
+  ros::Publisher debugFromBatCamShutdownPub;
+
   uint32_t recvd_count_topic = 0;
   uint8_t from_board_data[8] = {0}; //<--from board
   uint32_t from_board_dataSize = 0;
@@ -127,12 +141,21 @@ private:
   void pub_board_data() //create and pub ros message 
   {
     uint8_t bytesToSendCount = 0;
+
+    fingers::From_Bat_Cam_Norm_Work msgFromBatCamNorm;
+    fingers::From_Bat_Cam_Shutdown msgFromBatCamShutdown;
+
     if (from_board_dataSize == 5){
       //пакет в топик "bat_cam_topic"
       to_bat_cam_topic[0] = from_board_data[2]; //CMD
       to_bat_cam_topic[1] = from_board_data[3]; //TIME_DOWN
       to_bat_cam_topic[2] = resvdFromDev;       //all_ok
       bytesToSendCount = 3;
+
+      msgFromBatCamShutdown.cmdBatCamTopic = to_bat_cam_topic[0];   //CMD
+      msgFromBatCamShutdown.time_down      = to_bat_cam_topic[1];   //TIME_DOWN
+      if (debugBatCam) debugFromBatCamShutdownPub.publish(msgFromBatCamShutdown);
+      
     }
     else if(from_board_dataSize == 8) {
       //пакет в топик "bat_cam_topic"
@@ -142,6 +165,13 @@ private:
       to_bat_cam_topic[3] = from_board_data[6]; //relay_state
       to_bat_cam_topic[4] = resvdFromDev;       //all_ok
       bytesToSendCount = 5;
+
+      msgFromBatCamNorm.bat_24V = to_bat_cam_topic[0];  //BAT_24V
+      msgFromBatCamNorm.bat_48V = to_bat_cam_topic[1];  //BAT_48V
+      msgFromBatCamNorm.camera  = to_bat_cam_topic[2];  //VIDEO_SWITCH
+      msgFromBatCamNorm.relay   = to_bat_cam_topic[3];  //relay_state
+      if (debugBatCam) debugFromBatCamNormPub.publish(msgFromBatCamNorm);
+
     } else if(from_board_dataSize == 1) {
       to_bat_cam_topic[0] = resvdFromDev;       //all_ok
       bytesToSendCount = 1;
@@ -168,12 +198,40 @@ private:
     resvdFromDev = 0;
   }
 
-  void cam_callback(const std_msgs::ByteMultiArray::ConstPtr& camStatus)
+  void debug_to_bat_cam_callback(const fingers::To_Bat_Cam::ConstPtr& camRelStatus){
+    recvd_count_topic++;
+    cam_status = camRelStatus->camera;
+    relay_state = camRelStatus->relay;
+    std::cout << "\n[debug_to_bat_cam_callback]\n" << std::endl;
+    std::cout << "\nrecvd_count_topic = " << recvd_count_topic << std::endl;
+    std::cout << "CAMERA STATUS ";
+    printf("%u\n", cam_status);
+    std::cout << "RELAY STATUS ";
+    printf("%u\n", relay_state);
+    uint8_t toRelaySet[2] = {1, relay_state};
+
+    if (relay_state != relay_state_prev){
+      relay_state_prev = relay_state;
+      std::cout << "\n\033[1;35m[send UART msg with new relay_state]\033[0m\n";
+      m_protocol.sendCmdWrite(0x01, 0x20, toRelaySet, sizeof(toRelaySet));
+      std::this_thread::sleep_for(std::chrono::milliseconds(6));
+      msg_sent_relay = true;
+    }
+    if (cam_status != cam_status_prev){
+      cam_status_prev = cam_status;
+      std::cout << "\n\033[1;35m[send UART msg with new cam_status]\033[0m\n";
+      m_protocol.sendCmdWrite(0x01, 0x10, &cam_status, sizeof(uint8_t));
+      std::this_thread::sleep_for(std::chrono::milliseconds(6));
+      msg_sent_cam = true;
+    }
+  }
+
+  void to_bat_cam_callback(const std_msgs::ByteMultiArray::ConstPtr& camRelStatus)
   {
     recvd_count_topic++;
-    cam_status = camStatus->data[0];
-    relay_state = camStatus->data[1];
-    std::cout << "\n[cam_callback]\n" << std::endl;
+    cam_status = camRelStatus->data[0];
+    relay_state = camRelStatus->data[1];
+    std::cout << "\n[to_bat_cam_callback]\n" << std::endl;
     std::cout << "\nrecvd_count_topic = " << recvd_count_topic << std::endl;
     std::cout << "CAMERA STATUS ";
     printf("%u\n", cam_status);
@@ -207,6 +265,7 @@ int main(int argc, char** argv)
 
   ros::param::param<std::string> ("~_UART_baudrate", baudrate, "19200");
   try{
+    ros::param::param<int>("~_debugBatCam", debugBatCam, 0);
         std::cout << "\n\033[1;32m╔═══════════════════════════════════════╗\033[0m"
                   << "\n\033[1;32m║UART Node is running!                  ║\033[0m" 
                   << "\n\033[1;32m║Baud rate: " << baudrate << ", Port: /dev/tty" << port << "\t║\033[0m"

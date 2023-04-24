@@ -48,11 +48,15 @@ int debugPinky       = 0;
 int debugModulOtv    = 0;
 int debugBatCam      = 0;
 
+#define TO_BAT_CAM_TOPIC_NAME "toBatCamTopic"
+#define DEBUG_TO_BAT_CAM_TOPIC_NAME "debugToBatCamTopic"
+#define FROM_BAT_CAM_TOPIC_NAME "fromBatCamTopic"
+
 class UDPServer{
 public:
 	UDPServer(boost::asio::io_service& io_service): socket_(io_service, udp::endpoint(udp::v4(), PORT)){
     toFingersPub = node.advertise<std_msgs::ByteMultiArray>("toFingersTopic", 0);
-    toCamPub = node.advertise<std_msgs::ByteMultiArray>("camera_topic", 0);
+    toCamPub = node.advertise<std_msgs::ByteMultiArray>(TO_BAT_CAM_TOPIC_NAME, 0);
 
     debugToBigFingerPub        = node.advertise<fingers::To_Finger>("debugToBigFingerTopic", 0);
     debugToIndexFingerPub      = node.advertise<fingers::To_Finger>("debugToIndexFingerTopic", 0);
@@ -63,7 +67,7 @@ public:
     debugToBatCamPub           = node.advertise<fingers::To_Finger>("debugToBatCamTopic", 0);
 
     fromFingersSub = node.subscribe<std_msgs::ByteMultiArray>("fromFingersTopic", 0, &UDPServer::from_finger_handle_receive, this);
-    fromCamBatSub = node.subscribe<std_msgs::ByteMultiArray>("bat_cam_topic", 0, &UDPServer::from_cam_bat_handle_receive, this);
+    fromCamBatSub = node.subscribe<std_msgs::ByteMultiArray>(FROM_BAT_CAM_TOPIC_NAME, 0, &UDPServer::from_cam_bat_handle_receive, this);
     boost::bind(&UDPServer::udp_handle_receive, this, boost::asio::placeholders::error, boost::asio::placeholders::bytes_transferred);
     read_msg_udp();
   }

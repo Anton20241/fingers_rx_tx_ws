@@ -23,10 +23,10 @@ class UART_Node
 public:
     UART_Node(protocol_master::ProtocolMaster& protocol_)
     : m_protocol(protocol_){
-        bat_cam_sub = node.subscribe<std_msgs::ByteMultiArray>(TO_BAT_CAM_TOPIC_NAME, 10, &UART_Node::to_bat_cam_callback,this);
-        debug_bat_cam_sub = node.subscribe<fingers::To_Bat_Cam>(DEBUG_TO_BAT_CAM_TOPIC_NAME, 10, &UART_Node::debug_to_bat_cam_callback,this);
+        bat_cam_sub = node.subscribe<std_msgs::ByteMultiArray>(TO_BAT_CAM_TOPIC_NAME, 0, &UART_Node::to_bat_cam_callback,this);
+        debug_bat_cam_sub = node.subscribe<fingers::To_Bat_Cam>(DEBUG_TO_BAT_CAM_TOPIC_NAME, 0, &UART_Node::debug_to_bat_cam_callback,this);
 
-        bat_cam_pub = node.advertise<std_msgs::ByteMultiArray>(FROM_BAT_CAM_TOPIC_NAME, 10);
+        bat_cam_pub = node.advertise<std_msgs::ByteMultiArray>(FROM_BAT_CAM_TOPIC_NAME, 0);
         debugFromBatCamNormPub = node.advertise<fingers::From_Bat_Cam_Norm_Work>("debugFromBatCamNormTopic", 0);
         debugFromBatCamShutdownPub = node.advertise<fingers::From_Bat_Cam_Shutdown>("debugFromBatCamShutdownTopic", 0);
         // tp_first = boost::chrono::system_clock::now();

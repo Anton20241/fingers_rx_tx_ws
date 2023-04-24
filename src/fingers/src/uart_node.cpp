@@ -264,12 +264,12 @@ int main(int argc, char** argv)
   std::string baudrate = "19200"; 
 
   ros::param::param<std::string> ("~_UART_baudrate", baudrate, "19200");
-  try{
-    ros::param::param<int>("~_debugBatCam", debugBatCam, 0);
-        std::cout << "\n\033[1;32m╔═══════════════════════════════════════╗\033[0m"
-                  << "\n\033[1;32m║UART Node is running!                  ║\033[0m" 
-                  << "\n\033[1;32m║Baud rate: " << baudrate << ", Port: /dev/tty" << port << "\t║\033[0m"
-                  << "\n\033[1;32m╚═══════════════════════════════════════╝\033[0m\n";
+  ros::param::param<int>("~_debugBatCam", debugBatCam, 0);
+  try
+    std::cout << "\n\033[1;32m╔═══════════════════════════════════════╗\033[0m"
+              << "\n\033[1;32m║UART Node is running!                  ║\033[0m" 
+              << "\n\033[1;32m║Baud rate: " << baudrate << ", Port: /dev/tty" << port << "\t║\033[0m"
+              << "\n\033[1;32m╚═══════════════════════════════════════╝\033[0m\n";
     ros::init(argc, argv, "uart_node");
     qt_serial::Qt_Serial_Async boostRS485_transp("/dev/tty" + port, baudrate);
     protocol_master::ProtocolMaster boostRS485_prot_master(boostRS485_transp, &coreApplication);

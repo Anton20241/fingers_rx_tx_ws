@@ -2,18 +2,17 @@
 <launch>
 
 <!--node`s params-->
-	<arg name="UART_baudrate" default="38400"/>
-	<arg name="devPortForFingers" default="USB0"/>
-	<arg name="baudrateForFingers" default="256000"/>
+	<arg name="UART_baudrate" 			default="38400"/>
+	<arg name="devPortForFingers" 	default="USB0"/>
+	<arg name="baudrateForFingers" 	default="256000"/>
 
-	<arg name="debugBigFinger" default="0"/>
-	<arg name="debugIndexFinger" default="0"/>
-	<arg name="debugMidFinger" default="0"/>
-	<arg name="debugRingFinger" default="0"/>
-	<arg name="debugPinky" default="0"/>
-	<arg name="debugModulOtv" default="0"/>
-	<arg name="debugBatCam" default="0"/>
-
+	<arg name="debugBigFinger" 			default="0"/>
+	<arg name="debugIndexFinger" 		default="0"/>
+	<arg name="debugMidFinger" 			default="0"/>
+	<arg name="debugRingFinger" 		default="0"/>
+	<arg name="debugPinky" 					default="0"/>
+	<arg name="debugModulOtv" 			default="0"/>
+	<arg name="debugBatCam" 				default="0"/>
 
 <!--launch nodes-->
 

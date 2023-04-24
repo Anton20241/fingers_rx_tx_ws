@@ -16,6 +16,10 @@
 #define DEBUG_TO_BAT_CAM_TOPIC_NAME "debugToBatCamTopic"
 #define FROM_BAT_CAM_TOPIC_NAME "fromBatCamTopic"
 
+#define DATA_FROM_BOARD_NORM_SIZE 9
+#define DATA_FROM_BOARD_SHUTDOWN_SIZE 5
+#define DATA_TO_BATCAM_TOPIC_SIZE 6
+
 int debugBatCam = 0;
 
 class UART_Node
@@ -52,8 +56,10 @@ public:
   }
 
   void UART_process(){
+    
     static uint32_t fail_count = 0;
-    if (!msg_sent_relay && !msg_sent_cam){
+
+    if (!msg_sent_relay && !msg_sent_cam && !msg_sent_ur5){
       bool getResponse = false;
       if (m_protocol.sendCmdReadUART(0x01, from_board_data, &from_board_dataSize, getResponse, false, cam_status)){
         resvdFromDev |= 128;
@@ -70,14 +76,27 @@ public:
       }
     }
 
-    if (msg_sent_relay){
+    if (msg_sent_ur5){
       bool getResponse = false;
-      if (m_protocol.sendCmdReadUART(0x01, from_board_data, &from_board_dataSize, getResponse, msg_sent_relay, cam_status)){
+      if (m_protocol.sendCmdReadUART(0x01, from_board_data, &from_board_dataSize, getResponse, msg_sent_ur5, ur5_state)){
         resvdFromDev |= 128;
         fail_count = 0;
         pub_board_data();
       } else {
-        std::cout << "[msg SEND and failed]\n";
+        std::cout << "[msg_sent_ur5 and failed]\n";
+        sendError();
+      }
+      msg_sent_ur5 = false;
+    }
+
+    if (msg_sent_relay){
+      bool getResponse = false;
+      if (m_protocol.sendCmdReadUART(0x01, from_board_data, &from_board_dataSize, getResponse, msg_sent_relay, relay_state)){
+        resvdFromDev |= 128;
+        fail_count = 0;
+        pub_board_data();
+      } else {
+        std::cout << "[msg_sent_relay and failed]\n";
         sendError();
       }
       msg_sent_relay = false;
@@ -90,7 +109,7 @@ public:
         fail_count = 0;
         pub_board_data();
       } else {
-        std::cout << "[msg SEND and failed]\n";
+        std::cout << "[msg_sent_cam and failed]\n";
         sendError();
       }
       msg_sent_cam = false;
@@ -107,16 +126,23 @@ private:
   ros::Publisher debugFromBatCamShutdownPub;
 
   uint32_t recvd_count_topic = 0;
-  uint8_t from_board_data[8] = {0}; //<--from board
+  uint8_t from_board_data[DATA_FROM_BOARD_NORM_SIZE] = {0};       //<--from board
   uint32_t from_board_dataSize = 0;
-  uint8_t to_bat_cam_topic[5] = {0}; //<--to_bat_cam_topic
+  uint8_t to_bat_cam_topic[DATA_TO_BATCAM_TOPIC_SIZE] = {0};      //<--to_bat_cam_topic
   uint8_t resvdFromDev = 0;
+  
   uint8_t cam_status = 0;
-  uint8_t relay_state = 0;
   uint8_t cam_status_prev = 0;
+  
+  uint8_t relay_state = 0;
   uint8_t relay_state_prev = 0;
+  
+  uint8_t ur5_state = 0;
+  uint8_t ur5_state_prev = 0;
+
   bool msg_sent_relay = false;
   bool msg_sent_cam = false;
+  bool msg_sent_ur5 = false;
   bool getDataFromBoard = false;
 
   void sendError(){
@@ -145,7 +171,7 @@ private:
     fingers::From_Bat_Cam_Norm_Work msgFromBatCamNorm;
     fingers::From_Bat_Cam_Shutdown msgFromBatCamShutdown;
 
-    if (from_board_dataSize == 5){
+    if (from_board_dataSize == DATA_FROM_BOARD_SHUTDOWN_SIZE){
       //пакет в топик "bat_cam_topic"
       to_bat_cam_topic[0] = from_board_data[2]; //CMD
       to_bat_cam_topic[1] = from_board_data[3]; //TIME_DOWN
@@ -157,19 +183,22 @@ private:
       if (debugBatCam) debugFromBatCamShutdownPub.publish(msgFromBatCamShutdown);
       
     }
-    else if(from_board_dataSize == 8) {
+    else if(from_board_dataSize == DATA_FROM_BOARD_NORM_SIZE) {
       //пакет в топик "bat_cam_topic"
       to_bat_cam_topic[0] = from_board_data[3]; //BAT_24V
       to_bat_cam_topic[1] = from_board_data[4]; //BAT_48V
       to_bat_cam_topic[2] = from_board_data[5]; //VIDEO_SWITCH
       to_bat_cam_topic[3] = from_board_data[6]; //relay_state
-      to_bat_cam_topic[4] = resvdFromDev;       //all_ok
-      bytesToSendCount = 5;
+      to_bat_cam_topic[4] = from_board_data[7]; //ur5_state
+      to_bat_cam_topic[5] = resvdFromDev;       //all_ok
+      bytesToSendCount = 6;
 
-      msgFromBatCamNorm.bat_24V = to_bat_cam_topic[0];  //BAT_24V
-      msgFromBatCamNorm.bat_48V = to_bat_cam_topic[1];  //BAT_48V
-      msgFromBatCamNorm.camera  = to_bat_cam_topic[2];  //VIDEO_SWITCH
-      msgFromBatCamNorm.relay   = to_bat_cam_topic[3];  //relay_state
+      msgFromBatCamNorm.bat_24V     = to_bat_cam_topic[0];  //BAT_24V
+      msgFromBatCamNorm.bat_48V     = to_bat_cam_topic[1];  //BAT_48V
+      msgFromBatCamNorm.camera      = to_bat_cam_topic[2];  //VIDEO_SWITCH
+      msgFromBatCamNorm.relay       = to_bat_cam_topic[3];  //relay_state
+      msgFromBatCamNorm.ur5_state   = to_bat_cam_topic[4];  //ur5_state
+
       if (debugBatCam) debugFromBatCamNormPub.publish(msgFromBatCamNorm);
 
     } else if(from_board_dataSize == 1) {
@@ -198,18 +227,23 @@ private:
     resvdFromDev = 0;
   }
 
-  void debug_to_bat_cam_callback(const fingers::To_Bat_Cam::ConstPtr& camRelStatus){
-    recvd_count_topic++;
-    cam_status = camRelStatus->camera;
-    relay_state = camRelStatus->relay;
-    std::cout << "\n[debug_to_bat_cam_callback]\n" << std::endl;
-    std::cout << "\nrecvd_count_topic = " << recvd_count_topic << std::endl;
+  void sendDataToBoard(){
+    std::cout << "UR5 STATUS ";
+    printf("%u\n", ur5_state);
     std::cout << "CAMERA STATUS ";
     printf("%u\n", cam_status);
     std::cout << "RELAY STATUS ";
     printf("%u\n", relay_state);
+
     uint8_t toRelaySet[2] = {1, relay_state};
 
+    if (ur5_state != ur5_state_prev){
+      ur5_state_prev = ur5_state;
+      std::cout << "\n\033[1;35m[send UART msg with new ur5_state]\033[0m\n";
+      m_protocol.sendCmdWrite(0x01, 0x30, &ur5_state, sizeof(uint8_t));
+      std::this_thread::sleep_for(std::chrono::milliseconds(6));
+      msg_sent_ur5 = true;
+    }
     if (relay_state != relay_state_prev){
       relay_state_prev = relay_state;
       std::cout << "\n\033[1;35m[send UART msg with new relay_state]\033[0m\n";
@@ -226,33 +260,24 @@ private:
     }
   }
 
-  void to_bat_cam_callback(const std_msgs::ByteMultiArray::ConstPtr& camRelStatus)
-  {
+  void debug_to_bat_cam_callback(const fingers::To_Bat_Cam::ConstPtr& camRelStatus){
     recvd_count_topic++;
-    cam_status = camRelStatus->data[0];
+    cam_status  = camRelStatus->camera;
+    relay_state = camRelStatus->relay;
+    ur5_state   = camRelStatus->ur5_state;
+    std::cout << "\n[debug_to_bat_cam_callback]\n" << std::endl;
+    std::cout << "\nrecvd_count_topic = " << recvd_count_topic << std::endl;
+    sendDataToBoard();
+  }
+
+  void to_bat_cam_callback(const std_msgs::ByteMultiArray::ConstPtr& camRelStatus){
+    recvd_count_topic++;
+    cam_status  = camRelStatus->data[0];
     relay_state = camRelStatus->data[1];
+    ur5_state   = camRelStatus->data[2];
     std::cout << "\n[to_bat_cam_callback]\n" << std::endl;
     std::cout << "\nrecvd_count_topic = " << recvd_count_topic << std::endl;
-    std::cout << "CAMERA STATUS ";
-    printf("%u\n", cam_status);
-    std::cout << "RELAY STATUS ";
-    printf("%u\n", relay_state);
-    uint8_t toRelaySet[2] = {1, relay_state};
-
-    if (relay_state != relay_state_prev){
-      relay_state_prev = relay_state;
-      std::cout << "\n\033[1;35m[send UART msg with new relay_state]\033[0m\n";
-      m_protocol.sendCmdWrite(0x01, 0x20, toRelaySet, sizeof(toRelaySet));
-      std::this_thread::sleep_for(std::chrono::milliseconds(6));
-      msg_sent_relay = true;
-    }
-    if (cam_status != cam_status_prev){
-      cam_status_prev = cam_status;
-      std::cout << "\n\033[1;35m[send UART msg with new cam_status]\033[0m\n";
-      m_protocol.sendCmdWrite(0x01, 0x10, &cam_status, sizeof(uint8_t));
-      std::this_thread::sleep_for(std::chrono::milliseconds(6));
-      msg_sent_cam = true;
-    }
+    sendDataToBoard();
   }
 };
 
@@ -265,7 +290,8 @@ int main(int argc, char** argv)
 
   ros::param::param<std::string> ("~_UART_baudrate", baudrate, "19200");
   ros::param::param<int>("~_debugBatCam", debugBatCam, 0);
-  try
+  
+  try{
     std::cout << "\n\033[1;32m╔═══════════════════════════════════════╗\033[0m"
               << "\n\033[1;32m║UART Node is running!                  ║\033[0m" 
               << "\n\033[1;32m║Baud rate: " << baudrate << ", Port: /dev/tty" << port << "\t║\033[0m"

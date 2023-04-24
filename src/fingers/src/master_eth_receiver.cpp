@@ -18,8 +18,8 @@
 
 #if CODE_PART == RAW_UDP_DATA
 
-#define DATA_FROM_UDP_SIZE 42
-#define DATA_TO_UDP_SIZE 69
+#define DATA_FROM_UDP_SIZE 43
+#define DATA_TO_UDP_SIZE 70
 #define DATA_FROM_FINGERS_TOPIC_SIZE 56
 #define DATA_TO_FINGERS_TOPIC_SIZE 31
 
@@ -112,24 +112,35 @@ private:
   ros::Subscriber fromCamBatSub;
   uint32_t send_count_udp = 0;
   uint32_t recvd_count_udp = 0;
+  
   uint32_t send_count_topic_fingers = 0;
   uint32_t recvd_count_topic_fingers = 0;
+  
   uint32_t send_count_topic_camera = 0;
   uint32_t recvd_count_topic_cam_bat = 0;
+
   uint8_t resvdFromAllDev = 0;
   bool dataGetFromBatCam = false;
 
   struct currentState_{
     uint8_t hand_mount = 0;
     uint8_t hold_position = 0;
+
     uint8_t camera_from_udp = 0;
+    uint8_t camera_from_udp_prev = 0;
     uint8_t camera_from_bat_cam = 0;
+
+    uint8_t ur5_from_udp = 0;
+    uint8_t ur5_from_udp_prev = 0;
+    uint8_t ur5_from_bat_cam = 0;
+
+    uint8_t relay_from_udp = 0;
+    uint8_t relay_from_udp_prev = 0;
+    uint8_t relay_from_bat_cam = 0;
+    
     uint8_t bat_24V = 0;
     uint8_t bat_48V = 0;
-    uint8_t relay_state_from_udp = 0;
-    uint8_t relay_state_from_bat_cam = 0;
-    uint8_t camera_from_udp_prev = 0;
-    uint8_t relay_state_from_udp_prev = 0;
+
     uint8_t keepalive[4] = {0};
     uint8_t cmdBatCamTopic = 0;
     uint8_t time_down = 0;
@@ -141,7 +152,7 @@ private:
   bool getMsgFromUDP = false;
 
   void show_cur_state() {
-    std::cout << "b24V:" << currentState.bat_24V << " rly: " << currentState.relay_state_from_bat_cam << " cm: " << currentState.camera_from_bat_cam << std::endl;
+    std::cout << "b24V:" << currentState.bat_24V << " rly: " << currentState.relay_from_bat_cam << " cm: " << currentState.camera_from_bat_cam << std::endl;
   }
 
   void from_finger_handle_receive(const std_msgs::ByteMultiArray::ConstPtr& recvdMsg) {    
@@ -161,13 +172,14 @@ private:
 
   void from_cam_bat_handle_receive(const std_msgs::ByteMultiArray::ConstPtr& recvdMsg) {
     //dataGetFromBatCam = true;
-    if(recvdMsg->data.size() == 5){
+    if(recvdMsg->data.size() == 6){
       //обновляем данные
       currentState.bat_24V                    = recvdMsg->data[0];
       currentState.bat_48V                    = recvdMsg->data[1];
       currentState.camera_from_bat_cam        = recvdMsg->data[2];
-      currentState.relay_state_from_bat_cam   = recvdMsg->data[3];
-      resvdFromAllDev                        |= recvdMsg->data[4];
+      currentState.relay_from_bat_cam         = recvdMsg->data[3];
+      currentState.ur5_from_bat_cam           = recvdMsg->data[4];
+      resvdFromAllDev                        |= recvdMsg->data[5];
       recvd_count_topic_cam_bat++;
     } else if (recvdMsg->data.size() == 3){
       currentState.cmdBatCamTopic             = recvdMsg->data[0];
@@ -215,9 +227,10 @@ private:
       recvd_count_udp++;
       memcpy(dataToFingersTopic_OLD, dataToFingersTopic, sizeof(dataToFingersTopic_OLD));
       memcpy(dataToFingersTopic, dataFromUDP + 3, sizeof(dataToFingersTopic)); //fingers + hand_mount
-      currentState.hold_position        = dataFromUDP[sizeof(dataFromUDP) - 8 * sizeof(uint8_t)];
-      currentState.camera_from_udp      = dataFromUDP[sizeof(dataFromUDP) - 7 * sizeof(uint8_t)];
-      currentState.relay_state_from_udp = dataFromUDP[sizeof(dataFromUDP) - 6 * sizeof(uint8_t)];
+      currentState.hold_position        = dataFromUDP[sizeof(dataFromUDP) - 9 * sizeof(uint8_t)];
+      currentState.camera_from_udp      = dataFromUDP[sizeof(dataFromUDP) - 8 * sizeof(uint8_t)];
+      currentState.relay_from_udp       = dataFromUDP[sizeof(dataFromUDP) - 7 * sizeof(uint8_t)];
+      currentState.ur5_from_udp         = dataFromUDP[sizeof(dataFromUDP) - 6 * sizeof(uint8_t)];
       memcpy(currentState.keepalive,    dataFromUDP + sizeof(dataFromUDP) - 5 * sizeof(uint8_t), sizeof(currentState.keepalive));
       read_msg_udp();
     } else {
@@ -273,27 +286,36 @@ private:
   }
 
   void sendMsgToCamBat(){
-    if (currentState.camera_from_udp == currentState.camera_from_udp_prev &&
-          currentState.relay_state_from_udp == currentState.relay_state_from_udp_prev) return;
+    if (currentState.camera_from_udp  == currentState.camera_from_udp_prev &&
+          currentState.relay_from_udp == currentState.relay_from_udp_prev &&
+          currentState.ur5_from_udp   == currentState.ur5_from_udp_prev) return;
+
     currentState.camera_from_udp_prev = currentState.camera_from_udp;
-    currentState.relay_state_from_udp_prev = currentState.relay_state_from_udp;
+    currentState.relay_from_udp_prev  = currentState.relay_from_udp;
+    currentState.ur5_from_udp_prev    = currentState.ur5_from_udp;
+
     //отправка пакета в топик "camera_topic"
     std_msgs::ByteMultiArray sendMsgToCameraTopic;
     sendMsgToCameraTopic.layout.dim.push_back(std_msgs::MultiArrayDimension());
     sendMsgToCameraTopic.layout.dim[0].size = 1;
-    sendMsgToCameraTopic.layout.dim[0].stride = 2;
+    sendMsgToCameraTopic.layout.dim[0].stride = 3;
     sendMsgToCameraTopic.data.clear();
+
     std::cout << "\033[1;34mSEND TO camera_topic:\033[0m\n";
     printf("camera_from_udp = [%u]\n", currentState.camera_from_udp);
-    printf("relay_state = [%u]\n", currentState.relay_state_from_udp);
+    printf("relay_from_udp = [%u]\n", currentState.relay_from_udp);
+    printf("ur5_from_udp = [%u]\n", currentState.ur5_from_udp);
+
     sendMsgToCameraTopic.data.push_back(currentState.camera_from_udp);
-    sendMsgToCameraTopic.data.push_back(currentState.relay_state_from_udp);
+    sendMsgToCameraTopic.data.push_back(currentState.relay_from_udp);
+    sendMsgToCameraTopic.data.push_back(currentState.ur5_from_udp);
     toCamPub.publish(sendMsgToCameraTopic);
     std::cout << std::endl;
 
     fingers::To_Bat_Cam msgToDebugBatCam;
-    msgToDebugBatCam.camera = currentState.camera_from_udp;
-    msgToDebugBatCam.relay  = currentState.relay_state_from_udp;
+    msgToDebugBatCam.camera     = currentState.camera_from_udp;
+    msgToDebugBatCam.relay      = currentState.relay_from_udp;
+    msgToDebugBatCam.ur5_state  = currentState.ur5_from_udp;
     if (debugBatCam) debugToBatCamPub.publish(msgToDebugBatCam);
   }
 
@@ -304,13 +326,14 @@ private:
     dataToUDP[1] = 0xAA;                                                                            //header 1b
     dataToUDP[2] = sizeof(dataToUDP);                                                               //data length 1b
     memcpy(dataToUDP + 3, dataFromFingersTopic, sizeof(dataFromFingersTopic) - sizeof(uint8_t));    //data from fingers
-    dataToUDP[sizeof(dataToUDP) - 12 * sizeof(uint8_t)] = currentState.hand_mount;                  //hand_mount 1b
-    dataToUDP[sizeof(dataToUDP) - 11 * sizeof(uint8_t)] = currentState.hold_position;               //hold_position 1b
-    dataToUDP[sizeof(dataToUDP) - 10 * sizeof(uint8_t)] = currentState.camera_from_bat_cam;         //camera_from_bat_cam 1b
-    dataToUDP[sizeof(dataToUDP) - 9  * sizeof(uint8_t)] = currentState.bat_24V;                     //bat_24V 1b
-    dataToUDP[sizeof(dataToUDP) - 8  * sizeof(uint8_t)] = currentState.bat_48V;                     //bat_48V 1b
-    dataToUDP[sizeof(dataToUDP) - 7  * sizeof(uint8_t)] = resvdFromAllDev;                          //allDevOk 1b
-    dataToUDP[sizeof(dataToUDP) - 6  * sizeof(uint8_t)] = currentState.relay_state_from_bat_cam;    //relay_state 1b
+    dataToUDP[sizeof(dataToUDP) - 13 * sizeof(uint8_t)] = currentState.hand_mount;                  //hand_mount 1b
+    dataToUDP[sizeof(dataToUDP) - 12 * sizeof(uint8_t)] = currentState.hold_position;               //hold_position 1b
+    dataToUDP[sizeof(dataToUDP) - 11 * sizeof(uint8_t)] = currentState.camera_from_bat_cam;         //camera_from_bat_cam 1b
+    dataToUDP[sizeof(dataToUDP) - 10  * sizeof(uint8_t)] = currentState.bat_24V;                    //bat_24V 1b
+    dataToUDP[sizeof(dataToUDP) - 9  * sizeof(uint8_t)] = currentState.bat_48V;                     //bat_48V 1b
+    dataToUDP[sizeof(dataToUDP) - 8  * sizeof(uint8_t)] = resvdFromAllDev;                          //allDevOk 1b
+    dataToUDP[sizeof(dataToUDP) - 7  * sizeof(uint8_t)] = currentState.relay_from_bat_cam;          //relay_state 1b
+    dataToUDP[sizeof(dataToUDP) - 6  * sizeof(uint8_t)] = currentState.ur5_from_bat_cam;            //ur5_state 1b
     memcpy(dataToUDP + sizeof(dataToUDP) - 5 * sizeof(uint8_t), currentState.keepalive, 
         sizeof(currentState.keepalive));                                                            //keepalive 4b
     dataToUDP[sizeof(dataToUDP) - 1 * sizeof(uint8_t)] = 

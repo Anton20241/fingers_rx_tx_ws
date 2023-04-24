@@ -6,6 +6,7 @@
 #include <fingers/To_Bat_Cam.h>
 #include "umba_crc_table.h"
 #include <mutex>
+#include <boost/thread/thread.hpp>
 
 #define PORT 20002
 
@@ -36,21 +37,20 @@
 
 #endif
 
-
 using boost::asio::ip::udp;
 using boost::asio::ip::address;
-
-int debugBigFinger   = 0;
-int debugIndexFinger = 0;
-int debugMidFinger   = 0;
-int debugRingFinger  = 0;
-int debugPinky       = 0;
-int debugModulOtv    = 0;
-int debugBatCam      = 0;
 
 #define TO_BAT_CAM_TOPIC_NAME "toBatCamTopic"
 #define DEBUG_TO_BAT_CAM_TOPIC_NAME "debugToBatCamTopic"
 #define FROM_BAT_CAM_TOPIC_NAME "fromBatCamTopic"
+
+  int debugBigFinger   = 0;
+  int debugIndexFinger = 0;
+  int debugMidFinger   = 0;
+  int debugRingFinger  = 0;
+  int debugPinky       = 0;
+  int debugModulOtv    = 0;
+  int debugBatCam      = 0;
 
 class UDPServer{
 public:
@@ -87,7 +87,10 @@ public:
     }
   }
 
+
+
 private:
+  ros::NodeHandle node;
 	udp::socket socket_;
 	udp::endpoint sender_endpoint_;
 	uint8_t dataFromUDP[DATA_FROM_UDP_SIZE] = {0};
@@ -95,7 +98,6 @@ private:
   uint8_t dataToFingersTopic[DATA_TO_FINGERS_TOPIC_SIZE] = {0};
   uint8_t dataToFingersTopic_OLD[DATA_TO_FINGERS_TOPIC_SIZE] = {0};
   uint8_t dataFromFingersTopic[DATA_FROM_FINGERS_TOPIC_SIZE] = {0};
-  ros::NodeHandle node;
 
   ros::Publisher toFingersPub;
 
@@ -229,8 +231,8 @@ private:
       memcpy(dataToFingersTopic, dataFromUDP + 3, sizeof(dataToFingersTopic)); //fingers + hand_mount
       currentState.hold_position        = dataFromUDP[sizeof(dataFromUDP) - 9 * sizeof(uint8_t)];
       currentState.camera_from_udp      = dataFromUDP[sizeof(dataFromUDP) - 8 * sizeof(uint8_t)];
-      currentState.relay_from_udp       = dataFromUDP[sizeof(dataFromUDP) - 7 * sizeof(uint8_t)];
-      currentState.ur5_from_udp         = dataFromUDP[sizeof(dataFromUDP) - 6 * sizeof(uint8_t)];
+      currentState.ur5_from_udp         = dataFromUDP[sizeof(dataFromUDP) - 7 * sizeof(uint8_t)];
+      currentState.relay_from_udp       = dataFromUDP[sizeof(dataFromUDP) - 6 * sizeof(uint8_t)];
       memcpy(currentState.keepalive,    dataFromUDP + sizeof(dataFromUDP) - 5 * sizeof(uint8_t), sizeof(currentState.keepalive));
       read_msg_udp();
     } else {
@@ -329,11 +331,11 @@ private:
     dataToUDP[sizeof(dataToUDP) - 13 * sizeof(uint8_t)] = currentState.hand_mount;                  //hand_mount 1b
     dataToUDP[sizeof(dataToUDP) - 12 * sizeof(uint8_t)] = currentState.hold_position;               //hold_position 1b
     dataToUDP[sizeof(dataToUDP) - 11 * sizeof(uint8_t)] = currentState.camera_from_bat_cam;         //camera_from_bat_cam 1b
-    dataToUDP[sizeof(dataToUDP) - 10  * sizeof(uint8_t)] = currentState.bat_24V;                    //bat_24V 1b
+    dataToUDP[sizeof(dataToUDP) - 10 * sizeof(uint8_t)] = currentState.bat_24V;                     //bat_24V 1b
     dataToUDP[sizeof(dataToUDP) - 9  * sizeof(uint8_t)] = currentState.bat_48V;                     //bat_48V 1b
     dataToUDP[sizeof(dataToUDP) - 8  * sizeof(uint8_t)] = resvdFromAllDev;                          //allDevOk 1b
-    dataToUDP[sizeof(dataToUDP) - 7  * sizeof(uint8_t)] = currentState.relay_from_bat_cam;          //relay_state 1b
-    dataToUDP[sizeof(dataToUDP) - 6  * sizeof(uint8_t)] = currentState.ur5_from_bat_cam;            //ur5_state 1b
+    dataToUDP[sizeof(dataToUDP) - 7  * sizeof(uint8_t)] = currentState.ur5_from_bat_cam;            //ur5_state 1b
+    dataToUDP[sizeof(dataToUDP) - 6  * sizeof(uint8_t)] = currentState.relay_from_bat_cam;          //relay_state 1b
     memcpy(dataToUDP + sizeof(dataToUDP) - 5 * sizeof(uint8_t), currentState.keepalive, 
         sizeof(currentState.keepalive));                                                            //keepalive 4b
     dataToUDP[sizeof(dataToUDP) - 1 * sizeof(uint8_t)] = 
@@ -387,13 +389,23 @@ private:
 int main(int argc, char** argv){
   try{
 
-    ros::param::param<int>("~_debugBigFinger", debugBigFinger, 0);
-    ros::param::param<int>("~_debugIndexFinger", debugIndexFinger, 0);
-    ros::param::param<int>("~_debugMidFinger", debugMidFinger, 0);
-    ros::param::param<int>("~_debugRingFinger", debugRingFinger, 0);
-    ros::param::param<int>("~_debugPinky", debugPinky, 0);
-    ros::param::param<int>("~_debugModulOtv", debugModulOtv, 0);
-    ros::param::param<int>("~_debugBatCam", debugBatCam, 0);
+    ros::param::get("/_debugBigFinger",     debugBigFinger);
+    ros::param::get("/_debugIndexFinger",   debugIndexFinger);
+    ros::param::get("/_debugMidFinger",     debugMidFinger);
+    ros::param::get("/_debugRingFinger",    debugRingFinger);
+    ros::param::get("/_debugPinky",         debugPinky);
+    ros::param::get("/_debugModulOtv",      debugModulOtv);
+    ros::param::get("/_debugBatCam",        debugBatCam);
+
+    printf("debugBigFinger    = %d\n", debugBigFinger);
+    printf("debugIndexFinger  = %d\n", debugIndexFinger);
+    printf("debugMidFinger    = %d\n", debugMidFinger);
+    printf("debugRingFinger   = %d\n", debugRingFinger);
+    printf("debugPinky        = %d\n", debugPinky);
+    printf("debugModulOtv     = %d\n", debugModulOtv);
+    printf("debugBatCam       = %d\n", debugBatCam);
+
+    boost::this_thread::sleep(boost::posix_time::seconds(60));
 
     std::cout << "\n\033[1;32m╔═══════════════════════════════╗\033[0m"
               << "\n\033[1;32m║master_eth_receiver is running!║\033[0m" 
@@ -401,6 +413,8 @@ int main(int argc, char** argv){
 		ros::init(argc, argv, "master_eth_receiver");
 		boost::asio::io_service io_service;
 		UDPServer udpServer(io_service);
+
+
     while(ros::ok()){
       udpServer.nodeFromUDPProcess();
       io_service.poll_one();

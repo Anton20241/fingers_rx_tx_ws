@@ -12,7 +12,6 @@
 #include <chrono>
 #include <ctime>
 #include <QCoreApplication>
-#include <boost/thread/thread.hpp>
 
 #define HMOUNT_DATA_SIZE 5
 
@@ -353,32 +352,19 @@ int main(int argc, char** argv)
 {
   QCoreApplication coreApplication(argc, argv);
 
-  std::string devPort = "USB0";
-  int baudrate = 256000;
+  std::string devPort = "USB6";
+  std::string baudrate = "256000";
 
+  ros::param::param<std::string> ("~_devPortForFingers", devPort, "USB6");
+  ros::param::param<std::string> ("~_baudrateForFingers", baudrate, "256000");
   try{
 
-    ros::param::get("/_devPortForFingers",  devPort);
-    ros::param::get("/_baudrateForFingers", baudrate);
-    ros::param::get("/_debugBigFinger",     debugBigFinger);
-    ros::param::get("/_debugIndexFinger",   debugIndexFinger);
-    ros::param::get("/_debugMidFinger",     debugMidFinger);
-    ros::param::get("/_debugRingFinger",    debugRingFinger);
-    ros::param::get("/_debugPinky",         debugPinky);
-    ros::param::get("/_debugModulOtv",      debugModulOtv);
-    ros::param::get("/_debugBatCam",        debugBatCam);
-
-    printf("devPort           = %s\n", devPort);
-    printf("baudrate          = %d\n", baudrate);
-    printf("debugBigFinger    = %d\n", debugBigFinger);
-    printf("debugIndexFinger  = %d\n", debugIndexFinger);
-    printf("debugMidFinger    = %d\n", debugMidFinger);
-    printf("debugRingFinger   = %d\n", debugRingFinger);
-    printf("debugPinky        = %d\n", debugPinky);
-    printf("debugModulOtv     = %d\n", debugModulOtv);
-    printf("debugBatCam       = %d\n", debugBatCam);
-
-    boost::this_thread::sleep(boost::posix_time::seconds(60));
+    ros::param::param<int>("~_debugBigFinger", debugBigFinger, 0);
+    ros::param::param<int>("~_debugIndexFinger", debugIndexFinger, 0);
+    ros::param::param<int>("~_debugMidFinger", debugMidFinger, 0);
+    ros::param::param<int>("~_debugRingFinger", debugRingFinger, 0);
+    ros::param::param<int>("~_debugPinky", debugPinky, 0);
+    ros::param::param<int>("~_debugModulOtv", debugModulOtv, 0);
 
     std::cout << "\n\033[1;32m╔═══════════════════════════════════════╗\033[0m"
               << "\n\033[1;32m║       MTOPIC_RECIEVER is running!     ║\033[0m" 

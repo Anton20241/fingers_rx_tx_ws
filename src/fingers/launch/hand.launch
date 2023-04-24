@@ -2,41 +2,45 @@
 <launch>
 
 <!--node`s params-->
-	<arg name="UART_baudrate" 			default="38400"/>
-	<arg name="devPortForFingers" 	default="USB0"/>
-	<arg name="baudrateForFingers" 	default="256000"/>
+	<arg name="UART_baudrate" default="19200"/>
+	<arg name="devPortForFingers" default="USB0"/>
+	<arg name="baudrateForFingers" default="256000"/>
 
-	<arg name="debugBigFinger" 			default="0"/>
-	<arg name="debugIndexFinger" 		default="0"/>
-	<arg name="debugMidFinger" 			default="0"/>
-	<arg name="debugRingFinger" 		default="0"/>
-	<arg name="debugPinky" 					default="0"/>
-	<arg name="debugModulOtv" 			default="0"/>
-	<arg name="debugBatCam" 				default="0"/>
+	<arg name="debugBigFinger" default="0"/>
+	<arg name="debugIndexFinger" default="0"/>
+	<arg name="debugMidFinger" default="0"/>
+	<arg name="debugRingFinger" default="0"/>
+	<arg name="debugPinky" default="0"/>
+	<arg name="debugModulOtv" default="0"/>
+	<arg name="debugBatCam" default="0"/>
+	<arg name="debugAllFingers" default="0"/>
+
 
 <!--launch nodes-->
 
 	<node pkg="fingers" type="master_topic_receiver" name="master_topic_receiver"/>
-		<param name="_devPortForFingers" 	value="$(arg devPortForFingers)"/>
+		<param name="_devPortForFingers" value="$(arg devPortForFingers)"/>
 		<param name="_baudrateForFingers" value="$(arg baudrateForFingers)"/>
-		<param name="_debugBigFinger" 		value="$(arg debugBigFinger)"/>
-		<param name="_debugIndexFinger" 	value="$(arg debugIndexFinger)"/>
-		<param name="_debugMidFinger" 		value="$(arg debugMidFinger)"/>
-		<param name="_debugRingFinger" 		value="$(arg debugRingFinger)"/>
-		<param name="_debugPinky" 				value="$(arg debugPinky)"/>
-		<param name="_debugModulOtv" 			value="$(arg debugModulOtv)"/>		
-		<param name="_debugBatCam" 				value="$(arg debugBatCam)"/>		
+		<param name="_debugBigFinger" type="str" value="$(arg debugBigFinger)"/>
+		<param name="_debugIndexFinger" type="int" value="$(arg debugIndexFinger)"/>
+		<param name="_debugMidFinger" value="$(arg debugMidFinger)"/>
+		<param name="_debugRingFinger" value="$(arg debugRingFinger)"/>
+		<param name="_debugPinky" value="$(arg debugPinky)"/>
+		<param name="_debugModulOtv" value="$(arg debugModulOtv)"/>		
+		<param name="_debugBatCam" value="$(arg debugBatCam)"/>		
+		<param name="_debugAllFingers" value="$(arg debugAllFingers)"/>
 
 	<node pkg="fingers" type="master_eth_receiver" name="master_eth_receiver" output="screen"/>
-		<param name="_debugBigFinger" 		value="$(arg debugBigFinger)"/>
-		<param name="_debugIndexFinger" 	value="$(arg debugIndexFinger)"/>
-		<param name="_debugMidFinger" 		value="$(arg debugMidFinger)"/>
-		<param name="_debugRingFinger" 		value="$(arg debugRingFinger)"/>
-		<param name="_debugPinky" 				value="$(arg debugPinky)"/>
-		<param name="_debugModulOtv" 			value="$(arg debugModulOtv)"/>		
-		<param name="_debugBatCam" 				value="$(arg debugBatCam)"/>		
+		<param name="_debugBigFinger" type="str" value="$(arg debugBigFinger)"/>
+		<param name="_debugIndexFinger" type="int" value="$(arg debugIndexFinger)"/>
+		<param name="_debugMidFinger" value="$(arg debugMidFinger)"/>
+		<param name="_debugRingFinger" value="$(arg debugRingFinger)"/>
+		<param name="_debugPinky" value="$(arg debugPinky)"/>
+		<param name="_debugModulOtv" value="$(arg debugModulOtv)"/>		
+		<param name="_debugBatCam" value="$(arg debugBatCam)"/>		
+		<param name="_debugAllFingers" value="$(arg debugAllFingers)"/>
 
 	<node pkg="fingers" type="uart_node" name="uart_node"/>
-		<param name="_UART_baudrate" 			value="$(arg UART_baudrate)"/>
-		<param name="_debugBatCam" 				value="$(arg debugBatCam)"/>		
+		<param name="_UART_baudrate" value="$(arg UART_baudrate)"/>
+		<param name="_debugBatCam" value="$(arg debugBatCam)"/>	
 </launch>

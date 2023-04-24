@@ -11,7 +11,6 @@
 #include "protocol.hpp"
 #include "umba_crc_table.h"
 #include <mutex>
-#include <boost/thread/thread.hpp>
 
 #define TO_BAT_CAM_TOPIC_NAME "toBatCamTopic"
 #define DEBUG_TO_BAT_CAM_TOPIC_NAME "debugToBatCamTopic"
@@ -287,13 +286,10 @@ int main(int argc, char** argv)
   QCoreApplication coreApplication(argc, argv);
 
   std::string port = "AMA0";
-  int baudrate = 19200;
+  std::string baudrate = "19200"; 
 
-  ros::param::get("/_UART_baudrate", baudrate);
-  ros::param::get("/_debugBatCam",   debugBatCam);
-
-  printf("baudrate = %d\n",    baudrate);
-  printf("debugBatCam = %d\n", debugBatCam);
+  ros::param::param<std::string> ("~_UART_baudrate", baudrate, "19200");
+  ros::param::param<int>("~_debugBatCam", debugBatCam, 0);
   
   try{
     std::cout << "\n\033[1;32m╔═══════════════════════════════════════╗\033[0m"
@@ -304,10 +300,10 @@ int main(int argc, char** argv)
     qt_serial::Qt_Serial_Async boostRS485_transp("/dev/tty" + port, baudrate);
     protocol_master::ProtocolMaster boostRS485_prot_master(boostRS485_transp, &coreApplication);
     UART_Node uartNode(boostRS485_prot_master);
-
-
-    
-    boost::this_thread::sleep(boost::posix_time::seconds(60));
+    // uint32_t init_cmd_size = 5
+    // if (UART_Node.sendCmdReadUART(0x01, from_board_data, &from_board_dataSize, getResponse, 1, cam_status)) {
+    //   std::cout << "INIT COMMAND TO UART CHL = 0" << std::endl;
+    // }
     uartNode.send_init_cmd();
     while(ros::ok()){
       uartNode.UART_process();

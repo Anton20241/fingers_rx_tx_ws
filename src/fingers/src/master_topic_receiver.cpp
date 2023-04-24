@@ -1,4 +1,5 @@
 #include <iostream>
+#include <unistd.h>
 #include <ros/ros.h>
 #include <boost/asio.hpp>
 #include <boost/chrono.hpp>
@@ -12,7 +13,6 @@
 #include <chrono>
 #include <ctime>
 #include <QCoreApplication>
-#include <boost/thread/thread.hpp>
 
 #define HMOUNT_DATA_SIZE 5
 
@@ -50,6 +50,7 @@
   int debugPinky       = 0;
   int debugModulOtv    = 0;
   int debugBatCam      = 0;
+  int debugAllFingers  = 0;
 
 class RS_Server
 {
@@ -64,6 +65,22 @@ public:
     debugFromRingFingerPub       = node.advertise<fingers::From_Finger>("debugFromRingFingerTopic", 0);
     debugFromPinkyPub            = node.advertise<fingers::From_Finger>("debugFromPinkyTopic", 0);
     debugFromModulOtvPub         = node.advertise<fingers::From_Finger>("debugFromModulOtvTopic", 0);
+
+    // ros::param::param<int>("~_debugBigFinger", debugBigFinger, 0);
+    // ros::param::param<int>("~_debugIndexFinger", debugIndexFinger, 0);
+    // ros::param::param<int>("~_debugMidFinger", debugMidFinger, 0);
+    // ros::param::param<int>("~_debugRingFinger", debugRingFinger, 0);
+    // ros::param::param<int>("~_debugPinky", debugPinky, 0);
+    // ros::param::param<int>("~_debugModulOtv", debugModulOtv, 0);
+    // ros::param::param<int>("~_debugBatCam", debugBatCam, 0);
+
+    // node.getParam("/fingers/_debugBigFinger",   debugBigFinger);
+    // node.getParam("/fingers/_debugIndexFinger", debugIndexFinger);
+    // node.getParam("/fingers/_debugMidFinger",   debugMidFinger);
+    // node.getParam("/fingers/_debugRingFinger",  debugRingFinger);
+    // node.getParam("/fingers/_debugPinky",       debugPinky);
+    // node.getParam("/fingers/_debugModulOtv",    debugModulOtv);
+    // node.getParam("/fingers/_debugBatCam",      debugBatCam);
 
     fromFingersPub = node.advertise<std_msgs::ByteMultiArray>("fromFingersTopic", 0);
   };
@@ -115,6 +132,7 @@ private:
   uint8_t resvdFromAllDev = 0;
   uint32_t dataFromHandMountSize = 0;
   boost::chrono::system_clock::time_point first_tp = boost::chrono::system_clock::now();
+
 
   enum fingersOK{                  //ок, если ответ пришел
     bigFinger      =     1,        //большой палец
@@ -299,12 +317,21 @@ private:
   }
 
   void sendMsgToDebugTopic(const fingers::From_Finger msgsArrToDebugFingers[]){
-    if (debugBigFinger)   debugFromBigFingerPub.publish(msgsArrToDebugFingers[0]);
-    if (debugIndexFinger) debugFromIndexFingerPub.publish(msgsArrToDebugFingers[1]);
-    if (debugMidFinger)   debugFromMidFingerPub.publish(msgsArrToDebugFingers[2]);
-    if (debugRingFinger)  debugFromRingFingerPub.publish(msgsArrToDebugFingers[3]);
-    if (debugPinky)       debugFromPinkyPub.publish(msgsArrToDebugFingers[4]);
-    if (debugModulOtv)    debugFromModulOtvPub.publish(msgsArrToDebugFingers[5]);
+    if (debugAllFingers) {
+      debugFromBigFingerPub.publish(msgsArrToDebugFingers[0]);
+      debugFromIndexFingerPub.publish(msgsArrToDebugFingers[1]);
+      debugFromMidFingerPub.publish(msgsArrToDebugFingers[2]);
+      debugFromRingFingerPub.publish(msgsArrToDebugFingers[3]);
+      debugFromPinkyPub.publish(msgsArrToDebugFingers[4]);
+      debugFromModulOtvPub.publish(msgsArrToDebugFingers[5]);
+      return;
+    }
+    if (debugBigFinger == 1)   debugFromBigFingerPub.publish(msgsArrToDebugFingers[0]);
+    if (debugIndexFinger == 1) debugFromIndexFingerPub.publish(msgsArrToDebugFingers[1]);
+    if (debugMidFinger == 1)   debugFromMidFingerPub.publish(msgsArrToDebugFingers[2]);
+    if (debugRingFinger == 1)  debugFromRingFingerPub.publish(msgsArrToDebugFingers[3]);
+    if (debugPinky == 1)       debugFromPinkyPub.publish(msgsArrToDebugFingers[4]);
+    if (debugModulOtv == 1)    debugFromModulOtvPub.publish(msgsArrToDebugFingers[5]);
   }
 
   void setMsgsToDebugTopic(fingers::From_Finger msgsArrToDebugFingers[], uint8_t dataToTopic[]){
@@ -345,31 +372,11 @@ int main(int argc, char** argv)
   QCoreApplication coreApplication(argc, argv);
 
   std::string devPort = "USB0";
-  int baudrate = 256000;
+  std::string baudrate = "256000";
 
+  ros::param::get("/_devPortForFingers", devPort);
+  ros::param::get("/_baudrateForFingers", baudrate);
   try{
-
-    ros::param::get("/_devPortForFingers",  devPort);
-    ros::param::get("/_baudrateForFingers", baudrate);
-    ros::param::get("/_debugBigFinger",     debugBigFinger);
-    ros::param::get("/_debugIndexFinger",   debugIndexFinger);
-    ros::param::get("/_debugMidFinger",     debugMidFinger);
-    ros::param::get("/_debugRingFinger",    debugRingFinger);
-    ros::param::get("/_debugPinky",         debugPinky);
-    ros::param::get("/_debugModulOtv",      debugModulOtv);
-    ros::param::get("/_debugBatCam",        debugBatCam);
-
-    printf("devPort           = %s\n", devPort);
-    printf("baudrate          = %d\n", baudrate);
-    printf("debugBigFinger    = %d\n", debugBigFinger);
-    printf("debugIndexFinger  = %d\n", debugIndexFinger);
-    printf("debugMidFinger    = %d\n", debugMidFinger);
-    printf("debugRingFinger   = %d\n", debugRingFinger);
-    printf("debugPinky        = %d\n", debugPinky);
-    printf("debugModulOtv     = %d\n", debugModulOtv);
-    printf("debugBatCam       = %d\n", debugBatCam);
-
-    boost::this_thread::sleep(boost::posix_time::seconds(60));
 
     std::cout << "\n\033[1;32m╔═══════════════════════════════════════╗\033[0m"
               << "\n\033[1;32m║       MTOPIC_RECIEVER is running!     ║\033[0m" 
@@ -381,6 +388,24 @@ int main(int argc, char** argv)
     protocol_master::ProtocolMaster rs_prot_master(qt_RS_transp, &coreApplication);
     RS_Server raspbPi(rs_prot_master);
 
+    ros::param::get("/_debugBigFinger", debugBigFinger);
+    ros::param::get("/_debugIndexFinger", debugIndexFinger);
+    ros::param::get("/_debugMidFinger", debugMidFinger);
+    ros::param::get("/_debugRingFinger", debugRingFinger);
+    ros::param::get("/_debugPinky", debugPinky);
+    ros::param::get("/_debugModulOtv", debugModulOtv);
+    ros::param::get("/_debugBatCam", debugBatCam);
+    ros::param::get("/_debugAllFingers", debugAllFingers);
+
+    std::cout << "debugBatCam " << debugBigFinger << std::endl;
+    std::cout << "debugIndexFinger " << debugIndexFinger << std::endl;
+    std::cout << "debugMidFinger "<< debugMidFinger << std::endl;
+    std::cout << "debugRingFinger "<< debugRingFinger << std::endl;
+    std::cout << "debugPinky "<< debugPinky << std::endl;
+    std::cout << "debugModulOtv "<< debugModulOtv << std::endl;
+
+
+    sleep(10);
     while(ros::ok()){
       raspbPi.nodeFromTopicProcess();
       ros::spinOnce();

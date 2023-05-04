@@ -43,4 +43,9 @@
 	<node pkg="fingers" type="uart_node" name="uart_node"/>
 		<param name="_UART_baudrate" value="$(arg UART_baudrate)"/>
 		<param name="_debugBatCam" value="$(arg debugBatCam)"/>	
+
+	<!-- <node pkg="fingers" type="frq_check_node" name="frq_check_node" output="screen"/>
+		<param name="_devPortForFingers" value="$(arg devPortForFingers)"/>
+		<param name="_baudrateForFingers" value="$(arg baudrateForFingers)"/> -->
+
 </launch>

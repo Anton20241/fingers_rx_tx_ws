@@ -28,11 +28,14 @@ namespace qt_serial{
   //   std::cout << " arr size = "<< arr.size() << std::endl; 
   // }
 
-  void Qt_Serial_Async::handleReadyRead(){  
-
+  void Qt_Serial_Async::handleReadyRead(){
+    
+    if (sendDataProcess) return;
+    // std::cout << "handleReadyRead()\n";
     my_mytex.lock();
     m_readData.clear();
-    m_readData.append(m_serialPort.read(32));    
+    m_readData.append(m_serialPort.readAll());
+    m_serialPort.clear(QSerialPort::AllDirections);  
     m_recvdCount++;
 
     if(send_error) {
@@ -42,13 +45,22 @@ namespace qt_serial{
     //cout << " m_readData.size(): = "<<  m_readData.size() << endl;
     add_to_vector(m_readData, m_copyRecvdData);
     
-    printf("\n[RECEIVED]:\n");
-    for (size_t i = 0; i < m_copyRecvdData.size(); i++)
-    {
-      printf("[%u]", m_copyRecvdData[i]);
+    boost::chrono::system_clock::time_point from_send_to_get_cur_tp = boost::chrono::system_clock::now();
+    boost::chrono::duration<double> from_send_to_get_ex_time = from_send_to_get_cur_tp - from_send_to_get_tp;
+    // std::cout << "\033\n[1;32mfrom_send_to_get_ex_time time: \033\n[0m" << from_send_to_get_ex_time.count() * 1000000 << std::endl;
+    // printf("timeFailCount = %u\n", timeFailCount);
+
+    if (from_send_to_get_ex_time.count() * 1000000 > 6000){
+      timeFailCount++;
     }
-    std::cout << std::endl;
-    cout << "bytes_transferred: "<< m_readData.size() << endl;
+
+    // printf("\n[RECEIVED]:\n");
+    // for (size_t i = 0; i < m_copyRecvdData.size(); i++)
+    // {
+    //   printf("[%u]", m_copyRecvdData[i]);
+    // }
+    // std::cout << std::endl;
+    // cout << "bytes_transferred: "<< m_readData.size() << endl;
 
     my_mytex.unlock();
   }
@@ -94,47 +106,56 @@ namespace qt_serial{
       exit(-1);
     }
 
+    m_readData.clear();
+    m_readData.append(m_serialPort.readAll());
+    m_serialPort.clear(QSerialPort::AllDirections);
+
     connect(&m_serialPort, &QSerialPort::readyRead, this, &Qt_Serial_Async::handleReadyRead);
     connect(&m_serialPort, &QSerialPort::errorOccurred, this, &Qt_Serial_Async::handleError);
   }
 
   bool Qt_Serial_Async::sendData(const uint8_t* ptrData, uint32_t len)
   {
+    sendDataProcess = true;
     QByteArray m_sendData;
     
     for (size_t i = 0; i < len; i++){
       m_sendData.push_back(ptrData[i]);
     }
 
-    uint64_t sendBytes = m_serialPort.write(m_sendData);
+    uint64_t sendBytes = 0;
+    
+    while (!sendBytes){
+      sendBytes = m_serialPort.write(m_sendData);
+      m_coreApplication->processEvents();
+    }
+
+    from_send_to_get_tp = boost::chrono::system_clock::now();
     if(sendBytes > 0){
       m_sendCount++;
-      printf("\n[SEND]:\n");
-      for (size_t i = 0; i < sendBytes; i++)
-      {
-          printf("[%u]", m_sendData.at(i));
-      }
-      std::cout << std::endl;
-      cout << "sendBytes: "<< sendBytes << endl;
+      // printf("\n[SEND]:\n");
+      // for (size_t i = 0; i < sendBytes; i++)
+      // {
+      //     printf("[%u]", m_sendData.at(i));
+      // }
+      // std::cout << std::endl;
+      // cout << "sendBytes: "<< sendBytes << endl;
+      sendDataProcess = false;
       return true;
     } else {
-      std::cout << "error.what()\n";
+      // std::cout << "error.what()\n";
+      sendDataProcess = false;
       return false;
     }  
+    
   }
 
   bool Qt_Serial_Async::getData(uint8_t* ptrData, uint32_t* lenInOut)
   {
     my_mytex.lock();
-    if (m_copyRecvdData.size() > 32) {
-      m_copyRecvdData.clear();
-      std::cout << "\n!!!SIZE > 32!!!" << std::endl;
-      my_mytex.unlock();
-      return false;
-    }
 
-    // std::cout << "bytesGet = " << bytesGet << std::endl;
-    // std::cout << "m_copyRecvdData.size() = " << m_copyRecvdData.size() << std::endl;
+    std::cout << "bytesGet = " << bytesGet << std::endl;
+    std::cout << "m_copyRecvdData.size() = " << m_copyRecvdData.size() << std::endl;
 
     if (m_copyRecvdData.size() != bytesGet || m_copyRecvdData.empty()){
       //std::cout << "empty or not BytesGet\n";
@@ -143,58 +164,53 @@ namespace qt_serial{
       return false;
     }
 
-    if (m_copyRecvdData.size() < 2 || m_copyRecvdData[1] > 13 || m_copyRecvdData[1] == 0){
-      std::cout << "non-valid m_copyRecvdData length\n";
+    if (m_copyRecvdData.size() > 78) {
       m_copyRecvdData.clear();
-      my_mytex.unlock();
-      return true;
-    }
-    
-    uint32_t packageLen           = m_copyRecvdData[1];
-    uint32_t m_copyRecvdData_size = m_copyRecvdData.size();
-
-    if (packageLen > m_copyRecvdData_size) {
+      std::cout << "\n!!!SIZE > 78!!!" << std::endl;
       my_mytex.unlock();
       return false;
-    }     
-       
-    std::cout << "m_copyRecvdDataSZ: = " << packageLen << std::endl;
-    std::cout << "m_copyRecvdData:\n";
-    for (int i = 0; i < packageLen; i++){
-      ptrData[i] = m_copyRecvdData[i];
-      printf("[%u]", m_copyRecvdData[i]);
     }
+
+    // if (m_copyRecvdData.size() < 2 || m_copyRecvdData[1] > 13 || m_copyRecvdData[1] == 0){
+    //   std::cout << "non-valid m_copyRecvdData length\n";
+    //   m_copyRecvdData.clear();
+    //   my_mytex.unlock();
+    //   return false;
+    // }
+    
+          
+    // std::cout << "m_copyRecvdDataSZ: = " << m_copyRecvdData.size() << std::endl;
+
+    // std::cout << "m_copyRecvdData:\n";
+    for (int i = 0; i < m_copyRecvdData.size(); i++){
+      ptrData[i] = m_copyRecvdData[i];
+      //printf("[%u]", m_copyRecvdData[i]);
+    }    
     std::cout << std::endl;        
 
-    *lenInOut = packageLen;
-    std::cout << "*lenInOut = " << *lenInOut << std::endl;
+    *lenInOut = m_copyRecvdData.size();
+    // std::cout << "*lenInOut = " << *lenInOut << std::endl;
 
-    auto position = m_copyRecvdData.begin();
-    auto begin = m_copyRecvdData.begin() + packageLen;
-    auto end = begin + m_copyRecvdData.size() - packageLen;
+    // auto position = m_copyRecvdData.begin();
+    // auto begin = m_copyRecvdData.begin() + packageLen;
+    // auto end = begin + m_copyRecvdData.size() - packageLen;
     // std::cout << "\ninsert data: ";
     // for (auto iter = begin; iter != end; iter++) {
     //     printf("[%u]",*iter);
     // }
     
-    m_copyRecvdData.insert(position, begin, end);
+    // m_copyRecvdData.insert(position, begin, end);
     
 
     //std::cout << "\npackageLen = " << packageLen << std::endl;
     //std::cout << "m_copyRecvdData.size() = " <<  m_copyRecvdData.size() << std::endl;
 
-    m_copyRecvdData.erase(m_copyRecvdData.begin(), m_copyRecvdData.begin() + m_copyRecvdData_size);
+    // m_copyRecvdData.erase(m_copyRecvdData.begin(), m_copyRecvdData.begin() + packageLen);
 
     //std::cout << "after erase() m_copyRecvdData.size() = " << m_copyRecvdData.size() << std::endl;
 
-    std::cout << "m_copyRecvdData:\n";
-    for (int i = 0; i < m_copyRecvdData.size(); i++){
-      printf("[%u]", m_copyRecvdData[i]);
-    }
-    std::cout << std::endl;    
-
     bytesGet = 0;
-
+    m_copyRecvdData.clear();
     my_mytex.unlock();
 
     return true;

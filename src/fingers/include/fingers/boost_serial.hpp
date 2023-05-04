@@ -81,7 +81,7 @@ namespace boost_serial
                 if (tcgetattr(m_fd, &t) < 0) { /* handle error */ }
                 if (cfsetspeed(&t, std::stoi(boudrate)) < 0) { /* handle error */ }
                 if (tcsetattr(m_fd, TCSANOW, &t) < 0) { /* handle error */ }
-                m_port.set_option(boost::asio::serial_port_base::baud_rate(std::stoi(boudrate)));
+                //m_port.set_option(boost::asio::serial_port_base::baud_rate(std::stoi(boudrate)));
                 m_port.set_option(boost::asio::serial_port_base::character_size(8 /* data bits */));
                 m_port.set_option(boost::asio::serial_port_base::parity(boost::asio::serial_port_base::parity::none));
                 m_port.set_option(boost::asio::serial_port_base::stop_bits(boost::asio::serial_port_base::stop_bits::one));

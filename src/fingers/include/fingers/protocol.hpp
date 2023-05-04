@@ -118,6 +118,10 @@ namespace protocol_master
                                         uint8_t* dataFrom, uint32_t* dataFromSize);
             bool sendSomeCmd(const uint8_t* dataTo, uint32_t dataToSize, uint8_t* dataFrom, uint32_t* dataFromSize);
 
+
+            //RS
+            bool RSRead(uint8_t dataFrom[][13], uint8_t* resvdFromAllDev);
+
             //UART
             bool sendCmdReadUART(uint8_t addressTo, uint8_t* dataFrom, uint32_t* dataFromSize, 
                                         bool& getResponse, bool wait_response, uint8_t cam_status);
@@ -126,10 +130,11 @@ namespace protocol_master
             i_transport::ITransport&    m_transport;
         private:
             //i_transport::ITransport&    m_transport;
+        
             void collectPkg(uint8_t* resvdData, uint32_t resvdBytes, uint8_t* dataUart, uint32_t* dataUartSize, bool& pkgIsReady);
-            bool parserOk(uint8_t* dataUart, uint32_t& dataUartSize);
             void updateDataUart(uint8_t* dataUart, uint32_t& dataUartSize);
             bool parser(uint8_t* ptrBuff, uint32_t len, uint8_t addressTo);
+            bool parserRS(uint8_t* collectPckg, uint32_t collectPckgSize, uint8_t dataFrom[][13], uint8_t* resvdFromAllDev);
             void clear(uint8_t* dataFrom, uint32_t* dataFromSize);
             QCoreApplication* m_coreApplication;
 

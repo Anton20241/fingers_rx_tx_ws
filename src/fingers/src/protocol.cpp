@@ -366,8 +366,8 @@ namespace protocol_master
                 }
             }
         }
-        if (*resvdFromAllDev != 0) return true;
-        return false;
+        return true;
+
     }
 
     bool ProtocolMaster::RSRead(uint8_t dataFrom[][13], uint8_t* resvdFromAllDev){
@@ -536,7 +536,7 @@ namespace protocol_master
         buff[2] = cmd;
         memcpy(buff + 3, dataTo, dataToSize);
         buff[len + dataToSize - sizeof(uint8_t)] = umba_crc8_table(buff,len + dataToSize - sizeof(uint8_t));
-        printf("\nCRC8 = %d\n", buff[len + dataToSize - sizeof(uint8_t)]);
+        // printf("\nCRC8 = %d\n", buff[len + dataToSize - sizeof(uint8_t)]);
 
         /* Отправляем CmdReadWrite */
         assert(m_transport.sendData(buff, buff[1]));
@@ -563,13 +563,13 @@ namespace protocol_master
             //     std::cout << "recvdBuffSize = " << recvdBuffSize << std::endl;
 
             if (get_bytes){
-                std::cout << "get_bytes\n";
-                //std::cout << "recvdBuffSize = " << recvdBuffSize << std::endl;
-                //std::cout << "not_bytes_received = " << not_bytes_received << std::endl;
-                not_bytes_received = 0;
-                boost::chrono::system_clock::time_point cur_tp = boost::chrono::system_clock::now();
-                boost::chrono::duration<double> ex_time = cur_tp - first_tp;
-                std::cout << "Execution time: " << ex_time.count() << std::endl;
+                // std::cout << "get_bytes\n";
+                // //std::cout << "recvdBuffSize = " << recvdBuffSize << std::endl;
+                // //std::cout << "not_bytes_received = " << not_bytes_received << std::endl;
+                // not_bytes_received = 0;
+                // boost::chrono::system_clock::time_point cur_tp = boost::chrono::system_clock::now();
+                // boost::chrono::duration<double> ex_time = cur_tp - first_tp;
+                // std::cout << "Execution time: " << ex_time.count() << std::endl;
             } else {
                 //std::cout << "else\n";
                 not_bytes_received++;

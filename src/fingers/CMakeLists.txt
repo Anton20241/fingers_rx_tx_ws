@@ -186,10 +186,10 @@ target_include_directories (master_topic_receiver PRIVATE include/fingers/ src/)
 target_link_libraries(master_topic_receiver ${catkin_LIBRARIES})
 qt5_use_modules(master_topic_receiver Core SerialPort)
 
-add_executable(frq_check_node ${FRQ_CHECK_NODE} ${SOURCES})
-target_include_directories (frq_check_node PRIVATE include/fingers/ src/)
-target_link_libraries(frq_check_node ${catkin_LIBRARIES})
-qt5_use_modules(frq_check_node Core SerialPort)
+# add_executable(frq_check_node ${FRQ_CHECK_NODE} ${SOURCES})
+# target_include_directories (frq_check_node PRIVATE include/fingers/ src/)
+# target_link_libraries(frq_check_node ${catkin_LIBRARIES})
+# qt5_use_modules(frq_check_node Core SerialPort)
 
 add_executable(uart_node ${UART_NODE} ${SOURCES})
 target_include_directories (uart_node PRIVATE include/fingers/ src/)
@@ -206,10 +206,10 @@ qt5_use_modules(uart_node Core SerialPort)
 # target_link_libraries(rs_master ${catkin_LIBRARIES})
 # qt5_use_modules(rs_master Core SerialPort)
 
-add_executable(udp_client ${UDP_CLIENT} ${SOURCES})
-target_include_directories (udp_client PRIVATE include/fingers/ src/)
-target_link_libraries(udp_client ${catkin_LIBRARIES})
-qt5_use_modules(udp_client Core SerialPort)
+# add_executable(udp_client ${UDP_CLIENT} ${SOURCES})
+# target_include_directories (udp_client PRIVATE include/fingers/ src/)
+# target_link_libraries(udp_client ${catkin_LIBRARIES})
+# qt5_use_modules(udp_client Core SerialPort)
 
 #############
 ## Install ##

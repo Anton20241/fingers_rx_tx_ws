@@ -86,25 +86,26 @@ public:
   };
 
   void nodeFromTopicProcess(){
-    if (getMsgFromTopic){
-      update_hand_mount();
-      toEachFinger();              
-      sendMsgToTopic();
-      getMsgFromTopic = false;
-    }
-
-    // while (count < 1000) {
-    //   ROS_INFO("");
-    //   boost::chrono::system_clock::time_point cur_tp = boost::chrono::system_clock::now();
-    //   boost::chrono::duration<double> ex_time = cur_tp - first_tp;
-    //   std::cout << "\033\n[1;32mExecution time: \033\n[0m" << ex_time.count() * 1000000 << "\n";
-    //   std::cout << "count = " << count << "\n";
-    //   first_tp = boost::chrono::system_clock::now();
-    //   toEachFinger();
+    // if (getMsgFromTopic){
+    //   update_hand_mount();
+    //   toEachFinger();              
     //   sendMsgToTopic();
-    //   count++;
-    //   ROS_INFO("count = %d\n", count);
+    //   getMsgFromTopic = false;
     // }
+
+    while (count < 1000) {
+      // ROS_INFO("");
+      // boost::chrono::system_clock::time_point cur_tp = boost::chrono::system_clock::now();
+      // boost::chrono::duration<double> ex_time = cur_tp - first_tp;
+      // std::cout << "\033\n[1;32mExecution time: \033\n[0m" << ex_time.count() * 1000000 << "\n";
+      // std::cout << "count = " << count << "\n";
+      // first_tp = boost::chrono::system_clock::now();
+      update_hand_mount();
+      toEachFinger();
+      sendMsgToTopic();
+      count++;
+      // ROS_INFO("count = %d\n", count);
+    }
   
   }
   
@@ -160,7 +161,10 @@ private:
   uint8_t fingers_OK[7] = {1, 2, 4, 8, 16, 32, 64}; ////ок, если ответ пришел
 
   void update_hand_mount(){
-    if(dataToHandMount == dataFromTopic[sizeof(dataFromTopic) - sizeof(uint8_t)]) return;
+    if(dataToHandMount == dataFromTopic[sizeof(dataFromTopic) - sizeof(uint8_t)]){
+      resvdFromAllDev |= fingers_OK[6]; //ответ пришел
+      return;
+    } 
     memset(dataFromHandMount, 0, sizeof(dataFromHandMount));
     dataFromHandMountSize = 0;
     dataToHandMount = dataFromTopic[sizeof(dataFromTopic) - sizeof(uint8_t)];
@@ -217,6 +221,8 @@ private:
     #endif
 
     dataToTopic[sizeof(dataToTopic) - 2 * sizeof(uint8_t)] = dataFromHandMount[3];
+    printf("dataFromHandMount[3] = %u\n", dataFromHandMount[3]);
+    printf("resvdFromAllDev = %u\n", resvdFromAllDev);
   }
 
   void topic_handle_receive(const std_msgs::ByteMultiArray::ConstPtr& recvdMsg) {
@@ -279,6 +285,7 @@ private:
             &dataFromFinger_new[i][3 * sizeof(uint8_t)], 13 - 4 * sizeof(uint8_t));
       }
     }
+    printf("resvdFromAllDevBeforeSend = %u\n", resvdFromAllDev);
     dataToTopic[sizeof(dataToTopic) - sizeof(uint8_t)] = resvdFromAllDev;
   }
 

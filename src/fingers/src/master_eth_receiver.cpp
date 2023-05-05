@@ -434,9 +434,6 @@ int main(int argc, char** argv){
     std::cout << "debugModulOtv "<< debugModulOtv << std::endl; 
     std::cout << "debugBatCam "<< debugBatCam << std::endl; 
 
-
-
-    sleep(5);
     while(ros::ok()){
       udpServer.nodeFromUDPProcess();
       io_service.poll_one();

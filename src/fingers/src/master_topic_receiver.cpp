@@ -160,7 +160,7 @@ private:
   uint8_t fingers_OK[7] = {1, 2, 4, 8, 16, 32, 64}; ////ок, если ответ пришел
 
   void update_hand_mount(){
-    //if(dataToHandMount == dataFromTopic[sizeof(dataFromTopic) - sizeof(uint8_t)]) return;
+    if(dataToHandMount == dataFromTopic[sizeof(dataFromTopic) - sizeof(uint8_t)]) return;
     memset(dataFromHandMount, 0, sizeof(dataFromHandMount));
     dataFromHandMountSize = 0;
     dataToHandMount = dataFromTopic[sizeof(dataFromTopic) - sizeof(uint8_t)];
@@ -231,28 +231,6 @@ private:
         dataFromTopic[i] = recvdMsg->data[i];
         printf("[%u]", dataFromTopic[i]);
       }
-  }
-
-  // void debug_topic_receive(const fingers::To_Fingers_HandMount::ConstPtr& recvdMsg) {
-  //   for (size_t i = 0; i < 6; i++)
-  //   {
-  //     dataFromTopic[i*5] = (recvdMsg->angle[i])&&0xFF;
-  //     dataFromTopic[i*5+1] = (recvdMsg->angle[i])>>8;
-  //     dataFromTopic[i*5+2] = (recvdMsg->force[i])&&0xFF;
-  //     dataFromTopic[i*5+3] = (recvdMsg->force[i])>>8;
-  //   }
-  //   dataFromTopic[30] = recvdMsg->hand_mount;
-  // }
-
-  int32_t getIndex(uint8_t address){
-    for (size_t i = 0; i < fingersAddrs.size(); i++){
-      if (address == fingersAddrs[i]) return i;
-    }
-    return -1;
-  }
-
-  bool parser(uint8_t* ptrBuff, uint32_t len){
-
   }
 
   void toEachFinger(){

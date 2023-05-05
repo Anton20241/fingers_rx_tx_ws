@@ -352,7 +352,6 @@ namespace protocol_master
 
     bool ProtocolMaster::parserRS(uint8_t* collectPckg, uint32_t collectPckgSize, uint8_t dataFrom[][13], uint8_t* resvdFromAllDev){
         uint8_t fingers_OK[7] = {1, 2, 4, 8, 16, 32, 64}; ////ок, если ответ пришел
-        //printf("parserRS resvdFromAllDev = %u\n", *resvdFromAllDev);
 
         for (size_t i = 0; i <= collectPckgSize - 13; i++){
             if (collectPckg[i] >= 0x11 && collectPckg[i] <= 0x16 && collectPckg[i + 1] == 0x0D) {
@@ -366,19 +365,16 @@ namespace protocol_master
                     *resvdFromAllDev &= ~fingers_OK[tempArr[0] - 0x11]; //ответ НЕ пришел
                 }
             }
-            //printf("!resvdFromAllDev = %u\n", *resvdFromAllDev);
         }
         if (*resvdFromAllDev != 0) return true;
         return false;
     }
 
     bool ProtocolMaster::RSRead(uint8_t dataFrom[][13], uint8_t* resvdFromAllDev){
-        std::cout << "\nRSRead\n";
         std::memset(buff, 0, sizeof(buff));
         std::memset(recvdBuff, 0, sizeof(recvdBuff));
         std::memset(dataFrom, 0, 13 * 6);
         *resvdFromAllDev = 0;
-        printf("*resvdFromAllDev = %u\n", *resvdFromAllDev);
 
         uint32_t not_response_on_request        = 0;
         uint32_t not_bytes_received             = 0;
@@ -396,14 +392,14 @@ namespace protocol_master
 
             if (get_bytes){
                 not_bytes_received = 0;
-                boost::chrono::system_clock::time_point cur_tp = boost::chrono::system_clock::now();
-                boost::chrono::duration<double> ex_time = cur_tp - first_tp;
-                std::cout << "Execution time: " << ex_time.count() << std::endl;
+                // boost::chrono::system_clock::time_point cur_tp = boost::chrono::system_clock::now();
+                // boost::chrono::duration<double> ex_time = cur_tp - first_tp;
+                // std::cout << "Execution time: " << ex_time.count() << std::endl;
             } else {
                 //std::cout << "else\n";
                 not_bytes_received++;
                 if (not_bytes_received > 190){
-                    std::cout << "not_bytes_received > 190\n";
+                    // std::cout << "not_bytes_received > 190\n";
                     return false;
                 }
                 std::this_thread::sleep_for(std::chrono::microseconds(5)); //sum 950us
@@ -412,7 +408,7 @@ namespace protocol_master
             collectPkg(recvdBuff, recvdBuffSize, collectPckg, &collectPckgSize, pkgIsReadyToParse);
             
             if (parserRS(collectPckg, sizeof(collectPckg), dataFrom, resvdFromAllDev)) return true;
-            std::cout << "!parserRS()\n";
+            // std::cout << "!parserRS()\n";
             clear(collectPckg, &collectPckgSize);
             return false;
         }

@@ -45,14 +45,14 @@ namespace qt_serial{
     //cout << " m_readData.size(): = "<<  m_readData.size() << endl;
     add_to_vector(m_readData, m_copyRecvdData);
     
-    boost::chrono::system_clock::time_point from_send_to_get_cur_tp = boost::chrono::system_clock::now();
-    boost::chrono::duration<double> from_send_to_get_ex_time = from_send_to_get_cur_tp - from_send_to_get_tp;
+    // boost::chrono::system_clock::time_point from_send_to_get_cur_tp = boost::chrono::system_clock::now();
+    // boost::chrono::duration<double> from_send_to_get_ex_time = from_send_to_get_cur_tp - from_send_to_get_tp;
     // std::cout << "\033\n[1;32mfrom_send_to_get_ex_time time: \033\n[0m" << from_send_to_get_ex_time.count() * 1000000 << std::endl;
     // printf("timeFailCount = %u\n", timeFailCount);
 
-    if (from_send_to_get_ex_time.count() * 1000000 > 6000){
-      timeFailCount++;
-    }
+    // if (from_send_to_get_ex_time.count() * 1000000 > 6000){
+    //   timeFailCount++;
+    // }
 
     // printf("\n[RECEIVED]:\n");
     // for (size_t i = 0; i < m_copyRecvdData.size(); i++)
@@ -154,8 +154,8 @@ namespace qt_serial{
   {
     my_mytex.lock();
 
-    std::cout << "bytesGet = " << bytesGet << std::endl;
-    std::cout << "m_copyRecvdData.size() = " << m_copyRecvdData.size() << std::endl;
+    // std::cout << "bytesGet = " << bytesGet << std::endl;
+    // std::cout << "m_copyRecvdData.size() = " << m_copyRecvdData.size() << std::endl;
 
     if (m_copyRecvdData.size() != bytesGet || m_copyRecvdData.empty()){
       //std::cout << "empty or not BytesGet\n";
@@ -166,7 +166,7 @@ namespace qt_serial{
 
     if (m_copyRecvdData.size() > 78) {
       m_copyRecvdData.clear();
-      std::cout << "\n!!!SIZE > 78!!!" << std::endl;
+      // std::cout << "\n!!!SIZE > 78!!!" << std::endl;
       my_mytex.unlock();
       return false;
     }

@@ -164,26 +164,26 @@ private:
     memset(dataFromHandMount, 0, sizeof(dataFromHandMount));
     dataFromHandMountSize = 0;
     dataToHandMount = dataFromTopic[sizeof(dataFromTopic) - sizeof(uint8_t)];
-    std::cout << "\ndataToHandMount = ";
-    printf("%u\n", dataToHandMount);
+    // std::cout << "\ndataToHandMount = ";
+    // printf("%u\n", dataToHandMount);
 
     #if CODE_PART == RAW_UDP_DATA
 
     if(m_protocol.sendCmdReadWrite(hand_mount_addr, 0x30, &dataToHandMount, sizeof(uint8_t), 
                                             dataFromHandMount, &dataFromHandMountSize)){
       resvdFromAllDev |= fingers_OK[6]; //ответ пришел
-      std::cout << "\nOk\n";
+      // std::cout << "\nOk\n";
       recvd_count_rs++;
-      printf("\nrecvd_count_rs = %u\n", recvd_count_rs);
-      printf("\nfail_cnt = %u\n", fail_cnt);
+      // printf("\nrecvd_count_rs = %u\n", recvd_count_rs);
+      // printf("\nfail_cnt = %u\n", fail_cnt);
       
     } else {
       resvdFromAllDev &= ~fingers_OK[6]; //ответ НЕ пришел
-      std::cout << "\033\n[1;31mNO DATA FROM HAND_MOUNT\033\n[0m";
+      // std::cout << "\033\n[1;31mNO DATA FROM HAND_MOUNT\033\n[0m";
       memset(dataFromHandMount, 0, dataFromHandMountSize);
       dataFromHandMountSize = 0;
       fail_cnt++;
-      printf("\nfail_cnt = %u\n", fail_cnt);
+      // printf("\nfail_cnt = %u\n", fail_cnt);
     }
 
     #elif CODE_PART == COMPLETE_UDP_DATA
@@ -222,22 +222,22 @@ private:
   void topic_handle_receive(const std_msgs::ByteMultiArray::ConstPtr& recvdMsg) {
       getMsgFromTopic = true;
       recvd_count_topic++;
-      std::cout << "\033\n[1;34mSIZE OF RECVD DATA FROM TOPIC toFingersTopic = \033[0m" << recvdMsg->data.size() << std::endl;
-      std::cout << "recvd_count_topic = " << recvd_count_topic << std::endl;
+      // std::cout << "\033\n[1;34mSIZE OF RECVD DATA FROM TOPIC toFingersTopic = \033[0m" << recvdMsg->data.size() << std::endl;
+      // std::cout << "recvd_count_topic = " << recvd_count_topic << std::endl;
       memset(dataFromTopic, 0, sizeof(dataFromTopic));
       memset(dataToTopic, 0, sizeof(dataToTopic));
       resvdFromAllDev = 0;
       for (int i = 0; i < recvdMsg->data.size(); i++){
         dataFromTopic[i] = recvdMsg->data[i];
-        printf("[%u]", dataFromTopic[i]);
+        // printf("[%u]", dataFromTopic[i]);
       }
   }
 
   void toEachFinger(){
-    boost::chrono::system_clock::time_point cur_tp = boost::chrono::system_clock::now();
-    boost::chrono::duration<double> ex_time = cur_tp - first_tp;
-    std::cout << "Execution time: " << ex_time.count() << std::endl;
-    first_tp = boost::chrono::system_clock::now();
+    // boost::chrono::system_clock::time_point cur_tp = boost::chrono::system_clock::now();
+    // boost::chrono::duration<double> ex_time = cur_tp - first_tp;
+    // std::cout << "Execution time: " << ex_time.count() << std::endl;
+    // first_tp = boost::chrono::system_clock::now();
 
     //отправка запроса каждому пальцу без ожидания ответа
     for (int i = 0; i < fingersAddrs.size(); i++){
@@ -257,23 +257,23 @@ private:
 
       for (int i = 0; i < fingersAddrs.size(); i++){
         if((resvdFromAllDev & fingers_OK[i]) != 0){
-          std::cout << "\033\n[1;32mOk\033\n[0m";
+          // std::cout << "\033\n[1;32mOk\033\n[0m";
           recvd_count_rs++;
           rcvd_cnt_f[fingersAddrs[i]- 0x11]++;  
-          printf("\nrecvd_count_rs = %u\n", recvd_count_rs);
-          std::cout << "FAIL CNT OF " << fingersAddrs[i] << "device = " << fail_cnt_f[fingersAddrs[i] - 0x11] << std::endl;
-          std::cout << "RCVD CNT OF " << fingersAddrs[i] << "device = " << rcvd_cnt_f[fingersAddrs[i] - 0x11] << std::endl;
+          // printf("\nrecvd_count_rs = %u\n", recvd_count_rs);
+          // std::cout << "FAIL CNT OF " << fingersAddrs[i] << "device = " << fail_cnt_f[fingersAddrs[i] - 0x11] << std::endl;
+          // std::cout << "RCVD CNT OF " << fingersAddrs[i] << "device = " << rcvd_cnt_f[fingersAddrs[i] - 0x11] << std::endl;
           memset(dataFromFinger_old[i], 0, 13);
           memcpy(dataFromFinger_old[i], dataFromFinger_new[i], 13);
         }else{
-          std::cout << "\033\n[1;31mNO DATA FROM DEVICE\033\n[0m";
-          std::cout << "FAIL CNT OF " << fingersAddrs[i] << "device = " << fail_cnt_f[fingersAddrs[i] - 0x11] << std::endl;
-          std::cout << "RCVD CNT OF " << fingersAddrs[i] << "device = " << rcvd_cnt_f[fingersAddrs[i] - 0x11] << std::endl;
+          // std::cout << "\033\n[1;31mNO DATA FROM DEVICE\033\n[0m";
+          // std::cout << "FAIL CNT OF " << fingersAddrs[i] << "device = " << fail_cnt_f[fingersAddrs[i] - 0x11] << std::endl;
+          // std::cout << "RCVD CNT OF " << fingersAddrs[i] << "device = " << rcvd_cnt_f[fingersAddrs[i] - 0x11] << std::endl;
           fail_cnt_f[fingersAddrs[i] - 0x11]++;
           memset(dataFromFinger_new[i], 0, 13);
           memcpy(dataFromFinger_new[i], dataFromFinger_old[i], 13);
           fail_cnt++;
-          printf("\nfail_cnt = %u\n", fail_cnt);
+          // printf("\nfail_cnt = %u\n", fail_cnt);
         }
         memcpy(dataToTopic + i * (13 - 4 * sizeof(uint8_t)), 
             &dataFromFinger_new[i][3 * sizeof(uint8_t)], 13 - 4 * sizeof(uint8_t));
@@ -318,12 +318,12 @@ private:
     sendMsgFromFingersTopic.layout.dim[0].size = 1;
     sendMsgFromFingersTopic.layout.dim[0].stride = sizeof(dataToTopic);
     sendMsgFromFingersTopic.data.clear();
-    std::cout << "\n\033[1;34mSEND MSG TO TOPIC fromFingersTopic: \n\033[0m";
+    // std::cout << "\n\033[1;34mSEND MSG TO TOPIC fromFingersTopic: \n\033[0m";
     for (int i = 0; i < sizeof(dataToTopic); i++){
       sendMsgFromFingersTopic.data.push_back(dataToTopic[i]);
-      printf("[%u]", dataToTopic[i]);
+      // printf("[%u]", dataToTopic[i]);
     }
-    std::cout << "\nresvdFromAllDev = " << resvdFromAllDev;
+    // std::cout << "\nresvdFromAllDev = " << resvdFromAllDev;
     fromFingersPub.publish(sendMsgFromFingersTopic);
 
     fingers::From_Finger msgsArrToDebugFingers[6];
@@ -370,8 +370,6 @@ int main(int argc, char** argv)
     std::cout << "debugPinky "<< debugPinky << std::endl;
     std::cout << "debugModulOtv "<< debugModulOtv << std::endl;
 
-
-    sleep(1);
     while(ros::ok()){
       raspbPi.nodeFromTopicProcess();
       ros::spinOnce();

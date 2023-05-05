@@ -374,7 +374,6 @@ namespace protocol_master
         std::memset(buff, 0, sizeof(buff));
         std::memset(recvdBuff, 0, sizeof(recvdBuff));
         std::memset(dataFrom, 0, 13 * 6);
-        *resvdFromAllDev = 0;
 
         uint32_t not_response_on_request        = 0;
         uint32_t not_bytes_received             = 0;

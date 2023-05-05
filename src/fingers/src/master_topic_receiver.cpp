@@ -310,7 +310,6 @@ private:
     }
   }
 
-
   void sendMsgToTopic(){
     //отправка пакета в топик "fromFingersTopic" 
     std_msgs::ByteMultiArray sendMsgFromFingersTopic;

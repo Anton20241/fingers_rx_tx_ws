@@ -541,10 +541,10 @@ namespace protocol_master
         /* Отправляем CmdReadWrite */
         assert(m_transport.sendData(buff, buff[1]));
 
-        first_tp = boost::chrono::system_clock::now();
+        // first_tp = boost::chrono::system_clock::now();
 
         /* Ждем DATA */
-        std::this_thread::sleep_for(std::chrono::microseconds(430));        //microseconds(500)
+        std::this_thread::sleep_for(std::chrono::milliseconds(2));
 
         uint32_t not_response_on_request = 0;
         uint32_t not_bytes_received = 0;

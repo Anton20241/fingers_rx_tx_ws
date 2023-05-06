@@ -186,7 +186,7 @@ namespace qt_serial{
       ptrData[i] = m_copyRecvdData[i];
       //printf("[%u]", m_copyRecvdData[i]);
     }    
-    std::cout << std::endl;        
+    //std::cout << std::endl;        
 
     *lenInOut = m_copyRecvdData.size();
     // std::cout << "*lenInOut = " << *lenInOut << std::endl;

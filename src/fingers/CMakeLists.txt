@@ -186,15 +186,15 @@ target_include_directories (master_topic_receiver PRIVATE include/fingers/ src/)
 target_link_libraries(master_topic_receiver ${catkin_LIBRARIES})
 qt5_use_modules(master_topic_receiver Core SerialPort)
 
-# add_executable(frq_check_node ${FRQ_CHECK_NODE} ${SOURCES})
-# target_include_directories (frq_check_node PRIVATE include/fingers/ src/)
-# target_link_libraries(frq_check_node ${catkin_LIBRARIES})
-# qt5_use_modules(frq_check_node Core SerialPort)
-
 add_executable(uart_node ${UART_NODE} ${SOURCES})
 target_include_directories (uart_node PRIVATE include/fingers/ src/)
 target_link_libraries(uart_node ${catkin_LIBRARIES})
 qt5_use_modules(uart_node Core SerialPort)
+
+# add_executable(frq_check_node ${FRQ_CHECK_NODE} ${SOURCES})
+# target_include_directories (frq_check_node PRIVATE include/fingers/ src/)
+# target_link_libraries(frq_check_node ${catkin_LIBRARIES})
+# qt5_use_modules(frq_check_node Core SerialPort)
 
 # add_executable(finger ${FINGER} ${SOURCES})
 # target_include_directories (finger PRIVATE include/fingers/ src/)

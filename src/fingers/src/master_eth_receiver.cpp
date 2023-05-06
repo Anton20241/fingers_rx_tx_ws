@@ -107,6 +107,7 @@ private:
   uint8_t dataToFingersTopic[DATA_TO_FINGERS_TOPIC_SIZE] = {0};
   uint8_t dataToFingersTopic_OLD[DATA_TO_FINGERS_TOPIC_SIZE] = {0};
   uint8_t dataFromFingersTopic[DATA_FROM_FINGERS_TOPIC_SIZE] = {0};
+  uint8_t dataFromFingersTopic_OLD[DATA_FROM_FINGERS_TOPIC_SIZE] = {0};
 
   ros::Publisher toFingersPub;
 
@@ -130,7 +131,6 @@ private:
   uint32_t send_count_topic_camera = 0;
   uint32_t recvd_count_topic_cam_bat = 0;
 
-  uint8_t resvdFromAllDev = 0;
   bool dataGetFromBatCam = false;
 
   struct currentState_{
@@ -159,28 +159,31 @@ private:
   
   currentState_ currentState;
 
-  bool getMsgFromFingers = false; 
-  bool getMsgFromUDP = false;
+  bool getMsgFromFingers        = false; 
+  bool getMsgFromUDP            = false;
+  bool holdPositionProcessStart = true;
 
-
+  uint8_t boardOk = 0;
+  uint8_t fingersOk = 0;
+  uint8_t allDevOk = 0;
 
   void show_cur_state() {
-    std::cout << "b24V:" << currentState.bat_24V << " rly: " << currentState.relay_from_bat_cam << " cm: " << currentState.camera_from_bat_cam << std::endl;
+    //std::cout << "b24V:" << currentState.bat_24V << " rly: " << currentState.relay_from_bat_cam << " cm: " << currentState.camera_from_bat_cam << std::endl;
   }
 
   void from_finger_handle_receive(const std_msgs::ByteMultiArray::ConstPtr& recvdMsg) {    
     getMsgFromFingers = true;
     recvd_count_topic_fingers++;
     memset(dataFromFingersTopic, 0, sizeof(dataFromFingersTopic));
-    std::cout << "\n\033[1;34mRECVD FROM TOPIC fromFingersTopic recvdMsg->data.size() = \033[0m" << recvdMsg->data.size() << std::endl;
-    std::cout << "recvd_count_topic_fingers = " << recvd_count_topic_fingers << std::endl;
+    // std::cout << "\n\033[1;34mRECVD FROM TOPIC fromFingersTopic recvdMsg->data.size() = \033[0m" << recvdMsg->data.size() << std::endl;
+    // std::cout << "recvd_count_topic_fingers = " << recvd_count_topic_fingers << std::endl;
     for (int i = 0; i < recvdMsg->data.size(); i++){
         dataFromFingersTopic[i] = recvdMsg->data[i];
-        printf("[%u]", dataFromFingersTopic[i]);
+        // printf("[%u]", dataFromFingersTopic[i]);
     }
-    std::cout << std::endl;
+    // std::cout << std::endl;
     currentState.hand_mount = dataFromFingersTopic[sizeof(dataFromFingersTopic) - 2 * sizeof(uint8_t)];
-    resvdFromAllDev        |= dataFromFingersTopic[sizeof(dataFromFingersTopic) - 1 * sizeof(uint8_t)]; //get answers from all fingers
+    fingersOk               = dataFromFingersTopic[sizeof(dataFromFingersTopic) - 1 * sizeof(uint8_t)]; //get answers from all fingers
   }
 
   void from_cam_bat_handle_receive(const std_msgs::ByteMultiArray::ConstPtr& recvdMsg) {
@@ -192,24 +195,25 @@ private:
       currentState.camera_from_bat_cam        = recvdMsg->data[2];
       currentState.relay_from_bat_cam         = recvdMsg->data[3];
       currentState.ur5_from_bat_cam           = recvdMsg->data[4];
-      resvdFromAllDev                        |= recvdMsg->data[5];
+      boardOk                                 = recvdMsg->data[5];
       recvd_count_topic_cam_bat++;
     } else if (recvdMsg->data.size() == 3){
       currentState.cmdBatCamTopic             = recvdMsg->data[0];
       currentState.time_down                  = recvdMsg->data[1];
-      resvdFromAllDev                        |= recvdMsg->data[2];
+      boardOk                                 = recvdMsg->data[2];
       recvd_count_topic_cam_bat++;
       startShutDownProcess();
     } else if (recvdMsg->data.size() == 1){
-      resvdFromAllDev                        |= recvdMsg->data[0];
+      boardOk                                 = recvdMsg->data[0];
     } else return;
+    // resvdFromAllDev                          |= tmpAllOk;
     //recvd_count_topic_cam_bat++;
-    std::cout << "\033[1;34mRECVD FROM TOPIC bat_cam_topic recvdMsg->data.size() = \033[0m" << recvdMsg->data.size() << std::endl;
-    std::cout << "recvd_count_topic_cam_bat = " << recvd_count_topic_cam_bat << std::endl;
-    for (int i = 0; i < recvdMsg->data.size(); i++){
-      printf("[%u]", (uint8_t)recvdMsg->data[i]);
-    }
-    std::cout << std::endl;
+    // std::cout << "\033[1;34mRECVD FROM TOPIC bat_cam_topic recvdMsg->data.size() = \033[0m" << recvdMsg->data.size() << std::endl;
+    // std::cout << "recvd_count_topic_cam_bat = " << recvd_count_topic_cam_bat << std::endl;
+    // for (int i = 0; i < recvdMsg->data.size(); i++){
+    //   printf("[%u]", (uint8_t)recvdMsg->data[i]);
+    // }
+    // std::cout << std::endl;
   }
 
   void startShutDownProcess(){
@@ -222,14 +226,14 @@ private:
   void udp_handle_receive(const boost::system::error_code& error, size_t bytes_transferred) {
 
     if (!error && bytes_transferred > 0){
-      std::cout << "\n\033[1;36mRECVD FROM UDP bytes_transferred = \033[0m" << bytes_transferred << std::endl;
-      std::cout << "recvd_count_udp = " << recvd_count_udp << std::endl;
-      for (int i = 0; i < bytes_transferred; i++){
-        printf("[%u]", dataFromUDP[i]);
-      }
-      std::cout << std::endl;
+      // std::cout << "\n\033[1;36mRECVD FROM UDP bytes_transferred = \033[0m" << bytes_transferred << std::endl;
+      // std::cout << "recvd_count_udp = " << recvd_count_udp << std::endl;
+      // for (int i = 0; i < bytes_transferred; i++){
+      //   printf("[%u]", dataFromUDP[i]);
+      // }
+      // std::cout << std::endl;
       if(!parserUDP(dataFromUDP)){
-        std::cout << "\033[1;31mUDP data not valid\033[0m\n";
+        // std::cout << "\033[1;31mUDP data not valid\033[0m\n";
         memset(dataFromUDP, 0, sizeof(dataFromUDP));
         read_msg_udp();
         return;
@@ -238,7 +242,6 @@ private:
       memset(dataToFingersTopic, 0, sizeof(dataToFingersTopic));
       memset(currentState.keepalive, 0, sizeof(currentState.keepalive));
       recvd_count_udp++;
-      memcpy(dataToFingersTopic_OLD, dataToFingersTopic, sizeof(dataToFingersTopic_OLD));
       memcpy(dataToFingersTopic, dataFromUDP + 3, sizeof(dataToFingersTopic)); //fingers + hand_mount
       currentState.hold_position        = dataFromUDP[sizeof(dataFromUDP) - 9 * sizeof(uint8_t)];
       currentState.camera_from_udp      = dataFromUDP[sizeof(dataFromUDP) - 8 * sizeof(uint8_t)];
@@ -248,12 +251,6 @@ private:
       read_msg_udp();
     } else {
       //std::cerr << error.what();
-    }
-  }
-
-  void setAnglesOLD(uint8_t* dataToFingersTopic_, uint8_t* dataToFingersTopic_OLD_){
-    for (int i = 0; i < 6; i++){
-      memcpy(dataToFingersTopic_ + i * 5, dataToFingersTopic_OLD_ + i * 5, 2);
     }
   }
 
@@ -284,24 +281,54 @@ private:
     }
   }
 
-  void sendMsgToFingers(){
-    if (currentState.hold_position == 1){
-      printf("\033[1;33mcurrentState.hold_position = %u.\033[0m\n", currentState.hold_position);
-      setAnglesOLD(dataToFingersTopic, dataToFingersTopic_OLD);
+  void setAnglesOLD(uint8_t* dataToFingersTopic_, uint8_t* dataFromFingersTopic_){
+    for (int i = 0; i < 6; i++){
+      memcpy(&dataToFingersTopic_[i * 5], &dataFromFingersTopic_[i * 9 + 4], 2);
     }
+  }
+  
+  void sendMsgToFingers(){
+
+    // std::cout << "\033[1;34mdataFromFingersTopic: \033[0m";
+    // for (int i = 0; i < sizeof(dataFromFingersTopic); i++){
+    //   printf("[%u]", dataFromFingersTopic[i]);
+    // }
+    // std::cout << std::endl;
+
+    if (currentState.hold_position == 1){
+      // printf("\033[1;33mcurrentState.hold_position = %u.\033[0m\n", currentState.hold_position);
+
+      if (holdPositionProcessStart){
+        // std::cout << "\033[1;31mholdPositionProcessStart\033[0m";
+        holdPositionProcessStart = false;
+        memcpy(dataFromFingersTopic_OLD, dataFromFingersTopic, sizeof(dataFromFingersTopic_OLD));
+      }
+      
+      setAnglesOLD(dataToFingersTopic, dataFromFingersTopic_OLD);
+    } else {
+      holdPositionProcessStart = true;
+    }
+
+    // std::cout << "\033[1;33mdataFromFingersTopic_OLD: \033[0m";
+    // for (int i = 0; i < sizeof(dataFromFingersTopic_OLD); i++){
+    //   printf("[%u]", dataFromFingersTopic_OLD[i]);
+    // }
+    // std::cout << std::endl;
+    
+    memcpy(dataToFingersTopic_OLD, dataToFingersTopic, sizeof(dataToFingersTopic_OLD));
     //отправка пакета в топик "toFingersTopic"
     std_msgs::ByteMultiArray sendMsgToFingersTopic;
     sendMsgToFingersTopic.layout.dim.push_back(std_msgs::MultiArrayDimension());
     sendMsgToFingersTopic.layout.dim[0].size = 1;
     sendMsgToFingersTopic.layout.dim[0].stride = sizeof(dataToFingersTopic);
     sendMsgToFingersTopic.data.clear();
-    std::cout << "\033[1;34mSEND TO toFingersTopic: \033[0m";
+    // std::cout << "\033[1;34mSEND TO toFingersTopic: \033[0m";
     for (int i = 0; i < sizeof(dataToFingersTopic); i++){
-      printf("[%u]", dataToFingersTopic[i]);
+      // printf("[%u]", dataToFingersTopic[i]);
       sendMsgToFingersTopic.data.push_back(dataToFingersTopic[i]);
     }
     toFingersPub.publish(sendMsgToFingersTopic);
-    std::cout << std::endl;
+    // std::cout << std::endl;
 
     fingers::To_Finger msgsArrToDebugFingers[6];
     setMsgsToDebugTopic(msgsArrToDebugFingers, dataToFingersTopic);
@@ -324,16 +351,16 @@ private:
     sendMsgToCameraTopic.layout.dim[0].stride = 3;
     sendMsgToCameraTopic.data.clear();
 
-    std::cout << "\033[1;34mSEND TO camera_topic:\033[0m\n";
-    printf("camera_from_udp = [%u]\n", currentState.camera_from_udp);
-    printf("relay_from_udp = [%u]\n", currentState.relay_from_udp);
-    printf("ur5_from_udp = [%u]\n", currentState.ur5_from_udp);
+    // std::cout << "\033[1;34mSEND TO camera_topic:\033[0m\n";
+    // printf("camera_from_udp = [%u]\n", currentState.camera_from_udp);
+    // printf("relay_from_udp = [%u]\n", currentState.relay_from_udp);
+    // printf("ur5_from_udp = [%u]\n", currentState.ur5_from_udp);
 
     sendMsgToCameraTopic.data.push_back(currentState.camera_from_udp);
     sendMsgToCameraTopic.data.push_back(currentState.relay_from_udp);
     sendMsgToCameraTopic.data.push_back(currentState.ur5_from_udp);
     toCamPub.publish(sendMsgToCameraTopic);
-    std::cout << std::endl;
+    // std::cout << std::endl;
 
     fingers::To_Bat_Cam msgToDebugBatCam;
     msgToDebugBatCam.camera     = currentState.camera_from_udp;
@@ -343,7 +370,9 @@ private:
   }
 
   void sendMsgToUDP(){
-    std::cout << "recvd_count_topic_cam_bat = " << recvd_count_topic_cam_bat << std::endl;
+    // std::cout << "recvd_count_topic_cam_bat = " << recvd_count_topic_cam_bat << std::endl;
+    allDevOk |= fingersOk;
+    allDevOk |= boardOk;
     //формируем пакет
     dataToUDP[0] = 0xBB;                                                                            //header 1b
     dataToUDP[1] = 0xAA;                                                                            //header 1b
@@ -354,7 +383,7 @@ private:
     dataToUDP[sizeof(dataToUDP) - 11 * sizeof(uint8_t)] = currentState.camera_from_bat_cam;         //camera_from_bat_cam 1b
     dataToUDP[sizeof(dataToUDP) - 10 * sizeof(uint8_t)] = currentState.bat_24V;                     //bat_24V 1b
     dataToUDP[sizeof(dataToUDP) - 9  * sizeof(uint8_t)] = currentState.bat_48V;                     //bat_48V 1b
-    dataToUDP[sizeof(dataToUDP) - 8  * sizeof(uint8_t)] = resvdFromAllDev;                          //allDevOk 1b
+    dataToUDP[sizeof(dataToUDP) - 8  * sizeof(uint8_t)] = allDevOk;                                 //allDevOk 1b
     dataToUDP[sizeof(dataToUDP) - 7  * sizeof(uint8_t)] = currentState.ur5_from_bat_cam;            //ur5_state 1b
     dataToUDP[sizeof(dataToUDP) - 6  * sizeof(uint8_t)] = currentState.relay_from_bat_cam;          //relay_state 1b
     memcpy(dataToUDP + sizeof(dataToUDP) - 5 * sizeof(uint8_t), currentState.keepalive, 
@@ -366,17 +395,17 @@ private:
     boost::system::error_code error;
     auto sent = socket_.send_to(boost::asio::buffer(dataToUDP), sender_endpoint_, 0, error);
     if (!error && sent > 0){
+      allDevOk = 0;
       send_count_udp++;
-      std::cout << "\033[1;36mSEND TO UDP bytes_transferred = \033[0m" << sent << std::endl;
-      std::cout << "send_count_udp = " << send_count_udp << std::endl;
-      for (int i = 0; i < sent; i++){
-        printf("[%u]", dataToUDP[i]);
-        if (i==2 || i==11 || i== 20 || i==29 || i==38 || i==47 || i==56 || i==57 || i==58 || i==59 || i==60 || i== 61 || i==62 || i==63 || i==67){
-          printf("\033[1;31m|\033[0m");
-        }
-      }
-      std::cout << std::endl;
-      //resvdFromAllDev = 0;
+      // std::cout << "\033[1;36mSEND TO UDP bytes_transferred = \033[0m" << sent << std::endl;
+      // std::cout << "send_count_udp = " << send_count_udp << std::endl;
+      // for (int i = 0; i < sent; i++){
+      //   printf("[%u]", dataToUDP[i]);
+      //   if (i==2 || i==11 || i== 20 || i==29 || i==38 || i==47 || i==56 || i==57 || i==58 || i==59 || i==60 || i== 61 || i==62 || i==63 || i==67){
+      //     printf("\033[1;31m|\033[0m");
+      //   }
+      // }
+      // std::cout << std::endl;
     } else {
       //std::cerr << error.what();
     }
@@ -417,22 +446,22 @@ int main(int argc, char** argv){
 		boost::asio::io_service io_service;
 		UDPServer udpServer(io_service);
 
-    ros::param::get("/_debugBigFinger", debugBigFinger);
+    ros::param::get("/_debugBigFinger",   debugBigFinger);
     ros::param::get("/_debugIndexFinger", debugIndexFinger);
-    ros::param::get("/_debugMidFinger", debugMidFinger);
-    ros::param::get("/_debugRingFinger", debugRingFinger);
-    ros::param::get("/_debugPinky", debugPinky);
-    ros::param::get("/_debugModulOtv", debugModulOtv);
-    ros::param::get("/_debugBatCam", debugBatCam);
-    ros::param::get("/_debugAllFingers", debugAllFingers);
+    ros::param::get("/_debugMidFinger",   debugMidFinger);
+    ros::param::get("/_debugRingFinger",  debugRingFinger);
+    ros::param::get("/_debugPinky",       debugPinky);
+    ros::param::get("/_debugModulOtv",    debugModulOtv);
+    ros::param::get("/_debugBatCam",      debugBatCam);
+    ros::param::get("/_debugAllFingers",  debugAllFingers);
 
-    std::cout << "debugBigFinger " << debugBigFinger << std::endl;
-    std::cout << "debugIndexFinger " << debugIndexFinger << std::endl;
-    std::cout << "debugMidFinger "<< debugMidFinger << std::endl;
-    std::cout << "debugRingFinger "<< debugRingFinger << std::endl;
-    std::cout << "debugPinky "<< debugPinky << std::endl;
-    std::cout << "debugModulOtv "<< debugModulOtv << std::endl; 
-    std::cout << "debugBatCam "<< debugBatCam << std::endl; 
+    std::cout << "debugBigFinger "    << debugBigFinger   << std::endl;
+    std::cout << "debugIndexFinger "  << debugIndexFinger << std::endl;
+    std::cout << "debugMidFinger "    << debugMidFinger   << std::endl;
+    std::cout << "debugRingFinger "   << debugRingFinger  << std::endl;
+    std::cout << "debugPinky "        << debugPinky       << std::endl;
+    std::cout << "debugModulOtv "     << debugModulOtv    << std::endl; 
+    std::cout << "debugBatCam "       << debugBatCam      << std::endl; 
 
     while(ros::ok()){
       udpServer.nodeFromUDPProcess();

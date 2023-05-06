@@ -86,26 +86,26 @@ public:
   };
 
   void nodeFromTopicProcess(){
-    // if (getMsgFromTopic){
-    //   update_hand_mount();
-    //   toEachFinger();              
-    //   sendMsgToTopic();
-    //   getMsgFromTopic = false;
-    // }
-
-    while (count < 1000) {
-      // ROS_INFO("");
-      // boost::chrono::system_clock::time_point cur_tp = boost::chrono::system_clock::now();
-      // boost::chrono::duration<double> ex_time = cur_tp - first_tp;
-      // std::cout << "\033\n[1;32mExecution time: \033\n[0m" << ex_time.count() * 1000000 << "\n";
-      // std::cout << "count = " << count << "\n";
-      // first_tp = boost::chrono::system_clock::now();
+    if (getMsgFromTopic){
       update_hand_mount();
-      toEachFinger();
+      toEachFinger();              
       sendMsgToTopic();
-      count++;
-      // ROS_INFO("count = %d\n", count);
+      getMsgFromTopic = false;
     }
+
+    // while (count < 1000) {
+    //   // ROS_INFO("");
+    //   // boost::chrono::system_clock::time_point cur_tp = boost::chrono::system_clock::now();
+    //   // boost::chrono::duration<double> ex_time = cur_tp - first_tp;
+    //   // std::cout << "\033\n[1;32mExecution time: \033\n[0m" << ex_time.count() * 1000000 << "\n";
+    //   // std::cout << "count = " << count << "\n";
+    //   // first_tp = boost::chrono::system_clock::now();
+    //   update_hand_mount();
+    //   toEachFinger();
+    //   sendMsgToTopic();
+    //   count++;
+    //   // ROS_INFO("count = %d\n", count);
+    // }
   
   }
   
@@ -146,7 +146,7 @@ private:
   uint32_t dataFromHandMountSize = 0;
   boost::chrono::system_clock::time_point first_tp = boost::chrono::system_clock::now();
   uint32_t count = 0;
-
+  uint32_t count_hm = 0;
 
   enum fingersOK{                  //ок, если ответ пришел
     bigFinger      =     1,        //большой палец
@@ -162,8 +162,9 @@ private:
 
   void update_hand_mount(){
     if(dataToHandMount == dataFromTopic[sizeof(dataFromTopic) - sizeof(uint8_t)]){
-      resvdFromAllDev |= fingers_OK[6]; //ответ пришел
-      return;
+      count_hm++;
+      if(count_hm < 100) return;
+      count_hm = 0;
     } 
     memset(dataFromHandMount, 0, sizeof(dataFromHandMount));
     dataFromHandMountSize = 0;
@@ -221,8 +222,8 @@ private:
     #endif
 
     dataToTopic[sizeof(dataToTopic) - 2 * sizeof(uint8_t)] = dataFromHandMount[3];
-    printf("dataFromHandMount[3] = %u\n", dataFromHandMount[3]);
-    printf("resvdFromAllDev = %u\n", resvdFromAllDev);
+    // printf("dataFromHandMount[3] = %u\n", dataFromHandMount[3]);
+    // printf("resvdFromAllDev = %u\n", resvdFromAllDev);
   }
 
   void topic_handle_receive(const std_msgs::ByteMultiArray::ConstPtr& recvdMsg) {
@@ -249,11 +250,11 @@ private:
     for (int i = 0; i < fingersAddrs.size(); i++){
       memset(dataToFinger, 0, sizeof(dataToFinger));
       memcpy(dataToFinger, dataFromTopic + i * sizeof(dataToFinger), sizeof(dataToFinger));
-      // std::cout << "\ndataToFinger ";
-      // printf("%u = ", fingersAddrs[i]);
-      // for (int i = 0; i < sizeof(dataToFinger); i++){
-      //   printf("[%u]", dataToFinger[i]);
-      // }
+      std::cout << "\ndataToFinger ";
+      printf("%u = ", fingersAddrs[i]);
+      for (int i = 0; i < sizeof(dataToFinger); i++){
+        printf("[%u]", dataToFinger[i]);
+      }
       m_protocol.sendCmdWrite(fingersAddrs[i], 0x30, dataToFinger, sizeof(dataToFinger));
       std::this_thread::sleep_for(std::chrono::milliseconds(2));
     }
@@ -267,14 +268,14 @@ private:
           recvd_count_rs++;
           rcvd_cnt_f[fingersAddrs[i]- 0x11]++;  
           // printf("\nrecvd_count_rs = %u\n", recvd_count_rs);
-          // std::cout << "FAIL CNT OF " << fingersAddrs[i] << "device = " << fail_cnt_f[fingersAddrs[i] - 0x11] << std::endl;
-          // std::cout << "RCVD CNT OF " << fingersAddrs[i] << "device = " << rcvd_cnt_f[fingersAddrs[i] - 0x11] << std::endl;
+          std::cout << "FAIL CNT OF " << fingersAddrs[i] << "device = " << fail_cnt_f[fingersAddrs[i] - 0x11] << std::endl;
+          std::cout << "RCVD CNT OF " << fingersAddrs[i] << "device = " << rcvd_cnt_f[fingersAddrs[i] - 0x11] << std::endl;
           memset(dataFromFinger_old[i], 0, 13);
           memcpy(dataFromFinger_old[i], dataFromFinger_new[i], 13);
         }else{
           // std::cout << "\033\n[1;31mNO DATA FROM DEVICE\033\n[0m";
-          // std::cout << "FAIL CNT OF " << fingersAddrs[i] << "device = " << fail_cnt_f[fingersAddrs[i] - 0x11] << std::endl;
-          // std::cout << "RCVD CNT OF " << fingersAddrs[i] << "device = " << rcvd_cnt_f[fingersAddrs[i] - 0x11] << std::endl;
+          std::cout << "FAIL CNT OF " << fingersAddrs[i] << "device = " << fail_cnt_f[fingersAddrs[i] - 0x11] << std::endl;
+          std::cout << "RCVD CNT OF " << fingersAddrs[i] << "device = " << rcvd_cnt_f[fingersAddrs[i] - 0x11] << std::endl;
           fail_cnt_f[fingersAddrs[i] - 0x11]++;
           memset(dataFromFinger_new[i], 0, 13);
           memcpy(dataFromFinger_new[i], dataFromFinger_old[i], 13);

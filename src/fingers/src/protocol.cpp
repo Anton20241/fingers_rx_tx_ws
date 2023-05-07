@@ -247,7 +247,8 @@ namespace protocol_master
     
     static const uint8_t startRoReg         = 0; //????
 
-    static const uint32_t proto_max_buff    = 100; //????
+    static const uint32_t proto_min_buff    = 4;    //????
+    static const uint32_t proto_max_buff    = 100;  //????
 
     static inline uint8_t getAddr(uint8_t* ptrBuff)
     {
@@ -269,7 +270,7 @@ namespace protocol_master
         return ptrBuff[indexCmd];
     }
 
-    bool ProtocolMaster::parser(uint8_t* ptrBuff, uint32_t len, uint8_t addressTo)
+    bool ProtocolMaster::parser(uint8_t* ptrBuff, uint32_t len_, uint8_t addressTo)
     {
         /* Если адрес не валидный, ошибка */
         if (getAddr(ptrBuff) != addressTo) {
@@ -279,13 +280,13 @@ namespace protocol_master
             return false;
         }
         /* Если длина пакета не валидная, ошибка */
-        if (getLen(ptrBuff) != len) {
+        if (getLen(ptrBuff) != (uint8_t)len_) {
             printf("\ngetLen(ptrBuff) = %u\n", getLen(ptrBuff));
-            printf("len = %u\n", len);
-            std::cout << "\ngetLen(ptrBuff) != len\n";
+            printf("(uint8_t)len_ = %u\n", (uint8_t)len_);
+            std::cout << "\ngetLen(ptrBuff) != len_\n";
             return false;
         }
-        if (getLen(ptrBuff) != 4 && getLen(ptrBuff) != 5 && getLen(ptrBuff) != 6  && getLen(ptrBuff) != 8 && getLen(ptrBuff) != 9 && getLen(ptrBuff) != 13) {
+        if (getLen(ptrBuff) != 4 && getLen(ptrBuff) != 5 && getLen(ptrBuff) != 6  && getLen(ptrBuff) != 8 && getLen(ptrBuff) != 9) {
             std::cout << "\ngetLen(ptrBuff) != 5\n";
             return false;
         }
@@ -299,7 +300,7 @@ namespace protocol_master
             return false;
         }
         /* Если контрольная сумма не совпадает, приняли муссор, ошибка */
-        if (umba_crc8_table(ptrBuff, len - sizeof(uint8_t)) != getCrc8(ptrBuff, len)) {
+        if (umba_crc8_table(ptrBuff, len_ - sizeof(uint8_t)) != getCrc8(ptrBuff, len_)) {
             std::cout << "\numba_crc8_table(ptrBuff, len \n";
             return false;
         }
@@ -313,12 +314,11 @@ namespace protocol_master
 
     uint8_t     buff[proto_max_buff] = {0};
     uint8_t     recvdBuff[proto_max_buff] = {0};
-    uint32_t    len = packLenMin;
+    uint32_t    len = proto_min_buff;
 
     bool ProtocolMaster::sendCmdNOP(uint8_t addressTo){
         std::memset(buff, 0, sizeof(buff));
         std::memset(recvdBuff, 0, sizeof(recvdBuff));
-        len = packLenMin;
         buff[0] = addressTo; //33; //addressTo;
         buff[1] = packLenMin; //4; //packLenMin;
         buff[2] = 0x0;
@@ -338,8 +338,7 @@ namespace protocol_master
     bool ProtocolMaster::sendCmdRead(uint8_t addressTo, uint8_t* dataFrom, uint32_t* dataFromSize){
         std::memset(buff, 0, sizeof(buff));
         std::memset(recvdBuff, 0, sizeof(recvdBuff));
-        std::memset(dataFrom, 0, *dataFromSize);
-        len = packLenMin;
+        std::memset(dataFrom, 0, sizeof(dataFrom));
         buff[0] = addressTo;
         buff[1] = packLenMin;
         buff[2] = 0x1;
@@ -506,12 +505,12 @@ namespace protocol_master
         std::memset(buff, 0, sizeof(buff));
         std::memset(recvdBuff, 0, sizeof(recvdBuff));
         buff[0] = addressTo;
-        buff[1] = len + dataToSize;
+        buff[1] = packLenMin + (uint8_t)dataToSize;
         buff[2] = cmd;
         memcpy(buff + 3, dataTo, dataToSize);
-        buff[len + dataToSize - sizeof(uint8_t)] = umba_crc8_table(buff,len + dataToSize - sizeof(uint8_t));
+        buff[packLenMin + (uint8_t)dataToSize - sizeof(uint8_t)] = umba_crc8_table(buff,packLenMin + (uint8_t)dataToSize - sizeof(uint8_t));
         /* Отправляем CmdWrite */
-        assert(m_transport.sendData(buff, buff[1]));
+        assert(m_transport.sendData(buff, (uint32_t)buff[1]));
         return true;
     }
 
@@ -520,7 +519,7 @@ namespace protocol_master
         std::memset(recvdBuff, 0, sizeof(recvdBuff));
         memcpy(buff, dataTo, dataToSize);
         /* Отправляем CmdWrite */
-        assert(m_transport.sendData(buff, buff[1]));
+        assert(m_transport.sendData(buff, (uint32_t)buff[1]));
         return true;
     }
     
@@ -533,15 +532,15 @@ namespace protocol_master
         clear(dataFrom, dataFromSize);
 
         buff[0] = addressTo;
-        buff[1] = len + dataToSize;
+        buff[1] = packLenMin + (uint8_t)dataToSize;
         //std::cout << "\nLEN + DtSz = " << len + dataToSize << std::endl;
         buff[2] = cmd;
         memcpy(buff + 3, dataTo, dataToSize);
-        buff[len + dataToSize - sizeof(uint8_t)] = umba_crc8_table(buff,len + dataToSize - sizeof(uint8_t));
+        buff[packLenMin + (uint8_t)dataToSize - sizeof(uint8_t)] = umba_crc8_table(buff,packLenMin + (uint8_t)dataToSize - sizeof(uint8_t));
         // printf("\nCRC8 = %d\n", buff[len + dataToSize - sizeof(uint8_t)]);
 
         /* Отправляем CmdReadWrite */
-        assert(m_transport.sendData(buff, buff[1]));
+        assert(m_transport.sendData(buff, (uint32_t)buff[1]));
 
         // first_tp = boost::chrono::system_clock::now();
 
@@ -666,7 +665,7 @@ namespace protocol_master
     }
 
     void ProtocolMaster::clear(uint8_t* dataFrom, uint32_t* dataFromSize) {
-        std::memset(dataFrom, 0, *dataFromSize);
+        std::memset(dataFrom, 0, sizeof(dataFrom));
         *dataFromSize = 0;
     }
 

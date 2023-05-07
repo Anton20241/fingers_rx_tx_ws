@@ -83,7 +83,7 @@ public:
       bool getResponse = false;
       if (m_protocol.sendCmdReadUART(0x01, from_board_data, &from_board_dataSize, getResponse, msg_sent_ur5, ur5_state)){
         resvdFromDev |= 128;
-        fail_count = 0;
+        fail_count    = 0;
         pub_board_data();
       } else {
         std::cout << "[msg_sent_ur5 and failed]\n";
@@ -96,7 +96,7 @@ public:
       bool getResponse = false;
       if (m_protocol.sendCmdReadUART(0x01, from_board_data, &from_board_dataSize, getResponse, msg_sent_relay, relay_state)){
         resvdFromDev |= 128;
-        fail_count = 0;
+        fail_count    = 0;
         pub_board_data();
       } else {
         std::cout << "[msg_sent_relay and failed]\n";
@@ -109,7 +109,7 @@ public:
       bool getResponse = false;
       if (m_protocol.sendCmdReadUART(0x01, from_board_data, &from_board_dataSize, getResponse, msg_sent_cam, cam_status)){
         resvdFromDev |= 128;
-        fail_count = 0;
+        fail_count    = 0;
         pub_board_data();
       } else {
         std::cout << "[msg_sent_cam and failed]\n";
@@ -128,25 +128,25 @@ private:
   ros::Publisher debugFromBatCamNormPub;
   ros::Publisher debugFromBatCamShutdownPub;
 
-  uint32_t recvd_count_topic = 0;
-  uint8_t from_board_data[DATA_FROM_BOARD_NORM_SIZE]    = {0};          //<--from board
-  uint32_t from_board_dataSize = 0;
+  uint32_t recvd_count_topic                              = 0;
+  uint8_t from_board_data[DATA_FROM_BOARD_NORM_SIZE]      = {0};        //<--from board
+  uint32_t from_board_dataSize                            = 0;
   uint8_t from_bat_cam_topic[DATA_FROM_BATCAM_TOPIC_SIZE] = {0};        //<--_bat_cam_topic
-  uint8_t resvdFromDev = 0;
+  uint8_t resvdFromDev                                    = 0;
   
-  uint8_t cam_status = 3;
-  uint8_t cam_status_prev = 3;
+  uint8_t cam_status                                      = 3;
+  uint8_t cam_status_prev                                 = 3;
   
-  uint8_t relay_state = 0;
-  uint8_t relay_state_prev = 0;
+  uint8_t relay_state                                     = 0;
+  uint8_t relay_state_prev                                = 0;
   
-  uint8_t ur5_state = 0;
-  uint8_t ur5_state_prev = 0;
+  uint8_t ur5_state                                       = 0;
+  uint8_t ur5_state_prev                                  = 0;
 
-  bool msg_sent_relay = false;
-  bool msg_sent_cam = false;
-  bool msg_sent_ur5 = false;
-  bool getDataFromBoard = false;
+  bool msg_sent_relay                                     = false;
+  bool msg_sent_cam                                       = false;
+  bool msg_sent_ur5                                       = false;
+  bool getDataFromBoard                                   = false;
 
   void sendError(){
     m_protocol.m_transport.send_error = true;
@@ -161,7 +161,7 @@ private:
     }
     std::cout << std::endl;
     resvdFromDev = 0;
-    memset(from_board_data, 0, from_board_dataSize);
+    memset(from_board_data, 0, sizeof(from_board_data));
     from_board_dataSize = 1;
     from_board_data[0] = 0;
     pub_board_data();
@@ -213,7 +213,7 @@ private:
     }
     std_msgs::ByteMultiArray fromBatCamTopicMsg;
     fromBatCamTopicMsg.layout.dim.push_back(std_msgs::MultiArrayDimension());
-    fromBatCamTopicMsg.layout.dim[0].size = 1;
+    fromBatCamTopicMsg.layout.dim[0].size   = 1;
     fromBatCamTopicMsg.layout.dim[0].stride = bytesToSendCount;
     fromBatCamTopicMsg.data.clear();
 
@@ -226,7 +226,7 @@ private:
     std::cout << std::endl;
     bat_cam_pub.publish(fromBatCamTopicMsg);
     memset(from_bat_cam_topic, 0, sizeof(from_bat_cam_topic));
-    memset(from_board_data, 0, from_board_dataSize);
+    memset(from_board_data, 0, sizeof(from_board_data));
     from_board_dataSize = 0;
     resvdFromDev = 0;
   }
@@ -292,8 +292,8 @@ int main(int argc, char** argv)
   std::string port = "AMA0";
   std::string baudrate = "19200"; 
 
-  ros::param::param<std::string> ("~_UART_baudrate", baudrate, "19200");
-  ros::param::param<int>("~_debugBatCam", debugBatCam, 0);
+  ros::param::get("/_UART_baudrate", baudrate);
+  ros::param::get("/_debugBatCam",   debugBatCam);
   
   try{
     std::cout << "\n\033[1;32m╔═══════════════════════════════════════╗\033[0m"

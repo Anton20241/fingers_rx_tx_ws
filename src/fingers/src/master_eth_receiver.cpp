@@ -8,10 +8,10 @@
 #include "umba_crc_table.h"
 #include <mutex>
 
-#define PORT 20002
+#define PORT                          20002
 
-#define RAW_UDP_DATA 1
-#define COMPLETE_UDP_DATA 2
+#define RAW_UDP_DATA                  1
+#define COMPLETE_UDP_DATA             2
 
 /*DATA TYPE*/
 #define CODE_PART RAW_UDP_DATA
@@ -19,17 +19,17 @@
 
 #if CODE_PART == RAW_UDP_DATA
 
-#define DATA_FROM_UDP_SIZE 43
-#define DATA_TO_UDP_SIZE 70
-#define DATA_FROM_FINGERS_TOPIC_SIZE 56
-#define DATA_TO_FINGERS_TOPIC_SIZE 31
+#define DATA_FROM_UDP_SIZE            43
+#define DATA_TO_UDP_SIZE              70
+#define DATA_FROM_FINGERS_TOPIC_SIZE  56
+#define DATA_TO_FINGERS_TOPIC_SIZE    31
 
 #elif CODE_PART == COMPLETE_UDP_DATA
 
-#define DATA_FROM_UDP_SIZE 36
-#define DATA_TO_UDP_SIZE 51
-#define DATA_FROM_FINGERS_TOPIC_SIZE 38
-#define DATA_TO_FINGERS_TOPIC_SIZE 25
+#define DATA_FROM_UDP_SIZE            36
+#define DATA_TO_UDP_SIZE              51
+#define DATA_FROM_FINGERS_TOPIC_SIZE  38
+#define DATA_TO_FINGERS_TOPIC_SIZE    25
 
 #else 
 
@@ -56,28 +56,18 @@ using boost::asio::ip::address;
 class UDPServer{
 public:
 	UDPServer(boost::asio::io_service& io_service): socket_(io_service, udp::endpoint(udp::v4(), PORT)){
-    toFingersPub = node.advertise<std_msgs::ByteMultiArray>("toFingersTopic", 0);
-    toBatCamPub = node.advertise<std_msgs::ByteMultiArray>(TO_BAT_CAM_TOPIC_NAME, 0);
+    toFingersPub  = node.advertise<std_msgs::ByteMultiArray>("toFingersTopic",      0);
+    toBatCamPub   = node.advertise<std_msgs::ByteMultiArray>(TO_BAT_CAM_TOPIC_NAME, 0);
 
-    debugToBigFingerPub        = node.advertise<fingers::To_Finger>("debugToBigFingerTopic", 0);
-    debugToIndexFingerPub      = node.advertise<fingers::To_Finger>("debugToIndexFingerTopic", 0);
-    debugToMidFingerPub        = node.advertise<fingers::To_Finger>("debugToMidFingerTopic", 0);
-    debugToRingFingerPub       = node.advertise<fingers::To_Finger>("debugToRingFingerTopic", 0);
-    debugToPinkyPub            = node.advertise<fingers::To_Finger>("debugToPinkyTopic", 0);
-    debugToModulOtvPub         = node.advertise<fingers::To_Finger>("debugToModulOtvTopic", 0);
-    debugToBatCamPub           = node.advertise<fingers::To_Bat_Cam>("debugToBatCamTopic", 0);
+    debugToBigFingerPub        = node.advertise<fingers::To_Finger>   ("debugToBigFingerTopic",    0);
+    debugToIndexFingerPub      = node.advertise<fingers::To_Finger>   ("debugToIndexFingerTopic",  0);
+    debugToMidFingerPub        = node.advertise<fingers::To_Finger>   ("debugToMidFingerTopic",    0);
+    debugToRingFingerPub       = node.advertise<fingers::To_Finger>   ("debugToRingFingerTopic",   0);
+    debugToPinkyPub            = node.advertise<fingers::To_Finger>   ("debugToPinkyTopic",        0);
+    debugToModulOtvPub         = node.advertise<fingers::To_Finger>   ("debugToModulOtvTopic",     0);
+    debugToBatCamPub           = node.advertise<fingers::To_Bat_Cam>  ("debugToBatCamTopic",       0);
 
-
-
-    // node.getParam("/fingers/_debugBigFinger",   debugBigFinger);
-    // node.getParam("/fingers/_debugIndexFinger", debugIndexFinger);
-    // node.getParam("/fingers/_debugMidFinger",   debugMidFinger);
-    // node.getParam("/fingers/_debugRingFinger",  debugRingFinger);
-    // node.getParam("/fingers/_debugPinky",       debugPinky);
-    // node.getParam("/fingers/_debugModulOtv",    debugModulOtv);
-    // node.getParam("/fingers/_debugBatCam",      debugBatCam);
-
-    fromFingersSub = node.subscribe<std_msgs::ByteMultiArray>("fromFingersTopic", 0, &UDPServer::from_finger_handle_receive, this);
+    fromFingersSub = node.subscribe<std_msgs::ByteMultiArray>("fromFingersTopic", 0,     &UDPServer::from_finger_handle_receive, this);
     fromCamBatSub = node.subscribe<std_msgs::ByteMultiArray>(FROM_BAT_CAM_TOPIC_NAME, 0, &UDPServer::from_cam_bat_handle_receive, this);
     boost::bind(&UDPServer::udp_handle_receive, this, boost::asio::placeholders::error, boost::asio::placeholders::bytes_transferred);
     read_msg_udp();
@@ -102,12 +92,12 @@ private:
   ros::NodeHandle node;
 	udp::socket socket_;
 	udp::endpoint sender_endpoint_;
-	uint8_t dataFromUDP[DATA_FROM_UDP_SIZE] = {0};
-	uint8_t dataToUDP[DATA_TO_UDP_SIZE] = {0};
-  uint8_t dataToFingersTopic[DATA_TO_FINGERS_TOPIC_SIZE] = {0};
-  uint8_t dataToFingersTopic_OLD[DATA_TO_FINGERS_TOPIC_SIZE] = {0};
-  uint8_t dataFromFingersTopic[DATA_FROM_FINGERS_TOPIC_SIZE] = {0};
-  uint8_t dataFromFingersTopic_OLD[DATA_FROM_FINGERS_TOPIC_SIZE] = {0};
+	uint8_t dataFromUDP[DATA_FROM_UDP_SIZE]                         = {0};
+	uint8_t dataToUDP[DATA_TO_UDP_SIZE]                             = {0};
+  uint8_t dataToFingersTopic[DATA_TO_FINGERS_TOPIC_SIZE]          = {0};
+  uint8_t dataToFingersTopic_OLD[DATA_TO_FINGERS_TOPIC_SIZE]      = {0};
+  uint8_t dataFromFingersTopic[DATA_FROM_FINGERS_TOPIC_SIZE]      = {0};
+  uint8_t dataFromFingersTopic_OLD[DATA_FROM_FINGERS_TOPIC_SIZE]  = {0};
 
   ros::Publisher toFingersPub;
 
@@ -122,50 +112,50 @@ private:
   ros::Subscriber fromFingersSub;
   ros::Publisher toBatCamPub;
   ros::Subscriber fromCamBatSub;
-  uint32_t send_count_udp = 0;
-  uint32_t recvd_count_udp = 0;
+  uint32_t send_count_udp             = 0;
+  uint32_t recvd_count_udp            = 0;
   
-  uint32_t send_count_topic_fingers = 0;
-  uint32_t recvd_count_topic_fingers = 0;
+  uint32_t send_count_topic_fingers   = 0;
+  uint32_t recvd_count_topic_fingers  = 0;
   
-  uint32_t send_count_topic_camera = 0;
-  uint32_t recvd_count_topic_cam_bat = 0;
+  uint32_t send_count_topic_camera    = 0;
+  uint32_t recvd_count_topic_cam_bat  = 0;
 
   bool dataGetFromBatCam = false;
 
   struct currentState_{
-    uint8_t hand_mount = 0;
-    uint8_t hold_position = 0;
+    uint8_t hand_mount                = 0;
+    uint8_t hold_position             = 0;
 
-    uint8_t camera_from_udp = 0;
-    uint8_t camera_from_udp_prev = 0;
-    uint8_t camera_from_bat_cam = 0;
+    uint8_t camera_from_udp           = 0;
+    uint8_t camera_from_udp_prev      = 0;
+    uint8_t camera_from_bat_cam       = 0;
 
-    uint8_t ur5_from_udp = 0;
-    uint8_t ur5_from_udp_prev = 0;
-    uint8_t ur5_from_bat_cam = 0;
+    uint8_t ur5_from_udp              = 0;
+    uint8_t ur5_from_udp_prev         = 0;
+    uint8_t ur5_from_bat_cam          = 0;
 
-    uint8_t relay_from_udp = 0;
-    uint8_t relay_from_udp_prev = 0;
-    uint8_t relay_from_bat_cam = 0;
+    uint8_t relay_from_udp            = 0;
+    uint8_t relay_from_udp_prev       = 0;
+    uint8_t relay_from_bat_cam        = 0;
     
-    uint8_t bat_24V = 0;
-    uint8_t bat_48V = 0;
+    uint8_t bat_24V                   = 0;
+    uint8_t bat_48V                   = 0;
 
-    uint8_t keepalive[4] = {0};
-    uint8_t cmdBatCamTopic = 0;
-    uint8_t time_down = 0;
+    uint8_t keepalive[4]              = {0};
+    uint8_t cmdBatCamTopic            = 0;
+    uint8_t time_down                 = 0;
   };
   
   currentState_ currentState;
 
-  bool getMsgFromFingers        = false; 
-  bool getMsgFromUDP            = false;
-  bool holdPositionProcessStart = true;
+  bool getMsgFromFingers              = false; 
+  bool getMsgFromUDP                  = false;
+  bool holdPositionProcessStart       = true;
 
-  uint8_t boardOk = 0;
-  uint8_t fingersOk = 0;
-  uint8_t allDevOk = 0;
+  uint8_t boardOk                     = 0;
+  uint8_t fingersOk                   = 0;
+  uint8_t allDevOk                    = 0;
 
   void show_cur_state() {
     //std::cout << "b24V:" << currentState.bat_24V << " rly: " << currentState.relay_from_bat_cam << " cm: " << currentState.camera_from_bat_cam << std::endl;
@@ -265,19 +255,19 @@ private:
       return;
     }
 
-    if (debugBigFinger)   debugToBigFingerPub.publish(msgsArrToDebugFingers[0]);
+    if (debugBigFinger)     debugToBigFingerPub.publish(msgsArrToDebugFingers[0]);
     if (debugIndexFinger) debugToIndexFingerPub.publish(msgsArrToDebugFingers[1]);
-    if (debugMidFinger)   debugToMidFingerPub.publish(msgsArrToDebugFingers[2]);
-    if (debugRingFinger)  debugToRingFingerPub.publish(msgsArrToDebugFingers[3]);
-    if (debugPinky)       debugToPinkyPub.publish(msgsArrToDebugFingers[4]);
-    if (debugModulOtv)    debugToModulOtvPub.publish(msgsArrToDebugFingers[5]);
+    if (debugMidFinger)     debugToMidFingerPub.publish(msgsArrToDebugFingers[2]);
+    if (debugRingFinger)   debugToRingFingerPub.publish(msgsArrToDebugFingers[3]);
+    if (debugPinky)             debugToPinkyPub.publish(msgsArrToDebugFingers[4]);
+    if (debugModulOtv)       debugToModulOtvPub.publish(msgsArrToDebugFingers[5]);
   }
 
   void setMsgsToDebugTopic(fingers::To_Finger msgsArrToDebugFingers[], uint8_t dataToFingersTopic[]){
     for (size_t i = 0; i < 6; i++){
-      msgsArrToDebugFingers[i].angle = (dataToFingersTopic[i * 5 + 1] << 8) + dataToFingersTopic[i * 5];
-      msgsArrToDebugFingers[i].reserve = (dataToFingersTopic[i * 5 + 3] << 8) + dataToFingersTopic[i * 5 + 2];
-      msgsArrToDebugFingers[i].mask = dataToFingersTopic[i * 5 + 4];
+      msgsArrToDebugFingers[i].angle    = (dataToFingersTopic[i * 5 + 1] << 8) + dataToFingersTopic[i * 5];
+      msgsArrToDebugFingers[i].reserve  = (dataToFingersTopic[i * 5 + 3] << 8) + dataToFingersTopic[i * 5 + 2];
+      msgsArrToDebugFingers[i].mask     =  dataToFingersTopic[i * 5 + 4];
     }
   }
 
@@ -347,7 +337,7 @@ private:
     //отправка пакета в топик "camera_topic"
     std_msgs::ByteMultiArray sendMsgToCameraTopic;
     sendMsgToCameraTopic.layout.dim.push_back(std_msgs::MultiArrayDimension());
-    sendMsgToCameraTopic.layout.dim[0].size = 1;
+    sendMsgToCameraTopic.layout.dim[0].size   = 1;
     sendMsgToCameraTopic.layout.dim[0].stride = 3;
     sendMsgToCameraTopic.data.clear();
 

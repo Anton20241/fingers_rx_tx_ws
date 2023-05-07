@@ -14,9 +14,9 @@
 #include <ctime>
 #include <QCoreApplication>
 
-#define HMOUNT_DATA_SIZE 5
+#define HMOUNT_DATA_SIZE  5
 
-#define RAW_UDP_DATA 1
+#define RAW_UDP_DATA      1
 #define COMPLETE_UDP_DATA 2
 
 /*DATA TYPE*/
@@ -26,9 +26,9 @@
 #if CODE_PART == RAW_UDP_DATA
 
 #define DATA_FROM_FINGER_SIZE 13
-#define DATA_TO_FINGER_SIZE 5
-#define DATA_FROM_TOPIC_SIZE 31
-#define DATA_TO_TOPIC_SIZE 56
+#define DATA_TO_FINGER_SIZE   5
+#define DATA_FROM_TOPIC_SIZE  31
+#define DATA_TO_TOPIC_SIZE    56
 
 #elif CODE_PART == COMPLETE_UDP_DATA
 
@@ -59,30 +59,13 @@ public:
   : m_protocol(protocol_){
     toFingersSub = node.subscribe<std_msgs::ByteMultiArray>("toFingersTopic", 0, &RS_Server::topic_handle_receive, this);
 
-    debugFromBigFingerPub        = node.advertise<fingers::From_Finger>("debugFromBigFingerTopic", 0);
-    debugFromIndexFingerPub      = node.advertise<fingers::From_Finger>("debugFromIndexFingerTopic", 0);
-    debugFromMidFingerPub        = node.advertise<fingers::From_Finger>("debugFromMidFingerTopic", 0);
-    debugFromRingFingerPub       = node.advertise<fingers::From_Finger>("debugFromRingFingerTopic", 0);
-    debugFromPinkyPub            = node.advertise<fingers::From_Finger>("debugFromPinkyTopic", 0);
-    debugFromModulOtvPub         = node.advertise<fingers::From_Finger>("debugFromModulOtvTopic", 0);
-
-    // ros::param::param<int>("~_debugBigFinger", debugBigFinger, 0);
-    // ros::param::param<int>("~_debugIndexFinger", debugIndexFinger, 0);
-    // ros::param::param<int>("~_debugMidFinger", debugMidFinger, 0);
-    // ros::param::param<int>("~_debugRingFinger", debugRingFinger, 0);
-    // ros::param::param<int>("~_debugPinky", debugPinky, 0);
-    // ros::param::param<int>("~_debugModulOtv", debugModulOtv, 0);
-    // ros::param::param<int>("~_debugBatCam", debugBatCam, 0);
-
-    // node.getParam("/fingers/_debugBigFinger",   debugBigFinger);
-    // node.getParam("/fingers/_debugIndexFinger", debugIndexFinger);
-    // node.getParam("/fingers/_debugMidFinger",   debugMidFinger);
-    // node.getParam("/fingers/_debugRingFinger",  debugRingFinger);
-    // node.getParam("/fingers/_debugPinky",       debugPinky);
-    // node.getParam("/fingers/_debugModulOtv",    debugModulOtv);
-    // node.getParam("/fingers/_debugBatCam",      debugBatCam);
-
-    fromFingersPub = node.advertise<std_msgs::ByteMultiArray>("fromFingersTopic", 0);
+    debugFromBigFingerPub        = node.advertise<fingers::From_Finger>     ("debugFromBigFingerTopic",    0);
+    debugFromIndexFingerPub      = node.advertise<fingers::From_Finger>     ("debugFromIndexFingerTopic",  0);
+    debugFromMidFingerPub        = node.advertise<fingers::From_Finger>     ("debugFromMidFingerTopic",    0);
+    debugFromRingFingerPub       = node.advertise<fingers::From_Finger>     ("debugFromRingFingerTopic",   0);
+    debugFromPinkyPub            = node.advertise<fingers::From_Finger>     ("debugFromPinkyTopic",        0);
+    debugFromModulOtvPub         = node.advertise<fingers::From_Finger>     ("debugFromModulOtvTopic",     0);
+    fromFingersPub               = node.advertise<std_msgs::ByteMultiArray> ("fromFingersTopic",           0);
   };
 
   void nodeFromTopicProcess(){
@@ -112,10 +95,10 @@ public:
 private:
   ros::NodeHandle node;
   protocol_master::ProtocolMaster& m_protocol;
-  uint8_t dataFromHandMount[HMOUNT_DATA_SIZE] = {0};
-  uint8_t dataFromTopic[DATA_FROM_TOPIC_SIZE] = {0};
-  uint8_t dataToTopic[DATA_TO_TOPIC_SIZE] = {0};
-  uint8_t dataToFinger[DATA_TO_FINGER_SIZE] = {0};
+  uint8_t dataFromHandMount[HMOUNT_DATA_SIZE]          = {0};
+  uint8_t dataFromTopic[DATA_FROM_TOPIC_SIZE]          = {0};
+  uint8_t dataToTopic[DATA_TO_TOPIC_SIZE]              = {0};
+  uint8_t dataToFinger[DATA_TO_FINGER_SIZE]            = {0};
   uint8_t dataFromFinger_new[6][DATA_FROM_FINGER_SIZE] = {0};
   uint8_t dataFromFinger_old[6][DATA_FROM_FINGER_SIZE] = {0};
 
@@ -134,28 +117,28 @@ private:
   uint32_t fail_cnt_f[6] = {0};
   uint32_t rcvd_cnt_f[6] = {0};
 
-  uint32_t send_count_rs = 0;
-  uint32_t recvd_count_rs = 0;
-  uint32_t send_count_topic = 0;
-  bool getMsgFromTopic = false;
+  uint32_t send_count_rs            = 0;
+  uint32_t recvd_count_rs           = 0;
+  uint32_t send_count_topic         = 0;
+  bool getMsgFromTopic              = false;
   std::vector<uint8_t> fingersAddrs = {0x11, 0x12, 0x13, 0x14, 0x15, 0x16};       //5 пальцев + модуль отведения
-  uint8_t hand_mount_addr = 0x31;                                                 //устройство отсоединения схвата
-  uint8_t dataToHandMount = 0;
-  bool start_communication = true;
-  uint8_t resvdFromAllDev = 0;
-  uint32_t dataFromHandMountSize = 0;
+  uint8_t hand_mount_addr           = 0x31;                                       //устройство отсоединения схвата
+  uint8_t dataToHandMount           = 0;
+  bool start_communication          = true;
+  uint8_t resvdFromAllDev           = 0;
+  uint32_t dataFromHandMountSize    = 0;
   boost::chrono::system_clock::time_point first_tp = boost::chrono::system_clock::now();
-  uint32_t count = 0;
-  uint32_t count_hm = 0;
+  uint32_t count                    = 0;
+  uint32_t count_hm                 = 0;
 
-  enum fingersOK{                  //ок, если ответ пришел
-    bigFinger      =     1,        //большой палец
-    foreFinger     =     2,        //указательный палец
-    middleFinger   =     4,        //средный палец
-    ringFinger     =     8,        //безымянный палец
-    pinkyFinger    =     16,       //мизинец
-    leadModule     =     32,       //модуль отведения
-    handMount      =     64        //устройство отсоединения схвата
+  enum fingersOK{            //ок, если ответ пришел
+    bigFinger    = 1,        //большой палец
+    foreFinger   = 2,        //указательный палец
+    middleFinger = 4,        //средный палец
+    ringFinger   = 8,        //безымянный палец
+    pinkyFinger  = 16,       //мизинец
+    leadModule   = 32,       //модуль отведения
+    handMount    = 64        //устройство отсоединения схвата
   };
 
   uint8_t fingers_OK[7] = {1, 2, 4, 8, 16, 32, 64}; ////ок, если ответ пришел
@@ -185,7 +168,7 @@ private:
     } else {
       resvdFromAllDev &= ~fingers_OK[6]; //ответ НЕ пришел
       // std::cout << "\033\n[1;31mNO DATA FROM HAND_MOUNT\033\n[0m";
-      memset(dataFromHandMount, 0, dataFromHandMountSize);
+      memset(dataFromHandMount, 0, sizeof(dataFromHandMount));
       dataFromHandMountSize = 0;
       fail_cnt++;
       // printf("\nfail_cnt = %u\n", fail_cnt);
@@ -260,32 +243,32 @@ private:
     }
 
     //ожидание ответа от каждого пальца
-    if (m_protocol.RSRead(dataFromFinger_new, &resvdFromAllDev)){
+    m_protocol.RSRead(dataFromFinger_new, &resvdFromAllDev);
 
-      for (int i = 0; i < fingersAddrs.size(); i++){
-        if((resvdFromAllDev & fingers_OK[i]) != 0){
-          // std::cout << "\033\n[1;32mOk\033\n[0m";
-          recvd_count_rs++;
-          rcvd_cnt_f[fingersAddrs[i]- 0x11]++;  
-          // printf("\nrecvd_count_rs = %u\n", recvd_count_rs);
-          std::cout << "FAIL CNT OF " << fingersAddrs[i] << "device = " << fail_cnt_f[fingersAddrs[i] - 0x11] << std::endl;
-          std::cout << "RCVD CNT OF " << fingersAddrs[i] << "device = " << rcvd_cnt_f[fingersAddrs[i] - 0x11] << std::endl;
-          memset(dataFromFinger_old[i], 0, 13);
-          memcpy(dataFromFinger_old[i], dataFromFinger_new[i], 13);
-        }else{
-          // std::cout << "\033\n[1;31mNO DATA FROM DEVICE\033\n[0m";
-          std::cout << "FAIL CNT OF " << fingersAddrs[i] << "device = " << fail_cnt_f[fingersAddrs[i] - 0x11] << std::endl;
-          std::cout << "RCVD CNT OF " << fingersAddrs[i] << "device = " << rcvd_cnt_f[fingersAddrs[i] - 0x11] << std::endl;
-          fail_cnt_f[fingersAddrs[i] - 0x11]++;
-          memset(dataFromFinger_new[i], 0, 13);
-          memcpy(dataFromFinger_new[i], dataFromFinger_old[i], 13);
-          fail_cnt++;
-          // printf("\nfail_cnt = %u\n", fail_cnt);
-        }
-        memcpy(dataToTopic + i * (13 - 4 * sizeof(uint8_t)), 
-            &dataFromFinger_new[i][3 * sizeof(uint8_t)], 13 - 4 * sizeof(uint8_t));
+    for (int i = 0; i < fingersAddrs.size(); i++){
+      if((resvdFromAllDev & fingers_OK[i]) != 0){
+        // std::cout << "\033\n[1;32mOk\033\n[0m";
+        recvd_count_rs++;
+        rcvd_cnt_f[fingersAddrs[i]- 0x11]++;  
+        // printf("\nrecvd_count_rs = %u\n", recvd_count_rs);
+        std::cout << "FAIL CNT OF " << fingersAddrs[i] << "device = " << fail_cnt_f[fingersAddrs[i] - 0x11] << std::endl;
+        std::cout << "RCVD CNT OF " << fingersAddrs[i] << "device = " << rcvd_cnt_f[fingersAddrs[i] - 0x11] << std::endl;
+        memset(dataFromFinger_old[i], 0, 13);
+        memcpy(dataFromFinger_old[i], dataFromFinger_new[i], 13);
+      }else{
+        // std::cout << "\033\n[1;31mNO DATA FROM DEVICE\033\n[0m";
+        std::cout << "FAIL CNT OF " << fingersAddrs[i] << "device = " << fail_cnt_f[fingersAddrs[i] - 0x11] << std::endl;
+        std::cout << "RCVD CNT OF " << fingersAddrs[i] << "device = " << rcvd_cnt_f[fingersAddrs[i] - 0x11] << std::endl;
+        fail_cnt_f[fingersAddrs[i] - 0x11]++;
+        memset(dataFromFinger_new[i], 0, 13);
+        memcpy(dataFromFinger_new[i], dataFromFinger_old[i], 13);
+        fail_cnt++;
+        // printf("\nfail_cnt = %u\n", fail_cnt);
       }
+      memcpy(dataToTopic + i * (13 - 4 * sizeof(uint8_t)), 
+          &dataFromFinger_new[i][3 * sizeof(uint8_t)], 13 - 4 * sizeof(uint8_t));
     }
+    
     printf("resvdFromAllDevBeforeSend = %u\n", resvdFromAllDev);
     dataToTopic[sizeof(dataToTopic) - sizeof(uint8_t)] = resvdFromAllDev;
   }
@@ -300,21 +283,21 @@ private:
       debugFromModulOtvPub.publish(msgsArrToDebugFingers[5]);
       return;
     }
-    if (debugBigFinger == 1)   debugFromBigFingerPub.publish(msgsArrToDebugFingers[0]);
-    if (debugIndexFinger == 1) debugFromIndexFingerPub.publish(msgsArrToDebugFingers[1]);
-    if (debugMidFinger == 1)   debugFromMidFingerPub.publish(msgsArrToDebugFingers[2]);
-    if (debugRingFinger == 1)  debugFromRingFingerPub.publish(msgsArrToDebugFingers[3]);
-    if (debugPinky == 1)       debugFromPinkyPub.publish(msgsArrToDebugFingers[4]);
-    if (debugModulOtv == 1)    debugFromModulOtvPub.publish(msgsArrToDebugFingers[5]);
+    if (debugBigFinger    == 1)   debugFromBigFingerPub.publish(msgsArrToDebugFingers[0]);
+    if (debugIndexFinger  == 1) debugFromIndexFingerPub.publish(msgsArrToDebugFingers[1]);
+    if (debugMidFinger    == 1)   debugFromMidFingerPub.publish(msgsArrToDebugFingers[2]);
+    if (debugRingFinger   == 1)  debugFromRingFingerPub.publish(msgsArrToDebugFingers[3]);
+    if (debugPinky        == 1)       debugFromPinkyPub.publish(msgsArrToDebugFingers[4]);
+    if (debugModulOtv     == 1)    debugFromModulOtvPub.publish(msgsArrToDebugFingers[5]);
   }
 
   void setMsgsToDebugTopic(fingers::From_Finger msgsArrToDebugFingers[], uint8_t dataToTopic[]){
     for (size_t i = 0; i < 6; i++){
-      msgsArrToDebugFingers[i].current = (dataToTopic[i * 9 + 1] << 8) + dataToTopic[i * 9];
+      msgsArrToDebugFingers[i].current  = (dataToTopic[i * 9 + 1] << 8) + dataToTopic[i * 9];
       msgsArrToDebugFingers[i].pressure = (dataToTopic[i * 9 + 3] << 8) + dataToTopic[i * 9 + 2];
-      msgsArrToDebugFingers[i].angle = (dataToTopic[i * 9 + 5] << 8) + dataToTopic[i * 9 + 4];
-      msgsArrToDebugFingers[i].count = (dataToTopic[i * 9 + 7] << 8) + dataToTopic[i * 9 + 6];
-      msgsArrToDebugFingers[i].mask = dataToTopic[i * 9 + 8];
+      msgsArrToDebugFingers[i].angle    = (dataToTopic[i * 9 + 5] << 8) + dataToTopic[i * 9 + 4];
+      msgsArrToDebugFingers[i].count    = (dataToTopic[i * 9 + 7] << 8) + dataToTopic[i * 9 + 6];
+      msgsArrToDebugFingers[i].mask     =  dataToTopic[i * 9 + 8];
     }
   }
 
@@ -344,11 +327,11 @@ int main(int argc, char** argv)
 {
   QCoreApplication coreApplication(argc, argv);
 
-  std::string devPort = "USB0";
-  std::string baudrate = "256000";
+  std::string devPort =   "USB0";
+  std::string baudrate =  "256000";
 
-  ros::param::get("/_devPortForFingers", devPort);
-  ros::param::get("/_baudrateForFingers", baudrate);
+  ros::param::get("/_devPortForFingers",    devPort);
+  ros::param::get("/_baudrateForFingers",   baudrate);
   try{
 
     std::cout << "\n\033[1;32m╔═══════════════════════════════════════╗\033[0m"
@@ -361,21 +344,21 @@ int main(int argc, char** argv)
     protocol_master::ProtocolMaster rs_prot_master(qt_RS_transp, &coreApplication);
     RS_Server raspbPi(rs_prot_master);
 
-    ros::param::get("/_debugBigFinger", debugBigFinger);
+    ros::param::get("/_debugBigFinger",   debugBigFinger);
     ros::param::get("/_debugIndexFinger", debugIndexFinger);
-    ros::param::get("/_debugMidFinger", debugMidFinger);
-    ros::param::get("/_debugRingFinger", debugRingFinger);
-    ros::param::get("/_debugPinky", debugPinky);
-    ros::param::get("/_debugModulOtv", debugModulOtv);
-    ros::param::get("/_debugBatCam", debugBatCam);
-    ros::param::get("/_debugAllFingers", debugAllFingers);
+    ros::param::get("/_debugMidFinger",   debugMidFinger);
+    ros::param::get("/_debugRingFinger",  debugRingFinger);
+    ros::param::get("/_debugPinky",       debugPinky);
+    ros::param::get("/_debugModulOtv",    debugModulOtv);
+    ros::param::get("/_debugBatCam",      debugBatCam);
+    ros::param::get("/_debugAllFingers",  debugAllFingers);
 
-    std::cout << "debugBatCam " << debugBigFinger << std::endl;
-    std::cout << "debugIndexFinger " << debugIndexFinger << std::endl;
-    std::cout << "debugMidFinger "<< debugMidFinger << std::endl;
-    std::cout << "debugRingFinger "<< debugRingFinger << std::endl;
-    std::cout << "debugPinky "<< debugPinky << std::endl;
-    std::cout << "debugModulOtv "<< debugModulOtv << std::endl;
+    std::cout << "debugBatCam "       <<  debugBigFinger   << std::endl;
+    std::cout << "debugIndexFinger "  <<  debugIndexFinger << std::endl;
+    std::cout << "debugMidFinger "    <<  debugMidFinger   << std::endl;
+    std::cout << "debugRingFinger "   <<  debugRingFinger  << std::endl;
+    std::cout << "debugPinky "        <<  debugPinky       << std::endl;
+    std::cout << "debugModulOtv "     <<  debugModulOtv    << std::endl;
 
     while(ros::ok()){
       raspbPi.nodeFromTopicProcess();

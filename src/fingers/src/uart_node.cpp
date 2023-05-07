@@ -12,13 +12,16 @@
 #include "umba_crc_table.h"
 #include <mutex>
 
-#define TO_BAT_CAM_TOPIC_NAME "toBatCamTopic"
-#define DEBUG_TO_BAT_CAM_TOPIC_NAME "debugToBatCamTopic"
-#define FROM_BAT_CAM_TOPIC_NAME "fromBatCamTopic"
+#define TO_BAT_CAM_TOPIC_NAME                   "toBatCamTopic"
+#define FROM_BAT_CAM_TOPIC_NAME                 "fromBatCamTopic"
+#define DEBUG_TO_BAT_CAM_TOPIC_NAME             "debugToBatCamTopic"
 
-#define DATA_FROM_BOARD_NORM_SIZE 9
-#define DATA_FROM_BOARD_SHUTDOWN_SIZE 5
-#define DATA_TO_BATCAM_TOPIC_SIZE 6
+#define DATA_FROM_BOARD_NORM_SIZE               9
+#define DATA_FROM_BOARD_SHUTDOWN_SIZE           5
+#define DATA_FROM_BATCAM_TOPIC_SIZE             6
+
+#define DEBUG_FROM_BAT_CAM_NORM_TOPIC_NAME      "debugFromBatCamNormTopic"
+#define DEBUG_FROM_BAT_CAM_SHUTDOWN_TOPIC_NAME  "debugFromBatCamShutdownTopic"
 
 int debugBatCam = 0;
 
@@ -28,11 +31,11 @@ public:
     UART_Node(protocol_master::ProtocolMaster& protocol_)
     : m_protocol(protocol_){
         bat_cam_sub = node.subscribe<std_msgs::ByteMultiArray>(TO_BAT_CAM_TOPIC_NAME, 0, &UART_Node::to_bat_cam_callback,this);
-        debug_bat_cam_sub = node.subscribe<fingers::To_Bat_Cam>(DEBUG_TO_BAT_CAM_TOPIC_NAME, 0, &UART_Node::debug_to_bat_cam_callback,this);
-
         bat_cam_pub = node.advertise<std_msgs::ByteMultiArray>(FROM_BAT_CAM_TOPIC_NAME, 0);
-        debugFromBatCamNormPub = node.advertise<fingers::From_Bat_Cam_Norm_Work>("debugFromBatCamNormTopic", 0);
-        debugFromBatCamShutdownPub = node.advertise<fingers::From_Bat_Cam_Shutdown>("debugFromBatCamShutdownTopic", 0);
+
+        debug_bat_cam_sub = node.subscribe<fingers::To_Bat_Cam>(DEBUG_TO_BAT_CAM_TOPIC_NAME, 0, &UART_Node::debug_to_bat_cam_callback,this);
+        debugFromBatCamNormPub = node.advertise<fingers::From_Bat_Cam_Norm_Work>(DEBUG_FROM_BAT_CAM_NORM_TOPIC_NAME, 0);
+        debugFromBatCamShutdownPub = node.advertise<fingers::From_Bat_Cam_Shutdown>(DEBUG_FROM_BAT_CAM_SHUTDOWN_TOPIC_NAME, 0);
         // tp_first = boost::chrono::system_clock::now();
     };
 
@@ -126,13 +129,13 @@ private:
   ros::Publisher debugFromBatCamShutdownPub;
 
   uint32_t recvd_count_topic = 0;
-  uint8_t from_board_data[DATA_FROM_BOARD_NORM_SIZE] = {0};       //<--from board
+  uint8_t from_board_data[DATA_FROM_BOARD_NORM_SIZE]    = {0};          //<--from board
   uint32_t from_board_dataSize = 0;
-  uint8_t to_bat_cam_topic[DATA_TO_BATCAM_TOPIC_SIZE] = {0};      //<--to_bat_cam_topic
+  uint8_t from_bat_cam_topic[DATA_FROM_BATCAM_TOPIC_SIZE] = {0};        //<--_bat_cam_topic
   uint8_t resvdFromDev = 0;
   
-  uint8_t cam_status = 0;
-  uint8_t cam_status_prev = 0;
+  uint8_t cam_status = 3;
+  uint8_t cam_status_prev = 3;
   
   uint8_t relay_state = 0;
   uint8_t relay_state_prev = 0;
@@ -169,59 +172,60 @@ private:
     uint8_t bytesToSendCount = 0;
 
     fingers::From_Bat_Cam_Norm_Work msgFromBatCamNorm;
-    fingers::From_Bat_Cam_Shutdown msgFromBatCamShutdown;
-
+    fingers::From_Bat_Cam_Shutdown  msgFromBatCamShutdown;
+    memset(from_bat_cam_topic, 0, sizeof(from_bat_cam_topic));
+    
     if (from_board_dataSize == DATA_FROM_BOARD_SHUTDOWN_SIZE){
       //пакет в топик "bat_cam_topic"
-      to_bat_cam_topic[0] = from_board_data[2]; //CMD
-      to_bat_cam_topic[1] = from_board_data[3]; //TIME_DOWN
-      to_bat_cam_topic[2] = resvdFromDev;       //all_ok
+      from_bat_cam_topic[0] = from_board_data[2]; //CMD
+      from_bat_cam_topic[1] = from_board_data[3]; //TIME_DOWN
+      from_bat_cam_topic[2] = resvdFromDev;       //all_ok
       bytesToSendCount = 3;
 
-      msgFromBatCamShutdown.cmdBatCamTopic = to_bat_cam_topic[0];   //CMD
-      msgFromBatCamShutdown.time_down      = to_bat_cam_topic[1];   //TIME_DOWN
+      msgFromBatCamShutdown.cmdBatCamTopic = from_bat_cam_topic[0];   //CMD
+      msgFromBatCamShutdown.time_down      = from_bat_cam_topic[1];   //TIME_DOWN
       if (debugBatCam) debugFromBatCamShutdownPub.publish(msgFromBatCamShutdown);
       
     }
     else if(from_board_dataSize == DATA_FROM_BOARD_NORM_SIZE) {
       //пакет в топик "bat_cam_topic"
-      to_bat_cam_topic[0] = from_board_data[3]; //BAT_24V
-      to_bat_cam_topic[1] = from_board_data[4]; //BAT_48V
-      to_bat_cam_topic[2] = from_board_data[5]; //VIDEO_SWITCH
-      to_bat_cam_topic[3] = from_board_data[6]; //relay_state
-      to_bat_cam_topic[4] = from_board_data[7]; //ur5_state
-      to_bat_cam_topic[5] = resvdFromDev;       //all_ok
+      from_bat_cam_topic[0] = from_board_data[3]; //BAT_24V
+      from_bat_cam_topic[1] = from_board_data[4]; //BAT_48V
+      from_bat_cam_topic[2] = from_board_data[5]; //VIDEO_SWITCH
+      from_bat_cam_topic[3] = from_board_data[6]; //relay_state
+      from_bat_cam_topic[4] = from_board_data[7]; //ur5_state
+      from_bat_cam_topic[5] = resvdFromDev;       //all_ok
       bytesToSendCount = 6;
 
-      msgFromBatCamNorm.bat_24V     = to_bat_cam_topic[0];  //BAT_24V
-      msgFromBatCamNorm.bat_48V     = to_bat_cam_topic[1];  //BAT_48V
-      msgFromBatCamNorm.camera      = to_bat_cam_topic[2];  //VIDEO_SWITCH
-      msgFromBatCamNorm.relay       = to_bat_cam_topic[3];  //relay_state
-      msgFromBatCamNorm.ur5_state   = to_bat_cam_topic[4];  //ur5_state
+      msgFromBatCamNorm.bat_24V     = from_bat_cam_topic[0];  //BAT_24V
+      msgFromBatCamNorm.bat_48V     = from_bat_cam_topic[1];  //BAT_48V
+      msgFromBatCamNorm.camera      = from_bat_cam_topic[2];  //VIDEO_SWITCH
+      msgFromBatCamNorm.relay       = from_bat_cam_topic[3];  //relay_state
+      msgFromBatCamNorm.ur5_state   = from_bat_cam_topic[4];  //ur5_state
 
       if (debugBatCam) debugFromBatCamNormPub.publish(msgFromBatCamNorm);
 
     } else if(from_board_dataSize == 1) {
-      to_bat_cam_topic[0] = resvdFromDev;       //all_ok
+      from_bat_cam_topic[0] = resvdFromDev;       //all_ok
       bytesToSendCount = 1;
     } else {
       return;
     }
-    std_msgs::ByteMultiArray toBatCamTopicMsg;
-    toBatCamTopicMsg.layout.dim.push_back(std_msgs::MultiArrayDimension());
-    toBatCamTopicMsg.layout.dim[0].size = 1;
-    toBatCamTopicMsg.layout.dim[0].stride = bytesToSendCount;
-    toBatCamTopicMsg.data.clear();
+    std_msgs::ByteMultiArray fromBatCamTopicMsg;
+    fromBatCamTopicMsg.layout.dim.push_back(std_msgs::MultiArrayDimension());
+    fromBatCamTopicMsg.layout.dim[0].size = 1;
+    fromBatCamTopicMsg.layout.dim[0].stride = bytesToSendCount;
+    fromBatCamTopicMsg.data.clear();
 
     std::cout << "\033[1;34mSEND TO TOPIC bat_cam_topic: \033[0m";
     for (size_t i = 0; i < bytesToSendCount; i++)
     {
-      toBatCamTopicMsg.data.push_back(to_bat_cam_topic[i]);
-      printf("[%u]", to_bat_cam_topic[i]);
+      fromBatCamTopicMsg.data.push_back(from_bat_cam_topic[i]);
+      printf("[%u]", from_bat_cam_topic[i]);
     }
     std::cout << std::endl;
-    bat_cam_pub.publish(toBatCamTopicMsg);
-    memset(to_bat_cam_topic, 0, sizeof(to_bat_cam_topic));
+    bat_cam_pub.publish(fromBatCamTopicMsg);
+    memset(from_bat_cam_topic, 0, sizeof(from_bat_cam_topic));
     memset(from_board_data, 0, from_board_dataSize);
     from_board_dataSize = 0;
     resvdFromDev = 0;

@@ -40,9 +40,9 @@
 using boost::asio::ip::udp;
 using boost::asio::ip::address;
 
-#define TO_BAT_CAM_TOPIC_NAME "toBatCamTopic"
+#define TO_BAT_CAM_TOPIC_NAME       "toBatCamTopic"
+#define FROM_BAT_CAM_TOPIC_NAME     "fromBatCamTopic"
 #define DEBUG_TO_BAT_CAM_TOPIC_NAME "debugToBatCamTopic"
-#define FROM_BAT_CAM_TOPIC_NAME "fromBatCamTopic"
 
   int debugBigFinger   = 0;
   int debugIndexFinger = 0;
@@ -57,7 +57,7 @@ class UDPServer{
 public:
 	UDPServer(boost::asio::io_service& io_service): socket_(io_service, udp::endpoint(udp::v4(), PORT)){
     toFingersPub = node.advertise<std_msgs::ByteMultiArray>("toFingersTopic", 0);
-    toCamPub = node.advertise<std_msgs::ByteMultiArray>(TO_BAT_CAM_TOPIC_NAME, 0);
+    toBatCamPub = node.advertise<std_msgs::ByteMultiArray>(TO_BAT_CAM_TOPIC_NAME, 0);
 
     debugToBigFingerPub        = node.advertise<fingers::To_Finger>("debugToBigFingerTopic", 0);
     debugToIndexFingerPub      = node.advertise<fingers::To_Finger>("debugToIndexFingerTopic", 0);
@@ -92,7 +92,7 @@ public:
   void nodeFromUDPProcess(){
     if (getMsgFromUDP){
       sendMsgToFingers();
-      sendMsgToCamBat();
+      sendMsgToBatCam();
       sendMsgToUDP();
       getMsgFromUDP = false;
     }
@@ -120,7 +120,7 @@ private:
   ros::Publisher debugToBatCamPub;
 
   ros::Subscriber fromFingersSub;
-  ros::Publisher toCamPub;
+  ros::Publisher toBatCamPub;
   ros::Subscriber fromCamBatSub;
   uint32_t send_count_udp = 0;
   uint32_t recvd_count_udp = 0;
@@ -335,7 +335,7 @@ private:
     sendMsgToDebugTopic(msgsArrToDebugFingers);
   }
 
-  void sendMsgToCamBat(){
+  void sendMsgToBatCam(){
     if (currentState.camera_from_udp  == currentState.camera_from_udp_prev &&
           currentState.relay_from_udp == currentState.relay_from_udp_prev &&
           currentState.ur5_from_udp   == currentState.ur5_from_udp_prev) return;
@@ -359,7 +359,7 @@ private:
     sendMsgToCameraTopic.data.push_back(currentState.camera_from_udp);
     sendMsgToCameraTopic.data.push_back(currentState.relay_from_udp);
     sendMsgToCameraTopic.data.push_back(currentState.ur5_from_udp);
-    toCamPub.publish(sendMsgToCameraTopic);
+    toBatCamPub.publish(sendMsgToCameraTopic);
     // std::cout << std::endl;
 
     fingers::To_Bat_Cam msgToDebugBatCam;

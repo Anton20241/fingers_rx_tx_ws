@@ -280,6 +280,8 @@ namespace protocol_master
         }
         /* Если длина пакета не валидная, ошибка */
         if (getLen(ptrBuff) != len) {
+            printf("\ngetLen(ptrBuff) = %u\n", getLen(ptrBuff));
+            printf("len = %u\n", len);
             std::cout << "\ngetLen(ptrBuff) != len\n";
             return false;
         }

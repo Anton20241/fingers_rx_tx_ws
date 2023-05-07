@@ -286,7 +286,7 @@ namespace protocol_master
             std::cout << "\ngetLen(ptrBuff) != len_\n";
             return false;
         }
-        if (getLen(ptrBuff) != 4 && getLen(ptrBuff) != 5 && getLen(ptrBuff) != 6  && getLen(ptrBuff) != 8 && getLen(ptrBuff) != 9) {
+        if (getLen(ptrBuff) != 4 && getLen(ptrBuff) != 5 && getLen(ptrBuff) != 6  && getLen(ptrBuff) != 8 && getLen(ptrBuff) != 9 && getLen(ptrBuff) != 13) {
             std::cout << "\ngetLen(ptrBuff) != 5\n";
             return false;
         }

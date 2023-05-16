@@ -133,13 +133,12 @@ namespace qt_serial{
     from_send_to_get_tp = boost::chrono::system_clock::now();
     if(sendBytes > 0){
       m_sendCount++;
-      // printf("\n[SEND]:\n");
-      // for (size_t i = 0; i < sendBytes; i++)
-      // {
-      //     printf("[%u]", m_sendData.at(i));
-      // }
-      // std::cout << std::endl;
-      // cout << "sendBytes: "<< sendBytes << endl;
+      printf("\n[SEND]:\n");
+      for (size_t i = 0; i < sendBytes; i++) {
+        printf("[%u]", (uint8_t)m_sendData.at(i));
+      }
+      std::cout << std::endl;
+      cout << "sendBytes: "<< sendBytes << endl;
       sendDataProcess = false;
       return true;
     } else {
@@ -181,12 +180,13 @@ namespace qt_serial{
           
     // std::cout << "m_copyRecvdDataSZ: = " << m_copyRecvdData.size() << std::endl;
 
-    // std::cout << "m_copyRecvdData:\n";
+    std::cout << "m_copyRecvdData:";
     for (int i = 0; i < m_copyRecvdData.size(); i++){
+      if (i % 13 == 0) std::cout << std::endl;
       ptrData[i] = m_copyRecvdData[i];
-      //printf("[%u]", m_copyRecvdData[i]);
+      printf("[%u]", m_copyRecvdData[i]);
     }    
-    //std::cout << std::endl;        
+    std::cout << std::endl;        
 
     *lenInOut = m_copyRecvdData.size();
     // std::cout << "*lenInOut = " << *lenInOut << std::endl;

@@ -1,0 +1,9 @@
+x11vnc -auth guess -forever -loop -noxdamage -repeat -rfbauth /etc/x11vnc.pass -rfbport 5900 -shared
+
+
+
+x11vnc -auth guess -forever -loop -noxdamage -repeat -rfbport 5900 -shared
+
+
+
+sudo systemctl start vncserver-x11-serviced.service

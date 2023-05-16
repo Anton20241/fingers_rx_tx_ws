@@ -206,10 +206,10 @@ set(UDP_CLIENT src/udp_client.cpp)
 # target_link_libraries(rs_master ${catkin_LIBRARIES})
 # qt5_use_modules(rs_master Core SerialPort)
 
-# add_executable(udp_client ${UDP_CLIENT} ${SOURCES})
-# target_include_directories (udp_client PRIVATE include/fingers/ src/)
-# target_link_libraries(udp_client ${catkin_LIBRARIES})
-# qt5_use_modules(udp_client Core SerialPort)
+add_executable(udp_client ${UDP_CLIENT} ${SOURCES})
+target_include_directories (udp_client PRIVATE include/fingers/ src/)
+target_link_libraries(udp_client ${catkin_LIBRARIES})
+qt5_use_modules(udp_client Core SerialPort)
 
 #############
 ## Install ##

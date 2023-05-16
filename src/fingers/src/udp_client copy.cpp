@@ -36,12 +36,12 @@ public:
 #if CODE_PART == RAW_UDP_DATA
 #define UDP_MSG_SIZE 43
         uint8_t msg[] =       {0xAA, 0xBB, UDP_MSG_SIZE,        //header
-                               0x0, 0x0, 0x0, 0x0, 0x0,         //большой палец
-                               0x0, 0x0, 0x0, 0x0, 0x0,         //указательный палец
-                               0x0, 0x0, 0x0, 0x0, 0x0,         //средный палец
-                               0x0, 0x0, 0x0, 0x0, 0x0,         //безымянный палец
-                               0x0, 0x0, 0x0, 0x0, 0x0,         //мизинец
-                               0x5A, 0x0, 0x0, 0x0, 0x0,         //модуль отведения
+                               0x1, 0x2, 0x3, 0x4, 0x5,         //data to fingers
+                               0x1, 0x2, 0x3, 0x4, 0x5,         //data to fingers
+                               0x1, 0x2, 0x3, 0x4, 0x5,         //data to fingers
+                               0x1, 0x2, 0x3, 0x4, 0x5,         //data to fingers 
+                               0x1, 0x2, 0x3, 0x4, 0x5,         //data to fingers
+                               0x1, 0x2, 0x3, 0x4, 0x5,         //data to fingers
                                0x2,                             //hand_mount
                                0x0,                             //hold_position
                                0x1,                             //camera
@@ -56,12 +56,12 @@ public:
         uint8_t crc8 = umba_crc8_table(msg, sizeof(msg));
 
         uint8_t msgToSend[] = {0xAA, 0xBB, UDP_MSG_SIZE,        //header
-                               0x0, 0x0, 0x0, 0x0, 0x0,         //большой палец
-                               0x0, 0x0, 0x0, 0x0, 0x0,         //указательный палец
-                               0x0, 0x0, 0x0, 0x0, 0x0,         //средный палец
-                               0x0, 0x0, 0x0, 0x0, 0x0,         //безымянный палец
-                               0x0, 0x0, 0x0, 0x0, 0x0,         //мизинец
-                               0x5A, 0x0, 0x0, 0x0, 0x0,         //модуль отведения
+                               0x1, 0x2, 0x3, 0x4, 0x5,         //data to fingers
+                               0x1, 0x2, 0x3, 0x4, 0x5,         //data to fingers
+                               0x1, 0x2, 0x3, 0x4, 0x5,         //data to fingers
+                               0x1, 0x2, 0x3, 0x4, 0x5,         //data to fingers 
+                               0x1, 0x2, 0x3, 0x4, 0x5,         //data to fingers
+                               0x1, 0x2, 0x3, 0x4, 0x5,         //data to fingers
                                0x2,                             //hand_mount
                                0x0,                             //hold_position
                                0x1,                             //camera
@@ -74,87 +74,83 @@ public:
                                crc8                             //crc8
                                };
 
-        uint8_t sendArr[8] = {0x14, 0x09, 0x30, 0x5A, 0x00, 0x00, 0x00, 0x00};
-        uint8_t crc8SendArr = umba_crc8_table(sendArr, sizeof(sendArr));
-        printf("crc8SendArr = %u\n", crc8SendArr);
+        uint8_t msg2[] =      {0xAA, 0xBB, UDP_MSG_SIZE,        //header
+                               0x1, 0x2, 0x3, 0x4, 0x5,         //data to fingers
+                               0x1, 0x2, 0x3, 0x4, 0x5,         //data to fingers
+                               0x1, 0x2, 0x3, 0x4, 0x5,         //data to fingers
+                               0x1, 0x2, 0x3, 0x4, 0x5,         //data to fingers 
+                               0x1, 0x2, 0x3, 0x4, 0x5,         //data to fingers
+                               0x1, 0x2, 0x3, 0x4, 0x5,         //data to fingers
+                               0x2,                             //hand_mount
+                               0x0,                             //hold_position
+                               0x1,                             //camera
+                               0x1,                             //ur_5
+                               0x1,                             //relay_state
+                               0x1,                             //keepalive
+                               0x1,                             //keepalive
+                               0x1,                             //keepalive
+                               0x1                              //keepalive
+                               };
 
-        // uint8_t msg2[] =      {0xAA, 0xBB, UDP_MSG_SIZE,        //header
-        //                        0x0, 0x0, 0x0, 0x0, 0x04,         //большой палец
-        //                        0x0, 0x0, 0x0, 0x0, 0x04,         //указательный палец
-        //                        0x0, 0x0, 0x0, 0x0, 0x04,         //средный палец
-        //                        0x0, 0x0, 0x0, 0x0, 0x04,         //безымянный палец
-        //                        0x0, 0x0, 0x0, 0x0, 0x04,         //мизинец
-        //                        0x0, 0x0, 0x0, 0x0, 0x04,         //модуль отведения
-        //                        0x2,                             //hand_mount
-        //                        0x0,                             //hold_position
-        //                        0x1,                             //camera
-        //                        0x1,                             //ur_5
-        //                        0x1,                             //relay_state
-        //                        0x1,                             //keepalive
-        //                        0x1,                             //keepalive
-        //                        0x1,                             //keepalive
-        //                        0x1                              //keepalive
-        //                        };
+        uint8_t crc8_2 = umba_crc8_table(msg2, sizeof(msg2));
 
-        // uint8_t crc8_2 = umba_crc8_table(msg2, sizeof(msg2));
+        uint8_t msgToSend2[] = {0xAA, 0xBB, UDP_MSG_SIZE,       //header
+                               0x1, 0x2, 0x3, 0x4, 0x5,         //data to fingers
+                               0x1, 0x2, 0x3, 0x4, 0x5,         //data to fingers
+                               0x1, 0x2, 0x3, 0x4, 0x5,         //data to fingers
+                               0x1, 0x2, 0x3, 0x4, 0x5,         //data to fingers 
+                               0x1, 0x2, 0x3, 0x4, 0x5,         //data to fingers
+                               0x1, 0x2, 0x3, 0x4, 0x5,         //data to fingers
+                               0x2,                             //hand_mount
+                               0x0,                             //hold_position
+                               0x1,                             //camera
+                               0x1,                             //ur_5
+                               0x1,                             //relay_state
+                               0x1,                             //keepalive
+                               0x1,                             //keepalive
+                               0x1,                             //keepalive
+                               0x1,                             //keepalive
+                               crc8_2                           //crc8_2
+                               };
 
-        // uint8_t msgToSend2[] = {0xAA, 0xBB, UDP_MSG_SIZE,       //header
-        //                        0x0, 0x0, 0x0, 0x0, 0x04,         //большой палец
-        //                        0x0, 0x0, 0x0, 0x0, 0x04,         //указательный палец
-        //                        0x0, 0x0, 0x0, 0x0, 0x04,         //средный палец
-        //                        0x0, 0x0, 0x0, 0x0, 0x04,         //безымянный палец
-        //                        0x0, 0x0, 0x0, 0x0, 0x04,         //мизинец
-        //                        0x0, 0x0, 0x0, 0x0, 0x04,         //модуль отведения
-        //                        0x2,                             //hand_mount
-        //                        0x0,                             //hold_position
-        //                        0x1,                             //camera
-        //                        0x1,                             //ur_5
-        //                        0x1,                             //relay_state
-        //                        0x1,                             //keepalive
-        //                        0x1,                             //keepalive
-        //                        0x1,                             //keepalive
-        //                        0x1,                             //keepalive
-        //                        crc8_2                           //crc8_2
-        //                        };
+        uint8_t msg3[] =      {0xAA, 0xBB, UDP_MSG_SIZE,        //header
+                               0x1, 0x2, 0x3, 0x4, 0x5,         //data to fingers
+                               0x1, 0x2, 0x3, 0x4, 0x5,         //data to fingers
+                               0x1, 0x2, 0x3, 0x4, 0x5,         //data to fingers
+                               0x1, 0x2, 0x3, 0x4, 0x5,         //data to fingers 
+                               0x1, 0x2, 0x3, 0x4, 0x5,         //data to fingers
+                               0x1, 0x2, 0x3, 0x4, 0x5,         //data to fingers
+                               0x2,                             //hand_mount
+                               0x0,                             //hold_position
+                               0x1,                             //camera
+                               0x1,                             //ur_5
+                               0x1,                             //relay_state
+                               0x1,                             //keepalive
+                               0x1,                             //keepalive
+                               0x1,                             //keepalive
+                               0x1                              //keepalive
+                               };
 
-        // uint8_t msg3[] =      {0xAA, 0xBB, UDP_MSG_SIZE,        //header
-        //                        0x0, 0x0, 0x0, 0x0, 0x04,         //большой палец
-        //                        0x0, 0x0, 0x0, 0x0, 0x04,         //указательный палец
-        //                        0x0, 0x0, 0x0, 0x0, 0x04,         //средный палец
-        //                        0x0, 0x0, 0x0, 0x0, 0x04,         //безымянный палец
-        //                        0x0, 0x0, 0x0, 0x0, 0x04,         //мизинец
-        //                        0x0, 0x0, 0x0, 0x0, 0x04,         //модуль отведения
-        //                        0x2,                             //hand_mount
-        //                        0x0,                             //hold_position
-        //                        0x1,                             //camera
-        //                        0x1,                             //ur_5
-        //                        0x1,                             //relay_state
-        //                        0x1,                             //keepalive
-        //                        0x1,                             //keepalive
-        //                        0x1,                             //keepalive
-        //                        0x1                              //keepalive
-        //                        };   
+        uint8_t crc8_3 = umba_crc8_table(msg3, sizeof(msg3));
 
-        // uint8_t crc8_3 = umba_crc8_table(msg3, sizeof(msg3));
-
-        // uint8_t msgToSend3[] = {0xAA, 0xBB, UDP_MSG_SIZE,       //header
-        //                        0x0, 0x0, 0x0, 0x0, 0x04,         //большой палец
-        //                        0x0, 0x0, 0x0, 0x0, 0x04,         //указательный палец
-        //                        0x0, 0x0, 0x0, 0x0, 0x04,         //средный палец
-        //                        0x0, 0x0, 0x0, 0x0, 0x04,         //безымянный палец
-        //                        0x0, 0x0, 0x0, 0x0, 0x04,         //мизинец
-        //                        0x0, 0x0, 0x0, 0x0, 0x04,         //модуль отведения
-        //                        0x2,                             //hand_mount
-        //                        0x0,                             //hold_position
-        //                        0x1,                             //camera
-        //                        0x1,                             //ur_5
-        //                        0x1,                             //relay_state
-        //                        0x1,                             //keepalive
-        //                        0x1,                             //keepalive
-        //                        0x1,                             //keepalive
-        //                        0x1,                             //keepalive
-        //                        crc8_3                           //crc8_2
-        //                        };
+        uint8_t msgToSend3[] = {0xAA, 0xBB, UDP_MSG_SIZE,       //header
+                               0x1, 0x2, 0x3, 0x4, 0x5,         //data to fingers
+                               0x1, 0x2, 0x3, 0x4, 0x5,         //data to fingers
+                               0x1, 0x2, 0x3, 0x4, 0x5,         //data to fingers
+                               0x1, 0x2, 0x3, 0x4, 0x5,         //data to fingers 
+                               0x1, 0x2, 0x3, 0x4, 0x5,         //data to fingers
+                               0x1, 0x2, 0x3, 0x4, 0x5,         //data to fingers
+                               0x2,                             //hand_mount
+                               0x0,                             //hold_position
+                               0x1,                             //camera
+                               0x1,                             //ur_5
+                               0x1,                             //relay_state
+                               0x1,                             //keepalive
+                               0x1,                             //keepalive
+                               0x1,                             //keepalive
+                               0x1,                             //keepalive
+                               crc8_3                           //crc8_2
+                               };
 
 #elif CODE_PART == COMPLETE_UDP_DATA
 #define UDP_MSG_SIZE 36
@@ -276,7 +272,7 @@ public:
 
 #endif
 
-        std::vector <uint8_t*> msg_vec = {msgToSend/*, msgToSend2, msgToSend3*/};
+        std::vector <uint8_t*> msg_vec = {msgToSend, msgToSend2, msgToSend3};
 
         static uint32_t send_count = 0;
         boost::system::error_code err;
@@ -328,7 +324,7 @@ int main(int argc, char* argv[])
       boost::asio::io_context io_context;
       UDPClient udpClient(io_context);
       uint32_t count = 0;
-      while(count < 1){
+      while(count < 10000){
           udpClient.sendMsg();
           ros::spinOnce();
           count++;

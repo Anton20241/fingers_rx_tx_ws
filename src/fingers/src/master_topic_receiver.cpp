@@ -146,7 +146,10 @@ private:
   void update_hand_mount(){
     if(dataToHandMount == dataFromTopic[sizeof(dataFromTopic) - sizeof(uint8_t)]){
       count_hm++;
-      if(count_hm < 100) return;
+      if(count_hm < 100){
+        resvdFromAllDev |= fingers_OK[6]; //ответ пришел
+        return;
+      }
       count_hm = 0;
     } 
     memset(dataFromHandMount, 0, sizeof(dataFromHandMount));
@@ -239,9 +242,9 @@ private:
         printf("[%u]", dataToFinger[i]);
       }
       m_protocol.sendCmdWrite(fingersAddrs[i], 0x30, dataToFinger, sizeof(dataToFinger));
-      std::this_thread::sleep_for(std::chrono::milliseconds(2));
+      std::this_thread::sleep_for(std::chrono::microseconds(2000));
     }
-
+    std::cout << std::endl;
     //ожидание ответа от каждого пальца
     m_protocol.RSRead(dataFromFinger_new, &resvdFromAllDev);
 
@@ -251,14 +254,14 @@ private:
         recvd_count_rs++;
         rcvd_cnt_f[fingersAddrs[i]- 0x11]++;  
         // printf("\nrecvd_count_rs = %u\n", recvd_count_rs);
-        std::cout << "FAIL CNT OF " << fingersAddrs[i] << "device = " << fail_cnt_f[fingersAddrs[i] - 0x11] << std::endl;
-        std::cout << "RCVD CNT OF " << fingersAddrs[i] << "device = " << rcvd_cnt_f[fingersAddrs[i] - 0x11] << std::endl;
+        printf("FAIL CNT OF %u device = %u\n", fingersAddrs[i], fail_cnt_f[fingersAddrs[i] - 0x11]);
+        printf("RCVD CNT OF %u device = %u\n", fingersAddrs[i], rcvd_cnt_f[fingersAddrs[i] - 0x11]);
         memset(dataFromFinger_old[i], 0, 13);
         memcpy(dataFromFinger_old[i], dataFromFinger_new[i], 13);
       }else{
         // std::cout << "\033\n[1;31mNO DATA FROM DEVICE\033\n[0m";
-        std::cout << "FAIL CNT OF " << fingersAddrs[i] << "device = " << fail_cnt_f[fingersAddrs[i] - 0x11] << std::endl;
-        std::cout << "RCVD CNT OF " << fingersAddrs[i] << "device = " << rcvd_cnt_f[fingersAddrs[i] - 0x11] << std::endl;
+        printf("FAIL CNT OF %u device = %u\n", fingersAddrs[i], fail_cnt_f[fingersAddrs[i] - 0x11]);
+        printf("RCVD CNT OF %u device = %u\n", fingersAddrs[i], rcvd_cnt_f[fingersAddrs[i] - 0x11]);
         fail_cnt_f[fingersAddrs[i] - 0x11]++;
         memset(dataFromFinger_new[i], 0, 13);
         memcpy(dataFromFinger_new[i], dataFromFinger_old[i], 13);

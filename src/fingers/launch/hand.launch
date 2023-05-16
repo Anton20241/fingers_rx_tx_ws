@@ -12,7 +12,7 @@
 	<arg name="debugRingFinger" 		default="0"/>
 	<arg name="debugPinky" 					default="0"/>
 	<arg name="debugModulOtv" 			default="0"/>
-	<arg name="debugBatCam" 				default="1"/>
+	<arg name="debugBatCam" 				default="0"/>
 	<arg name="debugAllFingers" 		default="0"/>
 
 

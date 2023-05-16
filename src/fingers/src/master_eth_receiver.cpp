@@ -165,19 +165,18 @@ private:
     getMsgFromFingers = true;
     recvd_count_topic_fingers++;
     memset(dataFromFingersTopic, 0, sizeof(dataFromFingersTopic));
-    // std::cout << "\n\033[1;34mRECVD FROM TOPIC fromFingersTopic recvdMsg->data.size() = \033[0m" << recvdMsg->data.size() << std::endl;
-    // std::cout << "recvd_count_topic_fingers = " << recvd_count_topic_fingers << std::endl;
+    std::cout << "\n\033[1;34mRECVD FROM TOPIC fromFingersTopic recvdMsg->data.size() = \033[0m" << recvdMsg->data.size() << std::endl;
+    std::cout << "recvd_count_topic_fingers = " << recvd_count_topic_fingers << std::endl;
     for (int i = 0; i < recvdMsg->data.size(); i++){
         dataFromFingersTopic[i] = recvdMsg->data[i];
-        // printf("[%u]", dataFromFingersTopic[i]);
+        printf("[%u]", dataFromFingersTopic[i]);
     }
-    // std::cout << std::endl;
+    std::cout << std::endl;
     currentState.hand_mount = dataFromFingersTopic[sizeof(dataFromFingersTopic) - 2 * sizeof(uint8_t)];
     fingersOk               = dataFromFingersTopic[sizeof(dataFromFingersTopic) - 1 * sizeof(uint8_t)]; //get answers from all fingers
   }
 
   void from_cam_bat_handle_receive(const std_msgs::ByteMultiArray::ConstPtr& recvdMsg) {
-    //dataGetFromBatCam = true;
     if(recvdMsg->data.size() == 6){
       //обновляем данные
       currentState.bat_24V                    = recvdMsg->data[0];
@@ -196,14 +195,13 @@ private:
     } else if (recvdMsg->data.size() == 1){
       boardOk                                 = recvdMsg->data[0];
     } else return;
-    // resvdFromAllDev                          |= tmpAllOk;
-    //recvd_count_topic_cam_bat++;
-    // std::cout << "\033[1;34mRECVD FROM TOPIC bat_cam_topic recvdMsg->data.size() = \033[0m" << recvdMsg->data.size() << std::endl;
-    // std::cout << "recvd_count_topic_cam_bat = " << recvd_count_topic_cam_bat << std::endl;
-    // for (int i = 0; i < recvdMsg->data.size(); i++){
-    //   printf("[%u]", (uint8_t)recvdMsg->data[i]);
-    // }
-    // std::cout << std::endl;
+    recvd_count_topic_cam_bat++;
+    std::cout << "\033[1;34mRECVD FROM TOPIC bat_cam_topic recvdMsg->data.size() = \033[0m" << recvdMsg->data.size() << std::endl;
+    std::cout << "recvd_count_topic_cam_bat = " << recvd_count_topic_cam_bat << std::endl;
+    for (int i = 0; i < recvdMsg->data.size(); i++){
+      printf("[%u]", (uint8_t)recvdMsg->data[i]);
+    }
+    std::cout << std::endl;
   }
 
   void startShutDownProcess(){
@@ -216,14 +214,17 @@ private:
   void udp_handle_receive(const boost::system::error_code& error, size_t bytes_transferred) {
 
     if (!error && bytes_transferred > 0){
-      // std::cout << "\n\033[1;36mRECVD FROM UDP bytes_transferred = \033[0m" << bytes_transferred << std::endl;
-      // std::cout << "recvd_count_udp = " << recvd_count_udp << std::endl;
-      // for (int i = 0; i < bytes_transferred; i++){
-      //   printf("[%u]", dataFromUDP[i]);
-      // }
-      // std::cout << std::endl;
+      std::cout << "\n\033[1;36mRECVD FROM UDP bytes_transferred = \033[0m" << bytes_transferred << std::endl;
+      std::cout << "recvd_count_udp = " << recvd_count_udp << std::endl;
+      for (int i = 0; i < bytes_transferred; i++){
+        printf("[%u]", dataFromUDP[i]);
+        if (i==2 || i==7 || i==12 || i==17 || i==22 || i==27 || i==32 || i==33 || i==34 || i==35 || i==36 || i== 37 || i==41 ){
+          printf("\033[1;31m|\033[0m");
+        }
+      }
+      std::cout << std::endl;
       if(!parserUDP(dataFromUDP)){
-        // std::cout << "\033[1;31mUDP data not valid\033[0m\n";
+        std::cout << "\033[1;31mUDP data not valid\033[0m\n";
         memset(dataFromUDP, 0, sizeof(dataFromUDP));
         read_msg_udp();
         return;
@@ -286,7 +287,7 @@ private:
     // std::cout << std::endl;
 
     if (currentState.hold_position == 1){
-      // printf("\033[1;33mcurrentState.hold_position = %u.\033[0m\n", currentState.hold_position);
+      printf("\033[1;33mcurrentState.hold_position = %u.\033[0m\n", currentState.hold_position);
 
       if (holdPositionProcessStart){
         // std::cout << "\033[1;31mholdPositionProcessStart\033[0m";
@@ -312,13 +313,13 @@ private:
     sendMsgToFingersTopic.layout.dim[0].size = 1;
     sendMsgToFingersTopic.layout.dim[0].stride = sizeof(dataToFingersTopic);
     sendMsgToFingersTopic.data.clear();
-    // std::cout << "\033[1;34mSEND TO toFingersTopic: \033[0m";
+    std::cout << "\033[1;34mSEND TO toFingersTopic: \033[0m";
     for (int i = 0; i < sizeof(dataToFingersTopic); i++){
-      // printf("[%u]", dataToFingersTopic[i]);
+      printf("[%u]", dataToFingersTopic[i]);
       sendMsgToFingersTopic.data.push_back(dataToFingersTopic[i]);
     }
     toFingersPub.publish(sendMsgToFingersTopic);
-    // std::cout << std::endl;
+    std::cout << std::endl;
 
     fingers::To_Finger msgsArrToDebugFingers[6];
     setMsgsToDebugTopic(msgsArrToDebugFingers, dataToFingersTopic);
@@ -341,16 +342,16 @@ private:
     sendMsgToCameraTopic.layout.dim[0].stride = 3;
     sendMsgToCameraTopic.data.clear();
 
-    // std::cout << "\033[1;34mSEND TO camera_topic:\033[0m\n";
-    // printf("camera_from_udp = [%u]\n", currentState.camera_from_udp);
-    // printf("relay_from_udp = [%u]\n", currentState.relay_from_udp);
-    // printf("ur5_from_udp = [%u]\n", currentState.ur5_from_udp);
+    std::cout << "\033[1;34mSEND TO camera_topic:\033[0m\n";
+    printf("camera_from_udp = [%u]\n", currentState.camera_from_udp);
+    printf("relay_from_udp = [%u]\n", currentState.relay_from_udp);
+    printf("ur5_from_udp = [%u]\n", currentState.ur5_from_udp);
 
     sendMsgToCameraTopic.data.push_back(currentState.camera_from_udp);
     sendMsgToCameraTopic.data.push_back(currentState.relay_from_udp);
     sendMsgToCameraTopic.data.push_back(currentState.ur5_from_udp);
     toBatCamPub.publish(sendMsgToCameraTopic);
-    // std::cout << std::endl;
+    std::cout << std::endl;
 
     fingers::To_Bat_Cam msgToDebugBatCam;
     msgToDebugBatCam.camera     = currentState.camera_from_udp;
@@ -387,15 +388,15 @@ private:
     if (!error && sent > 0){
       allDevOk = 0;
       send_count_udp++;
-      // std::cout << "\033[1;36mSEND TO UDP bytes_transferred = \033[0m" << sent << std::endl;
-      // std::cout << "send_count_udp = " << send_count_udp << std::endl;
-      // for (int i = 0; i < sent; i++){
-      //   printf("[%u]", dataToUDP[i]);
-      //   if (i==2 || i==11 || i== 20 || i==29 || i==38 || i==47 || i==56 || i==57 || i==58 || i==59 || i==60 || i== 61 || i==62 || i==63 || i==67){
-      //     printf("\033[1;31m|\033[0m");
-      //   }
-      // }
-      // std::cout << std::endl;
+      std::cout << "\033[1;36mSEND TO UDP bytes_transferred = \033[0m" << sent << std::endl;
+      std::cout << "send_count_udp = " << send_count_udp << std::endl;
+      for (int i = 0; i < sent; i++){
+        printf("[%u]", dataToUDP[i]);
+        if (i==2 || i==11 || i== 20 || i==29 || i==38 || i==47 || i==56 || i==57 || i==58 || i==59 || i==60 || i== 61 || i==62 || i==63 || i==67){
+          printf("\033[1;31m|\033[0m");
+        }
+      }
+      std::cout << std::endl;
     } else {
       //std::cerr << error.what();
     }

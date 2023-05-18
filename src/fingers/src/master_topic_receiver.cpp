@@ -144,14 +144,14 @@ private:
   uint8_t fingers_OK[7] = {1, 2, 4, 8, 16, 32, 64}; ////ок, если ответ пришел
 
   void update_hand_mount(){
-    if(dataToHandMount == dataFromTopic[sizeof(dataFromTopic) - sizeof(uint8_t)]){
-      count_hm++;
-      if(count_hm < 100){
-        resvdFromAllDev |= fingers_OK[6]; //ответ пришел
-        return;
-      }
-      count_hm = 0;
-    } 
+    // if(dataToHandMount == dataFromTopic[sizeof(dataFromTopic) - sizeof(uint8_t)]){
+    //   count_hm++;
+    //   if(count_hm < 100){
+    //     resvdFromAllDev |= fingers_OK[6]; //ответ пришел
+    //     return;
+    //   }
+    //   count_hm = 0;
+    // } 
     memset(dataFromHandMount, 0, sizeof(dataFromHandMount));
     dataFromHandMountSize = 0;
     dataToHandMount = dataFromTopic[sizeof(dataFromTopic) - sizeof(uint8_t)];
@@ -242,7 +242,7 @@ private:
         printf("[%u]", dataToFinger[i]);
       }
       m_protocol.sendCmdWrite(fingersAddrs[i], 0x30, dataToFinger, sizeof(dataToFinger));
-      std::this_thread::sleep_for(std::chrono::microseconds(2000));
+      std::this_thread::sleep_for(std::chrono::microseconds(1500));
     }
     std::cout << std::endl;
     //ожидание ответа от каждого пальца

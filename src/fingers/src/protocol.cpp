@@ -529,7 +529,7 @@ namespace protocol_master
 
         std::memset(buff, 0, sizeof(buff));
         std::memset(recvdBuff, 0, sizeof(recvdBuff));
-        clear(dataFrom, dataFromSize);
+        //clear(dataFrom, dataFromSize);
 
         buff[0] = addressTo;
         buff[1] = packLenMin + (uint8_t)dataToSize;

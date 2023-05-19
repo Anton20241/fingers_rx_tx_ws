@@ -98,13 +98,17 @@ namespace qt_serial{
     if(!m_serialPort.setFlowControl(QSerialPort::NoFlowControl))
       qDebug()<<m_serialPort.errorString();
 
-    if (!m_serialPort.open(QIODevice::ReadWrite)) {
-      m_standardOutput << QObject::tr("Failed to open port %1, error: %2")
-              .arg(serialPortName)
-              .arg(m_serialPort.errorString())
-                    << endl;
-      exit(-1);
+    bool failStart = true;
+    while (!m_serialPort.open(QIODevice::ReadWrite)) {
+      if (failStart) {
+        failStart = false;
+        m_standardOutput << QObject::tr("Failed to open port %1, error: %2")
+                .arg(serialPortName)
+                .arg(m_serialPort.errorString())
+                      << endl;
+      }
     }
+    printf("[SUCCESS PORT OPEN]\n");
 
     m_readData.clear();
     m_readData.append(m_serialPort.readAll());

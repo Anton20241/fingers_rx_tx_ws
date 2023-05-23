@@ -33,9 +33,9 @@
 #elif CODE_PART == COMPLETE_UDP_DATA
 
 #define DATA_FROM_FINGER_SIZE 6
-#define DATA_TO_FINGER_SIZE 4
-#define DATA_FROM_TOPIC_SIZE 25
-#define DATA_TO_TOPIC_SIZE 38
+#define DATA_TO_FINGER_SIZE   4
+#define DATA_FROM_TOPIC_SIZE  25
+#define DATA_TO_TOPIC_SIZE    38
 
 #else 
 
@@ -43,14 +43,14 @@
 
 #endif
 
-  int debugBigFinger   = 0;
-  int debugIndexFinger = 0;
-  int debugMidFinger   = 0;
-  int debugRingFinger  = 0;
-  int debugPinky       = 0;
-  int debugModulOtv    = 0;
-  int debugBatCam      = 0;
-  int debugAllFingers  = 0;
+int debugBigFinger   = 0;
+int debugIndexFinger = 0;
+int debugMidFinger   = 0;
+int debugRingFinger  = 0;
+int debugPinky       = 0;
+int debugModulOtv    = 0;
+int debugBatCam      = 0;
+int debugAllFingers  = 0;
 
 class RS_Server
 {
@@ -70,26 +70,12 @@ public:
 
   void nodeFromTopicProcess(){
     if (getMsgFromTopic){
-      update_hand_mount();
-      toEachFinger();              
+      sendToHandMount();
+      sendToEachFinger();
+      getAnswers();
       sendMsgToTopic();
       getMsgFromTopic = false;
-    }
-
-    // while (count < 1000) {
-    //   // ROS_INFO("");
-    //   // boost::chrono::system_clock::time_point cur_tp = boost::chrono::system_clock::now();
-    //   // boost::chrono::duration<double> ex_time = cur_tp - first_tp;
-    //   // std::cout << "\033\n[1;32mExecution time: \033\n[0m" << ex_time.count() * 1000000 << "\n";
-    //   // std::cout << "count = " << count << "\n";
-    //   // first_tp = boost::chrono::system_clock::now();
-    //   update_hand_mount();
-    //   toEachFinger();
-    //   sendMsgToTopic();
-    //   count++;
-    //   // ROS_INFO("count = %d\n", count);
-    // }
-  
+    }  
   }
   
 private:
@@ -127,9 +113,9 @@ private:
   bool start_communication          = true;
   uint8_t resvdFromAllDev           = 0;
   uint32_t dataFromHandMountSize    = 0;
-  boost::chrono::system_clock::time_point first_tp = boost::chrono::system_clock::now();
   uint32_t count                    = 0;
   uint32_t count_hm                 = 0;
+  boost::chrono::system_clock::time_point first_tp = boost::chrono::system_clock::now();
 
   enum fingersOK{            //ок, если ответ пришел
     bigFinger    = 1,        //большой палец
@@ -143,91 +129,54 @@ private:
 
   uint8_t fingers_OK[7] = {1, 2, 4, 8, 16, 32, 64}; ////ок, если ответ пришел
 
-  void update_hand_mount(){
-    if(dataToHandMount == dataFromTopic[sizeof(dataFromTopic) - sizeof(uint8_t)]){
-      count_hm++;
-      if(count_hm < 100) return;
-      count_hm = 0;
-    } 
+  void topic_handle_receive(const std_msgs::ByteMultiArray::ConstPtr& recvdMsg) {
+    if (getMsgFromTopic) return;
+    getMsgFromTopic = true;
+    recvd_count_topic++;
+    // std::cout << "\033\n[1;34mSIZE OF RECVD DATA FROM TOPIC toFingersTopic = \033[0m" << recvdMsg->data.size() << std::endl;
+    // std::cout << "recvd_count_topic = " << recvd_count_topic << std::endl;
+    memset(dataFromTopic, 0, sizeof(dataFromTopic));
+    memset(dataToTopic,   0, sizeof(dataToTopic));
+    resvdFromAllDev = 0;
+    for (int i = 0; i < recvdMsg->data.size(); i++){
+      dataFromTopic[i] = recvdMsg->data[i];
+      // printf("[%u]", dataFromTopic[i]);
+    }
+  }
+
+  void sendToHandMount(){
+
+    //отправка запроса hand_mount без ожидания ответа
     memset(dataFromHandMount, 0, sizeof(dataFromHandMount));
     dataFromHandMountSize = 0;
     dataToHandMount = dataFromTopic[sizeof(dataFromTopic) - sizeof(uint8_t)];
-    // std::cout << "\ndataToHandMount = ";
-    // printf("%u\n", dataToHandMount);
 
-    #if CODE_PART == RAW_UDP_DATA
+    std::cout << "\ndataToHandMount " << hand_mount_addr << ": ";
+    printf("[%u]", dataToHandMount);
+
+    m_protocol.sendCmdWrite(hand_mount_addr, 0x30, &dataToHandMount, sizeof(dataToHandMount));
+    std::this_thread::sleep_for(std::chrono::microseconds(2000));
+    
+    //////////////////////////////////////////////////////////////////////////////////////////
 
     if(m_protocol.sendCmdReadWrite(hand_mount_addr, 0x30, &dataToHandMount, sizeof(uint8_t), 
                                             dataFromHandMount, &dataFromHandMountSize)){
-      resvdFromAllDev |= fingers_OK[6]; //ответ пришел
-      // std::cout << "\nOk\n";
+      resvdFromAllDev |= fingers_OK[6];                   //ответ пришел
       recvd_count_rs++;
-      // printf("\nrecvd_count_rs = %u\n", recvd_count_rs);
-      // printf("\nfail_cnt = %u\n", fail_cnt);
       
     } else {
-      resvdFromAllDev &= ~fingers_OK[6]; //ответ НЕ пришел
-      // std::cout << "\033\n[1;31mNO DATA FROM HAND_MOUNT\033\n[0m";
+      resvdFromAllDev &= ~fingers_OK[6];                  //ответ НЕ пришел
       memset(dataFromHandMount, 0, sizeof(dataFromHandMount));
       dataFromHandMountSize = 0;
       fail_cnt++;
-      // printf("\nfail_cnt = %u\n", fail_cnt);
     }
-
-    #elif CODE_PART == COMPLETE_UDP_DATA
-
-    uint8_t dataToHMount[HMOUNT_DATA_SIZE] = {0};
-    dataToHMount[0] = hand_mount_addr;
-    dataToHMount[1] = 0x05;
-    dataToHMount[2] = 0x3;
-    dataToHMount[3] = dataToHandMount;
-    dataToHMount[4] = umba_crc8_table(dataToHMount, HMOUNT_DATA_SIZE - sizeof(uint8_t));
-    if(m_protocol.sendSomeCmd(dataToHMount, sizeof(dataToHMount), dataFromHandMount, &dataFromHandMountSize)){
-      resvdFromAllDev |= fingers_OK[6]; //ответ пришел
-      std::cout << "\nOk\n";
-      recvd_count_rs++;
-      printf("\nrecvd_count_rs = %u\n", recvd_count_rs);
-      printf("\nfail_cnt = %u\n", fail_cnt);
-
-    } else {
-      resvdFromAllDev &= ~fingers_OK[6]; //ответ НЕ пришел
-      std::cout << "\033\n[1;31mNO DATA FROM HAND_MOUNT\033\n[0m";
-      memset(dataFromHandMount, 0, dataFromHandMountSize);
-      dataFromHandMountSize = 0;
-      fail_cnt++;
-      printf("\nfail_cnt = %u\n", fail_cnt);
-    }
-
-    #else 
-
-    #error "INCORRECT CODE_PART"
-
-    #endif
 
     dataToTopic[sizeof(dataToTopic) - 2 * sizeof(uint8_t)] = dataFromHandMount[3];
-    // printf("dataFromHandMount[3] = %u\n", dataFromHandMount[3]);
-    // printf("resvdFromAllDev = %u\n", resvdFromAllDev);
-  }
-
-  void topic_handle_receive(const std_msgs::ByteMultiArray::ConstPtr& recvdMsg) {
-      getMsgFromTopic = true;
-      recvd_count_topic++;
-      // std::cout << "\033\n[1;34mSIZE OF RECVD DATA FROM TOPIC toFingersTopic = \033[0m" << recvdMsg->data.size() << std::endl;
-      // std::cout << "recvd_count_topic = " << recvd_count_topic << std::endl;
-      memset(dataFromTopic, 0, sizeof(dataFromTopic));
-      memset(dataToTopic, 0, sizeof(dataToTopic));
-      resvdFromAllDev = 0;
-      for (int i = 0; i < recvdMsg->data.size(); i++){
-        dataFromTopic[i] = recvdMsg->data[i];
-        // printf("[%u]", dataFromTopic[i]);
-      }
+    
+    //////////////////////////////////////////////////////////////////////////////////////////
   }
 
   void toEachFinger(){
-    // boost::chrono::system_clock::time_point cur_tp = boost::chrono::system_clock::now();
-    // boost::chrono::duration<double> ex_time = cur_tp - first_tp;
-    // std::cout << "Execution time: " << ex_time.count() << std::endl;
-    // first_tp = boost::chrono::system_clock::now();
 
     //отправка запроса каждому пальцу без ожидания ответа
     for (int i = 0; i < fingersAddrs.size(); i++){
@@ -239,9 +188,9 @@ private:
         printf("[%u]", dataToFinger[i]);
       }
       m_protocol.sendCmdWrite(fingersAddrs[i], 0x30, dataToFinger, sizeof(dataToFinger));
-      std::this_thread::sleep_for(std::chrono::milliseconds(2));
+      std::this_thread::sleep_for(std::chrono::microseconds(8000));
     }
-
+    std::cout << std::endl;
     //ожидание ответа от каждого пальца
     m_protocol.RSRead(dataFromFinger_new, &resvdFromAllDev);
 
@@ -251,14 +200,14 @@ private:
         recvd_count_rs++;
         rcvd_cnt_f[fingersAddrs[i]- 0x11]++;  
         // printf("\nrecvd_count_rs = %u\n", recvd_count_rs);
-        std::cout << "FAIL CNT OF " << fingersAddrs[i] << "device = " << fail_cnt_f[fingersAddrs[i] - 0x11] << std::endl;
-        std::cout << "RCVD CNT OF " << fingersAddrs[i] << "device = " << rcvd_cnt_f[fingersAddrs[i] - 0x11] << std::endl;
+        printf("FAIL CNT OF %u device = %u\n", fingersAddrs[i], fail_cnt_f[fingersAddrs[i] - 0x11]);
+        printf("RCVD CNT OF %u device = %u\n", fingersAddrs[i], rcvd_cnt_f[fingersAddrs[i] - 0x11]);
         memset(dataFromFinger_old[i], 0, 13);
         memcpy(dataFromFinger_old[i], dataFromFinger_new[i], 13);
       }else{
         // std::cout << "\033\n[1;31mNO DATA FROM DEVICE\033\n[0m";
-        std::cout << "FAIL CNT OF " << fingersAddrs[i] << "device = " << fail_cnt_f[fingersAddrs[i] - 0x11] << std::endl;
-        std::cout << "RCVD CNT OF " << fingersAddrs[i] << "device = " << rcvd_cnt_f[fingersAddrs[i] - 0x11] << std::endl;
+        printf("FAIL CNT OF %u device = %u\n", fingersAddrs[i], fail_cnt_f[fingersAddrs[i] - 0x11]);
+        printf("RCVD CNT OF %u device = %u\n", fingersAddrs[i], rcvd_cnt_f[fingersAddrs[i] - 0x11]);
         fail_cnt_f[fingersAddrs[i] - 0x11]++;
         memset(dataFromFinger_new[i], 0, 13);
         memcpy(dataFromFinger_new[i], dataFromFinger_old[i], 13);
@@ -327,7 +276,7 @@ int main(int argc, char** argv)
 {
   QCoreApplication coreApplication(argc, argv);
 
-  std::string devPort =   "USB0";
+  std::string devPort =   "USB2";
   std::string baudrate =  "256000";
 
   ros::param::get("/_devPortForFingers",    devPort);

@@ -12,9 +12,9 @@ using boost::asio::ip::udp;
 using boost::asio::ip::address;
 
 #define PORT 20002
-#define IP "192.168.1.16"
+//#define IP "192.168.1.16"
 //#define IP "192.168.43.212"
-//#define IP "127.0.0.1"
+#define IP "127.0.0.1"
 
 #define RAW_UDP_DATA 1
 #define COMPLETE_UDP_DATA 2
@@ -41,7 +41,7 @@ public:
                                0x0, 0x0, 0x0, 0x0, 0x0,         //средный палец
                                0x0, 0x0, 0x0, 0x0, 0x0,         //безымянный палец
                                0x0, 0x0, 0x0, 0x0, 0x0,         //мизинец
-                               0x5A, 0x0, 0x0, 0x0, 0x0,         //модуль отведения
+                               0x0, 0x0, 0x0, 0x0, 0x0,         //модуль отведения
                                0x2,                             //hand_mount
                                0x0,                             //hold_position
                                0x1,                             //camera
@@ -61,7 +61,7 @@ public:
                                0x0, 0x0, 0x0, 0x0, 0x0,         //средный палец
                                0x0, 0x0, 0x0, 0x0, 0x0,         //безымянный палец
                                0x0, 0x0, 0x0, 0x0, 0x0,         //мизинец
-                               0x5A, 0x0, 0x0, 0x0, 0x0,         //модуль отведения
+                               0x0, 0x0, 0x0, 0x0, 0x0,         //модуль отведения
                                0x2,                             //hand_mount
                                0x0,                             //hold_position
                                0x1,                             //camera
@@ -328,7 +328,7 @@ int main(int argc, char* argv[])
       boost::asio::io_context io_context;
       UDPClient udpClient(io_context);
       uint32_t count = 0;
-      while(count < 1){
+      while(1){
           udpClient.sendMsg();
           ros::spinOnce();
           count++;

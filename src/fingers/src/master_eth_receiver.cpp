@@ -392,7 +392,7 @@ private:
       std::cout << "send_count_udp = " << send_count_udp << std::endl;
       for (int i = 0; i < sent; i++){
         printf("[%u]", dataToUDP[i]);
-        if (i==2 || i==11 || i== 20 || i==29 || i==38 || i==47 || i==56 || i==57 || i==58 || i==59 || i==60 || i== 61 || i==62 || i==63 || i==67){
+        if (i==2 || i==11 || i== 20 || i==29 || i==38 || i==47 || i==56 || i==57 || i==58 || i==59 || i==60 || i== 61 || i==62 || i==63 || i==64 || i==68){
           printf("\033[1;31m|\033[0m");
         }
       }

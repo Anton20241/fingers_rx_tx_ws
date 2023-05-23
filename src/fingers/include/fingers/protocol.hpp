@@ -118,9 +118,9 @@ namespace protocol_master
                                         uint8_t* dataFrom, uint32_t* dataFromSize);
             bool sendSomeCmd(const uint8_t* dataTo, uint32_t dataToSize, uint8_t* dataFrom, uint32_t* dataFromSize);
 
-
             //RS
-            bool RSRead(uint8_t dataFrom[][13], uint8_t* resvdFromAllDev);
+            bool RSRead(uint8_t dataFromFinger[][13], uint32_t dataFromFingerSize, 
+                    uint8_t* dataFromHandMount, uint32_t dataFromHandMountSize, uint8_t* resvdFromAllDev);
 
             //UART
             bool sendCmdReadUART(uint8_t addressTo, uint8_t* dataFrom, uint32_t* dataFromSize, 
@@ -134,10 +134,16 @@ namespace protocol_master
             void collectPkg(uint8_t* resvdData, uint32_t resvdBytes, uint8_t* dataUart, uint32_t* dataUartSize, bool& pkgIsReady);
             void updateDataUart(uint8_t* dataUart, uint32_t& dataUartSize);
             bool parser(uint8_t* ptrBuff, uint32_t len, uint8_t addressTo);
-            bool parserRS(uint8_t* collectPckg, uint32_t collectPckgSize, uint8_t dataFrom[][13], uint8_t* resvdFromAllDev);
+
+            bool parserRS(uint32_t recvdBuffSize, uint8_t dataFromFinger[][13], 
+                    uint8_t* dataFromHandMount, uint8_t* resvdFromAllDev);
+
             void clear(uint8_t* dataFrom, uint32_t* dataFromSize);
             QCoreApplication* m_coreApplication;
 
+            void getOldData();
+            bool dataGetBefore(uint8_t* data, uint32_t dataSize);
+            bool dataGetBefore(uint8_t data[][13], uint32_t dataSize);
     };
 }
 

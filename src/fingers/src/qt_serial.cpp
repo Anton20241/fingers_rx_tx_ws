@@ -19,19 +19,9 @@ namespace qt_serial{
     vec.insert(vec.end(),add_vec.begin(),add_vec.end());
   }
 
-  // void show_array(QByteArray& arr) {
-  //   QByteArray arr_to_show = arr.toHex('|');
-  //   for (size_t i = 0; i < arr_to_show.size(); i++)
-  //   {
-  //     std::cout << arr_to_show.at(i);
-  //   }
-  //   std::cout << " arr size = "<< arr.size() << std::endl; 
-  // }
-
   void Qt_Serial_Async::handleReadyRead(){
     
     if (sendDataProcess) return;
-    // std::cout << "handleReadyRead()\n";
     my_mytex.lock();
     m_readData.clear();
     m_readData.append(m_serialPort.readAll());
@@ -42,18 +32,9 @@ namespace qt_serial{
       m_copyRecvdData.clear();
       send_error = false;
     }
-    //cout << " m_readData.size(): = "<<  m_readData.size() << endl;
+
     add_to_vector(m_readData, m_copyRecvdData);
     
-    // boost::chrono::system_clock::time_point from_send_to_get_cur_tp = boost::chrono::system_clock::now();
-    // boost::chrono::duration<double> from_send_to_get_ex_time = from_send_to_get_cur_tp - from_send_to_get_tp;
-    // std::cout << "\033\n[1;32mfrom_send_to_get_ex_time time: \033\n[0m" << from_send_to_get_ex_time.count() * 1000000 << std::endl;
-    // printf("timeFailCount = %u\n", timeFailCount);
-
-    // if (from_send_to_get_ex_time.count() * 1000000 > 6000){
-    //   timeFailCount++;
-    // }
-
     // printf("\n[RECEIVED]:\n");
     // for (size_t i = 0; i < m_copyRecvdData.size(); i++)
     // {
@@ -112,6 +93,7 @@ namespace qt_serial{
 
     m_readData.clear();
     m_readData.append(m_serialPort.readAll());
+    m_readData.clear();
     m_serialPort.clear(QSerialPort::AllDirections);
 
     connect(&m_serialPort, &QSerialPort::readyRead, this, &Qt_Serial_Async::handleReadyRead);
@@ -157,32 +139,20 @@ namespace qt_serial{
   {
     my_mytex.lock();
 
-    // std::cout << "bytesGet = " << bytesGet << std::endl;
-    // std::cout << "m_copyRecvdData.size() = " << m_copyRecvdData.size() << std::endl;
-
     if (m_copyRecvdData.size() != bytesGet || m_copyRecvdData.empty()){
-      //std::cout << "empty or not BytesGet\n";
+      // std::cout << "m_copyRecvdData.size() = " << m_copyRecvdData.size() << "\n";
+      // std::cout << "bytesGet = " << bytesGet << "\n";
       bytesGet = m_copyRecvdData.size();
       my_mytex.unlock();
       return false;
     }
 
-    if (m_copyRecvdData.size() > 78) {
+    if (m_copyRecvdData.size() > 100) {
       m_copyRecvdData.clear();
-      // std::cout << "\n!!!SIZE > 78!!!" << std::endl;
+      //std::cout << "\n!!!SIZE > 100!!!" << std::endl;
       my_mytex.unlock();
       return false;
     }
-
-    // if (m_copyRecvdData.size() < 2 || m_copyRecvdData[1] > 13 || m_copyRecvdData[1] == 0){
-    //   std::cout << "non-valid m_copyRecvdData length\n";
-    //   m_copyRecvdData.clear();
-    //   my_mytex.unlock();
-    //   return false;
-    // }
-    
-          
-    // std::cout << "m_copyRecvdDataSZ: = " << m_copyRecvdData.size() << std::endl;
 
     std::cout << "m_copyRecvdData:";
     for (int i = 0; i < m_copyRecvdData.size(); i++){
@@ -193,25 +163,6 @@ namespace qt_serial{
     std::cout << std::endl;        
 
     *lenInOut = m_copyRecvdData.size();
-    // std::cout << "*lenInOut = " << *lenInOut << std::endl;
-
-    // auto position = m_copyRecvdData.begin();
-    // auto begin = m_copyRecvdData.begin() + packageLen;
-    // auto end = begin + m_copyRecvdData.size() - packageLen;
-    // std::cout << "\ninsert data: ";
-    // for (auto iter = begin; iter != end; iter++) {
-    //     printf("[%u]",*iter);
-    // }
-    
-    // m_copyRecvdData.insert(position, begin, end);
-    
-
-    //std::cout << "\npackageLen = " << packageLen << std::endl;
-    //std::cout << "m_copyRecvdData.size() = " <<  m_copyRecvdData.size() << std::endl;
-
-    // m_copyRecvdData.erase(m_copyRecvdData.begin(), m_copyRecvdData.begin() + packageLen);
-
-    //std::cout << "after erase() m_copyRecvdData.size() = " << m_copyRecvdData.size() << std::endl;
 
     bytesGet = 0;
     m_copyRecvdData.clear();

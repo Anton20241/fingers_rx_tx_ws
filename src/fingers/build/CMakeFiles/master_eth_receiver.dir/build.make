@@ -43,10 +43,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/anton20241/rtc_work/rx_tx_ws/src/fingers
+CMAKE_SOURCE_DIR = /home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/anton20241/rtc_work/rx_tx_ws/src/fingers/build
+CMAKE_BINARY_DIR = /home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/build
 
 # Include any dependencies generated for this target.
 include CMakeFiles/master_eth_receiver.dir/depend.make
@@ -59,85 +59,85 @@ include CMakeFiles/master_eth_receiver.dir/flags.make
 
 CMakeFiles/master_eth_receiver.dir/src/master_eth_receiver.cpp.o: CMakeFiles/master_eth_receiver.dir/flags.make
 CMakeFiles/master_eth_receiver.dir/src/master_eth_receiver.cpp.o: ../src/master_eth_receiver.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/anton20241/rtc_work/rx_tx_ws/src/fingers/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/master_eth_receiver.dir/src/master_eth_receiver.cpp.o"
-	/usr/bin/g++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/master_eth_receiver.dir/src/master_eth_receiver.cpp.o -c /home/anton20241/rtc_work/rx_tx_ws/src/fingers/src/master_eth_receiver.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/master_eth_receiver.dir/src/master_eth_receiver.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/master_eth_receiver.dir/src/master_eth_receiver.cpp.o -c /home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/src/master_eth_receiver.cpp
 
 CMakeFiles/master_eth_receiver.dir/src/master_eth_receiver.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/master_eth_receiver.dir/src/master_eth_receiver.cpp.i"
-	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/anton20241/rtc_work/rx_tx_ws/src/fingers/src/master_eth_receiver.cpp > CMakeFiles/master_eth_receiver.dir/src/master_eth_receiver.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/src/master_eth_receiver.cpp > CMakeFiles/master_eth_receiver.dir/src/master_eth_receiver.cpp.i
 
 CMakeFiles/master_eth_receiver.dir/src/master_eth_receiver.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/master_eth_receiver.dir/src/master_eth_receiver.cpp.s"
-	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/anton20241/rtc_work/rx_tx_ws/src/fingers/src/master_eth_receiver.cpp -o CMakeFiles/master_eth_receiver.dir/src/master_eth_receiver.cpp.s
-
-CMakeFiles/master_eth_receiver.dir/src/boost_rs485.cpp.o: CMakeFiles/master_eth_receiver.dir/flags.make
-CMakeFiles/master_eth_receiver.dir/src/boost_rs485.cpp.o: ../src/boost_rs485.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/anton20241/rtc_work/rx_tx_ws/src/fingers/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/master_eth_receiver.dir/src/boost_rs485.cpp.o"
-	/usr/bin/g++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/master_eth_receiver.dir/src/boost_rs485.cpp.o -c /home/anton20241/rtc_work/rx_tx_ws/src/fingers/src/boost_rs485.cpp
-
-CMakeFiles/master_eth_receiver.dir/src/boost_rs485.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/master_eth_receiver.dir/src/boost_rs485.cpp.i"
-	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/anton20241/rtc_work/rx_tx_ws/src/fingers/src/boost_rs485.cpp > CMakeFiles/master_eth_receiver.dir/src/boost_rs485.cpp.i
-
-CMakeFiles/master_eth_receiver.dir/src/boost_rs485.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/master_eth_receiver.dir/src/boost_rs485.cpp.s"
-	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/anton20241/rtc_work/rx_tx_ws/src/fingers/src/boost_rs485.cpp -o CMakeFiles/master_eth_receiver.dir/src/boost_rs485.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/src/master_eth_receiver.cpp -o CMakeFiles/master_eth_receiver.dir/src/master_eth_receiver.cpp.s
 
 CMakeFiles/master_eth_receiver.dir/src/protocol.cpp.o: CMakeFiles/master_eth_receiver.dir/flags.make
 CMakeFiles/master_eth_receiver.dir/src/protocol.cpp.o: ../src/protocol.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/anton20241/rtc_work/rx_tx_ws/src/fingers/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/master_eth_receiver.dir/src/protocol.cpp.o"
-	/usr/bin/g++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/master_eth_receiver.dir/src/protocol.cpp.o -c /home/anton20241/rtc_work/rx_tx_ws/src/fingers/src/protocol.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/master_eth_receiver.dir/src/protocol.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/master_eth_receiver.dir/src/protocol.cpp.o -c /home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/src/protocol.cpp
 
 CMakeFiles/master_eth_receiver.dir/src/protocol.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/master_eth_receiver.dir/src/protocol.cpp.i"
-	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/anton20241/rtc_work/rx_tx_ws/src/fingers/src/protocol.cpp > CMakeFiles/master_eth_receiver.dir/src/protocol.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/src/protocol.cpp > CMakeFiles/master_eth_receiver.dir/src/protocol.cpp.i
 
 CMakeFiles/master_eth_receiver.dir/src/protocol.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/master_eth_receiver.dir/src/protocol.cpp.s"
-	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/anton20241/rtc_work/rx_tx_ws/src/fingers/src/protocol.cpp -o CMakeFiles/master_eth_receiver.dir/src/protocol.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/src/protocol.cpp -o CMakeFiles/master_eth_receiver.dir/src/protocol.cpp.s
 
 CMakeFiles/master_eth_receiver.dir/src/tabl_reg.cpp.o: CMakeFiles/master_eth_receiver.dir/flags.make
 CMakeFiles/master_eth_receiver.dir/src/tabl_reg.cpp.o: ../src/tabl_reg.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/anton20241/rtc_work/rx_tx_ws/src/fingers/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/master_eth_receiver.dir/src/tabl_reg.cpp.o"
-	/usr/bin/g++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/master_eth_receiver.dir/src/tabl_reg.cpp.o -c /home/anton20241/rtc_work/rx_tx_ws/src/fingers/src/tabl_reg.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/master_eth_receiver.dir/src/tabl_reg.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/master_eth_receiver.dir/src/tabl_reg.cpp.o -c /home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/src/tabl_reg.cpp
 
 CMakeFiles/master_eth_receiver.dir/src/tabl_reg.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/master_eth_receiver.dir/src/tabl_reg.cpp.i"
-	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/anton20241/rtc_work/rx_tx_ws/src/fingers/src/tabl_reg.cpp > CMakeFiles/master_eth_receiver.dir/src/tabl_reg.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/src/tabl_reg.cpp > CMakeFiles/master_eth_receiver.dir/src/tabl_reg.cpp.i
 
 CMakeFiles/master_eth_receiver.dir/src/tabl_reg.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/master_eth_receiver.dir/src/tabl_reg.cpp.s"
-	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/anton20241/rtc_work/rx_tx_ws/src/fingers/src/tabl_reg.cpp -o CMakeFiles/master_eth_receiver.dir/src/tabl_reg.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/src/tabl_reg.cpp -o CMakeFiles/master_eth_receiver.dir/src/tabl_reg.cpp.s
 
 CMakeFiles/master_eth_receiver.dir/src/umba_crc_table.c.o: CMakeFiles/master_eth_receiver.dir/flags.make
 CMakeFiles/master_eth_receiver.dir/src/umba_crc_table.c.o: ../src/umba_crc_table.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/anton20241/rtc_work/rx_tx_ws/src/fingers/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building C object CMakeFiles/master_eth_receiver.dir/src/umba_crc_table.c.o"
-	/usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/master_eth_receiver.dir/src/umba_crc_table.c.o   -c /home/anton20241/rtc_work/rx_tx_ws/src/fingers/src/umba_crc_table.c
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building C object CMakeFiles/master_eth_receiver.dir/src/umba_crc_table.c.o"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/master_eth_receiver.dir/src/umba_crc_table.c.o   -c /home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/src/umba_crc_table.c
 
 CMakeFiles/master_eth_receiver.dir/src/umba_crc_table.c.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/master_eth_receiver.dir/src/umba_crc_table.c.i"
-	/usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/anton20241/rtc_work/rx_tx_ws/src/fingers/src/umba_crc_table.c > CMakeFiles/master_eth_receiver.dir/src/umba_crc_table.c.i
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/src/umba_crc_table.c > CMakeFiles/master_eth_receiver.dir/src/umba_crc_table.c.i
 
 CMakeFiles/master_eth_receiver.dir/src/umba_crc_table.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/master_eth_receiver.dir/src/umba_crc_table.c.s"
-	/usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/anton20241/rtc_work/rx_tx_ws/src/fingers/src/umba_crc_table.c -o CMakeFiles/master_eth_receiver.dir/src/umba_crc_table.c.s
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/src/umba_crc_table.c -o CMakeFiles/master_eth_receiver.dir/src/umba_crc_table.c.s
+
+CMakeFiles/master_eth_receiver.dir/src/qt_serial.cpp.o: CMakeFiles/master_eth_receiver.dir/flags.make
+CMakeFiles/master_eth_receiver.dir/src/qt_serial.cpp.o: ../src/qt_serial.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/master_eth_receiver.dir/src/qt_serial.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/master_eth_receiver.dir/src/qt_serial.cpp.o -c /home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/src/qt_serial.cpp
+
+CMakeFiles/master_eth_receiver.dir/src/qt_serial.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/master_eth_receiver.dir/src/qt_serial.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/src/qt_serial.cpp > CMakeFiles/master_eth_receiver.dir/src/qt_serial.cpp.i
+
+CMakeFiles/master_eth_receiver.dir/src/qt_serial.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/master_eth_receiver.dir/src/qt_serial.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/src/qt_serial.cpp -o CMakeFiles/master_eth_receiver.dir/src/qt_serial.cpp.s
 
 # Object files for target master_eth_receiver
 master_eth_receiver_OBJECTS = \
 "CMakeFiles/master_eth_receiver.dir/src/master_eth_receiver.cpp.o" \
-"CMakeFiles/master_eth_receiver.dir/src/boost_rs485.cpp.o" \
 "CMakeFiles/master_eth_receiver.dir/src/protocol.cpp.o" \
 "CMakeFiles/master_eth_receiver.dir/src/tabl_reg.cpp.o" \
-"CMakeFiles/master_eth_receiver.dir/src/umba_crc_table.c.o"
+"CMakeFiles/master_eth_receiver.dir/src/umba_crc_table.c.o" \
+"CMakeFiles/master_eth_receiver.dir/src/qt_serial.cpp.o"
 
 # External object files for target master_eth_receiver
 master_eth_receiver_EXTERNAL_OBJECTS =
 
 devel/lib/fingers/master_eth_receiver: CMakeFiles/master_eth_receiver.dir/src/master_eth_receiver.cpp.o
-devel/lib/fingers/master_eth_receiver: CMakeFiles/master_eth_receiver.dir/src/boost_rs485.cpp.o
 devel/lib/fingers/master_eth_receiver: CMakeFiles/master_eth_receiver.dir/src/protocol.cpp.o
 devel/lib/fingers/master_eth_receiver: CMakeFiles/master_eth_receiver.dir/src/tabl_reg.cpp.o
 devel/lib/fingers/master_eth_receiver: CMakeFiles/master_eth_receiver.dir/src/umba_crc_table.c.o
+devel/lib/fingers/master_eth_receiver: CMakeFiles/master_eth_receiver.dir/src/qt_serial.cpp.o
 devel/lib/fingers/master_eth_receiver: CMakeFiles/master_eth_receiver.dir/build.make
 devel/lib/fingers/master_eth_receiver: /opt/ros/noetic/lib/libroscpp.so
 devel/lib/fingers/master_eth_receiver: /usr/lib/x86_64-linux-gnu/libpthread.so
@@ -148,16 +148,18 @@ devel/lib/fingers/master_eth_receiver: /opt/ros/noetic/lib/librosconsole_log4cxx
 devel/lib/fingers/master_eth_receiver: /opt/ros/noetic/lib/librosconsole_backend_interface.so
 devel/lib/fingers/master_eth_receiver: /usr/lib/x86_64-linux-gnu/liblog4cxx.so
 devel/lib/fingers/master_eth_receiver: /usr/lib/x86_64-linux-gnu/libboost_regex.so.1.71.0
-devel/lib/fingers/master_eth_receiver: /opt/ros/noetic/lib/libroscpp_serialization.so
 devel/lib/fingers/master_eth_receiver: /opt/ros/noetic/lib/libxmlrpcpp.so
+devel/lib/fingers/master_eth_receiver: /opt/ros/noetic/lib/libroscpp_serialization.so
 devel/lib/fingers/master_eth_receiver: /opt/ros/noetic/lib/librostime.so
 devel/lib/fingers/master_eth_receiver: /usr/lib/x86_64-linux-gnu/libboost_date_time.so.1.71.0
 devel/lib/fingers/master_eth_receiver: /opt/ros/noetic/lib/libcpp_common.so
 devel/lib/fingers/master_eth_receiver: /usr/lib/x86_64-linux-gnu/libboost_system.so.1.71.0
 devel/lib/fingers/master_eth_receiver: /usr/lib/x86_64-linux-gnu/libboost_thread.so.1.71.0
 devel/lib/fingers/master_eth_receiver: /usr/lib/x86_64-linux-gnu/libconsole_bridge.so.0.4
+devel/lib/fingers/master_eth_receiver: /usr/lib/x86_64-linux-gnu/libQt5SerialPort.so.5.12.8
+devel/lib/fingers/master_eth_receiver: /usr/lib/x86_64-linux-gnu/libQt5Core.so.5.12.8
 devel/lib/fingers/master_eth_receiver: CMakeFiles/master_eth_receiver.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/anton20241/rtc_work/rx_tx_ws/src/fingers/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Linking CXX executable devel/lib/fingers/master_eth_receiver"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Linking CXX executable devel/lib/fingers/master_eth_receiver"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/master_eth_receiver.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
@@ -170,6 +172,6 @@ CMakeFiles/master_eth_receiver.dir/clean:
 .PHONY : CMakeFiles/master_eth_receiver.dir/clean
 
 CMakeFiles/master_eth_receiver.dir/depend:
-	cd /home/anton20241/rtc_work/rx_tx_ws/src/fingers/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/anton20241/rtc_work/rx_tx_ws/src/fingers /home/anton20241/rtc_work/rx_tx_ws/src/fingers /home/anton20241/rtc_work/rx_tx_ws/src/fingers/build /home/anton20241/rtc_work/rx_tx_ws/src/fingers/build /home/anton20241/rtc_work/rx_tx_ws/src/fingers/build/CMakeFiles/master_eth_receiver.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers /home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers /home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/build /home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/build /home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/build/CMakeFiles/master_eth_receiver.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/master_eth_receiver.dir/depend
 

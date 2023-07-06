@@ -43,10 +43,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/anton20241/rtc_work/rx_tx_ws/src/fingers
+CMAKE_SOURCE_DIR = /home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/anton20241/rtc_work/rx_tx_ws/src/fingers/build
+CMAKE_BINARY_DIR = /home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/build
 
 # Utility rule file for download_extra_data.
 
@@ -67,6 +67,6 @@ CMakeFiles/download_extra_data.dir/clean:
 .PHONY : CMakeFiles/download_extra_data.dir/clean
 
 CMakeFiles/download_extra_data.dir/depend:
-	cd /home/anton20241/rtc_work/rx_tx_ws/src/fingers/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/anton20241/rtc_work/rx_tx_ws/src/fingers /home/anton20241/rtc_work/rx_tx_ws/src/fingers /home/anton20241/rtc_work/rx_tx_ws/src/fingers/build /home/anton20241/rtc_work/rx_tx_ws/src/fingers/build /home/anton20241/rtc_work/rx_tx_ws/src/fingers/build/CMakeFiles/download_extra_data.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers /home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers /home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/build /home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/build /home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/build/CMakeFiles/download_extra_data.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/download_extra_data.dir/depend
 

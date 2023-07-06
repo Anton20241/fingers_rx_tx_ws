@@ -1,0 +1,2 @@
+set(fingers_MESSAGE_FILES "/home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/msg/From_Bat_Cam_Norm_Work.msg;/home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/msg/From_Bat_Cam_Shutdown.msg;/home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/msg/From_Finger.msg;/home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/msg/To_Bat_Cam.msg;/home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/msg/To_Finger.msg")
+set(fingers_SERVICE_FILES "")

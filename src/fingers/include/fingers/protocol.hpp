@@ -111,16 +111,18 @@ namespace protocol_master
             ~ProtocolMaster() {};
 
             bool sendCmdNOP(uint8_t addressTo);
-            bool sendCmdRead(uint8_t addressTo, uint8_t* dataFrom, uint32_t* dataFromSize);
-            bool sendCmdWrite(uint8_t addressTo, uint8_t cmd, const uint8_t* dataTo, uint32_t dataToSize);
+            bool sendCmdRead(uint8_t addressTo, uint8_t cmd);
+            
+            bool sendCmdWriteRS(uint8_t addressTo, const uint8_t* dataTo, uint32_t dataToSize);
+            bool sendCmdWriteUART(uint8_t addressTo, uint8_t cmd, const uint8_t* dataTo, uint32_t dataToSize);
+
             bool sendCmdWriteComplete(const uint8_t* dataTo, uint32_t dataToSize);
             bool sendCmdReadWrite(uint8_t addressTo, uint8_t cmd, const uint8_t* dataTo, uint32_t dataToSize, 
                                         uint8_t* dataFrom, uint32_t* dataFromSize);
             bool sendSomeCmd(const uint8_t* dataTo, uint32_t dataToSize, uint8_t* dataFrom, uint32_t* dataFromSize);
 
             //RS
-            bool RSRead(uint8_t dataFromFinger[][13], uint32_t dataFromFingerSize, 
-                    uint8_t* dataFromHandMount, uint32_t dataFromHandMountSize, uint8_t* resvdFromAllDev);
+            bool RSRead(uint8_t dataFromFinger[][13], uint8_t* dataFromHandMount, uint8_t dataSettingFromFinger[][12], uint8_t* resvdFromAllDev);
 
             //UART
             bool sendCmdReadUART(uint8_t addressTo, uint8_t* dataFrom, uint32_t* dataFromSize, 
@@ -135,8 +137,9 @@ namespace protocol_master
             void updateDataUart(uint8_t* dataUart, uint32_t& dataUartSize);
             bool parser(uint8_t* ptrBuff, uint32_t len, uint8_t addressTo);
 
-            bool parserRS(uint32_t recvdBuffSize, uint8_t dataFromFinger[][13], 
+            bool parserRS(uint32_t recvdBuffSize, uint8_t dataFromFinger[][13], uint8_t dataSettingFromFinger[][12],
                     uint8_t* dataFromHandMount, uint8_t* resvdFromAllDev);
+            bool parserUART(uint8_t* dataFrom, uint32_t* dataFromSize);
 
             void clear(uint8_t* dataFrom, uint32_t* dataFromSize);
             QCoreApplication* m_coreApplication;

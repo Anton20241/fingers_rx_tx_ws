@@ -36,7 +36,7 @@ namespace qt_serial{
     add_to_vector(m_readData, m_copyRecvdData);
     
     // printf("\n[RECEIVED]:\n");
-    // for (size_t i = 0; i < m_copyRecvdData.size(); i++)
+    // for (uint32_t i = 0; i < m_copyRecvdData.size(); i++)
     // {
     //   printf("[%u]", m_copyRecvdData[i]);
     // }
@@ -105,7 +105,7 @@ namespace qt_serial{
     sendDataProcess = true;
     QByteArray m_sendData;
     
-    for (size_t i = 0; i < len; i++){
+    for (uint32_t i = 0; i < len; i++){
       m_sendData.push_back(ptrData[i]);
     }
 
@@ -120,7 +120,7 @@ namespace qt_serial{
     if(sendBytes > 0){
       m_sendCount++;
       printf("\n[SEND]:\n");
-      for (size_t i = 0; i < sendBytes; i++) {
+      for (uint32_t i = 0; i < sendBytes; i++) {
         printf("[%u]", (uint8_t)m_sendData.at(i));
       }
       std::cout << std::endl;
@@ -147,27 +147,33 @@ namespace qt_serial{
       return false;
     }
 
-    if (m_copyRecvdData.size() > 100) {
+    if (m_copyRecvdData.size() > 120) {
       m_copyRecvdData.clear();
-      //std::cout << "\n!!!SIZE > 100!!!" << std::endl;
+      //std::cout << "\n!!!SIZE > 120!!!" << std::endl;
       my_mytex.unlock();
       return false;
     }
 
-    std::cout << "m_copyRecvdData:";
-    for (int i = 0; i < m_copyRecvdData.size(); i++){
-      if (i % 13 == 0) std::cout << std::endl;
-      ptrData[i] = m_copyRecvdData[i];
+    std::cout << "m_copyRecvdData: ";
+    for (int i = 0; i < m_copyRecvdData.size() - 1; i++){
+      if (m_copyRecvdData[i] >= 0x11 && m_copyRecvdData[i] <= 0x16 && m_copyRecvdData[i + 1] == 0x0D || 
+          m_copyRecvdData[i] == 0x31 && m_copyRecvdData[i + 1] == 0x05) {
+        std::cout << std::endl;
+      }
       printf("[%u]", m_copyRecvdData[i]);
-    }    
-    std::cout << std::endl;        
+    }
+    printf("[%u]", m_copyRecvdData[m_copyRecvdData.size() - 1]);    
+    std::cout << std::endl;
 
+    for (int i = 0; i < m_copyRecvdData.size(); i++){
+      ptrData[i] = m_copyRecvdData[i];
+    }
     *lenInOut = m_copyRecvdData.size();
 
     bytesGet = 0;
     m_copyRecvdData.clear();
+    
     my_mytex.unlock();
-
     return true;
   }
 

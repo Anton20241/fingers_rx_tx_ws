@@ -1,7 +1,7 @@
 file(REMOVE_RECURSE
-  "CMakeFiles/master_topic_receiver.dir/src/boost_rs485.cpp.o"
   "CMakeFiles/master_topic_receiver.dir/src/master_topic_receiver.cpp.o"
   "CMakeFiles/master_topic_receiver.dir/src/protocol.cpp.o"
+  "CMakeFiles/master_topic_receiver.dir/src/qt_serial.cpp.o"
   "CMakeFiles/master_topic_receiver.dir/src/tabl_reg.cpp.o"
   "CMakeFiles/master_topic_receiver.dir/src/umba_crc_table.c.o"
   "devel/lib/fingers/master_topic_receiver"

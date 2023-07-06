@@ -170,46 +170,28 @@ set(SOURCES
 
 set(MASTER_ETH_RECV src/master_eth_receiver.cpp)
 set(MASTER_TOPIC_RECV src/master_topic_receiver.cpp)
-set(FRQ_CHECK_NODE src/frq_check_node.cpp)
-set(UART_NODE src/uart_node.cpp)
-set(FINGER src/finger.cpp)              
-set(RS_MASTER src/rs_master.cpp)
+set(UART_NODE src/uart_node.cpp)           
 set(UDP_CLIENT src/udp_client.cpp)
 
-#  add_executable(master_eth_receiver ${MASTER_ETH_RECV} ${SOURCES})
-#  target_include_directories (master_eth_receiver PRIVATE include/fingers/ src/)
-#  target_link_libraries(master_eth_receiver ${catkin_LIBRARIES})
-#  qt5_use_modules(master_eth_receiver Core SerialPort)
+add_executable(master_eth_receiver ${MASTER_ETH_RECV} ${SOURCES})
+target_include_directories (master_eth_receiver PRIVATE include/fingers/ src/)
+target_link_libraries(master_eth_receiver ${catkin_LIBRARIES})
+qt5_use_modules(master_eth_receiver Core SerialPort)
 
-#  add_executable(master_topic_receiver ${MASTER_TOPIC_RECV} ${SOURCES})
-#  target_include_directories (master_topic_receiver PRIVATE include/fingers/ src/)
-#  target_link_libraries(master_topic_receiver ${catkin_LIBRARIES})
-#  qt5_use_modules(master_topic_receiver Core SerialPort)
+add_executable(master_topic_receiver ${MASTER_TOPIC_RECV} ${SOURCES})
+target_include_directories (master_topic_receiver PRIVATE include/fingers/ src/)
+target_link_libraries(master_topic_receiver ${catkin_LIBRARIES})
+qt5_use_modules(master_topic_receiver Core SerialPort)
 
-#  add_executable(uart_node ${UART_NODE} ${SOURCES})
-#  target_include_directories (uart_node PRIVATE include/fingers/ src/)
-#  target_link_libraries(uart_node ${catkin_LIBRARIES})
-#  qt5_use_modules(uart_node Core SerialPort)
+add_executable(uart_node ${UART_NODE} ${SOURCES})
+target_include_directories (uart_node PRIVATE include/fingers/ src/)
+target_link_libraries(uart_node ${catkin_LIBRARIES})
+qt5_use_modules(uart_node Core SerialPort)
 
-# add_executable(frq_check_node ${FRQ_CHECK_NODE} ${SOURCES})
-# target_include_directories (frq_check_node PRIVATE include/fingers/ src/)
-# target_link_libraries(frq_check_node ${catkin_LIBRARIES})
-# qt5_use_modules(frq_check_node Core SerialPort)
-
-# add_executable(finger ${FINGER} ${SOURCES})
-# target_include_directories (finger PRIVATE include/fingers/ src/)
-# target_link_libraries(finger ${catkin_LIBRARIES})
-# qt5_use_modules(finger Core SerialPort)
-
-# add_executable(rs_master ${RS_MASTER} ${SOURCES})
-# target_include_directories (rs_master PRIVATE include/fingers/ src/)
-# target_link_libraries(rs_master ${catkin_LIBRARIES})
-# qt5_use_modules(rs_master Core SerialPort)
-
-add_executable(udp_client ${UDP_CLIENT} ${SOURCES})
-target_include_directories (udp_client PRIVATE include/fingers/ src/)
-target_link_libraries(udp_client ${catkin_LIBRARIES})
-qt5_use_modules(udp_client Core SerialPort)
+# add_executable(udp_client ${UDP_CLIENT} ${SOURCES})
+# target_include_directories (udp_client PRIVATE include/fingers/ src/)
+# target_link_libraries(udp_client ${catkin_LIBRARIES})
+# qt5_use_modules(udp_client Core SerialPort)
 
 #############
 ## Install ##

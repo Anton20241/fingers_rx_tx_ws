@@ -1,1 +1,0 @@
-/home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/devel/.private/catkin_tools_prebuild/share/catkin_tools_prebuild/cmake/catkin_tools_prebuildConfig.cmake

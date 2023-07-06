@@ -44,17 +44,19 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/anton20241/rtc_work/rx_tx_ws/src/fingers
+CMAKE_SOURCE_DIR = /home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/anton20241/rtc_work/rx_tx_ws/src/fingers/build
+CMAKE_BINARY_DIR = /home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/build
 
 #=============================================================================
 # Directory level rules for the build root directory
 
 # The main recursive "all" target.
-all: CMakeFiles/master_eth_receiver.dir/all
+all: CMakeFiles/uart_node.dir/all
 all: CMakeFiles/master_topic_receiver.dir/all
+all: CMakeFiles/master_eth_receiver.dir/all
+all: CMakeFiles/fingers_generate_messages.dir/all
 all: gtest/all
 
 .PHONY : all
@@ -65,28 +67,45 @@ preinstall: gtest/preinstall
 .PHONY : preinstall
 
 # The main recursive "clean" target.
-clean: CMakeFiles/std_msgs_generate_messages_py.dir/clean
-clean: CMakeFiles/std_msgs_generate_messages_nodejs.dir/clean
-clean: CMakeFiles/master_eth_receiver.dir/clean
-clean: CMakeFiles/std_msgs_generate_messages_cpp.dir/clean
-clean: CMakeFiles/rosgraph_msgs_generate_messages_nodejs.dir/clean
-clean: CMakeFiles/tests.dir/clean
-clean: CMakeFiles/clean_test_results.dir/clean
-clean: CMakeFiles/std_msgs_generate_messages_lisp.dir/clean
-clean: CMakeFiles/run_tests.dir/clean
-clean: CMakeFiles/download_extra_data.dir/clean
-clean: CMakeFiles/doxygen.dir/clean
-clean: CMakeFiles/roscpp_generate_messages_py.dir/clean
-clean: CMakeFiles/roscpp_generate_messages_cpp.dir/clean
-clean: CMakeFiles/roscpp_generate_messages_eus.dir/clean
-clean: CMakeFiles/rosgraph_msgs_generate_messages_py.dir/clean
-clean: CMakeFiles/roscpp_generate_messages_lisp.dir/clean
-clean: CMakeFiles/std_msgs_generate_messages_eus.dir/clean
-clean: CMakeFiles/roscpp_generate_messages_nodejs.dir/clean
-clean: CMakeFiles/rosgraph_msgs_generate_messages_cpp.dir/clean
-clean: CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/clean
+clean: CMakeFiles/uart_node.dir/clean
 clean: CMakeFiles/master_topic_receiver.dir/clean
+clean: CMakeFiles/master_eth_receiver.dir/clean
+clean: CMakeFiles/fingers_generate_messages_py.dir/clean
+clean: CMakeFiles/fingers_gennodejs.dir/clean
+clean: CMakeFiles/fingers_generate_messages_nodejs.dir/clean
+clean: CMakeFiles/fingers_genlisp.dir/clean
+clean: CMakeFiles/fingers_genpy.dir/clean
+clean: CMakeFiles/fingers_geneus.dir/clean
+clean: CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/clean
+clean: CMakeFiles/fingers_generate_messages_cpp.dir/clean
+clean: CMakeFiles/rosgraph_msgs_generate_messages_cpp.dir/clean
+clean: CMakeFiles/roscpp_generate_messages_nodejs.dir/clean
+clean: CMakeFiles/_fingers_generate_messages_check_deps_From_Bat_Cam_Shutdown.dir/clean
+clean: CMakeFiles/roscpp_generate_messages_eus.dir/clean
+clean: CMakeFiles/_fingers_generate_messages_check_deps_To_Finger.dir/clean
+clean: CMakeFiles/roscpp_generate_messages_py.dir/clean
+clean: CMakeFiles/rosgraph_msgs_generate_messages_py.dir/clean
+clean: CMakeFiles/doxygen.dir/clean
 clean: CMakeFiles/rosgraph_msgs_generate_messages_lisp.dir/clean
+clean: CMakeFiles/download_extra_data.dir/clean
+clean: CMakeFiles/run_tests.dir/clean
+clean: CMakeFiles/std_msgs_generate_messages_lisp.dir/clean
+clean: CMakeFiles/roscpp_generate_messages_lisp.dir/clean
+clean: CMakeFiles/clean_test_results.dir/clean
+clean: CMakeFiles/tests.dir/clean
+clean: CMakeFiles/fingers_generate_messages_lisp.dir/clean
+clean: CMakeFiles/fingers_gencpp.dir/clean
+clean: CMakeFiles/_fingers_generate_messages_check_deps_To_Bat_Cam.dir/clean
+clean: CMakeFiles/rosgraph_msgs_generate_messages_nodejs.dir/clean
+clean: CMakeFiles/std_msgs_generate_messages_cpp.dir/clean
+clean: CMakeFiles/std_msgs_generate_messages_eus.dir/clean
+clean: CMakeFiles/_fingers_generate_messages_check_deps_From_Bat_Cam_Norm_Work.dir/clean
+clean: CMakeFiles/std_msgs_generate_messages_nodejs.dir/clean
+clean: CMakeFiles/std_msgs_generate_messages_py.dir/clean
+clean: CMakeFiles/roscpp_generate_messages_cpp.dir/clean
+clean: CMakeFiles/fingers_generate_messages_eus.dir/clean
+clean: CMakeFiles/fingers_generate_messages.dir/clean
+clean: CMakeFiles/_fingers_generate_messages_check_deps_From_Finger.dir/clean
 clean: gtest/clean
 
 .PHONY : clean
@@ -149,544 +168,31 @@ gtest/googletest/clean: gtest/googletest/CMakeFiles/gtest.dir/clean
 .PHONY : gtest/googletest/clean
 
 #=============================================================================
-# Target rules for target CMakeFiles/std_msgs_generate_messages_py.dir
+# Target rules for target CMakeFiles/uart_node.dir
 
 # All Build rule for target.
-CMakeFiles/std_msgs_generate_messages_py.dir/all:
-	$(MAKE) -f CMakeFiles/std_msgs_generate_messages_py.dir/build.make CMakeFiles/std_msgs_generate_messages_py.dir/depend
-	$(MAKE) -f CMakeFiles/std_msgs_generate_messages_py.dir/build.make CMakeFiles/std_msgs_generate_messages_py.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/anton20241/rtc_work/rx_tx_ws/src/fingers/build/CMakeFiles --progress-num= "Built target std_msgs_generate_messages_py"
-.PHONY : CMakeFiles/std_msgs_generate_messages_py.dir/all
+CMakeFiles/uart_node.dir/all:
+	$(MAKE) -f CMakeFiles/uart_node.dir/build.make CMakeFiles/uart_node.dir/depend
+	$(MAKE) -f CMakeFiles/uart_node.dir/build.make CMakeFiles/uart_node.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/build/CMakeFiles --progress-num=48,49,50,51,52,53 "Built target uart_node"
+.PHONY : CMakeFiles/uart_node.dir/all
 
 # Build rule for subdir invocation for target.
-CMakeFiles/std_msgs_generate_messages_py.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/anton20241/rtc_work/rx_tx_ws/src/fingers/build/CMakeFiles 0
-	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/std_msgs_generate_messages_py.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/anton20241/rtc_work/rx_tx_ws/src/fingers/build/CMakeFiles 0
-.PHONY : CMakeFiles/std_msgs_generate_messages_py.dir/rule
+CMakeFiles/uart_node.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/build/CMakeFiles 6
+	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/uart_node.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/build/CMakeFiles 0
+.PHONY : CMakeFiles/uart_node.dir/rule
 
 # Convenience name for target.
-std_msgs_generate_messages_py: CMakeFiles/std_msgs_generate_messages_py.dir/rule
+uart_node: CMakeFiles/uart_node.dir/rule
 
-.PHONY : std_msgs_generate_messages_py
-
-# clean rule for target.
-CMakeFiles/std_msgs_generate_messages_py.dir/clean:
-	$(MAKE) -f CMakeFiles/std_msgs_generate_messages_py.dir/build.make CMakeFiles/std_msgs_generate_messages_py.dir/clean
-.PHONY : CMakeFiles/std_msgs_generate_messages_py.dir/clean
-
-#=============================================================================
-# Target rules for target CMakeFiles/std_msgs_generate_messages_nodejs.dir
-
-# All Build rule for target.
-CMakeFiles/std_msgs_generate_messages_nodejs.dir/all:
-	$(MAKE) -f CMakeFiles/std_msgs_generate_messages_nodejs.dir/build.make CMakeFiles/std_msgs_generate_messages_nodejs.dir/depend
-	$(MAKE) -f CMakeFiles/std_msgs_generate_messages_nodejs.dir/build.make CMakeFiles/std_msgs_generate_messages_nodejs.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/anton20241/rtc_work/rx_tx_ws/src/fingers/build/CMakeFiles --progress-num= "Built target std_msgs_generate_messages_nodejs"
-.PHONY : CMakeFiles/std_msgs_generate_messages_nodejs.dir/all
-
-# Build rule for subdir invocation for target.
-CMakeFiles/std_msgs_generate_messages_nodejs.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/anton20241/rtc_work/rx_tx_ws/src/fingers/build/CMakeFiles 0
-	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/std_msgs_generate_messages_nodejs.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/anton20241/rtc_work/rx_tx_ws/src/fingers/build/CMakeFiles 0
-.PHONY : CMakeFiles/std_msgs_generate_messages_nodejs.dir/rule
-
-# Convenience name for target.
-std_msgs_generate_messages_nodejs: CMakeFiles/std_msgs_generate_messages_nodejs.dir/rule
-
-.PHONY : std_msgs_generate_messages_nodejs
+.PHONY : uart_node
 
 # clean rule for target.
-CMakeFiles/std_msgs_generate_messages_nodejs.dir/clean:
-	$(MAKE) -f CMakeFiles/std_msgs_generate_messages_nodejs.dir/build.make CMakeFiles/std_msgs_generate_messages_nodejs.dir/clean
-.PHONY : CMakeFiles/std_msgs_generate_messages_nodejs.dir/clean
-
-#=============================================================================
-# Target rules for target CMakeFiles/master_eth_receiver.dir
-
-# All Build rule for target.
-CMakeFiles/master_eth_receiver.dir/all:
-	$(MAKE) -f CMakeFiles/master_eth_receiver.dir/build.make CMakeFiles/master_eth_receiver.dir/depend
-	$(MAKE) -f CMakeFiles/master_eth_receiver.dir/build.make CMakeFiles/master_eth_receiver.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/anton20241/rtc_work/rx_tx_ws/src/fingers/build/CMakeFiles --progress-num=9,10,11,12,13,14 "Built target master_eth_receiver"
-.PHONY : CMakeFiles/master_eth_receiver.dir/all
-
-# Build rule for subdir invocation for target.
-CMakeFiles/master_eth_receiver.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/anton20241/rtc_work/rx_tx_ws/src/fingers/build/CMakeFiles 6
-	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/master_eth_receiver.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/anton20241/rtc_work/rx_tx_ws/src/fingers/build/CMakeFiles 0
-.PHONY : CMakeFiles/master_eth_receiver.dir/rule
-
-# Convenience name for target.
-master_eth_receiver: CMakeFiles/master_eth_receiver.dir/rule
-
-.PHONY : master_eth_receiver
-
-# clean rule for target.
-CMakeFiles/master_eth_receiver.dir/clean:
-	$(MAKE) -f CMakeFiles/master_eth_receiver.dir/build.make CMakeFiles/master_eth_receiver.dir/clean
-.PHONY : CMakeFiles/master_eth_receiver.dir/clean
-
-#=============================================================================
-# Target rules for target CMakeFiles/std_msgs_generate_messages_cpp.dir
-
-# All Build rule for target.
-CMakeFiles/std_msgs_generate_messages_cpp.dir/all:
-	$(MAKE) -f CMakeFiles/std_msgs_generate_messages_cpp.dir/build.make CMakeFiles/std_msgs_generate_messages_cpp.dir/depend
-	$(MAKE) -f CMakeFiles/std_msgs_generate_messages_cpp.dir/build.make CMakeFiles/std_msgs_generate_messages_cpp.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/anton20241/rtc_work/rx_tx_ws/src/fingers/build/CMakeFiles --progress-num= "Built target std_msgs_generate_messages_cpp"
-.PHONY : CMakeFiles/std_msgs_generate_messages_cpp.dir/all
-
-# Build rule for subdir invocation for target.
-CMakeFiles/std_msgs_generate_messages_cpp.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/anton20241/rtc_work/rx_tx_ws/src/fingers/build/CMakeFiles 0
-	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/std_msgs_generate_messages_cpp.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/anton20241/rtc_work/rx_tx_ws/src/fingers/build/CMakeFiles 0
-.PHONY : CMakeFiles/std_msgs_generate_messages_cpp.dir/rule
-
-# Convenience name for target.
-std_msgs_generate_messages_cpp: CMakeFiles/std_msgs_generate_messages_cpp.dir/rule
-
-.PHONY : std_msgs_generate_messages_cpp
-
-# clean rule for target.
-CMakeFiles/std_msgs_generate_messages_cpp.dir/clean:
-	$(MAKE) -f CMakeFiles/std_msgs_generate_messages_cpp.dir/build.make CMakeFiles/std_msgs_generate_messages_cpp.dir/clean
-.PHONY : CMakeFiles/std_msgs_generate_messages_cpp.dir/clean
-
-#=============================================================================
-# Target rules for target CMakeFiles/rosgraph_msgs_generate_messages_nodejs.dir
-
-# All Build rule for target.
-CMakeFiles/rosgraph_msgs_generate_messages_nodejs.dir/all:
-	$(MAKE) -f CMakeFiles/rosgraph_msgs_generate_messages_nodejs.dir/build.make CMakeFiles/rosgraph_msgs_generate_messages_nodejs.dir/depend
-	$(MAKE) -f CMakeFiles/rosgraph_msgs_generate_messages_nodejs.dir/build.make CMakeFiles/rosgraph_msgs_generate_messages_nodejs.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/anton20241/rtc_work/rx_tx_ws/src/fingers/build/CMakeFiles --progress-num= "Built target rosgraph_msgs_generate_messages_nodejs"
-.PHONY : CMakeFiles/rosgraph_msgs_generate_messages_nodejs.dir/all
-
-# Build rule for subdir invocation for target.
-CMakeFiles/rosgraph_msgs_generate_messages_nodejs.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/anton20241/rtc_work/rx_tx_ws/src/fingers/build/CMakeFiles 0
-	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/rosgraph_msgs_generate_messages_nodejs.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/anton20241/rtc_work/rx_tx_ws/src/fingers/build/CMakeFiles 0
-.PHONY : CMakeFiles/rosgraph_msgs_generate_messages_nodejs.dir/rule
-
-# Convenience name for target.
-rosgraph_msgs_generate_messages_nodejs: CMakeFiles/rosgraph_msgs_generate_messages_nodejs.dir/rule
-
-.PHONY : rosgraph_msgs_generate_messages_nodejs
-
-# clean rule for target.
-CMakeFiles/rosgraph_msgs_generate_messages_nodejs.dir/clean:
-	$(MAKE) -f CMakeFiles/rosgraph_msgs_generate_messages_nodejs.dir/build.make CMakeFiles/rosgraph_msgs_generate_messages_nodejs.dir/clean
-.PHONY : CMakeFiles/rosgraph_msgs_generate_messages_nodejs.dir/clean
-
-#=============================================================================
-# Target rules for target CMakeFiles/tests.dir
-
-# All Build rule for target.
-CMakeFiles/tests.dir/all:
-	$(MAKE) -f CMakeFiles/tests.dir/build.make CMakeFiles/tests.dir/depend
-	$(MAKE) -f CMakeFiles/tests.dir/build.make CMakeFiles/tests.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/anton20241/rtc_work/rx_tx_ws/src/fingers/build/CMakeFiles --progress-num= "Built target tests"
-.PHONY : CMakeFiles/tests.dir/all
-
-# Build rule for subdir invocation for target.
-CMakeFiles/tests.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/anton20241/rtc_work/rx_tx_ws/src/fingers/build/CMakeFiles 0
-	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/tests.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/anton20241/rtc_work/rx_tx_ws/src/fingers/build/CMakeFiles 0
-.PHONY : CMakeFiles/tests.dir/rule
-
-# Convenience name for target.
-tests: CMakeFiles/tests.dir/rule
-
-.PHONY : tests
-
-# clean rule for target.
-CMakeFiles/tests.dir/clean:
-	$(MAKE) -f CMakeFiles/tests.dir/build.make CMakeFiles/tests.dir/clean
-.PHONY : CMakeFiles/tests.dir/clean
-
-#=============================================================================
-# Target rules for target CMakeFiles/clean_test_results.dir
-
-# All Build rule for target.
-CMakeFiles/clean_test_results.dir/all:
-	$(MAKE) -f CMakeFiles/clean_test_results.dir/build.make CMakeFiles/clean_test_results.dir/depend
-	$(MAKE) -f CMakeFiles/clean_test_results.dir/build.make CMakeFiles/clean_test_results.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/anton20241/rtc_work/rx_tx_ws/src/fingers/build/CMakeFiles --progress-num= "Built target clean_test_results"
-.PHONY : CMakeFiles/clean_test_results.dir/all
-
-# Build rule for subdir invocation for target.
-CMakeFiles/clean_test_results.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/anton20241/rtc_work/rx_tx_ws/src/fingers/build/CMakeFiles 0
-	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/clean_test_results.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/anton20241/rtc_work/rx_tx_ws/src/fingers/build/CMakeFiles 0
-.PHONY : CMakeFiles/clean_test_results.dir/rule
-
-# Convenience name for target.
-clean_test_results: CMakeFiles/clean_test_results.dir/rule
-
-.PHONY : clean_test_results
-
-# clean rule for target.
-CMakeFiles/clean_test_results.dir/clean:
-	$(MAKE) -f CMakeFiles/clean_test_results.dir/build.make CMakeFiles/clean_test_results.dir/clean
-.PHONY : CMakeFiles/clean_test_results.dir/clean
-
-#=============================================================================
-# Target rules for target CMakeFiles/std_msgs_generate_messages_lisp.dir
-
-# All Build rule for target.
-CMakeFiles/std_msgs_generate_messages_lisp.dir/all:
-	$(MAKE) -f CMakeFiles/std_msgs_generate_messages_lisp.dir/build.make CMakeFiles/std_msgs_generate_messages_lisp.dir/depend
-	$(MAKE) -f CMakeFiles/std_msgs_generate_messages_lisp.dir/build.make CMakeFiles/std_msgs_generate_messages_lisp.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/anton20241/rtc_work/rx_tx_ws/src/fingers/build/CMakeFiles --progress-num= "Built target std_msgs_generate_messages_lisp"
-.PHONY : CMakeFiles/std_msgs_generate_messages_lisp.dir/all
-
-# Build rule for subdir invocation for target.
-CMakeFiles/std_msgs_generate_messages_lisp.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/anton20241/rtc_work/rx_tx_ws/src/fingers/build/CMakeFiles 0
-	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/std_msgs_generate_messages_lisp.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/anton20241/rtc_work/rx_tx_ws/src/fingers/build/CMakeFiles 0
-.PHONY : CMakeFiles/std_msgs_generate_messages_lisp.dir/rule
-
-# Convenience name for target.
-std_msgs_generate_messages_lisp: CMakeFiles/std_msgs_generate_messages_lisp.dir/rule
-
-.PHONY : std_msgs_generate_messages_lisp
-
-# clean rule for target.
-CMakeFiles/std_msgs_generate_messages_lisp.dir/clean:
-	$(MAKE) -f CMakeFiles/std_msgs_generate_messages_lisp.dir/build.make CMakeFiles/std_msgs_generate_messages_lisp.dir/clean
-.PHONY : CMakeFiles/std_msgs_generate_messages_lisp.dir/clean
-
-#=============================================================================
-# Target rules for target CMakeFiles/run_tests.dir
-
-# All Build rule for target.
-CMakeFiles/run_tests.dir/all:
-	$(MAKE) -f CMakeFiles/run_tests.dir/build.make CMakeFiles/run_tests.dir/depend
-	$(MAKE) -f CMakeFiles/run_tests.dir/build.make CMakeFiles/run_tests.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/anton20241/rtc_work/rx_tx_ws/src/fingers/build/CMakeFiles --progress-num= "Built target run_tests"
-.PHONY : CMakeFiles/run_tests.dir/all
-
-# Build rule for subdir invocation for target.
-CMakeFiles/run_tests.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/anton20241/rtc_work/rx_tx_ws/src/fingers/build/CMakeFiles 0
-	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/run_tests.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/anton20241/rtc_work/rx_tx_ws/src/fingers/build/CMakeFiles 0
-.PHONY : CMakeFiles/run_tests.dir/rule
-
-# Convenience name for target.
-run_tests: CMakeFiles/run_tests.dir/rule
-
-.PHONY : run_tests
-
-# clean rule for target.
-CMakeFiles/run_tests.dir/clean:
-	$(MAKE) -f CMakeFiles/run_tests.dir/build.make CMakeFiles/run_tests.dir/clean
-.PHONY : CMakeFiles/run_tests.dir/clean
-
-#=============================================================================
-# Target rules for target CMakeFiles/download_extra_data.dir
-
-# All Build rule for target.
-CMakeFiles/download_extra_data.dir/all:
-	$(MAKE) -f CMakeFiles/download_extra_data.dir/build.make CMakeFiles/download_extra_data.dir/depend
-	$(MAKE) -f CMakeFiles/download_extra_data.dir/build.make CMakeFiles/download_extra_data.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/anton20241/rtc_work/rx_tx_ws/src/fingers/build/CMakeFiles --progress-num= "Built target download_extra_data"
-.PHONY : CMakeFiles/download_extra_data.dir/all
-
-# Build rule for subdir invocation for target.
-CMakeFiles/download_extra_data.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/anton20241/rtc_work/rx_tx_ws/src/fingers/build/CMakeFiles 0
-	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/download_extra_data.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/anton20241/rtc_work/rx_tx_ws/src/fingers/build/CMakeFiles 0
-.PHONY : CMakeFiles/download_extra_data.dir/rule
-
-# Convenience name for target.
-download_extra_data: CMakeFiles/download_extra_data.dir/rule
-
-.PHONY : download_extra_data
-
-# clean rule for target.
-CMakeFiles/download_extra_data.dir/clean:
-	$(MAKE) -f CMakeFiles/download_extra_data.dir/build.make CMakeFiles/download_extra_data.dir/clean
-.PHONY : CMakeFiles/download_extra_data.dir/clean
-
-#=============================================================================
-# Target rules for target CMakeFiles/doxygen.dir
-
-# All Build rule for target.
-CMakeFiles/doxygen.dir/all:
-	$(MAKE) -f CMakeFiles/doxygen.dir/build.make CMakeFiles/doxygen.dir/depend
-	$(MAKE) -f CMakeFiles/doxygen.dir/build.make CMakeFiles/doxygen.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/anton20241/rtc_work/rx_tx_ws/src/fingers/build/CMakeFiles --progress-num= "Built target doxygen"
-.PHONY : CMakeFiles/doxygen.dir/all
-
-# Build rule for subdir invocation for target.
-CMakeFiles/doxygen.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/anton20241/rtc_work/rx_tx_ws/src/fingers/build/CMakeFiles 0
-	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/doxygen.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/anton20241/rtc_work/rx_tx_ws/src/fingers/build/CMakeFiles 0
-.PHONY : CMakeFiles/doxygen.dir/rule
-
-# Convenience name for target.
-doxygen: CMakeFiles/doxygen.dir/rule
-
-.PHONY : doxygen
-
-# clean rule for target.
-CMakeFiles/doxygen.dir/clean:
-	$(MAKE) -f CMakeFiles/doxygen.dir/build.make CMakeFiles/doxygen.dir/clean
-.PHONY : CMakeFiles/doxygen.dir/clean
-
-#=============================================================================
-# Target rules for target CMakeFiles/roscpp_generate_messages_py.dir
-
-# All Build rule for target.
-CMakeFiles/roscpp_generate_messages_py.dir/all:
-	$(MAKE) -f CMakeFiles/roscpp_generate_messages_py.dir/build.make CMakeFiles/roscpp_generate_messages_py.dir/depend
-	$(MAKE) -f CMakeFiles/roscpp_generate_messages_py.dir/build.make CMakeFiles/roscpp_generate_messages_py.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/anton20241/rtc_work/rx_tx_ws/src/fingers/build/CMakeFiles --progress-num= "Built target roscpp_generate_messages_py"
-.PHONY : CMakeFiles/roscpp_generate_messages_py.dir/all
-
-# Build rule for subdir invocation for target.
-CMakeFiles/roscpp_generate_messages_py.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/anton20241/rtc_work/rx_tx_ws/src/fingers/build/CMakeFiles 0
-	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/roscpp_generate_messages_py.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/anton20241/rtc_work/rx_tx_ws/src/fingers/build/CMakeFiles 0
-.PHONY : CMakeFiles/roscpp_generate_messages_py.dir/rule
-
-# Convenience name for target.
-roscpp_generate_messages_py: CMakeFiles/roscpp_generate_messages_py.dir/rule
-
-.PHONY : roscpp_generate_messages_py
-
-# clean rule for target.
-CMakeFiles/roscpp_generate_messages_py.dir/clean:
-	$(MAKE) -f CMakeFiles/roscpp_generate_messages_py.dir/build.make CMakeFiles/roscpp_generate_messages_py.dir/clean
-.PHONY : CMakeFiles/roscpp_generate_messages_py.dir/clean
-
-#=============================================================================
-# Target rules for target CMakeFiles/roscpp_generate_messages_cpp.dir
-
-# All Build rule for target.
-CMakeFiles/roscpp_generate_messages_cpp.dir/all:
-	$(MAKE) -f CMakeFiles/roscpp_generate_messages_cpp.dir/build.make CMakeFiles/roscpp_generate_messages_cpp.dir/depend
-	$(MAKE) -f CMakeFiles/roscpp_generate_messages_cpp.dir/build.make CMakeFiles/roscpp_generate_messages_cpp.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/anton20241/rtc_work/rx_tx_ws/src/fingers/build/CMakeFiles --progress-num= "Built target roscpp_generate_messages_cpp"
-.PHONY : CMakeFiles/roscpp_generate_messages_cpp.dir/all
-
-# Build rule for subdir invocation for target.
-CMakeFiles/roscpp_generate_messages_cpp.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/anton20241/rtc_work/rx_tx_ws/src/fingers/build/CMakeFiles 0
-	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/roscpp_generate_messages_cpp.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/anton20241/rtc_work/rx_tx_ws/src/fingers/build/CMakeFiles 0
-.PHONY : CMakeFiles/roscpp_generate_messages_cpp.dir/rule
-
-# Convenience name for target.
-roscpp_generate_messages_cpp: CMakeFiles/roscpp_generate_messages_cpp.dir/rule
-
-.PHONY : roscpp_generate_messages_cpp
-
-# clean rule for target.
-CMakeFiles/roscpp_generate_messages_cpp.dir/clean:
-	$(MAKE) -f CMakeFiles/roscpp_generate_messages_cpp.dir/build.make CMakeFiles/roscpp_generate_messages_cpp.dir/clean
-.PHONY : CMakeFiles/roscpp_generate_messages_cpp.dir/clean
-
-#=============================================================================
-# Target rules for target CMakeFiles/roscpp_generate_messages_eus.dir
-
-# All Build rule for target.
-CMakeFiles/roscpp_generate_messages_eus.dir/all:
-	$(MAKE) -f CMakeFiles/roscpp_generate_messages_eus.dir/build.make CMakeFiles/roscpp_generate_messages_eus.dir/depend
-	$(MAKE) -f CMakeFiles/roscpp_generate_messages_eus.dir/build.make CMakeFiles/roscpp_generate_messages_eus.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/anton20241/rtc_work/rx_tx_ws/src/fingers/build/CMakeFiles --progress-num= "Built target roscpp_generate_messages_eus"
-.PHONY : CMakeFiles/roscpp_generate_messages_eus.dir/all
-
-# Build rule for subdir invocation for target.
-CMakeFiles/roscpp_generate_messages_eus.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/anton20241/rtc_work/rx_tx_ws/src/fingers/build/CMakeFiles 0
-	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/roscpp_generate_messages_eus.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/anton20241/rtc_work/rx_tx_ws/src/fingers/build/CMakeFiles 0
-.PHONY : CMakeFiles/roscpp_generate_messages_eus.dir/rule
-
-# Convenience name for target.
-roscpp_generate_messages_eus: CMakeFiles/roscpp_generate_messages_eus.dir/rule
-
-.PHONY : roscpp_generate_messages_eus
-
-# clean rule for target.
-CMakeFiles/roscpp_generate_messages_eus.dir/clean:
-	$(MAKE) -f CMakeFiles/roscpp_generate_messages_eus.dir/build.make CMakeFiles/roscpp_generate_messages_eus.dir/clean
-.PHONY : CMakeFiles/roscpp_generate_messages_eus.dir/clean
-
-#=============================================================================
-# Target rules for target CMakeFiles/rosgraph_msgs_generate_messages_py.dir
-
-# All Build rule for target.
-CMakeFiles/rosgraph_msgs_generate_messages_py.dir/all:
-	$(MAKE) -f CMakeFiles/rosgraph_msgs_generate_messages_py.dir/build.make CMakeFiles/rosgraph_msgs_generate_messages_py.dir/depend
-	$(MAKE) -f CMakeFiles/rosgraph_msgs_generate_messages_py.dir/build.make CMakeFiles/rosgraph_msgs_generate_messages_py.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/anton20241/rtc_work/rx_tx_ws/src/fingers/build/CMakeFiles --progress-num= "Built target rosgraph_msgs_generate_messages_py"
-.PHONY : CMakeFiles/rosgraph_msgs_generate_messages_py.dir/all
-
-# Build rule for subdir invocation for target.
-CMakeFiles/rosgraph_msgs_generate_messages_py.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/anton20241/rtc_work/rx_tx_ws/src/fingers/build/CMakeFiles 0
-	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/rosgraph_msgs_generate_messages_py.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/anton20241/rtc_work/rx_tx_ws/src/fingers/build/CMakeFiles 0
-.PHONY : CMakeFiles/rosgraph_msgs_generate_messages_py.dir/rule
-
-# Convenience name for target.
-rosgraph_msgs_generate_messages_py: CMakeFiles/rosgraph_msgs_generate_messages_py.dir/rule
-
-.PHONY : rosgraph_msgs_generate_messages_py
-
-# clean rule for target.
-CMakeFiles/rosgraph_msgs_generate_messages_py.dir/clean:
-	$(MAKE) -f CMakeFiles/rosgraph_msgs_generate_messages_py.dir/build.make CMakeFiles/rosgraph_msgs_generate_messages_py.dir/clean
-.PHONY : CMakeFiles/rosgraph_msgs_generate_messages_py.dir/clean
-
-#=============================================================================
-# Target rules for target CMakeFiles/roscpp_generate_messages_lisp.dir
-
-# All Build rule for target.
-CMakeFiles/roscpp_generate_messages_lisp.dir/all:
-	$(MAKE) -f CMakeFiles/roscpp_generate_messages_lisp.dir/build.make CMakeFiles/roscpp_generate_messages_lisp.dir/depend
-	$(MAKE) -f CMakeFiles/roscpp_generate_messages_lisp.dir/build.make CMakeFiles/roscpp_generate_messages_lisp.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/anton20241/rtc_work/rx_tx_ws/src/fingers/build/CMakeFiles --progress-num= "Built target roscpp_generate_messages_lisp"
-.PHONY : CMakeFiles/roscpp_generate_messages_lisp.dir/all
-
-# Build rule for subdir invocation for target.
-CMakeFiles/roscpp_generate_messages_lisp.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/anton20241/rtc_work/rx_tx_ws/src/fingers/build/CMakeFiles 0
-	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/roscpp_generate_messages_lisp.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/anton20241/rtc_work/rx_tx_ws/src/fingers/build/CMakeFiles 0
-.PHONY : CMakeFiles/roscpp_generate_messages_lisp.dir/rule
-
-# Convenience name for target.
-roscpp_generate_messages_lisp: CMakeFiles/roscpp_generate_messages_lisp.dir/rule
-
-.PHONY : roscpp_generate_messages_lisp
-
-# clean rule for target.
-CMakeFiles/roscpp_generate_messages_lisp.dir/clean:
-	$(MAKE) -f CMakeFiles/roscpp_generate_messages_lisp.dir/build.make CMakeFiles/roscpp_generate_messages_lisp.dir/clean
-.PHONY : CMakeFiles/roscpp_generate_messages_lisp.dir/clean
-
-#=============================================================================
-# Target rules for target CMakeFiles/std_msgs_generate_messages_eus.dir
-
-# All Build rule for target.
-CMakeFiles/std_msgs_generate_messages_eus.dir/all:
-	$(MAKE) -f CMakeFiles/std_msgs_generate_messages_eus.dir/build.make CMakeFiles/std_msgs_generate_messages_eus.dir/depend
-	$(MAKE) -f CMakeFiles/std_msgs_generate_messages_eus.dir/build.make CMakeFiles/std_msgs_generate_messages_eus.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/anton20241/rtc_work/rx_tx_ws/src/fingers/build/CMakeFiles --progress-num= "Built target std_msgs_generate_messages_eus"
-.PHONY : CMakeFiles/std_msgs_generate_messages_eus.dir/all
-
-# Build rule for subdir invocation for target.
-CMakeFiles/std_msgs_generate_messages_eus.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/anton20241/rtc_work/rx_tx_ws/src/fingers/build/CMakeFiles 0
-	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/std_msgs_generate_messages_eus.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/anton20241/rtc_work/rx_tx_ws/src/fingers/build/CMakeFiles 0
-.PHONY : CMakeFiles/std_msgs_generate_messages_eus.dir/rule
-
-# Convenience name for target.
-std_msgs_generate_messages_eus: CMakeFiles/std_msgs_generate_messages_eus.dir/rule
-
-.PHONY : std_msgs_generate_messages_eus
-
-# clean rule for target.
-CMakeFiles/std_msgs_generate_messages_eus.dir/clean:
-	$(MAKE) -f CMakeFiles/std_msgs_generate_messages_eus.dir/build.make CMakeFiles/std_msgs_generate_messages_eus.dir/clean
-.PHONY : CMakeFiles/std_msgs_generate_messages_eus.dir/clean
-
-#=============================================================================
-# Target rules for target CMakeFiles/roscpp_generate_messages_nodejs.dir
-
-# All Build rule for target.
-CMakeFiles/roscpp_generate_messages_nodejs.dir/all:
-	$(MAKE) -f CMakeFiles/roscpp_generate_messages_nodejs.dir/build.make CMakeFiles/roscpp_generate_messages_nodejs.dir/depend
-	$(MAKE) -f CMakeFiles/roscpp_generate_messages_nodejs.dir/build.make CMakeFiles/roscpp_generate_messages_nodejs.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/anton20241/rtc_work/rx_tx_ws/src/fingers/build/CMakeFiles --progress-num= "Built target roscpp_generate_messages_nodejs"
-.PHONY : CMakeFiles/roscpp_generate_messages_nodejs.dir/all
-
-# Build rule for subdir invocation for target.
-CMakeFiles/roscpp_generate_messages_nodejs.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/anton20241/rtc_work/rx_tx_ws/src/fingers/build/CMakeFiles 0
-	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/roscpp_generate_messages_nodejs.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/anton20241/rtc_work/rx_tx_ws/src/fingers/build/CMakeFiles 0
-.PHONY : CMakeFiles/roscpp_generate_messages_nodejs.dir/rule
-
-# Convenience name for target.
-roscpp_generate_messages_nodejs: CMakeFiles/roscpp_generate_messages_nodejs.dir/rule
-
-.PHONY : roscpp_generate_messages_nodejs
-
-# clean rule for target.
-CMakeFiles/roscpp_generate_messages_nodejs.dir/clean:
-	$(MAKE) -f CMakeFiles/roscpp_generate_messages_nodejs.dir/build.make CMakeFiles/roscpp_generate_messages_nodejs.dir/clean
-.PHONY : CMakeFiles/roscpp_generate_messages_nodejs.dir/clean
-
-#=============================================================================
-# Target rules for target CMakeFiles/rosgraph_msgs_generate_messages_cpp.dir
-
-# All Build rule for target.
-CMakeFiles/rosgraph_msgs_generate_messages_cpp.dir/all:
-	$(MAKE) -f CMakeFiles/rosgraph_msgs_generate_messages_cpp.dir/build.make CMakeFiles/rosgraph_msgs_generate_messages_cpp.dir/depend
-	$(MAKE) -f CMakeFiles/rosgraph_msgs_generate_messages_cpp.dir/build.make CMakeFiles/rosgraph_msgs_generate_messages_cpp.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/anton20241/rtc_work/rx_tx_ws/src/fingers/build/CMakeFiles --progress-num= "Built target rosgraph_msgs_generate_messages_cpp"
-.PHONY : CMakeFiles/rosgraph_msgs_generate_messages_cpp.dir/all
-
-# Build rule for subdir invocation for target.
-CMakeFiles/rosgraph_msgs_generate_messages_cpp.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/anton20241/rtc_work/rx_tx_ws/src/fingers/build/CMakeFiles 0
-	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/rosgraph_msgs_generate_messages_cpp.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/anton20241/rtc_work/rx_tx_ws/src/fingers/build/CMakeFiles 0
-.PHONY : CMakeFiles/rosgraph_msgs_generate_messages_cpp.dir/rule
-
-# Convenience name for target.
-rosgraph_msgs_generate_messages_cpp: CMakeFiles/rosgraph_msgs_generate_messages_cpp.dir/rule
-
-.PHONY : rosgraph_msgs_generate_messages_cpp
-
-# clean rule for target.
-CMakeFiles/rosgraph_msgs_generate_messages_cpp.dir/clean:
-	$(MAKE) -f CMakeFiles/rosgraph_msgs_generate_messages_cpp.dir/build.make CMakeFiles/rosgraph_msgs_generate_messages_cpp.dir/clean
-.PHONY : CMakeFiles/rosgraph_msgs_generate_messages_cpp.dir/clean
-
-#=============================================================================
-# Target rules for target CMakeFiles/rosgraph_msgs_generate_messages_eus.dir
-
-# All Build rule for target.
-CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/all:
-	$(MAKE) -f CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/build.make CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/depend
-	$(MAKE) -f CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/build.make CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/anton20241/rtc_work/rx_tx_ws/src/fingers/build/CMakeFiles --progress-num= "Built target rosgraph_msgs_generate_messages_eus"
-.PHONY : CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/all
-
-# Build rule for subdir invocation for target.
-CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/anton20241/rtc_work/rx_tx_ws/src/fingers/build/CMakeFiles 0
-	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/anton20241/rtc_work/rx_tx_ws/src/fingers/build/CMakeFiles 0
-.PHONY : CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/rule
-
-# Convenience name for target.
-rosgraph_msgs_generate_messages_eus: CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/rule
-
-.PHONY : rosgraph_msgs_generate_messages_eus
-
-# clean rule for target.
-CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/clean:
-	$(MAKE) -f CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/build.make CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/clean
-.PHONY : CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/clean
+CMakeFiles/uart_node.dir/clean:
+	$(MAKE) -f CMakeFiles/uart_node.dir/build.make CMakeFiles/uart_node.dir/clean
+.PHONY : CMakeFiles/uart_node.dir/clean
 
 #=============================================================================
 # Target rules for target CMakeFiles/master_topic_receiver.dir
@@ -695,14 +201,14 @@ CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/clean:
 CMakeFiles/master_topic_receiver.dir/all:
 	$(MAKE) -f CMakeFiles/master_topic_receiver.dir/build.make CMakeFiles/master_topic_receiver.dir/depend
 	$(MAKE) -f CMakeFiles/master_topic_receiver.dir/build.make CMakeFiles/master_topic_receiver.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/anton20241/rtc_work/rx_tx_ws/src/fingers/build/CMakeFiles --progress-num=15,16,17,18,19,20 "Built target master_topic_receiver"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/build/CMakeFiles --progress-num=42,43,44,45,46,47 "Built target master_topic_receiver"
 .PHONY : CMakeFiles/master_topic_receiver.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/master_topic_receiver.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/anton20241/rtc_work/rx_tx_ws/src/fingers/build/CMakeFiles 6
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/build/CMakeFiles 6
 	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/master_topic_receiver.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/anton20241/rtc_work/rx_tx_ws/src/fingers/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/build/CMakeFiles 0
 .PHONY : CMakeFiles/master_topic_receiver.dir/rule
 
 # Convenience name for target.
@@ -716,20 +222,494 @@ CMakeFiles/master_topic_receiver.dir/clean:
 .PHONY : CMakeFiles/master_topic_receiver.dir/clean
 
 #=============================================================================
+# Target rules for target CMakeFiles/master_eth_receiver.dir
+
+# All Build rule for target.
+CMakeFiles/master_eth_receiver.dir/all:
+	$(MAKE) -f CMakeFiles/master_eth_receiver.dir/build.make CMakeFiles/master_eth_receiver.dir/depend
+	$(MAKE) -f CMakeFiles/master_eth_receiver.dir/build.make CMakeFiles/master_eth_receiver.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/build/CMakeFiles --progress-num=36,37,38,39,40,41 "Built target master_eth_receiver"
+.PHONY : CMakeFiles/master_eth_receiver.dir/all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/master_eth_receiver.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/build/CMakeFiles 6
+	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/master_eth_receiver.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/build/CMakeFiles 0
+.PHONY : CMakeFiles/master_eth_receiver.dir/rule
+
+# Convenience name for target.
+master_eth_receiver: CMakeFiles/master_eth_receiver.dir/rule
+
+.PHONY : master_eth_receiver
+
+# clean rule for target.
+CMakeFiles/master_eth_receiver.dir/clean:
+	$(MAKE) -f CMakeFiles/master_eth_receiver.dir/build.make CMakeFiles/master_eth_receiver.dir/clean
+.PHONY : CMakeFiles/master_eth_receiver.dir/clean
+
+#=============================================================================
+# Target rules for target CMakeFiles/fingers_generate_messages_py.dir
+
+# All Build rule for target.
+CMakeFiles/fingers_generate_messages_py.dir/all: CMakeFiles/_fingers_generate_messages_check_deps_From_Bat_Cam_Shutdown.dir/all
+CMakeFiles/fingers_generate_messages_py.dir/all: CMakeFiles/_fingers_generate_messages_check_deps_To_Finger.dir/all
+CMakeFiles/fingers_generate_messages_py.dir/all: CMakeFiles/_fingers_generate_messages_check_deps_To_Bat_Cam.dir/all
+CMakeFiles/fingers_generate_messages_py.dir/all: CMakeFiles/_fingers_generate_messages_check_deps_From_Bat_Cam_Norm_Work.dir/all
+CMakeFiles/fingers_generate_messages_py.dir/all: CMakeFiles/std_msgs_generate_messages_py.dir/all
+CMakeFiles/fingers_generate_messages_py.dir/all: CMakeFiles/_fingers_generate_messages_check_deps_From_Finger.dir/all
+	$(MAKE) -f CMakeFiles/fingers_generate_messages_py.dir/build.make CMakeFiles/fingers_generate_messages_py.dir/depend
+	$(MAKE) -f CMakeFiles/fingers_generate_messages_py.dir/build.make CMakeFiles/fingers_generate_messages_py.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/build/CMakeFiles --progress-num=22,23,24,25,26,27 "Built target fingers_generate_messages_py"
+.PHONY : CMakeFiles/fingers_generate_messages_py.dir/all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/fingers_generate_messages_py.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/build/CMakeFiles 6
+	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/fingers_generate_messages_py.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/build/CMakeFiles 0
+.PHONY : CMakeFiles/fingers_generate_messages_py.dir/rule
+
+# Convenience name for target.
+fingers_generate_messages_py: CMakeFiles/fingers_generate_messages_py.dir/rule
+
+.PHONY : fingers_generate_messages_py
+
+# clean rule for target.
+CMakeFiles/fingers_generate_messages_py.dir/clean:
+	$(MAKE) -f CMakeFiles/fingers_generate_messages_py.dir/build.make CMakeFiles/fingers_generate_messages_py.dir/clean
+.PHONY : CMakeFiles/fingers_generate_messages_py.dir/clean
+
+#=============================================================================
+# Target rules for target CMakeFiles/fingers_gennodejs.dir
+
+# All Build rule for target.
+CMakeFiles/fingers_gennodejs.dir/all: CMakeFiles/fingers_generate_messages_nodejs.dir/all
+	$(MAKE) -f CMakeFiles/fingers_gennodejs.dir/build.make CMakeFiles/fingers_gennodejs.dir/depend
+	$(MAKE) -f CMakeFiles/fingers_gennodejs.dir/build.make CMakeFiles/fingers_gennodejs.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/build/CMakeFiles --progress-num= "Built target fingers_gennodejs"
+.PHONY : CMakeFiles/fingers_gennodejs.dir/all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/fingers_gennodejs.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/build/CMakeFiles 5
+	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/fingers_gennodejs.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/build/CMakeFiles 0
+.PHONY : CMakeFiles/fingers_gennodejs.dir/rule
+
+# Convenience name for target.
+fingers_gennodejs: CMakeFiles/fingers_gennodejs.dir/rule
+
+.PHONY : fingers_gennodejs
+
+# clean rule for target.
+CMakeFiles/fingers_gennodejs.dir/clean:
+	$(MAKE) -f CMakeFiles/fingers_gennodejs.dir/build.make CMakeFiles/fingers_gennodejs.dir/clean
+.PHONY : CMakeFiles/fingers_gennodejs.dir/clean
+
+#=============================================================================
+# Target rules for target CMakeFiles/fingers_generate_messages_nodejs.dir
+
+# All Build rule for target.
+CMakeFiles/fingers_generate_messages_nodejs.dir/all: CMakeFiles/_fingers_generate_messages_check_deps_From_Bat_Cam_Shutdown.dir/all
+CMakeFiles/fingers_generate_messages_nodejs.dir/all: CMakeFiles/_fingers_generate_messages_check_deps_To_Finger.dir/all
+CMakeFiles/fingers_generate_messages_nodejs.dir/all: CMakeFiles/_fingers_generate_messages_check_deps_To_Bat_Cam.dir/all
+CMakeFiles/fingers_generate_messages_nodejs.dir/all: CMakeFiles/_fingers_generate_messages_check_deps_From_Bat_Cam_Norm_Work.dir/all
+CMakeFiles/fingers_generate_messages_nodejs.dir/all: CMakeFiles/std_msgs_generate_messages_nodejs.dir/all
+CMakeFiles/fingers_generate_messages_nodejs.dir/all: CMakeFiles/_fingers_generate_messages_check_deps_From_Finger.dir/all
+	$(MAKE) -f CMakeFiles/fingers_generate_messages_nodejs.dir/build.make CMakeFiles/fingers_generate_messages_nodejs.dir/depend
+	$(MAKE) -f CMakeFiles/fingers_generate_messages_nodejs.dir/build.make CMakeFiles/fingers_generate_messages_nodejs.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/build/CMakeFiles --progress-num=17,18,19,20,21 "Built target fingers_generate_messages_nodejs"
+.PHONY : CMakeFiles/fingers_generate_messages_nodejs.dir/all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/fingers_generate_messages_nodejs.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/build/CMakeFiles 5
+	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/fingers_generate_messages_nodejs.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/build/CMakeFiles 0
+.PHONY : CMakeFiles/fingers_generate_messages_nodejs.dir/rule
+
+# Convenience name for target.
+fingers_generate_messages_nodejs: CMakeFiles/fingers_generate_messages_nodejs.dir/rule
+
+.PHONY : fingers_generate_messages_nodejs
+
+# clean rule for target.
+CMakeFiles/fingers_generate_messages_nodejs.dir/clean:
+	$(MAKE) -f CMakeFiles/fingers_generate_messages_nodejs.dir/build.make CMakeFiles/fingers_generate_messages_nodejs.dir/clean
+.PHONY : CMakeFiles/fingers_generate_messages_nodejs.dir/clean
+
+#=============================================================================
+# Target rules for target CMakeFiles/fingers_genlisp.dir
+
+# All Build rule for target.
+CMakeFiles/fingers_genlisp.dir/all: CMakeFiles/fingers_generate_messages_lisp.dir/all
+	$(MAKE) -f CMakeFiles/fingers_genlisp.dir/build.make CMakeFiles/fingers_genlisp.dir/depend
+	$(MAKE) -f CMakeFiles/fingers_genlisp.dir/build.make CMakeFiles/fingers_genlisp.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/build/CMakeFiles --progress-num= "Built target fingers_genlisp"
+.PHONY : CMakeFiles/fingers_genlisp.dir/all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/fingers_genlisp.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/build/CMakeFiles 5
+	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/fingers_genlisp.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/build/CMakeFiles 0
+.PHONY : CMakeFiles/fingers_genlisp.dir/rule
+
+# Convenience name for target.
+fingers_genlisp: CMakeFiles/fingers_genlisp.dir/rule
+
+.PHONY : fingers_genlisp
+
+# clean rule for target.
+CMakeFiles/fingers_genlisp.dir/clean:
+	$(MAKE) -f CMakeFiles/fingers_genlisp.dir/build.make CMakeFiles/fingers_genlisp.dir/clean
+.PHONY : CMakeFiles/fingers_genlisp.dir/clean
+
+#=============================================================================
+# Target rules for target CMakeFiles/fingers_genpy.dir
+
+# All Build rule for target.
+CMakeFiles/fingers_genpy.dir/all: CMakeFiles/fingers_generate_messages_py.dir/all
+	$(MAKE) -f CMakeFiles/fingers_genpy.dir/build.make CMakeFiles/fingers_genpy.dir/depend
+	$(MAKE) -f CMakeFiles/fingers_genpy.dir/build.make CMakeFiles/fingers_genpy.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/build/CMakeFiles --progress-num= "Built target fingers_genpy"
+.PHONY : CMakeFiles/fingers_genpy.dir/all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/fingers_genpy.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/build/CMakeFiles 6
+	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/fingers_genpy.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/build/CMakeFiles 0
+.PHONY : CMakeFiles/fingers_genpy.dir/rule
+
+# Convenience name for target.
+fingers_genpy: CMakeFiles/fingers_genpy.dir/rule
+
+.PHONY : fingers_genpy
+
+# clean rule for target.
+CMakeFiles/fingers_genpy.dir/clean:
+	$(MAKE) -f CMakeFiles/fingers_genpy.dir/build.make CMakeFiles/fingers_genpy.dir/clean
+.PHONY : CMakeFiles/fingers_genpy.dir/clean
+
+#=============================================================================
+# Target rules for target CMakeFiles/fingers_geneus.dir
+
+# All Build rule for target.
+CMakeFiles/fingers_geneus.dir/all: CMakeFiles/fingers_generate_messages_eus.dir/all
+	$(MAKE) -f CMakeFiles/fingers_geneus.dir/build.make CMakeFiles/fingers_geneus.dir/depend
+	$(MAKE) -f CMakeFiles/fingers_geneus.dir/build.make CMakeFiles/fingers_geneus.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/build/CMakeFiles --progress-num= "Built target fingers_geneus"
+.PHONY : CMakeFiles/fingers_geneus.dir/all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/fingers_geneus.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/build/CMakeFiles 6
+	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/fingers_geneus.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/build/CMakeFiles 0
+.PHONY : CMakeFiles/fingers_geneus.dir/rule
+
+# Convenience name for target.
+fingers_geneus: CMakeFiles/fingers_geneus.dir/rule
+
+.PHONY : fingers_geneus
+
+# clean rule for target.
+CMakeFiles/fingers_geneus.dir/clean:
+	$(MAKE) -f CMakeFiles/fingers_geneus.dir/build.make CMakeFiles/fingers_geneus.dir/clean
+.PHONY : CMakeFiles/fingers_geneus.dir/clean
+
+#=============================================================================
+# Target rules for target CMakeFiles/rosgraph_msgs_generate_messages_eus.dir
+
+# All Build rule for target.
+CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/all:
+	$(MAKE) -f CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/build.make CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/depend
+	$(MAKE) -f CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/build.make CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/build/CMakeFiles --progress-num= "Built target rosgraph_msgs_generate_messages_eus"
+.PHONY : CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/build/CMakeFiles 0
+	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/build/CMakeFiles 0
+.PHONY : CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/rule
+
+# Convenience name for target.
+rosgraph_msgs_generate_messages_eus: CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/rule
+
+.PHONY : rosgraph_msgs_generate_messages_eus
+
+# clean rule for target.
+CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/clean:
+	$(MAKE) -f CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/build.make CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/clean
+.PHONY : CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/clean
+
+#=============================================================================
+# Target rules for target CMakeFiles/fingers_generate_messages_cpp.dir
+
+# All Build rule for target.
+CMakeFiles/fingers_generate_messages_cpp.dir/all: CMakeFiles/_fingers_generate_messages_check_deps_From_Bat_Cam_Shutdown.dir/all
+CMakeFiles/fingers_generate_messages_cpp.dir/all: CMakeFiles/_fingers_generate_messages_check_deps_To_Finger.dir/all
+CMakeFiles/fingers_generate_messages_cpp.dir/all: CMakeFiles/_fingers_generate_messages_check_deps_To_Bat_Cam.dir/all
+CMakeFiles/fingers_generate_messages_cpp.dir/all: CMakeFiles/std_msgs_generate_messages_cpp.dir/all
+CMakeFiles/fingers_generate_messages_cpp.dir/all: CMakeFiles/_fingers_generate_messages_check_deps_From_Bat_Cam_Norm_Work.dir/all
+CMakeFiles/fingers_generate_messages_cpp.dir/all: CMakeFiles/_fingers_generate_messages_check_deps_From_Finger.dir/all
+	$(MAKE) -f CMakeFiles/fingers_generate_messages_cpp.dir/build.make CMakeFiles/fingers_generate_messages_cpp.dir/depend
+	$(MAKE) -f CMakeFiles/fingers_generate_messages_cpp.dir/build.make CMakeFiles/fingers_generate_messages_cpp.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/build/CMakeFiles --progress-num=1,2,3,4,5 "Built target fingers_generate_messages_cpp"
+.PHONY : CMakeFiles/fingers_generate_messages_cpp.dir/all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/fingers_generate_messages_cpp.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/build/CMakeFiles 5
+	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/fingers_generate_messages_cpp.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/build/CMakeFiles 0
+.PHONY : CMakeFiles/fingers_generate_messages_cpp.dir/rule
+
+# Convenience name for target.
+fingers_generate_messages_cpp: CMakeFiles/fingers_generate_messages_cpp.dir/rule
+
+.PHONY : fingers_generate_messages_cpp
+
+# clean rule for target.
+CMakeFiles/fingers_generate_messages_cpp.dir/clean:
+	$(MAKE) -f CMakeFiles/fingers_generate_messages_cpp.dir/build.make CMakeFiles/fingers_generate_messages_cpp.dir/clean
+.PHONY : CMakeFiles/fingers_generate_messages_cpp.dir/clean
+
+#=============================================================================
+# Target rules for target CMakeFiles/rosgraph_msgs_generate_messages_cpp.dir
+
+# All Build rule for target.
+CMakeFiles/rosgraph_msgs_generate_messages_cpp.dir/all:
+	$(MAKE) -f CMakeFiles/rosgraph_msgs_generate_messages_cpp.dir/build.make CMakeFiles/rosgraph_msgs_generate_messages_cpp.dir/depend
+	$(MAKE) -f CMakeFiles/rosgraph_msgs_generate_messages_cpp.dir/build.make CMakeFiles/rosgraph_msgs_generate_messages_cpp.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/build/CMakeFiles --progress-num= "Built target rosgraph_msgs_generate_messages_cpp"
+.PHONY : CMakeFiles/rosgraph_msgs_generate_messages_cpp.dir/all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/rosgraph_msgs_generate_messages_cpp.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/build/CMakeFiles 0
+	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/rosgraph_msgs_generate_messages_cpp.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/build/CMakeFiles 0
+.PHONY : CMakeFiles/rosgraph_msgs_generate_messages_cpp.dir/rule
+
+# Convenience name for target.
+rosgraph_msgs_generate_messages_cpp: CMakeFiles/rosgraph_msgs_generate_messages_cpp.dir/rule
+
+.PHONY : rosgraph_msgs_generate_messages_cpp
+
+# clean rule for target.
+CMakeFiles/rosgraph_msgs_generate_messages_cpp.dir/clean:
+	$(MAKE) -f CMakeFiles/rosgraph_msgs_generate_messages_cpp.dir/build.make CMakeFiles/rosgraph_msgs_generate_messages_cpp.dir/clean
+.PHONY : CMakeFiles/rosgraph_msgs_generate_messages_cpp.dir/clean
+
+#=============================================================================
+# Target rules for target CMakeFiles/roscpp_generate_messages_nodejs.dir
+
+# All Build rule for target.
+CMakeFiles/roscpp_generate_messages_nodejs.dir/all:
+	$(MAKE) -f CMakeFiles/roscpp_generate_messages_nodejs.dir/build.make CMakeFiles/roscpp_generate_messages_nodejs.dir/depend
+	$(MAKE) -f CMakeFiles/roscpp_generate_messages_nodejs.dir/build.make CMakeFiles/roscpp_generate_messages_nodejs.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/build/CMakeFiles --progress-num= "Built target roscpp_generate_messages_nodejs"
+.PHONY : CMakeFiles/roscpp_generate_messages_nodejs.dir/all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/roscpp_generate_messages_nodejs.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/build/CMakeFiles 0
+	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/roscpp_generate_messages_nodejs.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/build/CMakeFiles 0
+.PHONY : CMakeFiles/roscpp_generate_messages_nodejs.dir/rule
+
+# Convenience name for target.
+roscpp_generate_messages_nodejs: CMakeFiles/roscpp_generate_messages_nodejs.dir/rule
+
+.PHONY : roscpp_generate_messages_nodejs
+
+# clean rule for target.
+CMakeFiles/roscpp_generate_messages_nodejs.dir/clean:
+	$(MAKE) -f CMakeFiles/roscpp_generate_messages_nodejs.dir/build.make CMakeFiles/roscpp_generate_messages_nodejs.dir/clean
+.PHONY : CMakeFiles/roscpp_generate_messages_nodejs.dir/clean
+
+#=============================================================================
+# Target rules for target CMakeFiles/_fingers_generate_messages_check_deps_From_Bat_Cam_Shutdown.dir
+
+# All Build rule for target.
+CMakeFiles/_fingers_generate_messages_check_deps_From_Bat_Cam_Shutdown.dir/all:
+	$(MAKE) -f CMakeFiles/_fingers_generate_messages_check_deps_From_Bat_Cam_Shutdown.dir/build.make CMakeFiles/_fingers_generate_messages_check_deps_From_Bat_Cam_Shutdown.dir/depend
+	$(MAKE) -f CMakeFiles/_fingers_generate_messages_check_deps_From_Bat_Cam_Shutdown.dir/build.make CMakeFiles/_fingers_generate_messages_check_deps_From_Bat_Cam_Shutdown.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/build/CMakeFiles --progress-num= "Built target _fingers_generate_messages_check_deps_From_Bat_Cam_Shutdown"
+.PHONY : CMakeFiles/_fingers_generate_messages_check_deps_From_Bat_Cam_Shutdown.dir/all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/_fingers_generate_messages_check_deps_From_Bat_Cam_Shutdown.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/build/CMakeFiles 0
+	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/_fingers_generate_messages_check_deps_From_Bat_Cam_Shutdown.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/build/CMakeFiles 0
+.PHONY : CMakeFiles/_fingers_generate_messages_check_deps_From_Bat_Cam_Shutdown.dir/rule
+
+# Convenience name for target.
+_fingers_generate_messages_check_deps_From_Bat_Cam_Shutdown: CMakeFiles/_fingers_generate_messages_check_deps_From_Bat_Cam_Shutdown.dir/rule
+
+.PHONY : _fingers_generate_messages_check_deps_From_Bat_Cam_Shutdown
+
+# clean rule for target.
+CMakeFiles/_fingers_generate_messages_check_deps_From_Bat_Cam_Shutdown.dir/clean:
+	$(MAKE) -f CMakeFiles/_fingers_generate_messages_check_deps_From_Bat_Cam_Shutdown.dir/build.make CMakeFiles/_fingers_generate_messages_check_deps_From_Bat_Cam_Shutdown.dir/clean
+.PHONY : CMakeFiles/_fingers_generate_messages_check_deps_From_Bat_Cam_Shutdown.dir/clean
+
+#=============================================================================
+# Target rules for target CMakeFiles/roscpp_generate_messages_eus.dir
+
+# All Build rule for target.
+CMakeFiles/roscpp_generate_messages_eus.dir/all:
+	$(MAKE) -f CMakeFiles/roscpp_generate_messages_eus.dir/build.make CMakeFiles/roscpp_generate_messages_eus.dir/depend
+	$(MAKE) -f CMakeFiles/roscpp_generate_messages_eus.dir/build.make CMakeFiles/roscpp_generate_messages_eus.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/build/CMakeFiles --progress-num= "Built target roscpp_generate_messages_eus"
+.PHONY : CMakeFiles/roscpp_generate_messages_eus.dir/all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/roscpp_generate_messages_eus.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/build/CMakeFiles 0
+	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/roscpp_generate_messages_eus.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/build/CMakeFiles 0
+.PHONY : CMakeFiles/roscpp_generate_messages_eus.dir/rule
+
+# Convenience name for target.
+roscpp_generate_messages_eus: CMakeFiles/roscpp_generate_messages_eus.dir/rule
+
+.PHONY : roscpp_generate_messages_eus
+
+# clean rule for target.
+CMakeFiles/roscpp_generate_messages_eus.dir/clean:
+	$(MAKE) -f CMakeFiles/roscpp_generate_messages_eus.dir/build.make CMakeFiles/roscpp_generate_messages_eus.dir/clean
+.PHONY : CMakeFiles/roscpp_generate_messages_eus.dir/clean
+
+#=============================================================================
+# Target rules for target CMakeFiles/_fingers_generate_messages_check_deps_To_Finger.dir
+
+# All Build rule for target.
+CMakeFiles/_fingers_generate_messages_check_deps_To_Finger.dir/all:
+	$(MAKE) -f CMakeFiles/_fingers_generate_messages_check_deps_To_Finger.dir/build.make CMakeFiles/_fingers_generate_messages_check_deps_To_Finger.dir/depend
+	$(MAKE) -f CMakeFiles/_fingers_generate_messages_check_deps_To_Finger.dir/build.make CMakeFiles/_fingers_generate_messages_check_deps_To_Finger.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/build/CMakeFiles --progress-num= "Built target _fingers_generate_messages_check_deps_To_Finger"
+.PHONY : CMakeFiles/_fingers_generate_messages_check_deps_To_Finger.dir/all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/_fingers_generate_messages_check_deps_To_Finger.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/build/CMakeFiles 0
+	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/_fingers_generate_messages_check_deps_To_Finger.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/build/CMakeFiles 0
+.PHONY : CMakeFiles/_fingers_generate_messages_check_deps_To_Finger.dir/rule
+
+# Convenience name for target.
+_fingers_generate_messages_check_deps_To_Finger: CMakeFiles/_fingers_generate_messages_check_deps_To_Finger.dir/rule
+
+.PHONY : _fingers_generate_messages_check_deps_To_Finger
+
+# clean rule for target.
+CMakeFiles/_fingers_generate_messages_check_deps_To_Finger.dir/clean:
+	$(MAKE) -f CMakeFiles/_fingers_generate_messages_check_deps_To_Finger.dir/build.make CMakeFiles/_fingers_generate_messages_check_deps_To_Finger.dir/clean
+.PHONY : CMakeFiles/_fingers_generate_messages_check_deps_To_Finger.dir/clean
+
+#=============================================================================
+# Target rules for target CMakeFiles/roscpp_generate_messages_py.dir
+
+# All Build rule for target.
+CMakeFiles/roscpp_generate_messages_py.dir/all:
+	$(MAKE) -f CMakeFiles/roscpp_generate_messages_py.dir/build.make CMakeFiles/roscpp_generate_messages_py.dir/depend
+	$(MAKE) -f CMakeFiles/roscpp_generate_messages_py.dir/build.make CMakeFiles/roscpp_generate_messages_py.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/build/CMakeFiles --progress-num= "Built target roscpp_generate_messages_py"
+.PHONY : CMakeFiles/roscpp_generate_messages_py.dir/all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/roscpp_generate_messages_py.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/build/CMakeFiles 0
+	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/roscpp_generate_messages_py.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/build/CMakeFiles 0
+.PHONY : CMakeFiles/roscpp_generate_messages_py.dir/rule
+
+# Convenience name for target.
+roscpp_generate_messages_py: CMakeFiles/roscpp_generate_messages_py.dir/rule
+
+.PHONY : roscpp_generate_messages_py
+
+# clean rule for target.
+CMakeFiles/roscpp_generate_messages_py.dir/clean:
+	$(MAKE) -f CMakeFiles/roscpp_generate_messages_py.dir/build.make CMakeFiles/roscpp_generate_messages_py.dir/clean
+.PHONY : CMakeFiles/roscpp_generate_messages_py.dir/clean
+
+#=============================================================================
+# Target rules for target CMakeFiles/rosgraph_msgs_generate_messages_py.dir
+
+# All Build rule for target.
+CMakeFiles/rosgraph_msgs_generate_messages_py.dir/all:
+	$(MAKE) -f CMakeFiles/rosgraph_msgs_generate_messages_py.dir/build.make CMakeFiles/rosgraph_msgs_generate_messages_py.dir/depend
+	$(MAKE) -f CMakeFiles/rosgraph_msgs_generate_messages_py.dir/build.make CMakeFiles/rosgraph_msgs_generate_messages_py.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/build/CMakeFiles --progress-num= "Built target rosgraph_msgs_generate_messages_py"
+.PHONY : CMakeFiles/rosgraph_msgs_generate_messages_py.dir/all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/rosgraph_msgs_generate_messages_py.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/build/CMakeFiles 0
+	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/rosgraph_msgs_generate_messages_py.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/build/CMakeFiles 0
+.PHONY : CMakeFiles/rosgraph_msgs_generate_messages_py.dir/rule
+
+# Convenience name for target.
+rosgraph_msgs_generate_messages_py: CMakeFiles/rosgraph_msgs_generate_messages_py.dir/rule
+
+.PHONY : rosgraph_msgs_generate_messages_py
+
+# clean rule for target.
+CMakeFiles/rosgraph_msgs_generate_messages_py.dir/clean:
+	$(MAKE) -f CMakeFiles/rosgraph_msgs_generate_messages_py.dir/build.make CMakeFiles/rosgraph_msgs_generate_messages_py.dir/clean
+.PHONY : CMakeFiles/rosgraph_msgs_generate_messages_py.dir/clean
+
+#=============================================================================
+# Target rules for target CMakeFiles/doxygen.dir
+
+# All Build rule for target.
+CMakeFiles/doxygen.dir/all:
+	$(MAKE) -f CMakeFiles/doxygen.dir/build.make CMakeFiles/doxygen.dir/depend
+	$(MAKE) -f CMakeFiles/doxygen.dir/build.make CMakeFiles/doxygen.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/build/CMakeFiles --progress-num= "Built target doxygen"
+.PHONY : CMakeFiles/doxygen.dir/all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/doxygen.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/build/CMakeFiles 0
+	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/doxygen.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/build/CMakeFiles 0
+.PHONY : CMakeFiles/doxygen.dir/rule
+
+# Convenience name for target.
+doxygen: CMakeFiles/doxygen.dir/rule
+
+.PHONY : doxygen
+
+# clean rule for target.
+CMakeFiles/doxygen.dir/clean:
+	$(MAKE) -f CMakeFiles/doxygen.dir/build.make CMakeFiles/doxygen.dir/clean
+.PHONY : CMakeFiles/doxygen.dir/clean
+
+#=============================================================================
 # Target rules for target CMakeFiles/rosgraph_msgs_generate_messages_lisp.dir
 
 # All Build rule for target.
 CMakeFiles/rosgraph_msgs_generate_messages_lisp.dir/all:
 	$(MAKE) -f CMakeFiles/rosgraph_msgs_generate_messages_lisp.dir/build.make CMakeFiles/rosgraph_msgs_generate_messages_lisp.dir/depend
 	$(MAKE) -f CMakeFiles/rosgraph_msgs_generate_messages_lisp.dir/build.make CMakeFiles/rosgraph_msgs_generate_messages_lisp.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/anton20241/rtc_work/rx_tx_ws/src/fingers/build/CMakeFiles --progress-num= "Built target rosgraph_msgs_generate_messages_lisp"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/build/CMakeFiles --progress-num= "Built target rosgraph_msgs_generate_messages_lisp"
 .PHONY : CMakeFiles/rosgraph_msgs_generate_messages_lisp.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/rosgraph_msgs_generate_messages_lisp.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/anton20241/rtc_work/rx_tx_ws/src/fingers/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/build/CMakeFiles 0
 	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/rosgraph_msgs_generate_messages_lisp.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/anton20241/rtc_work/rx_tx_ws/src/fingers/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/build/CMakeFiles 0
 .PHONY : CMakeFiles/rosgraph_msgs_generate_messages_lisp.dir/rule
 
 # Convenience name for target.
@@ -743,6 +723,533 @@ CMakeFiles/rosgraph_msgs_generate_messages_lisp.dir/clean:
 .PHONY : CMakeFiles/rosgraph_msgs_generate_messages_lisp.dir/clean
 
 #=============================================================================
+# Target rules for target CMakeFiles/download_extra_data.dir
+
+# All Build rule for target.
+CMakeFiles/download_extra_data.dir/all:
+	$(MAKE) -f CMakeFiles/download_extra_data.dir/build.make CMakeFiles/download_extra_data.dir/depend
+	$(MAKE) -f CMakeFiles/download_extra_data.dir/build.make CMakeFiles/download_extra_data.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/build/CMakeFiles --progress-num= "Built target download_extra_data"
+.PHONY : CMakeFiles/download_extra_data.dir/all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/download_extra_data.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/build/CMakeFiles 0
+	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/download_extra_data.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/build/CMakeFiles 0
+.PHONY : CMakeFiles/download_extra_data.dir/rule
+
+# Convenience name for target.
+download_extra_data: CMakeFiles/download_extra_data.dir/rule
+
+.PHONY : download_extra_data
+
+# clean rule for target.
+CMakeFiles/download_extra_data.dir/clean:
+	$(MAKE) -f CMakeFiles/download_extra_data.dir/build.make CMakeFiles/download_extra_data.dir/clean
+.PHONY : CMakeFiles/download_extra_data.dir/clean
+
+#=============================================================================
+# Target rules for target CMakeFiles/run_tests.dir
+
+# All Build rule for target.
+CMakeFiles/run_tests.dir/all:
+	$(MAKE) -f CMakeFiles/run_tests.dir/build.make CMakeFiles/run_tests.dir/depend
+	$(MAKE) -f CMakeFiles/run_tests.dir/build.make CMakeFiles/run_tests.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/build/CMakeFiles --progress-num= "Built target run_tests"
+.PHONY : CMakeFiles/run_tests.dir/all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/run_tests.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/build/CMakeFiles 0
+	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/run_tests.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/build/CMakeFiles 0
+.PHONY : CMakeFiles/run_tests.dir/rule
+
+# Convenience name for target.
+run_tests: CMakeFiles/run_tests.dir/rule
+
+.PHONY : run_tests
+
+# clean rule for target.
+CMakeFiles/run_tests.dir/clean:
+	$(MAKE) -f CMakeFiles/run_tests.dir/build.make CMakeFiles/run_tests.dir/clean
+.PHONY : CMakeFiles/run_tests.dir/clean
+
+#=============================================================================
+# Target rules for target CMakeFiles/std_msgs_generate_messages_lisp.dir
+
+# All Build rule for target.
+CMakeFiles/std_msgs_generate_messages_lisp.dir/all:
+	$(MAKE) -f CMakeFiles/std_msgs_generate_messages_lisp.dir/build.make CMakeFiles/std_msgs_generate_messages_lisp.dir/depend
+	$(MAKE) -f CMakeFiles/std_msgs_generate_messages_lisp.dir/build.make CMakeFiles/std_msgs_generate_messages_lisp.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/build/CMakeFiles --progress-num= "Built target std_msgs_generate_messages_lisp"
+.PHONY : CMakeFiles/std_msgs_generate_messages_lisp.dir/all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/std_msgs_generate_messages_lisp.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/build/CMakeFiles 0
+	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/std_msgs_generate_messages_lisp.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/build/CMakeFiles 0
+.PHONY : CMakeFiles/std_msgs_generate_messages_lisp.dir/rule
+
+# Convenience name for target.
+std_msgs_generate_messages_lisp: CMakeFiles/std_msgs_generate_messages_lisp.dir/rule
+
+.PHONY : std_msgs_generate_messages_lisp
+
+# clean rule for target.
+CMakeFiles/std_msgs_generate_messages_lisp.dir/clean:
+	$(MAKE) -f CMakeFiles/std_msgs_generate_messages_lisp.dir/build.make CMakeFiles/std_msgs_generate_messages_lisp.dir/clean
+.PHONY : CMakeFiles/std_msgs_generate_messages_lisp.dir/clean
+
+#=============================================================================
+# Target rules for target CMakeFiles/roscpp_generate_messages_lisp.dir
+
+# All Build rule for target.
+CMakeFiles/roscpp_generate_messages_lisp.dir/all:
+	$(MAKE) -f CMakeFiles/roscpp_generate_messages_lisp.dir/build.make CMakeFiles/roscpp_generate_messages_lisp.dir/depend
+	$(MAKE) -f CMakeFiles/roscpp_generate_messages_lisp.dir/build.make CMakeFiles/roscpp_generate_messages_lisp.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/build/CMakeFiles --progress-num= "Built target roscpp_generate_messages_lisp"
+.PHONY : CMakeFiles/roscpp_generate_messages_lisp.dir/all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/roscpp_generate_messages_lisp.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/build/CMakeFiles 0
+	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/roscpp_generate_messages_lisp.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/build/CMakeFiles 0
+.PHONY : CMakeFiles/roscpp_generate_messages_lisp.dir/rule
+
+# Convenience name for target.
+roscpp_generate_messages_lisp: CMakeFiles/roscpp_generate_messages_lisp.dir/rule
+
+.PHONY : roscpp_generate_messages_lisp
+
+# clean rule for target.
+CMakeFiles/roscpp_generate_messages_lisp.dir/clean:
+	$(MAKE) -f CMakeFiles/roscpp_generate_messages_lisp.dir/build.make CMakeFiles/roscpp_generate_messages_lisp.dir/clean
+.PHONY : CMakeFiles/roscpp_generate_messages_lisp.dir/clean
+
+#=============================================================================
+# Target rules for target CMakeFiles/clean_test_results.dir
+
+# All Build rule for target.
+CMakeFiles/clean_test_results.dir/all:
+	$(MAKE) -f CMakeFiles/clean_test_results.dir/build.make CMakeFiles/clean_test_results.dir/depend
+	$(MAKE) -f CMakeFiles/clean_test_results.dir/build.make CMakeFiles/clean_test_results.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/build/CMakeFiles --progress-num= "Built target clean_test_results"
+.PHONY : CMakeFiles/clean_test_results.dir/all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/clean_test_results.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/build/CMakeFiles 0
+	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/clean_test_results.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/build/CMakeFiles 0
+.PHONY : CMakeFiles/clean_test_results.dir/rule
+
+# Convenience name for target.
+clean_test_results: CMakeFiles/clean_test_results.dir/rule
+
+.PHONY : clean_test_results
+
+# clean rule for target.
+CMakeFiles/clean_test_results.dir/clean:
+	$(MAKE) -f CMakeFiles/clean_test_results.dir/build.make CMakeFiles/clean_test_results.dir/clean
+.PHONY : CMakeFiles/clean_test_results.dir/clean
+
+#=============================================================================
+# Target rules for target CMakeFiles/tests.dir
+
+# All Build rule for target.
+CMakeFiles/tests.dir/all:
+	$(MAKE) -f CMakeFiles/tests.dir/build.make CMakeFiles/tests.dir/depend
+	$(MAKE) -f CMakeFiles/tests.dir/build.make CMakeFiles/tests.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/build/CMakeFiles --progress-num= "Built target tests"
+.PHONY : CMakeFiles/tests.dir/all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/tests.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/build/CMakeFiles 0
+	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/tests.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/build/CMakeFiles 0
+.PHONY : CMakeFiles/tests.dir/rule
+
+# Convenience name for target.
+tests: CMakeFiles/tests.dir/rule
+
+.PHONY : tests
+
+# clean rule for target.
+CMakeFiles/tests.dir/clean:
+	$(MAKE) -f CMakeFiles/tests.dir/build.make CMakeFiles/tests.dir/clean
+.PHONY : CMakeFiles/tests.dir/clean
+
+#=============================================================================
+# Target rules for target CMakeFiles/fingers_generate_messages_lisp.dir
+
+# All Build rule for target.
+CMakeFiles/fingers_generate_messages_lisp.dir/all: CMakeFiles/_fingers_generate_messages_check_deps_From_Bat_Cam_Shutdown.dir/all
+CMakeFiles/fingers_generate_messages_lisp.dir/all: CMakeFiles/_fingers_generate_messages_check_deps_To_Finger.dir/all
+CMakeFiles/fingers_generate_messages_lisp.dir/all: CMakeFiles/std_msgs_generate_messages_lisp.dir/all
+CMakeFiles/fingers_generate_messages_lisp.dir/all: CMakeFiles/_fingers_generate_messages_check_deps_To_Bat_Cam.dir/all
+CMakeFiles/fingers_generate_messages_lisp.dir/all: CMakeFiles/_fingers_generate_messages_check_deps_From_Bat_Cam_Norm_Work.dir/all
+CMakeFiles/fingers_generate_messages_lisp.dir/all: CMakeFiles/_fingers_generate_messages_check_deps_From_Finger.dir/all
+	$(MAKE) -f CMakeFiles/fingers_generate_messages_lisp.dir/build.make CMakeFiles/fingers_generate_messages_lisp.dir/depend
+	$(MAKE) -f CMakeFiles/fingers_generate_messages_lisp.dir/build.make CMakeFiles/fingers_generate_messages_lisp.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/build/CMakeFiles --progress-num=12,13,14,15,16 "Built target fingers_generate_messages_lisp"
+.PHONY : CMakeFiles/fingers_generate_messages_lisp.dir/all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/fingers_generate_messages_lisp.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/build/CMakeFiles 5
+	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/fingers_generate_messages_lisp.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/build/CMakeFiles 0
+.PHONY : CMakeFiles/fingers_generate_messages_lisp.dir/rule
+
+# Convenience name for target.
+fingers_generate_messages_lisp: CMakeFiles/fingers_generate_messages_lisp.dir/rule
+
+.PHONY : fingers_generate_messages_lisp
+
+# clean rule for target.
+CMakeFiles/fingers_generate_messages_lisp.dir/clean:
+	$(MAKE) -f CMakeFiles/fingers_generate_messages_lisp.dir/build.make CMakeFiles/fingers_generate_messages_lisp.dir/clean
+.PHONY : CMakeFiles/fingers_generate_messages_lisp.dir/clean
+
+#=============================================================================
+# Target rules for target CMakeFiles/fingers_gencpp.dir
+
+# All Build rule for target.
+CMakeFiles/fingers_gencpp.dir/all: CMakeFiles/fingers_generate_messages_cpp.dir/all
+	$(MAKE) -f CMakeFiles/fingers_gencpp.dir/build.make CMakeFiles/fingers_gencpp.dir/depend
+	$(MAKE) -f CMakeFiles/fingers_gencpp.dir/build.make CMakeFiles/fingers_gencpp.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/build/CMakeFiles --progress-num= "Built target fingers_gencpp"
+.PHONY : CMakeFiles/fingers_gencpp.dir/all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/fingers_gencpp.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/build/CMakeFiles 5
+	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/fingers_gencpp.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/build/CMakeFiles 0
+.PHONY : CMakeFiles/fingers_gencpp.dir/rule
+
+# Convenience name for target.
+fingers_gencpp: CMakeFiles/fingers_gencpp.dir/rule
+
+.PHONY : fingers_gencpp
+
+# clean rule for target.
+CMakeFiles/fingers_gencpp.dir/clean:
+	$(MAKE) -f CMakeFiles/fingers_gencpp.dir/build.make CMakeFiles/fingers_gencpp.dir/clean
+.PHONY : CMakeFiles/fingers_gencpp.dir/clean
+
+#=============================================================================
+# Target rules for target CMakeFiles/_fingers_generate_messages_check_deps_To_Bat_Cam.dir
+
+# All Build rule for target.
+CMakeFiles/_fingers_generate_messages_check_deps_To_Bat_Cam.dir/all:
+	$(MAKE) -f CMakeFiles/_fingers_generate_messages_check_deps_To_Bat_Cam.dir/build.make CMakeFiles/_fingers_generate_messages_check_deps_To_Bat_Cam.dir/depend
+	$(MAKE) -f CMakeFiles/_fingers_generate_messages_check_deps_To_Bat_Cam.dir/build.make CMakeFiles/_fingers_generate_messages_check_deps_To_Bat_Cam.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/build/CMakeFiles --progress-num= "Built target _fingers_generate_messages_check_deps_To_Bat_Cam"
+.PHONY : CMakeFiles/_fingers_generate_messages_check_deps_To_Bat_Cam.dir/all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/_fingers_generate_messages_check_deps_To_Bat_Cam.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/build/CMakeFiles 0
+	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/_fingers_generate_messages_check_deps_To_Bat_Cam.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/build/CMakeFiles 0
+.PHONY : CMakeFiles/_fingers_generate_messages_check_deps_To_Bat_Cam.dir/rule
+
+# Convenience name for target.
+_fingers_generate_messages_check_deps_To_Bat_Cam: CMakeFiles/_fingers_generate_messages_check_deps_To_Bat_Cam.dir/rule
+
+.PHONY : _fingers_generate_messages_check_deps_To_Bat_Cam
+
+# clean rule for target.
+CMakeFiles/_fingers_generate_messages_check_deps_To_Bat_Cam.dir/clean:
+	$(MAKE) -f CMakeFiles/_fingers_generate_messages_check_deps_To_Bat_Cam.dir/build.make CMakeFiles/_fingers_generate_messages_check_deps_To_Bat_Cam.dir/clean
+.PHONY : CMakeFiles/_fingers_generate_messages_check_deps_To_Bat_Cam.dir/clean
+
+#=============================================================================
+# Target rules for target CMakeFiles/rosgraph_msgs_generate_messages_nodejs.dir
+
+# All Build rule for target.
+CMakeFiles/rosgraph_msgs_generate_messages_nodejs.dir/all:
+	$(MAKE) -f CMakeFiles/rosgraph_msgs_generate_messages_nodejs.dir/build.make CMakeFiles/rosgraph_msgs_generate_messages_nodejs.dir/depend
+	$(MAKE) -f CMakeFiles/rosgraph_msgs_generate_messages_nodejs.dir/build.make CMakeFiles/rosgraph_msgs_generate_messages_nodejs.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/build/CMakeFiles --progress-num= "Built target rosgraph_msgs_generate_messages_nodejs"
+.PHONY : CMakeFiles/rosgraph_msgs_generate_messages_nodejs.dir/all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/rosgraph_msgs_generate_messages_nodejs.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/build/CMakeFiles 0
+	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/rosgraph_msgs_generate_messages_nodejs.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/build/CMakeFiles 0
+.PHONY : CMakeFiles/rosgraph_msgs_generate_messages_nodejs.dir/rule
+
+# Convenience name for target.
+rosgraph_msgs_generate_messages_nodejs: CMakeFiles/rosgraph_msgs_generate_messages_nodejs.dir/rule
+
+.PHONY : rosgraph_msgs_generate_messages_nodejs
+
+# clean rule for target.
+CMakeFiles/rosgraph_msgs_generate_messages_nodejs.dir/clean:
+	$(MAKE) -f CMakeFiles/rosgraph_msgs_generate_messages_nodejs.dir/build.make CMakeFiles/rosgraph_msgs_generate_messages_nodejs.dir/clean
+.PHONY : CMakeFiles/rosgraph_msgs_generate_messages_nodejs.dir/clean
+
+#=============================================================================
+# Target rules for target CMakeFiles/std_msgs_generate_messages_cpp.dir
+
+# All Build rule for target.
+CMakeFiles/std_msgs_generate_messages_cpp.dir/all:
+	$(MAKE) -f CMakeFiles/std_msgs_generate_messages_cpp.dir/build.make CMakeFiles/std_msgs_generate_messages_cpp.dir/depend
+	$(MAKE) -f CMakeFiles/std_msgs_generate_messages_cpp.dir/build.make CMakeFiles/std_msgs_generate_messages_cpp.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/build/CMakeFiles --progress-num= "Built target std_msgs_generate_messages_cpp"
+.PHONY : CMakeFiles/std_msgs_generate_messages_cpp.dir/all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/std_msgs_generate_messages_cpp.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/build/CMakeFiles 0
+	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/std_msgs_generate_messages_cpp.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/build/CMakeFiles 0
+.PHONY : CMakeFiles/std_msgs_generate_messages_cpp.dir/rule
+
+# Convenience name for target.
+std_msgs_generate_messages_cpp: CMakeFiles/std_msgs_generate_messages_cpp.dir/rule
+
+.PHONY : std_msgs_generate_messages_cpp
+
+# clean rule for target.
+CMakeFiles/std_msgs_generate_messages_cpp.dir/clean:
+	$(MAKE) -f CMakeFiles/std_msgs_generate_messages_cpp.dir/build.make CMakeFiles/std_msgs_generate_messages_cpp.dir/clean
+.PHONY : CMakeFiles/std_msgs_generate_messages_cpp.dir/clean
+
+#=============================================================================
+# Target rules for target CMakeFiles/std_msgs_generate_messages_eus.dir
+
+# All Build rule for target.
+CMakeFiles/std_msgs_generate_messages_eus.dir/all:
+	$(MAKE) -f CMakeFiles/std_msgs_generate_messages_eus.dir/build.make CMakeFiles/std_msgs_generate_messages_eus.dir/depend
+	$(MAKE) -f CMakeFiles/std_msgs_generate_messages_eus.dir/build.make CMakeFiles/std_msgs_generate_messages_eus.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/build/CMakeFiles --progress-num= "Built target std_msgs_generate_messages_eus"
+.PHONY : CMakeFiles/std_msgs_generate_messages_eus.dir/all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/std_msgs_generate_messages_eus.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/build/CMakeFiles 0
+	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/std_msgs_generate_messages_eus.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/build/CMakeFiles 0
+.PHONY : CMakeFiles/std_msgs_generate_messages_eus.dir/rule
+
+# Convenience name for target.
+std_msgs_generate_messages_eus: CMakeFiles/std_msgs_generate_messages_eus.dir/rule
+
+.PHONY : std_msgs_generate_messages_eus
+
+# clean rule for target.
+CMakeFiles/std_msgs_generate_messages_eus.dir/clean:
+	$(MAKE) -f CMakeFiles/std_msgs_generate_messages_eus.dir/build.make CMakeFiles/std_msgs_generate_messages_eus.dir/clean
+.PHONY : CMakeFiles/std_msgs_generate_messages_eus.dir/clean
+
+#=============================================================================
+# Target rules for target CMakeFiles/_fingers_generate_messages_check_deps_From_Bat_Cam_Norm_Work.dir
+
+# All Build rule for target.
+CMakeFiles/_fingers_generate_messages_check_deps_From_Bat_Cam_Norm_Work.dir/all:
+	$(MAKE) -f CMakeFiles/_fingers_generate_messages_check_deps_From_Bat_Cam_Norm_Work.dir/build.make CMakeFiles/_fingers_generate_messages_check_deps_From_Bat_Cam_Norm_Work.dir/depend
+	$(MAKE) -f CMakeFiles/_fingers_generate_messages_check_deps_From_Bat_Cam_Norm_Work.dir/build.make CMakeFiles/_fingers_generate_messages_check_deps_From_Bat_Cam_Norm_Work.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/build/CMakeFiles --progress-num= "Built target _fingers_generate_messages_check_deps_From_Bat_Cam_Norm_Work"
+.PHONY : CMakeFiles/_fingers_generate_messages_check_deps_From_Bat_Cam_Norm_Work.dir/all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/_fingers_generate_messages_check_deps_From_Bat_Cam_Norm_Work.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/build/CMakeFiles 0
+	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/_fingers_generate_messages_check_deps_From_Bat_Cam_Norm_Work.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/build/CMakeFiles 0
+.PHONY : CMakeFiles/_fingers_generate_messages_check_deps_From_Bat_Cam_Norm_Work.dir/rule
+
+# Convenience name for target.
+_fingers_generate_messages_check_deps_From_Bat_Cam_Norm_Work: CMakeFiles/_fingers_generate_messages_check_deps_From_Bat_Cam_Norm_Work.dir/rule
+
+.PHONY : _fingers_generate_messages_check_deps_From_Bat_Cam_Norm_Work
+
+# clean rule for target.
+CMakeFiles/_fingers_generate_messages_check_deps_From_Bat_Cam_Norm_Work.dir/clean:
+	$(MAKE) -f CMakeFiles/_fingers_generate_messages_check_deps_From_Bat_Cam_Norm_Work.dir/build.make CMakeFiles/_fingers_generate_messages_check_deps_From_Bat_Cam_Norm_Work.dir/clean
+.PHONY : CMakeFiles/_fingers_generate_messages_check_deps_From_Bat_Cam_Norm_Work.dir/clean
+
+#=============================================================================
+# Target rules for target CMakeFiles/std_msgs_generate_messages_nodejs.dir
+
+# All Build rule for target.
+CMakeFiles/std_msgs_generate_messages_nodejs.dir/all:
+	$(MAKE) -f CMakeFiles/std_msgs_generate_messages_nodejs.dir/build.make CMakeFiles/std_msgs_generate_messages_nodejs.dir/depend
+	$(MAKE) -f CMakeFiles/std_msgs_generate_messages_nodejs.dir/build.make CMakeFiles/std_msgs_generate_messages_nodejs.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/build/CMakeFiles --progress-num= "Built target std_msgs_generate_messages_nodejs"
+.PHONY : CMakeFiles/std_msgs_generate_messages_nodejs.dir/all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/std_msgs_generate_messages_nodejs.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/build/CMakeFiles 0
+	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/std_msgs_generate_messages_nodejs.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/build/CMakeFiles 0
+.PHONY : CMakeFiles/std_msgs_generate_messages_nodejs.dir/rule
+
+# Convenience name for target.
+std_msgs_generate_messages_nodejs: CMakeFiles/std_msgs_generate_messages_nodejs.dir/rule
+
+.PHONY : std_msgs_generate_messages_nodejs
+
+# clean rule for target.
+CMakeFiles/std_msgs_generate_messages_nodejs.dir/clean:
+	$(MAKE) -f CMakeFiles/std_msgs_generate_messages_nodejs.dir/build.make CMakeFiles/std_msgs_generate_messages_nodejs.dir/clean
+.PHONY : CMakeFiles/std_msgs_generate_messages_nodejs.dir/clean
+
+#=============================================================================
+# Target rules for target CMakeFiles/std_msgs_generate_messages_py.dir
+
+# All Build rule for target.
+CMakeFiles/std_msgs_generate_messages_py.dir/all:
+	$(MAKE) -f CMakeFiles/std_msgs_generate_messages_py.dir/build.make CMakeFiles/std_msgs_generate_messages_py.dir/depend
+	$(MAKE) -f CMakeFiles/std_msgs_generate_messages_py.dir/build.make CMakeFiles/std_msgs_generate_messages_py.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/build/CMakeFiles --progress-num= "Built target std_msgs_generate_messages_py"
+.PHONY : CMakeFiles/std_msgs_generate_messages_py.dir/all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/std_msgs_generate_messages_py.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/build/CMakeFiles 0
+	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/std_msgs_generate_messages_py.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/build/CMakeFiles 0
+.PHONY : CMakeFiles/std_msgs_generate_messages_py.dir/rule
+
+# Convenience name for target.
+std_msgs_generate_messages_py: CMakeFiles/std_msgs_generate_messages_py.dir/rule
+
+.PHONY : std_msgs_generate_messages_py
+
+# clean rule for target.
+CMakeFiles/std_msgs_generate_messages_py.dir/clean:
+	$(MAKE) -f CMakeFiles/std_msgs_generate_messages_py.dir/build.make CMakeFiles/std_msgs_generate_messages_py.dir/clean
+.PHONY : CMakeFiles/std_msgs_generate_messages_py.dir/clean
+
+#=============================================================================
+# Target rules for target CMakeFiles/roscpp_generate_messages_cpp.dir
+
+# All Build rule for target.
+CMakeFiles/roscpp_generate_messages_cpp.dir/all:
+	$(MAKE) -f CMakeFiles/roscpp_generate_messages_cpp.dir/build.make CMakeFiles/roscpp_generate_messages_cpp.dir/depend
+	$(MAKE) -f CMakeFiles/roscpp_generate_messages_cpp.dir/build.make CMakeFiles/roscpp_generate_messages_cpp.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/build/CMakeFiles --progress-num= "Built target roscpp_generate_messages_cpp"
+.PHONY : CMakeFiles/roscpp_generate_messages_cpp.dir/all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/roscpp_generate_messages_cpp.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/build/CMakeFiles 0
+	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/roscpp_generate_messages_cpp.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/build/CMakeFiles 0
+.PHONY : CMakeFiles/roscpp_generate_messages_cpp.dir/rule
+
+# Convenience name for target.
+roscpp_generate_messages_cpp: CMakeFiles/roscpp_generate_messages_cpp.dir/rule
+
+.PHONY : roscpp_generate_messages_cpp
+
+# clean rule for target.
+CMakeFiles/roscpp_generate_messages_cpp.dir/clean:
+	$(MAKE) -f CMakeFiles/roscpp_generate_messages_cpp.dir/build.make CMakeFiles/roscpp_generate_messages_cpp.dir/clean
+.PHONY : CMakeFiles/roscpp_generate_messages_cpp.dir/clean
+
+#=============================================================================
+# Target rules for target CMakeFiles/fingers_generate_messages_eus.dir
+
+# All Build rule for target.
+CMakeFiles/fingers_generate_messages_eus.dir/all: CMakeFiles/_fingers_generate_messages_check_deps_From_Bat_Cam_Shutdown.dir/all
+CMakeFiles/fingers_generate_messages_eus.dir/all: CMakeFiles/_fingers_generate_messages_check_deps_To_Finger.dir/all
+CMakeFiles/fingers_generate_messages_eus.dir/all: CMakeFiles/_fingers_generate_messages_check_deps_To_Bat_Cam.dir/all
+CMakeFiles/fingers_generate_messages_eus.dir/all: CMakeFiles/std_msgs_generate_messages_eus.dir/all
+CMakeFiles/fingers_generate_messages_eus.dir/all: CMakeFiles/_fingers_generate_messages_check_deps_From_Bat_Cam_Norm_Work.dir/all
+CMakeFiles/fingers_generate_messages_eus.dir/all: CMakeFiles/_fingers_generate_messages_check_deps_From_Finger.dir/all
+	$(MAKE) -f CMakeFiles/fingers_generate_messages_eus.dir/build.make CMakeFiles/fingers_generate_messages_eus.dir/depend
+	$(MAKE) -f CMakeFiles/fingers_generate_messages_eus.dir/build.make CMakeFiles/fingers_generate_messages_eus.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/build/CMakeFiles --progress-num=6,7,8,9,10,11 "Built target fingers_generate_messages_eus"
+.PHONY : CMakeFiles/fingers_generate_messages_eus.dir/all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/fingers_generate_messages_eus.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/build/CMakeFiles 6
+	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/fingers_generate_messages_eus.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/build/CMakeFiles 0
+.PHONY : CMakeFiles/fingers_generate_messages_eus.dir/rule
+
+# Convenience name for target.
+fingers_generate_messages_eus: CMakeFiles/fingers_generate_messages_eus.dir/rule
+
+.PHONY : fingers_generate_messages_eus
+
+# clean rule for target.
+CMakeFiles/fingers_generate_messages_eus.dir/clean:
+	$(MAKE) -f CMakeFiles/fingers_generate_messages_eus.dir/build.make CMakeFiles/fingers_generate_messages_eus.dir/clean
+.PHONY : CMakeFiles/fingers_generate_messages_eus.dir/clean
+
+#=============================================================================
+# Target rules for target CMakeFiles/fingers_generate_messages.dir
+
+# All Build rule for target.
+CMakeFiles/fingers_generate_messages.dir/all: CMakeFiles/fingers_generate_messages_py.dir/all
+CMakeFiles/fingers_generate_messages.dir/all: CMakeFiles/fingers_generate_messages_nodejs.dir/all
+CMakeFiles/fingers_generate_messages.dir/all: CMakeFiles/fingers_generate_messages_cpp.dir/all
+CMakeFiles/fingers_generate_messages.dir/all: CMakeFiles/fingers_generate_messages_lisp.dir/all
+CMakeFiles/fingers_generate_messages.dir/all: CMakeFiles/fingers_generate_messages_eus.dir/all
+	$(MAKE) -f CMakeFiles/fingers_generate_messages.dir/build.make CMakeFiles/fingers_generate_messages.dir/depend
+	$(MAKE) -f CMakeFiles/fingers_generate_messages.dir/build.make CMakeFiles/fingers_generate_messages.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/build/CMakeFiles --progress-num= "Built target fingers_generate_messages"
+.PHONY : CMakeFiles/fingers_generate_messages.dir/all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/fingers_generate_messages.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/build/CMakeFiles 27
+	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/fingers_generate_messages.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/build/CMakeFiles 0
+.PHONY : CMakeFiles/fingers_generate_messages.dir/rule
+
+# Convenience name for target.
+fingers_generate_messages: CMakeFiles/fingers_generate_messages.dir/rule
+
+.PHONY : fingers_generate_messages
+
+# clean rule for target.
+CMakeFiles/fingers_generate_messages.dir/clean:
+	$(MAKE) -f CMakeFiles/fingers_generate_messages.dir/build.make CMakeFiles/fingers_generate_messages.dir/clean
+.PHONY : CMakeFiles/fingers_generate_messages.dir/clean
+
+#=============================================================================
+# Target rules for target CMakeFiles/_fingers_generate_messages_check_deps_From_Finger.dir
+
+# All Build rule for target.
+CMakeFiles/_fingers_generate_messages_check_deps_From_Finger.dir/all:
+	$(MAKE) -f CMakeFiles/_fingers_generate_messages_check_deps_From_Finger.dir/build.make CMakeFiles/_fingers_generate_messages_check_deps_From_Finger.dir/depend
+	$(MAKE) -f CMakeFiles/_fingers_generate_messages_check_deps_From_Finger.dir/build.make CMakeFiles/_fingers_generate_messages_check_deps_From_Finger.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/build/CMakeFiles --progress-num= "Built target _fingers_generate_messages_check_deps_From_Finger"
+.PHONY : CMakeFiles/_fingers_generate_messages_check_deps_From_Finger.dir/all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/_fingers_generate_messages_check_deps_From_Finger.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/build/CMakeFiles 0
+	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/_fingers_generate_messages_check_deps_From_Finger.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/build/CMakeFiles 0
+.PHONY : CMakeFiles/_fingers_generate_messages_check_deps_From_Finger.dir/rule
+
+# Convenience name for target.
+_fingers_generate_messages_check_deps_From_Finger: CMakeFiles/_fingers_generate_messages_check_deps_From_Finger.dir/rule
+
+.PHONY : _fingers_generate_messages_check_deps_From_Finger
+
+# clean rule for target.
+CMakeFiles/_fingers_generate_messages_check_deps_From_Finger.dir/clean:
+	$(MAKE) -f CMakeFiles/_fingers_generate_messages_check_deps_From_Finger.dir/build.make CMakeFiles/_fingers_generate_messages_check_deps_From_Finger.dir/clean
+.PHONY : CMakeFiles/_fingers_generate_messages_check_deps_From_Finger.dir/clean
+
+#=============================================================================
 # Target rules for target gtest/googlemock/CMakeFiles/gmock_main.dir
 
 # All Build rule for target.
@@ -750,14 +1257,14 @@ gtest/googlemock/CMakeFiles/gmock_main.dir/all: gtest/googlemock/CMakeFiles/gmoc
 gtest/googlemock/CMakeFiles/gmock_main.dir/all: gtest/googletest/CMakeFiles/gtest.dir/all
 	$(MAKE) -f gtest/googlemock/CMakeFiles/gmock_main.dir/build.make gtest/googlemock/CMakeFiles/gmock_main.dir/depend
 	$(MAKE) -f gtest/googlemock/CMakeFiles/gmock_main.dir/build.make gtest/googlemock/CMakeFiles/gmock_main.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/anton20241/rtc_work/rx_tx_ws/src/fingers/build/CMakeFiles --progress-num=3,4 "Built target gmock_main"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/build/CMakeFiles --progress-num=30,31 "Built target gmock_main"
 .PHONY : gtest/googlemock/CMakeFiles/gmock_main.dir/all
 
 # Build rule for subdir invocation for target.
 gtest/googlemock/CMakeFiles/gmock_main.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/anton20241/rtc_work/rx_tx_ws/src/fingers/build/CMakeFiles 6
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/build/CMakeFiles 6
 	$(MAKE) -f CMakeFiles/Makefile2 gtest/googlemock/CMakeFiles/gmock_main.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/anton20241/rtc_work/rx_tx_ws/src/fingers/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/build/CMakeFiles 0
 .PHONY : gtest/googlemock/CMakeFiles/gmock_main.dir/rule
 
 # Convenience name for target.
@@ -777,14 +1284,14 @@ gtest/googlemock/CMakeFiles/gmock_main.dir/clean:
 gtest/googlemock/CMakeFiles/gmock.dir/all: gtest/googletest/CMakeFiles/gtest.dir/all
 	$(MAKE) -f gtest/googlemock/CMakeFiles/gmock.dir/build.make gtest/googlemock/CMakeFiles/gmock.dir/depend
 	$(MAKE) -f gtest/googlemock/CMakeFiles/gmock.dir/build.make gtest/googlemock/CMakeFiles/gmock.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/anton20241/rtc_work/rx_tx_ws/src/fingers/build/CMakeFiles --progress-num=1,2 "Built target gmock"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/build/CMakeFiles --progress-num=28,29 "Built target gmock"
 .PHONY : gtest/googlemock/CMakeFiles/gmock.dir/all
 
 # Build rule for subdir invocation for target.
 gtest/googlemock/CMakeFiles/gmock.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/anton20241/rtc_work/rx_tx_ws/src/fingers/build/CMakeFiles 4
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/build/CMakeFiles 4
 	$(MAKE) -f CMakeFiles/Makefile2 gtest/googlemock/CMakeFiles/gmock.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/anton20241/rtc_work/rx_tx_ws/src/fingers/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/build/CMakeFiles 0
 .PHONY : gtest/googlemock/CMakeFiles/gmock.dir/rule
 
 # Convenience name for target.
@@ -804,14 +1311,14 @@ gtest/googlemock/CMakeFiles/gmock.dir/clean:
 gtest/googletest/CMakeFiles/gtest_main.dir/all: gtest/googletest/CMakeFiles/gtest.dir/all
 	$(MAKE) -f gtest/googletest/CMakeFiles/gtest_main.dir/build.make gtest/googletest/CMakeFiles/gtest_main.dir/depend
 	$(MAKE) -f gtest/googletest/CMakeFiles/gtest_main.dir/build.make gtest/googletest/CMakeFiles/gtest_main.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/anton20241/rtc_work/rx_tx_ws/src/fingers/build/CMakeFiles --progress-num=7,8 "Built target gtest_main"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/build/CMakeFiles --progress-num=34,35 "Built target gtest_main"
 .PHONY : gtest/googletest/CMakeFiles/gtest_main.dir/all
 
 # Build rule for subdir invocation for target.
 gtest/googletest/CMakeFiles/gtest_main.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/anton20241/rtc_work/rx_tx_ws/src/fingers/build/CMakeFiles 4
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/build/CMakeFiles 4
 	$(MAKE) -f CMakeFiles/Makefile2 gtest/googletest/CMakeFiles/gtest_main.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/anton20241/rtc_work/rx_tx_ws/src/fingers/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/build/CMakeFiles 0
 .PHONY : gtest/googletest/CMakeFiles/gtest_main.dir/rule
 
 # Convenience name for target.
@@ -831,14 +1338,14 @@ gtest/googletest/CMakeFiles/gtest_main.dir/clean:
 gtest/googletest/CMakeFiles/gtest.dir/all:
 	$(MAKE) -f gtest/googletest/CMakeFiles/gtest.dir/build.make gtest/googletest/CMakeFiles/gtest.dir/depend
 	$(MAKE) -f gtest/googletest/CMakeFiles/gtest.dir/build.make gtest/googletest/CMakeFiles/gtest.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/anton20241/rtc_work/rx_tx_ws/src/fingers/build/CMakeFiles --progress-num=5,6 "Built target gtest"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/build/CMakeFiles --progress-num=32,33 "Built target gtest"
 .PHONY : gtest/googletest/CMakeFiles/gtest.dir/all
 
 # Build rule for subdir invocation for target.
 gtest/googletest/CMakeFiles/gtest.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/anton20241/rtc_work/rx_tx_ws/src/fingers/build/CMakeFiles 2
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/build/CMakeFiles 2
 	$(MAKE) -f CMakeFiles/Makefile2 gtest/googletest/CMakeFiles/gtest.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/anton20241/rtc_work/rx_tx_ws/src/fingers/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/build/CMakeFiles 0
 .PHONY : gtest/googletest/CMakeFiles/gtest.dir/rule
 
 # Convenience name for target.

@@ -67,8 +67,8 @@ set(fingers_CONFIG_INCLUDED TRUE)
 
 # set variables for source/devel/install prefixes
 if("FALSE" STREQUAL "TRUE")
-  set(fingers_SOURCE_PREFIX /home/anton20241/rtc_work/rx_tx_ws/src/fingers)
-  set(fingers_DEVEL_PREFIX /home/anton20241/rtc_work/rx_tx_ws/src/fingers/build/devel)
+  set(fingers_SOURCE_PREFIX /home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers)
+  set(fingers_DEVEL_PREFIX /home/anton20241/rtc_work/fingers_rx_tx_ws/src/fingers/build/devel)
   set(fingers_INSTALL_PREFIX "")
   set(fingers_PREFIX ${fingers_DEVEL_PREFIX})
 else()
@@ -91,9 +91,9 @@ endif()
 # flag project as catkin-based to distinguish if a find_package()-ed project is a catkin project
 set(fingers_FOUND_CATKIN_PROJECT TRUE)
 
-if(NOT " " STREQUAL " ")
+if(NOT "include " STREQUAL " ")
   set(fingers_INCLUDE_DIRS "")
-  set(_include_dirs "")
+  set(_include_dirs "include")
   if(NOT " " STREQUAL " ")
     set(_report "Check the issue tracker '' and consider creating a ticket if the problem has not been reported yet.")
   elseif(NOT " " STREQUAL " ")
@@ -154,7 +154,7 @@ foreach(library ${libraries})
     set(lib_path "")
     set(lib "${library}-NOTFOUND")
     # since the path where the library is found is returned we have to iterate over the paths manually
-    foreach(path /usr/local/lib;/opt/ros/noetic/lib)
+    foreach(path /usr/local/lib;/home/anton20241/rtc_work/fingers_rx_tx_ws/devel/lib;/home/anton20241/pipe_inspect_ws/devel/lib;/opt/ros/noetic/lib)
       find_library(lib ${library}
         PATHS ${path}
         NO_DEFAULT_PATH NO_CMAKE_FIND_ROOT_PATH)
@@ -177,7 +177,7 @@ foreach(library ${libraries})
   endif()
 endforeach()
 
-set(fingers_EXPORTED_TARGETS "")
+set(fingers_EXPORTED_TARGETS "fingers_generate_messages_cpp;fingers_generate_messages_eus;fingers_generate_messages_lisp;fingers_generate_messages_nodejs;fingers_generate_messages_py")
 # create dummy targets for exported code generation targets to make life of users easier
 foreach(t ${fingers_EXPORTED_TARGETS})
   if(NOT TARGET ${t})
@@ -214,7 +214,7 @@ foreach(depend ${depends})
   _list_append_deduplicate(fingers_EXPORTED_TARGETS ${${fingers_dep}_EXPORTED_TARGETS})
 endforeach()
 
-set(pkg_cfg_extras "")
+set(pkg_cfg_extras "fingers-msg-extras.cmake")
 foreach(extra ${pkg_cfg_extras})
   if(NOT IS_ABSOLUTE ${extra})
     set(extra ${fingers_DIR}/${extra})

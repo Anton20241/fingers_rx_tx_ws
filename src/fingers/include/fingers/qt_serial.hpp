@@ -1,3 +1,13 @@
+/*
+  Класс Qt_Serial_Async предназначен для реализации функционала обмена данными между программой и устройством по Serial порту.
+  Класс Qt_Serial_Async включает следующие методы:
+  * sendData()        - отправка данных по Serial порту
+  * getData()         - обработка данных, полученных по Serial порту
+  * transportReset()  - переподключение к устройству по Serial порту (НЕ РЕАЛИЗОВАНО и ПОКА НЕ ИСПОЛЬЗУЕТСЯ)
+  * handleReadyRead() - обработчик сообщений от Serial порта 
+  * handleError()     - обработчик ошибок    от Serial порта 
+*/
+
 #pragma once
 
 #include "i_transport.hpp"
@@ -17,11 +27,9 @@ namespace qt_serial{
     bool sendData(const uint8_t* ptrData, uint32_t len);
     bool getData(uint8_t* ptrData, uint32_t* lenInOut);
     bool transportReset();
-    ~Qt_Serial_Async();
-
-  private slots:
     void handleReadyRead();
     void handleError(QSerialPort::SerialPortError error);
+    ~Qt_Serial_Async();
 
   private:
     QSerialPort m_serialPort;
